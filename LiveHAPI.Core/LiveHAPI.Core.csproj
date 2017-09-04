@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Compile Include="Model\County.cs" />
+    <Compile Include="Model\SubCounty.cs" />
   </ItemGroup>
 
   <ItemGroup>
