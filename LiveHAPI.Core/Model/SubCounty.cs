@@ -21,7 +21,7 @@ namespace LiveHAPI.Core.Model
             Id = LiveGuid.NewGuid();
         }
 
-        public SubCounty(string name, int countyId,int code) : this()
+        public SubCounty(string name, int code, int countyId) : this()
         {
             Name = name;
             CountyId = countyId;
