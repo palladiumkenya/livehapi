@@ -2,12 +2,21 @@
 using System.Linq;
 using LiveHAPI.Core.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
 
 namespace LiveHAPI.Controllers
 {
     [Route("api/counties")]
     public class SubCountiesController:Controller
     {
+        private readonly ILogger<SubCountiesController> _logger;
+
+        public SubCountiesController(ILogger<SubCountiesController> logger)
+        {
+            _logger = logger;
+        }
+
         [HttpGet("{countyId}/subcounties")]
         public IActionResult GetSubCounties(int countyId)
         {
@@ -15,6 +24,7 @@ namespace LiveHAPI.Controllers
 
             if (null != c)
             {
+                _logger.LogError($"county {countyId} Not Found");
                 return Ok(c);
             }
 

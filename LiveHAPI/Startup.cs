@@ -40,6 +40,7 @@ namespace LiveHAPI
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddLog4Net();
+            loggerFactory.AddDebug(LogLevel.Error);
 
             if (env.IsDevelopment())
             {
