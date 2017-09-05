@@ -6,7 +6,7 @@ namespace LiveHAPI.Core.Model
     public class County:Entity<int>
     {
         public string Name { get; set; }
-        public ICollection<SubCounty> SubCounties { get; set; }=new List<SubCounty>();
+        public virtual ICollection<SubCounty> SubCounties { get; set; }=new List<SubCounty>();
 
         public County()
         {
