@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model;
+using LiveHAPI.Core.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,10 +13,11 @@ namespace LiveHAPI.Controllers
     public class SubCountiesController:Controller
     {
         private readonly ILogger<SubCountiesController> _logger;
-
-        public SubCountiesController(ILogger<SubCountiesController> logger)
+        private readonly IMailService _mailService;
+        public SubCountiesController(ILogger<SubCountiesController> logger, IMailService mailService)
         {
             _logger = logger;
+            _mailService = mailService;
         }
 
         [HttpGet("{countyId}/subcounties")]
@@ -24,9 +27,9 @@ namespace LiveHAPI.Controllers
 
             if (null != c)
             {
-                _logger.LogError($"county {countyId} Not Found");
                 return Ok(c);
             }
+            _logger.LogError($"county {countyId} Not Found!");
 
             return NotFound();
         }
@@ -110,7 +113,7 @@ namespace LiveHAPI.Controllers
                 return NotFound();
 
             c.SubCounties.Remove(sc);
-
+            _mailService.Send("County Delete", $"Deleting... {sc.Name}", Startup.Configuration["mailSettings:mailToAddress"], Startup.Configuration["mailSettings:mailFromAddress"]);
             return NoContent();
         }
 

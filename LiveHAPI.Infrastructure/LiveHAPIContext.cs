@@ -8,7 +8,7 @@ namespace LiveHAPI.Infrastructure
         public LiveHAPIContext(DbContextOptions<LiveHAPIContext> options) 
             : base(options)
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
 
         public DbSet<County> Counties { get; set; }
@@ -17,13 +17,6 @@ namespace LiveHAPI.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<SubCounty>(
-                x =>
-                {
-                    x.Property<int>("CountyId");
-                    x.HasOne<County>().WithMany().HasForeignKey("CountyId");
-                });
         }
     }
 }

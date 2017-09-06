@@ -1,9 +1,9 @@
 ﻿{
   "mailSettings": {
-    "mailToAddress": "developer@dev.com",
-    "mailFromAddress": "noreply@dev.com"
+    "mailToAddress": "developer@mycompany.com",
+    "mailFromAddress": "noreply@mycompany.com"
   },
-  "connectionStrings": {
+  "ConnectionStrings": {
     "hAPIConnection": "Server=(localdb)\\MSSQLLocalDB;Database=LiveHAPI;Trusted_Connection=True;MultipleActiveResultSets=true"
   }
 }
