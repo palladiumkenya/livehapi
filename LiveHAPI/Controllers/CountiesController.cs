@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model;
+using LiveHAPI.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -30,7 +32,8 @@ namespace LiveHAPI.Controllers
             try
             {
                 var c = _countyRepository.GetAll().ToList();
-                return Ok(c);
+                var counties = Mapper.Map<IEnumerable<CountyDTO>>(c);
+                return Ok(counties);
             }
             catch (Exception e)
             {

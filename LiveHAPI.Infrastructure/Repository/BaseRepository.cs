@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Shared.Model;
@@ -22,7 +23,7 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public T Get(TId id, bool voided = false)
         {
-            throw new NotImplementedException();
+            return DbSet.Find(id);
         }
 
         public IEnumerable<T> GetAll(bool voided = false)
@@ -32,12 +33,13 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, bool voided = false)
         {
-            throw new NotImplementedException();
+            return DbSet.Where(predicate);
         }
 
         public void Save(T entity)
         {
-            throw new NotImplementedException();
+            DbSet.Add(entity);
+            Context.SaveChanges();
         }
 
         public void InsertOrUpdate(T entity)
@@ -52,8 +54,11 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            DbSet.Attach(entity);
+            Context.Entry(entity).State = EntityState.Modified;
+            Context.SaveChanges();
         }
+    
 
         public void Delete(TId id)
         {

@@ -5,9 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
+using LiveHAPI.Core.Model;
 using LiveHAPI.Core.Service;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
+using LiveHAPI.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -65,6 +67,7 @@ namespace LiveHAPI
             services.AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString));
 
             services.AddScoped<ICountyRepository, CountyRepository>();
+            services.AddScoped<ISubCountyRepository, SubCountyRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,10 +89,15 @@ namespace LiveHAPI
 
             app.UseMvc();
 
-//            app.Run(async (context) =>
-//            {
-//                await context.Response.WriteAsync("Hello World!");
-//            });
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<County,CountyDTO>();
+            });
+
+            //            app.Run(async (context) =>
+            //            {
+            //                await context.Response.WriteAsync("Hello World!");
+            //            });
         }
     }
 }

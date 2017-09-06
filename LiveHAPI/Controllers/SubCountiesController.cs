@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model;
 using LiveHAPI.Core.Service;
@@ -12,18 +13,21 @@ namespace LiveHAPI.Controllers
     [Route("api/counties")]
     public class SubCountiesController:Controller
     {
+        private readonly ISubCountyRepository _subCountyRepository;
+        
         private readonly ILogger<SubCountiesController> _logger;
         private readonly IMailService _mailService;
-        public SubCountiesController(ILogger<SubCountiesController> logger, IMailService mailService)
+        public SubCountiesController(ILogger<SubCountiesController> logger, IMailService mailService, ISubCountyRepository subCountyRepository)
         {
             _logger = logger;
             _mailService = mailService;
+            _subCountyRepository = subCountyRepository;
         }
 
         [HttpGet("{countyId}/subcounties")]
         public IActionResult GetSubCounties(int countyId)
         {
-            var c = CountiesData().FirstOrDefault(x => x.Id == countyId);
+            var c = _subCountyRepository.GetByCounty(countyId);
 
             if (null != c)
             {
@@ -37,12 +41,8 @@ namespace LiveHAPI.Controllers
         [HttpGet("{countyId}/subcounties/{code}",Name = "GetSubCounty")]
         public IActionResult GetSubCounty(int countyId,int code)
         {
-            var c = CountiesData().FirstOrDefault(x => x.Id == countyId);
 
-            if (null == c)
-                return NotFound();
-
-            var sc = c.SubCounties.FirstOrDefault(x => x.Code == code);
+            var sc = _subCountyRepository.GetByCounty(countyId).FirstOrDefault(x => x.Code == code);
 
             if (null == sc)
                 return NotFound();
