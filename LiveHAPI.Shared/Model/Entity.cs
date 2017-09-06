@@ -8,7 +8,7 @@ namespace LiveHAPI.Shared.Model
     public abstract class Entity<TId> : IEntity<TId>
     {
         [Key]
-        public TId Id { get; set; }
+        public virtual TId Id { get; set; }
         public bool Voided { get; set; }
 
         protected Entity()

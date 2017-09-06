@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model
 {
     public class County:Entity<int>
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public override int Id { get; set; }
+
         public string Name { get; set; }
         public virtual ICollection<SubCounty> SubCounties { get; set; }=new List<SubCounty>();
 

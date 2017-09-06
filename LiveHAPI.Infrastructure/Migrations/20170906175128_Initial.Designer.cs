@@ -11,7 +11,7 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    [Migration("20170906114735_Initial")]
+    [Migration("20170906175128_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,8 +23,7 @@ namespace LiveHAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("LiveHAPI.Core.Model.County", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
 
                     b.Property<string>("Name");
 

@@ -22,8 +22,7 @@ namespace LiveHAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("LiveHAPI.Core.Model.County", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
 
                     b.Property<string>("Name");
 

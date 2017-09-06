@@ -12,7 +12,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "connectionStrings:hAPIConnection": "Server=(localdb)\\\\MSSQLLocalDB;Database=LiveHAPI;Trusted_Connection=True;MultipleActiveResultSets=true",
+        "connectionStrings:hAPIConnection": "Server=(localdb)\\MSSQLLocalDB;Database=LiveHAPI;Trusted_Connection=True;MultipleActiveResultSets=true",
         "ASPNETCORE_ENVIRONMENT": "Production"
       }
     },
