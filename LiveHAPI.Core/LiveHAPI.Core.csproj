@@ -11,8 +11,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Model\Client.cs" />
+    <Compile Include="Model\ClientAttribute.cs" />
+    <Compile Include="Model\ClientIdentifier.cs" />
+    <Compile Include="Model\ClientRelationship.cs" />
     <Compile Include="Model\County.cs" />
+    <Compile Include="Model\IdentifierType.cs" />
+    <Compile Include="Model\Person.cs" />
+    <Compile Include="Model\PersonAddress.cs" />
+    <Compile Include="Model\PersonContact.cs" />
+    <Compile Include="Model\Practice.cs" />
+    <Compile Include="Model\PracticeType.cs" />
+    <Compile Include="Model\Provider.cs" />
+    <Compile Include="Model\ProviderType.cs" />
+    <Compile Include="Model\RelationshipType.cs" />
     <Compile Include="Model\SubCounty.cs" />
+    <Compile Include="Model\User.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
@@ -8,82 +10,38 @@ namespace LiveHAPI.Core.Model
 {
     public class Person:Entity<Guid>, IPerson
     {
-        public virtual string FirstName { get; set; }
-        public virtual string MiddleName { get; set; }
-        public virtual string LastName { get; set; }
-        public virtual string Gender { get; set; }
-        public virtual DateTime BirthDate { get; set; }
-        public virtual bool? BirthDateEstimated { get; set; }
-        public virtual string Email { get; set; }
-
-        
+        [MaxLength(100)]
+        public  string FirstName { get; set; }
+        [MaxLength(100)]
+        public  string MiddleName { get; set; }
+        [MaxLength(100)]
+        public  string LastName { get; set; }
+        [MaxLength(10)]
+        public  string Gender { get; set; }
+        public  DateTime BirthDate { get; set; }
+        public  bool? BirthDateEstimated { get; set; }
+        [MaxLength(100)]
+        public  string Email { get; set; }
         public virtual string FullName
         {
             get { return $"{FirstName} {MiddleName} {LastName}"; }
         }
+        public  ICollection<PersonAddress> Addresses { get; set; }=new List<PersonAddress>();
         
-        public virtual IEnumerable<PersonAddress> Addresses { get; set; }=new List<PersonAddress>();
-        
-        public virtual IEnumerable<PersonContact> Contacts { get; set; }=new List<PersonContact>();
+        public  ICollection<PersonContact> Contacts { get; set; }=new List<PersonContact>();
+
+        public  ICollection<User> Users { get; set; } = new List<User>();
+
+        public ICollection<Provider> Providers { get; set; }=new List<Provider>();
 
         
-        public virtual string AgeInfo
-        {
-            get
-            {
-                if (null != BirthDate)
-                {
-                    var personAge = SharedKernel.Custom.Utils.CalculateAge(BirthDate);
-                    return personAge.ToFullAgeString();
-                }
-                return string.Empty;
-            }
-        }
+        public ICollection<Client> Clients { get; set; } = new List<Client>();
+
 
         public Person()
         {
             Id = LiveGuid.NewGuid();
         }
-
-        private Person(string firstName, string middleName, string lastName, string gender, DateTime birthDate, bool? birthDateEstimated, string email):this()
-        {
-            FirstName = firstName;
-            MiddleName = middleName;
-            LastName = lastName;
-            Gender = gender;
-            BirthDate = birthDate;
-            BirthDateEstimated = birthDateEstimated;
-            Email = email;
-        }
-
-        public static Person Create(string firstName, string middleName, string lastName, string gender,DateTime birthDate, bool? birthDateEstimated, string email)
-        {
-            return new Person(firstName, middleName, lastName, gender, birthDate, birthDateEstimated, email);
-        }
-        public static Person Create(string firstName, string middleName, string lastName, string gender, DateTime birthDate, bool? birthDateEstimated, string email,Guid personId)
-        {
-            var person=Create(firstName, middleName, lastName, gender, birthDate, birthDateEstimated, email);
-            person.Id = personId;
-            return person;
-        }
-        public void AddAddress(string landmark, int? countyId, bool preferred, decimal? lat, decimal? lng)
-        {
-            var addressList = Addresses.ToList();
-            var address = PersonAddress.Create(landmark, countyId, preferred, lat, lng, Id);
-            addressList.Add(address);
-
-            Addresses = addressList;
-        }
-
-        public void AddContact(int? phone, bool preferred)
-        {
-            var contactList = Contacts.ToList();
-            var contact = PersonContact.Create(phone, preferred, Id);
-            contactList.Add(contact);
-
-            Contacts = contactList;
-        }
-
         public override string ToString()
         {
             return $"{FullName}";

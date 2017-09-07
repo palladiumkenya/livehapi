@@ -1,10 +1,11 @@
 ﻿using System;
+using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model
 {
-    public class PersonContact : Entity<Guid>, IPersonContact
+    public class PersonContact : Entity<Guid>, IContact
     {
         public int? Phone { get; set; }
         public bool Preferred { get; set; }

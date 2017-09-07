@@ -1,19 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model
 {
-    public class County:Entity<int>
+    public class County:Entity<int>, ICounty
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public override int Id { get; set; }
-
+        [Required]
+        [MaxLength(50)]
         public string Name { get; set; }
-        public virtual ICollection<SubCounty> SubCounties { get; set; }=new List<SubCounty>();
-
+        public  ICollection<SubCounty> SubCounties { get; set; }=new List<SubCounty>();
+        public  ICollection<Practice> Practices { get; set; } = new List<Practice>();
         public County()
         {
         }
@@ -22,11 +24,6 @@ namespace LiveHAPI.Core.Model
         {
             Name = name;
         }
-
-        public void AddSubCounty(SubCounty subCounty)
-        {
-            subCounty.CountyId = Id;
-            this.SubCounties.Add(subCounty);
-        }
+      
     }
 }

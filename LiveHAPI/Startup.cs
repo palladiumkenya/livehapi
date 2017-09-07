@@ -84,8 +84,9 @@ namespace LiveHAPI
 //            if (!context.AllMigrationsApplied())
 //            {
 //                context.Database.Migrate();
-                context.EnsureSeeded();
-            //}
+//                context.EnsureSeeded();
+//            }
+           //context.EnsureSeeded();
 
             app.UseMvc();
 

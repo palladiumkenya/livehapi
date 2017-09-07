@@ -5,6 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Seed\County.csv" />
+    <None Remove="Seed\Practice.csv" />
+    <None Remove="Seed\PracticeType.csv" />
+    <None Remove="Seed\SubCounty.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Seed\County.csv" />
+    <EmbeddedResource Include="Seed\Practice.csv" />
+    <EmbeddedResource Include="Seed\PracticeType.csv" />
+    <EmbeddedResource Include="Seed\SubCounty.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="2.16.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />

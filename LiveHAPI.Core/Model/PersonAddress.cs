@@ -1,11 +1,14 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model
 {
-    public class PersonAddress : Entity<Guid>, IPersonAddress
+    public class PersonAddress : Entity<Guid>, IAddress
     {
+        [MaxLength(200)]
         public string Landmark { get; set; }
         
         public int? CountyId { get; set; }
