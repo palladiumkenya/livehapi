@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
-namespace LiveHAPI.Core.Model
+namespace LiveHAPI.Core.Model.Encounters
 {
     public class Encounter:Entity<Guid>
     {
@@ -26,15 +25,15 @@ namespace LiveHAPI.Core.Model
         public DateTime? Stopped { get; set; }        
 
         
-        public IEnumerable<Obs> Obses { get; set; } = new List<Obs>();
+        public ICollection<Obs> Obses { get; set; } = new List<Obs>();
         
-        public IEnumerable<ObsTestResult> ObsTestResults { get; set; } = new List<ObsTestResult>();
+        public ICollection<ObsTestResult> ObsTestResults { get; set; } = new List<ObsTestResult>();
         
-        public IEnumerable<ObsFinalTestResult> ObsFinalTestResults { get; set; } = new List<ObsFinalTestResult>();
+        public ICollection<ObsFinalTestResult> ObsFinalTestResults { get; set; } = new List<ObsFinalTestResult>();
         
-        public IEnumerable<ObsTraceResult> ObsTraceResults { get; set; } = new List<ObsTraceResult>();
+        public ICollection<ObsTraceResult> ObsTraceResults { get; set; } = new List<ObsTraceResult>();
         
-        public IEnumerable<ObsLinkage> ObsLinkages { get; set; } = new List<ObsLinkage>();
+        public ICollection<ObsLinkage> ObsLinkages { get; set; } = new List<ObsLinkage>();
         
         public Guid UserId { get; set; }
         public bool IsComplete { get; set; }

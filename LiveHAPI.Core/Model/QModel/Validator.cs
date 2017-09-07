@@ -6,6 +6,9 @@ namespace LiveHAPI.Core.Model.QModel
 {
     public class Validator:Entity<string>
     {
+        [Key]
+        [MaxLength(50)]
+        public override string Id { get; set; }
         [MaxLength(50)]
         public string Name { get; set; }
         public decimal Rank { get; set; }

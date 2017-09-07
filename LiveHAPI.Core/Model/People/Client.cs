@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Core.Interfaces.Model;
+using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
-namespace LiveHAPI.Core.Model
+namespace LiveHAPI.Core.Model.People
 {
     public class Client:Entity<Guid>, IProfile
     {
@@ -20,7 +21,7 @@ namespace LiveHAPI.Core.Model
         public ICollection<ClientIdentifier> Identifiers { get; set; } = new List<ClientIdentifier>();
         public ICollection<ClientRelationship> Relationships { get; set; } = new List<ClientRelationship>();
         public ICollection<ClientAttribute> Attributes { get; set; } = new List<ClientAttribute>();
-
+        public ICollection<Encounter> Encounters { get; set; } = new List<Encounter>();
         public Client()
         {
             Id = LiveGuid.NewGuid();

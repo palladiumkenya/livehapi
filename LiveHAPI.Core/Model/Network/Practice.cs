@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Core.Interfaces.Model;
+using LiveHAPI.Core.Model.Encounters;
+using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;

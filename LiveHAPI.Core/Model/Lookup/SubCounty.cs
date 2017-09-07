@@ -4,7 +4,7 @@ using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
-namespace LiveHAPI.Core.Model
+namespace LiveHAPI.Core.Model.Lookup
 {
     public class SubCounty:Entity<Guid>, ISubCounty
     {

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Core.Interfaces.Model;
+using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
-namespace LiveHAPI.Core.Model
+namespace LiveHAPI.Core.Model.People
 {
     public class User:Entity<Guid>, IUser
     {
@@ -17,7 +19,7 @@ namespace LiveHAPI.Core.Model
         
         public Guid PersonId { get; set; }
         
-        
+
         public User()
         {
             Id = LiveGuid.NewGuid();

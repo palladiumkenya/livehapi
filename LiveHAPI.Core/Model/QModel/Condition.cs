@@ -6,6 +6,9 @@ namespace LiveHAPI.Core.Model.QModel
 {
     public class Condition:Entity<string>
     {
+        [Key]
+        [MaxLength(50)]
+        public override string Id { get; set; }
         [MaxLength(50)]
         public string Name { get; set; }
         public ICollection<QuestionBranch> Branches { get; set; } = new List<QuestionBranch>();

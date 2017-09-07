@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model;
+using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Service;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
@@ -63,7 +64,7 @@ namespace LiveHAPI
 #endif
 
 
-            var connectionString = Configuration["connectionStrings:hAPIConnection"];
+            var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
             services.AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString));
 
             services.AddScoped<ICountyRepository, CountyRepository>();
@@ -81,12 +82,12 @@ namespace LiveHAPI
                 app.UseDeveloperExceptionPage();
             }
 
-//            if (!context.AllMigrationsApplied())
-//            {
-//                context.Database.Migrate();
-//                context.EnsureSeeded();
-//            }
-            context.EnsureSeeded();
+//                        if (!context.AllMigrationsApplied())
+//                        {
+//                            context.Database.Migrate();
+//                            context.EnsureSeeded();
+//                        }
+//            
 
             app.UseMvc();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
@@ -20,10 +21,9 @@ namespace LiveHAPI.Core.Model.Studio
         public decimal Rank { get; set; }
         public Guid ModuleId { get; set; }
         public ICollection<FormImplementation> Implementations { get; set; }=new List<FormImplementation>();
-        public ICollection<Program> Programs { get; set; } = new List<Program>();
+        public ICollection<FormProgram> Programs { get; set; } = new List<FormProgram>();
         public ICollection<Question> Questions { get; set; }=new List<Question>();
-        
-        //        public List<Encounter> ClientEncounters { get; set; }=new List<Encounter>();
+        public ICollection<Encounter> Encounters { get; set; } = new List<Encounter>();
 
         public Form()
         {

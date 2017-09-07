@@ -3,9 +3,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Core.Model.Network;
+using LiveHAPI.Core.Model.People;
 using LiveHAPI.Shared.Model;
 
-namespace LiveHAPI.Core.Model
+namespace LiveHAPI.Core.Model.Lookup
 {
     public class County:Entity<int>, ICounty
     {
@@ -17,6 +18,7 @@ namespace LiveHAPI.Core.Model
         public string Name { get; set; }
         public  ICollection<SubCounty> SubCounties { get; set; }=new List<SubCounty>();
         public  ICollection<Practice> Practices { get; set; } = new List<Practice>();
+        public ICollection<PersonAddress> PersonAddresses { get; set; } = new List<PersonAddress>();
         public County()
         {
         }

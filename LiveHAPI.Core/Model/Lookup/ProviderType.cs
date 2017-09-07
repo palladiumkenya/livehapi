@@ -1,16 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using LiveHAPI.Core.Model.People;
 using LiveHAPI.Shared.Model;
 
-namespace LiveHAPI.Core.Model.QModel
+namespace LiveHAPI.Core.Model.Lookup
 {
-    public class ValidatorType:Entity<string>
+    public class ProviderType:Entity<string>
     {
         [Key]
         [MaxLength(50)]
         public override string Id { get; set; }
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string Name { get; set; }
-        public ICollection<QuestionValidation> QuestionValidations{ get; set; } = new List<QuestionValidation>();
+        public ICollection<Provider> Providers { get; set; }
+
+        public ProviderType()
+        {
+        }
     }
 }

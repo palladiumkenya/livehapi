@@ -4,7 +4,7 @@ using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.Studio
 {
-    public class Program:Entity<Guid>
+    public class FormProgram:Entity<Guid>
     {
         [MaxLength(50)]
         public string Display { get; set; }
@@ -14,7 +14,7 @@ namespace LiveHAPI.Core.Model.Studio
         public Guid EncounterTypeId { get; set; }
         public Decimal Rank { get; set; }
 
-        public Program()
+        public FormProgram()
         {
             Id=Guid.NewGuid();
         }

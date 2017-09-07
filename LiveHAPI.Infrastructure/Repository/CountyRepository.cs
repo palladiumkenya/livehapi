@@ -1,6 +1,7 @@
 ﻿using System;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model;
+using LiveHAPI.Core.Model.Lookup;
 
 namespace LiveHAPI.Infrastructure.Repository
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
@@ -16,6 +17,7 @@ namespace LiveHAPI.Core.Model.QModel
         [MaxLength(50)]
         public string Description { get; set; }
         public Decimal Rank { get; set; }
+        public Guid FormId { get; set; }
 
         public ICollection<QuestionValidation> Validations { get; set; } = new List<QuestionValidation>();
         public ICollection<QuestionBranch> Branches { get; set; } = new List<QuestionBranch>();
@@ -23,10 +25,6 @@ namespace LiveHAPI.Core.Model.QModel
         public ICollection<QuestionReValidation> ReValidations { get; set; } = new List<QuestionReValidation>();
         public ICollection<QuestionTransformation> Transformations { get; set; } = new List<QuestionTransformation>();
         public ICollection<QuestionRemoteTransformation> RemoteTransformations { get; set; } =new List<QuestionRemoteTransformation>();
-
-        
-        public Guid FormId { get; set; }
-
         
       
         public Question()

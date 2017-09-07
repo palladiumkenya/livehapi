@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
-namespace LiveHAPI.Core.Model
+namespace LiveHAPI.Core.Model.Encounters
 {
     public class ObsLinkage : Entity<Guid>
     {

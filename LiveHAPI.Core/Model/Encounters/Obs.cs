@@ -2,7 +2,7 @@
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
-namespace LiveHAPI.Core.Model
+namespace LiveHAPI.Core.Model.Encounters
 {
     public class Obs:Entity<Guid>
     {
