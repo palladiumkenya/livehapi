@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LiveHAPI.Core.Model;
+using LiveHAPI.Core.Model.Network;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 

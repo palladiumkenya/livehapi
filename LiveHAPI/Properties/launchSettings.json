@@ -12,7 +12,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "connectionStrings:hAPIConnection": "Data Source=.\\SQLExpress;Initial Catalog=LiveHAPI;Persist Security Info=True;User ID=sa;Password=maun;MultipleActiveResultSets=True;Pooling=True",
+        "connectionStrings:hAPIConnection": "Data Source=.\\KOSKE14;Initial Catalog=LiveHAPI;Persist Security Info=True;User ID=sa;Password=maun;MultipleActiveResultSets=True;Pooling=True",
         "ASPNETCORE_ENVIRONMENT": "Production"
       }
     },

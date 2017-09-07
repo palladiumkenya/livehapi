@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
-namespace LiveHAPI.Core.Model
+namespace LiveHAPI.Core.Model.Network
 {
     
     public class Practice : Entity<Guid>, IPractice
@@ -20,10 +19,10 @@ namespace LiveHAPI.Core.Model
         [MaxLength(50)]
         public string PracticeTypeId { get; set; }
         public int? CountyId { get; set; }
-        public ICollection<User> Users { get; set; }
-        public ICollection<Provider> Providers { get; set; }
-        public ICollection<Client> Clients { get; set; }
-
+        public ICollection<User> Users { get; set; } = new List<User>();
+        public ICollection<Provider> Providers { get; set; } = new List<Provider>();
+        public ICollection<Client> Clients { get; set; } = new List<Client>();
+        public ICollection<PracticeActivation> Activations { get; set; }=new List<PracticeActivation>();
         public Practice()
         {
             Id = LiveGuid.NewGuid();

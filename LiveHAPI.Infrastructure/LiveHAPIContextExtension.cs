@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using LiveHAPI.Core.Model;
+using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Infrastructure.Seeder;
 using LiveHAPI.Shared.Model;
 using Microsoft.EntityFrameworkCore;

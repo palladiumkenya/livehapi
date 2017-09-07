@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using LiveHAPI.Core.Interfaces.Model;
+using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model
