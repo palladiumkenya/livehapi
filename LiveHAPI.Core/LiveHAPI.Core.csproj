@@ -11,22 +11,50 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Model\interview\Action.cs" />
+    <Compile Include="Model\interview\Category.cs" />
+    <Compile Include="Model\interview\CategoryItem.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\ClientAttribute.cs" />
     <Compile Include="Model\ClientIdentifier.cs" />
     <Compile Include="Model\ClientRelationship.cs" />
+    <Compile Include="Model\interview\Concept.cs" />
+    <Compile Include="Model\interview\ConceptType.cs" />
+    <Compile Include="Model\interview\Condition.cs" />
     <Compile Include="Model\County.cs" />
+    <Compile Include="Model\interview\Device.cs" />
+    <Compile Include="Model\interview\Encounter.cs" />
+    <Compile Include="Model\interview\EncounterType.cs" />
+    <Compile Include="Model\interview\Form.cs" />
     <Compile Include="Model\IdentifierType.cs" />
+    <Compile Include="Model\interview\Item.cs" />
+    <Compile Include="Model\interview\KeyPop.cs" />
+    <Compile Include="Model\interview\MaritalStatus.cs" />
+    <Compile Include="Model\interview\Module.cs" />
+    <Compile Include="Model\interview\Obs.cs" />
+    <Compile Include="Model\interview\ObsFinalTestResult.cs" />
+    <Compile Include="Model\interview\ObsLinkage.cs" />
+    <Compile Include="Model\interview\ObsTestResult.cs" />
+    <Compile Include="Model\interview\ObsTraceResult.cs" />
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\PersonAddress.cs" />
     <Compile Include="Model\PersonContact.cs" />
     <Compile Include="Model\Practice.cs" />
     <Compile Include="Model\PracticeType.cs" />
+    <Compile Include="Model\interview\Program.cs" />
     <Compile Include="Model\Provider.cs" />
     <Compile Include="Model\ProviderType.cs" />
+    <Compile Include="Model\interview\Question.cs" />
+    <Compile Include="Model\interview\QuestionBranch.cs" />
+    <Compile Include="Model\interview\QuestionRemoteTransformation.cs" />
+    <Compile Include="Model\interview\QuestionReValidation.cs" />
+    <Compile Include="Model\interview\QuestionTransformation.cs" />
+    <Compile Include="Model\interview\QuestionValidation.cs" />
     <Compile Include="Model\RelationshipType.cs" />
     <Compile Include="Model\SubCounty.cs" />
     <Compile Include="Model\User.cs" />
+    <Compile Include="Model\interview\Validator.cs" />
+    <Compile Include="Model\interview\ValidatorType.cs" />
   </ItemGroup>
 
   <ItemGroup>

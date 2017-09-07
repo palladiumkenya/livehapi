@@ -1,41 +1,39 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model
 {
-    public class QuestionRemoteTransformation : Entity<Guid>
+    public class QuestionBranch : Entity<Guid>
     {
-        
+        [MaxLength(50)]
         public string ConditionId { get; set; }
         
-        public string ClientAttributeId { get; set; }
-        
-        public Guid? RemoteQuestionId { get; set; }
-        
-        public Guid? SelfQuestionId { get; set; }
+        public Guid? RefQuestionId { get; set; }
+        [MaxLength(50)]
         public string ResponseType { get; set; }
+        [MaxLength(50)]
         public string Response { get; set; }
+        [MaxLength(50)]
         public string ResponseComplex { get; set; }
         public decimal? Group { get; set; }
-        
+        [MaxLength(50)]
         public string ActionId { get; set; }
-        public string Content { get; set; }
-        public string  AltContent { get; set; }
+        
+        public Guid? GotoQuestionId { get; set; }
         
         public Guid QuestionId { get; set; }
 
-        public QuestionRemoteTransformation()
+        public QuestionBranch()
         {
             Id = LiveGuid.NewGuid();
         }
 
         public override string ToString()
         {
-            return $"{ConditionId} {ClientAttributeId} {ActionId}";
+            return $"{ConditionId},{ResponseType}{Response}>>{GotoQuestionId}";
         }
-
-   
-
+        
     }
 }
