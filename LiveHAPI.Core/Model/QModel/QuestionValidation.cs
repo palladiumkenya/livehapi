@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
-namespace LiveHAPI.Core.Model
+namespace LiveHAPI.Core.Model.QModel
 {
     public class QuestionValidation : Entity<Guid>
     {

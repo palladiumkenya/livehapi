@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
-namespace LiveHAPI.Core.Model
+namespace LiveHAPI.Core.Model.QModel
 {
     public class Question : Entity<Guid>
     {
@@ -18,20 +17,12 @@ namespace LiveHAPI.Core.Model
         public string Description { get; set; }
         public Decimal Rank { get; set; }
 
-        
-        public List<QuestionValidation> Validations { get; set; } = new List<QuestionValidation>();
+        public ICollection<QuestionValidation> Validations { get; set; } = new List<QuestionValidation>();
+        public ICollection<QuestionBranch> Branches { get; set; } = new List<QuestionBranch>();
 
-        
-        public List<QuestionReValidation> ReValidations { get; set; } = new List<QuestionReValidation>();
-
-        
-        public List<QuestionBranch> Branches { get; set; } = new List<QuestionBranch>();
-        
-        public List<QuestionTransformation> Transformations { get; set; } = new List<QuestionTransformation>();
-
-        
-        public List<QuestionRemoteTransformation> RemoteTransformations { get; set; } =
-            new List<QuestionRemoteTransformation>();
+        public ICollection<QuestionReValidation> ReValidations { get; set; } = new List<QuestionReValidation>();
+        public ICollection<QuestionTransformation> Transformations { get; set; } = new List<QuestionTransformation>();
+        public ICollection<QuestionRemoteTransformation> RemoteTransformations { get; set; } =new List<QuestionRemoteTransformation>();
 
         
         public Guid FormId { get; set; }

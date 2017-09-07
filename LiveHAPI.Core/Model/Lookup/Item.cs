@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
-namespace LiveHAPI.Core.Model
+namespace LiveHAPI.Core.Model.Lookup
 {
     public class Item : Entity<Guid>
     {
@@ -11,6 +12,8 @@ namespace LiveHAPI.Core.Model
         public string Code { get; set; }
         [MaxLength(50)]
         public string Display { get; set; }
+
+        public ICollection<CategoryItem> Items { get; set; } = new List<CategoryItem>();
 
         public Item()
         {

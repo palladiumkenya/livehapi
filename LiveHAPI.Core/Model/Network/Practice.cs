@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Core.Interfaces.Model;
+using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
@@ -23,6 +24,7 @@ namespace LiveHAPI.Core.Model.Network
         public ICollection<Provider> Providers { get; set; } = new List<Provider>();
         public ICollection<Client> Clients { get; set; } = new List<Client>();
         public ICollection<PracticeActivation> Activations { get; set; }=new List<PracticeActivation>();
+        public ICollection<FormImplementation> FormImplementation { get; set; } = new List<FormImplementation>();
         public Practice()
         {
             Id = LiveGuid.NewGuid();

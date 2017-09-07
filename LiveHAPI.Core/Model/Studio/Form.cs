@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
@@ -10,17 +12,19 @@ namespace LiveHAPI.Core.Model.Studio
         [MaxLength(50)]
         public string Name { get; set; }
         [MaxLength(50)]
+        public string Version { get; set; }
+        [MaxLength(50)]
         public string Display { get; set; }
         [MaxLength(150)]
         public string Description { get; set; }
         public decimal Rank { get; set; }
         public Guid ModuleId { get; set; }
-
-//        
-//        public List<Question> Questions { get; set; }=new List<Question>();
-//        public List<Program> Programs { get; set; } = new List<Program>();
-//        public List<Encounter> ClientEncounters { get; set; }=new List<Encounter>();
+        public ICollection<FormImplementation> Implementations { get; set; }=new List<FormImplementation>();
+        public ICollection<Program> Programs { get; set; } = new List<Program>();
+        public ICollection<Question> Questions { get; set; }=new List<Question>();
         
+        //        public List<Encounter> ClientEncounters { get; set; }=new List<Encounter>();
+
         public Form()
         {
             Id = LiveGuid.NewGuid();

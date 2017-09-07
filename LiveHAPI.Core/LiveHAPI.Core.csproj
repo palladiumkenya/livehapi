@@ -11,23 +11,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Model\interview\Action.cs" />
-    <Compile Include="Model\interview\Category.cs" />
-    <Compile Include="Model\interview\CategoryItem.cs" />
+    <Compile Include="Model\QModel\Action.cs" />
+    <Compile Include="Model\Lookup\Category.cs" />
+    <Compile Include="Model\Lookup\CategoryItem.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\ClientAttribute.cs" />
     <Compile Include="Model\ClientIdentifier.cs" />
     <Compile Include="Model\ClientRelationship.cs" />
-    <Compile Include="Model\interview\Concept.cs" />
-    <Compile Include="Model\interview\ConceptType.cs" />
-    <Compile Include="Model\interview\Condition.cs" />
+    <Compile Include="Model\Studio\Concept.cs" />
+    <Compile Include="Model\Studio\ConceptType.cs" />
+    <Compile Include="Model\QModel\Condition.cs" />
     <Compile Include="Model\County.cs" />
     <Compile Include="Model\interview\Device.cs" />
     <Compile Include="Model\interview\Encounter.cs" />
-    <Compile Include="Model\interview\EncounterType.cs" />
+    <Compile Include="Model\Studio\EncounterType.cs" />
+    <Compile Include="Model\Studio\FormImplementation.cs" />
     <Compile Include="Model\Studio\Form.cs" />
     <Compile Include="Model\IdentifierType.cs" />
-    <Compile Include="Model\interview\Item.cs" />
+    <Compile Include="Model\Lookup\Item.cs" />
     <Compile Include="Model\interview\KeyPop.cs" />
     <Compile Include="Model\interview\MaritalStatus.cs" />
     <Compile Include="Model\Studio\Module.cs" />
@@ -42,20 +43,20 @@
     <Compile Include="Model\PersonContact.cs" />
     <Compile Include="Model\Network\Practice.cs" />
     <Compile Include="Model\Network\PracticeType.cs" />
-    <Compile Include="Model\interview\Program.cs" />
+    <Compile Include="Model\Studio\Program.cs" />
     <Compile Include="Model\Provider.cs" />
     <Compile Include="Model\ProviderType.cs" />
-    <Compile Include="Model\interview\Question.cs" />
-    <Compile Include="Model\interview\QuestionBranch.cs" />
-    <Compile Include="Model\interview\QuestionRemoteTransformation.cs" />
-    <Compile Include="Model\interview\QuestionReValidation.cs" />
-    <Compile Include="Model\interview\QuestionTransformation.cs" />
-    <Compile Include="Model\interview\QuestionValidation.cs" />
+    <Compile Include="Model\QModel\Question.cs" />
+    <Compile Include="Model\QModel\QuestionBranch.cs" />
+    <Compile Include="Model\QModel\QuestionRemoteTransformation.cs" />
+    <Compile Include="Model\QModel\QuestionReValidation.cs" />
+    <Compile Include="Model\QModel\QuestionTransformation.cs" />
+    <Compile Include="Model\QModel\QuestionValidation.cs" />
     <Compile Include="Model\RelationshipType.cs" />
     <Compile Include="Model\SubCounty.cs" />
     <Compile Include="Model\User.cs" />
-    <Compile Include="Model\interview\Validator.cs" />
-    <Compile Include="Model\interview\ValidatorType.cs" />
+    <Compile Include="Model\QModel\Validator.cs" />
+    <Compile Include="Model\QModel\ValidatorType.cs" />
   </ItemGroup>
 
   <ItemGroup>
