@@ -36,6 +36,19 @@ namespace LiveHAPI.Core.Model.Network
             Id = LiveGuid.NewGuid();
         }
 
+        private Practice(string code, string name, string practiceTypeId, int? countyId):this()
+        {
+            Code = code;
+            Name = name;
+            PracticeTypeId = practiceTypeId;
+            CountyId = countyId;
+        }
+
+        public static Practice CreateFacility(MasterFacility facility)
+        {
+            return new Practice(facility.Id.ToString(),facility.Name,"Facility",facility.AreaCode);
+        }
+
         public bool IsDeviceActivated(string device)
         {
             return Activations.Any(x => x.Device.ToLower() == device.ToLower() &&  x.IsActive());
@@ -79,7 +92,7 @@ namespace LiveHAPI.Core.Model.Network
         }
         public override string ToString()
         {
-            return $"{Code} - {Name}";
+            return $"{Code} - {Name} [{PracticeTypeId}]";
         }
     }
 }

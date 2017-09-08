@@ -37,8 +37,29 @@ namespace LiveHAPI.Core.Tests.Service
             var pr = new PracticeRepository(_context);
             _practice = pr.GetAll().First();
             
-            _activationService = new ActivationService(new PracticeRepository(_context),new PracticeActivationRepository(_context));
+            _activationService = new ActivationService(new PracticeRepository(_context),new PracticeActivationRepository(_context),new MasterFacilityRepository(_context));
         }
+
+        [Test]
+        public void should_Verify_Site()
+        {
+            //13080 Mbagathi DH
+
+            var fac = _activationService.Verify(13080);
+            Assert.IsNotNull(fac);
+            Console.WriteLine(fac);
+        }
+
+        [Test]
+        public void should_Enroll_Site()
+        {
+            //13080 Mbagathi DH
+
+            var practice = _activationService.EnrollPractice("13080");
+            Assert.IsNotNull(practice);
+            Console.WriteLine(practice);
+        }
+
 
         [Test]
         public void should_Get_Activation_Code_New()

@@ -13,15 +13,18 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
     {
         private static readonly int _count = 2;
         private static List<County> _counties = new List<County>();
+        private static List<MasterFacility> _facilities=new List<MasterFacility>();
         private static List<SubCounty> _subcounties = new List<SubCounty>();
         private static List<PracticeType> _pracTypes = new List<PracticeType>();
         private static List<Practice> _pracs = new List<Practice>();
         private static List<Practice> _pracWithActivation = new List<Practice>();
         private static List<PracticeActivation> _pracActvs = new List<PracticeActivation>();
         private static List<DeviceIdentity> _devices = new List<DeviceIdentity>();
+
         public static void Init()
         {
             _counties = TestCounties();
+            _facilities = TestFacilities();
             _subcounties = TestSubCounties();
             _pracTypes = TestPracticeTypes();
             _pracs = TestPractices();
@@ -29,6 +32,8 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _pracActvs = TestPracticeActivations();
             _pracWithActivation = TestPracticeWithActivation();
         }
+
+       
 
         public static List<County> TestCounties()
         {
@@ -46,7 +51,19 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             list[1].Name = "Nairobi";
             return list;
         }
+        public static List<MasterFacility> TestFacilities()
+        {
+            if (_facilities.Count > 0) return _facilities;
 
+            var list = new List<MasterFacility>
+            {
+                new MasterFacility(13023,"Kenyatta National Hospital",47,"Nairobi"),
+                new MasterFacility(13080,"Mbagathi District Hospital",47,"Nairobi"),
+                new MasterFacility(14080,"Siaya District Hospital",41,"Siaya"),
+                new MasterFacility(16792,"Wagai Dispensary",41,"Siaya"),
+            };
+            return list;
+        }
         public static List<SubCounty> TestSubCounties()
         {
             if (_subcounties.Count > 0) return _subcounties;

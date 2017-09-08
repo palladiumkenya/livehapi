@@ -11,6 +11,7 @@ namespace LiveHAPI.Core.Tests
         public static void Init(LiveHAPIContext context)
         {
             var counties = TestData.TestCounties();
+            var facs = TestData.TestFacilities();
             var subCounties = TestData.TestSubCounties();
             var practiceTypes = TestData.TestPracticeTypes();
             var practices = TestData.TestPracticeWithActivation();
@@ -18,7 +19,7 @@ namespace LiveHAPI.Core.Tests
 
 
             Clear(context);
-            Create(context, counties, subCounties, practiceTypes, practices, practiceActivations);
+            Create(context, counties, facs, subCounties, practiceTypes, practices, practiceActivations);
         }
 
         public static void Create(LiveHAPIContext context, params IEnumerable<object>[] entities)
@@ -35,8 +36,8 @@ namespace LiveHAPI.Core.Tests
             context.RemoveRange(context.Practices);
             context.RemoveRange(context.PracticeTypes);
             context.RemoveRange(context.SubCounties);
+            context.RemoveRange(context.MasterFacilities);
             context.RemoveRange(context.Counties);
-
             context.SaveChanges();
         }
     }

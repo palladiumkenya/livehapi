@@ -7,6 +7,7 @@ namespace LiveHAPI.Core.Interfaces.Services
     public interface IActivationService
     {
         MasterFacility Verify(int code);
+        Practice EnrollPractice(string code);
         string GetActivationCode(string code, DeviceIdentity identity, DeviceLocation location=null);
     }
 }
