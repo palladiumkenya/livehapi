@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace LiveHAPI.Core.Tests.Model.Network
 {
     [TestFixture]
-    public class PracticeActivationTests
+    public class PracticeTests
     {
         private List<Practice> _practiceWithActivations;
         private List<DeviceIdentity> _devices;
@@ -21,33 +21,36 @@ namespace LiveHAPI.Core.Tests.Model.Network
         {
             TestData.Init();
             _devices = TestData.TestDevices();
-            _practiceWithActivations = TestData.TestPracticeWithActivation();
-            
+            _practiceWithActivations = TestData.TestPracticeWithActivation();            
         }
 
         [Test]
-
-        public void should_Create_NewActivation()
+        public void should_Activate_Device_New()
         {
+            var practice = _practiceWithActivations.First();
+
             var device = _devices.First();
             device.Serial = "X3";
 
-            var activation = PracticeActivation.Create(device);
-
+            var activation = practice.ActivateDevice(device);
             Assert.IsTrue(activation.IsActive());
             Assert.IsFalse(activation.IsExpired());
             Console.WriteLine(activation);
+
         }
+
         [Test]
-        public void should_Create_New_No_Activation()
+        public void should_Activate_Device_Renew()
         {
-            var device = _devices.First();
-            device.Serial = "X3";
+            var practice = _practiceWithActivations.Last();
+            var activationExpired = practice.Activations.First(x => x.IsExpired());
+            var device = _devices.First(x => x.Serial == activationExpired.Device);
 
-            var activation = PracticeActivation.Create(device,null,false);
-
-            Assert.IsFalse(activation.IsActive());
+            var activation = practice.ActivateDevice(device);
+            Assert.IsTrue(activation.IsActive());
+            Assert.IsFalse(activation.IsExpired());
             Console.WriteLine(activation);
+
         }
     }
 } 
