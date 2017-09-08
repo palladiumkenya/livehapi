@@ -11,8 +11,8 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    [Migration("20170907204444_hAPIInitial")]
-    partial class hAPIInitial
+    [Migration("20170907210904_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

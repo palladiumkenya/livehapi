@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Studio;
+using LiveHAPI.Core.ValueModel;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
@@ -27,11 +30,39 @@ namespace LiveHAPI.Core.Model.Network
         public ICollection<Client> Clients { get; set; } = new List<Client>();
         public ICollection<PracticeActivation> Activations { get; set; }=new List<PracticeActivation>();
         public ICollection<FormImplementation> FormImplementation { get; set; } = new List<FormImplementation>();
+
         public Practice()
         {
             Id = LiveGuid.NewGuid();
         }
 
+        public bool IsDeviceActivated(string device)
+        {
+            return Activations.Any(x => x.Device.ToLower() == device.ToLower() &&  x.IsActive());
+        }
+
+        public bool IsDeviceExpired(string device)
+        {
+            return Activations.Any(x => x.Device.ToLower() == device.ToLower() && x.IsExpired());
+        }
+
+        public PracticeActivation ActivateDevice(DeviceIdentity deviceIdentity,DeviceLocation deviceLocation = null)
+        {
+            if (IsDeviceActivated(deviceIdentity.Serial))
+            {
+                return Activations.FirstOrDefault(x => x.IsActive());
+            }
+
+            if (IsDeviceExpired(deviceIdentity.Serial))
+            {
+                var expiredDevice=Activations.FirstOrDefault(x => x.IsExpired());
+                expiredDevice.Renew(deviceIdentity, deviceLocation);
+
+                return expiredDevice;
+            }
+
+            return PracticeActivation.Create(deviceIdentity, deviceLocation);
+        }
         public override string ToString()
         {
             return $"{Code} - {Name}";

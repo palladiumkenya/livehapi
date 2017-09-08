@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.Infrastructure", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.Infrastructure.Tests", "LiveHAPI.Infrastructure.Tests\LiveHAPI.Infrastructure.Tests.csproj", "{32134D3C-0BDE-4CA2-AB6A-A388B7FEA390}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveHAPI.Core.Tests", "LiveHAPI.Core.Tests\LiveHAPI.Core.Tests.csproj", "{ECD274CB-5E8D-46AB-A128-FE221C604F57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{32134D3C-0BDE-4CA2-AB6A-A388B7FEA390}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32134D3C-0BDE-4CA2-AB6A-A388B7FEA390}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32134D3C-0BDE-4CA2-AB6A-A388B7FEA390}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECD274CB-5E8D-46AB-A128-FE221C604F57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD274CB-5E8D-46AB-A128-FE221C604F57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD274CB-5E8D-46AB-A128-FE221C604F57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD274CB-5E8D-46AB-A128-FE221C604F57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,7 @@ Global
 		{4F7707CA-8E3F-40E4-A7B1-75818C072901} = {DE42083E-EEFF-44CE-83FD-58EEB04AEA0C}
 		{904AA890-2091-40EB-A913-AA903DD9A3C4} = {39C240A8-BE8D-41DF-88E6-9431848BD2E1}
 		{32134D3C-0BDE-4CA2-AB6A-A388B7FEA390} = {39C240A8-BE8D-41DF-88E6-9431848BD2E1}
+		{ECD274CB-5E8D-46AB-A128-FE221C604F57} = {DE42083E-EEFF-44CE-83FD-58EEB04AEA0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EBFAAC0A-E4B1-4E6E-A014-FA8A89FC10EB}

@@ -46,23 +46,16 @@ namespace LiveHAPI.Infrastructure
 
         public static void AddOrUpdateItem(this LiveHAPIContext ctx, object entity)
         {
-            var entry = ctx.Entry(entity);
-            switch (entry.State)
+
+            try
             {
-                case EntityState.Detached:
-                    ctx.Add(entity);
-                    break;
-                case EntityState.Modified:
-                    ctx.Update(entity);
-                    break;
-                case EntityState.Added:
-                    ctx.Add(entity);
-                    break;
-                case EntityState.Unchanged:
-                    //item already in db no need to do anything  
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                ctx.Attach(entity);
+                ctx.Entry(entity).State = EntityState.Modified;
+                
+            }
+            catch 
+            {
+                ctx.Add(entity);
             }
         }
 

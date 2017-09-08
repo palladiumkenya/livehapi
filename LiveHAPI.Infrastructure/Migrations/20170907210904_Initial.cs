@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LiveHAPI.Infrastructure.Migrations
 {
-    public partial class hAPIInitial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

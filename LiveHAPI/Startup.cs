@@ -82,12 +82,14 @@ namespace LiveHAPI
                 app.UseDeveloperExceptionPage();
             }
 
-//                        if (!context.AllMigrationsApplied())
-//                        {
-//                            context.Database.Migrate();
-//                            context.EnsureSeeded();
-//                        }
-//            
+                                    if (!context.AllMigrationsApplied())
+                                    {
+                                        context.Database.Migrate();
+                                        context.EnsureSeeded();
+                                    }
+                        
+
+            //context.EnsureSeeded();
 
             app.UseMvc();
 
