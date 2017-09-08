@@ -63,6 +63,20 @@ namespace LiveHAPI.Core.Model.Network
 
             return PracticeActivation.Create(deviceIdentity, deviceLocation);
         }
+
+        public void AddActivation(PracticeActivation activation)
+        {
+            activation.PracticeId = Id;
+            Activations.Add(activation);
+        }
+
+        public void AddActivations(IEnumerable<PracticeActivation> activations)
+        {
+            foreach (var a in activations)
+            {
+               AddActivation(a);
+            }
+        }
         public override string ToString()
         {
             return $"{Code} - {Name}";

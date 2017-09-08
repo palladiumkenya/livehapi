@@ -110,8 +110,8 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             if (_pracWithActivation.Count > 0) return _pracWithActivation;
 
             var list = TestPractices();
-            list[0].Activations.Add(TestPracticeActivations().First(x=>x.PracticeId == list[0].Id));
-            list[1].Activations.Add(TestPracticeActivations().First(x => x.PracticeId == list[1].Id));
+            list[0].AddActivation(TestPracticeActivations()[0]);
+            list[1].AddActivation(TestPracticeActivations()[1]);
             return list;
         }
         public static List<DeviceIdentity> TestDevices()
