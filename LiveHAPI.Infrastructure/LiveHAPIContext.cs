@@ -14,9 +14,10 @@ namespace LiveHAPI.Infrastructure
         public LiveHAPIContext(DbContextOptions<LiveHAPIContext> options) 
             : base(options)
         {
-            Database.Migrate();
+           // Database.Migrate();
         }
 
+        public DbSet<MasterFacility> MasterFacilities { get; set; }
         public DbSet<PracticeType> PracticeTypes { get; set; }
         public DbSet<RelationshipType> RelationshipTypes { get; set; }
         public DbSet<IdentifierType> IdentifierTypes { get; set; }

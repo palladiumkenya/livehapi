@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Model\Network\MasterFacility.cs" />
     <Compile Include="Model\QModel\Action.cs" />
     <Compile Include="Model\Lookup\Category.cs" />
     <Compile Include="Model\Lookup\CategoryItem.cs" />

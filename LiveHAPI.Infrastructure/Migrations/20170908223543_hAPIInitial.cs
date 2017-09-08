@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LiveHAPI.Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class hAPIInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -124,6 +124,20 @@ namespace LiveHAPI.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MaritalStatuses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MasterFacilities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    AreaInfo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MasterFacilities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -1321,6 +1335,9 @@ namespace LiveHAPI.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "MaritalStatuses");
+
+            migrationBuilder.DropTable(
+                name: "MasterFacilities");
 
             migrationBuilder.DropTable(
                 name: "Obses");

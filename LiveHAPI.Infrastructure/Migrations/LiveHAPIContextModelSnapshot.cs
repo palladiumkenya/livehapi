@@ -404,6 +404,23 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.ToTable("SubCounties");
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.Network.MasterFacility", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<string>("AreaInfo")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100);
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MasterFacilities");
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.Network.Practice", b =>
                 {
                     b.Property<Guid>("Id")

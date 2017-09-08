@@ -11,8 +11,8 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    [Migration("20170907210904_Initial")]
-    partial class Initial
+    [Migration("20170908223543_hAPIInitial")]
+    partial class hAPIInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -403,6 +403,23 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.HasIndex("CountyId");
 
                     b.ToTable("SubCounties");
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Network.MasterFacility", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<string>("AreaInfo")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100);
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MasterFacilities");
                 });
 
             modelBuilder.Entity("LiveHAPI.Core.Model.Network.Practice", b =>

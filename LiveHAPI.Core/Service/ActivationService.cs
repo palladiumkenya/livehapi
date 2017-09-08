@@ -17,6 +17,11 @@ namespace LiveHAPI.Core.Service
             _practiceActivationRepository = practiceActivationRepository;
         }
 
+        public MasterFacility Verify(int code)
+        {
+            throw new NotImplementedException();
+        }
+
         public string GetActivationCode(string code, DeviceIdentity identity, DeviceLocation location=null)
         {
             var practice = _practiceRepository.GetByCode(code);
