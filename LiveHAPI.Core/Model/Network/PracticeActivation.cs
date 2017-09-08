@@ -45,13 +45,14 @@ namespace LiveHAPI.Core.Model.Network
         {
             Id = LiveGuid.NewGuid();
         }
-        private PracticeActivation(string device, string model, string deviceCode) : this()
+        private PracticeActivation(Guid practiceId,string device, string model, string deviceCode) : this()
         {
             Device = device;
             Model = model;
             DeviceCode = deviceCode;
+            PracticeId = practiceId;
         }
-        private PracticeActivation(string device, string model, string deviceCode, string ipAddress, decimal? lng, decimal? lat):this(device,  model,  deviceCode)
+        private PracticeActivation(Guid practiceId, string device, string model, string deviceCode, string ipAddress, decimal? lng, decimal? lat):this(practiceId,device,  model,  deviceCode)
         {
             IPAddress = ipAddress;
             Lng = lng;
@@ -59,19 +60,19 @@ namespace LiveHAPI.Core.Model.Network
         }
 
      
-        public static PracticeActivation Create(DeviceIdentity deviceIdentity, DeviceLocation deviceLocation = null,bool activate=true)
+        public static PracticeActivation Create(Guid practiceId, DeviceIdentity deviceIdentity, DeviceLocation deviceLocation = null,bool activate=true)
         {
             PracticeActivation activation = null;
 
             if (null != deviceLocation)
             {
-                activation = new PracticeActivation(
+                activation = new PracticeActivation(practiceId,
                     deviceIdentity.Serial, deviceIdentity.Model, deviceIdentity.Code,
                     deviceLocation.IPAddress,deviceLocation.Lng, deviceLocation.Lat);
             }
             else
             {
-                activation = new PracticeActivation(deviceIdentity.Serial, deviceIdentity.Model, deviceIdentity.Code);
+                activation = new PracticeActivation(practiceId, deviceIdentity.Serial, deviceIdentity.Model, deviceIdentity.Code);
             }
 
             if (activate)

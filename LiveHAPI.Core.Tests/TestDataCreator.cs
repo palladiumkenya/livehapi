@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using LiveHAPI.Core.Model.Lookup;
-using LiveHAPI.Core.Model.Network;
+using LiveHAPI.Infrastructure;
 using LiveHAPI.Shared.Tests.TestHelpers;
 using Microsoft.EntityFrameworkCore;
 
-namespace LiveHAPI.Infrastructure.Tests
+namespace LiveHAPI.Core.Tests
 {
     public class TestDataCreator
     {

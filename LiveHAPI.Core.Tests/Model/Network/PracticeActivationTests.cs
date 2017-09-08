@@ -14,15 +14,16 @@ namespace LiveHAPI.Core.Tests.Model.Network
     {
         private List<Practice> _practiceWithActivations;
         private List<DeviceIdentity> _devices;
+        private Guid _practiceId;
 
-        
+
         [SetUp]
         public void SetUp()
         {
             TestData.Init();
             _devices = TestData.TestDevices();
             _practiceWithActivations = TestData.TestPracticeWithActivation();
-            
+            _practiceId = _practiceWithActivations.First().Id;
         }
 
         [Test]
@@ -32,7 +33,7 @@ namespace LiveHAPI.Core.Tests.Model.Network
             var device = _devices.First();
             device.Serial = "X3";
 
-            var activation = PracticeActivation.Create(device);
+            var activation = PracticeActivation.Create(_practiceId, device);
 
             Assert.IsTrue(activation.IsActive());
             Assert.IsFalse(activation.IsExpired());
@@ -44,7 +45,7 @@ namespace LiveHAPI.Core.Tests.Model.Network
             var device = _devices.First();
             device.Serial = "X3";
 
-            var activation = PracticeActivation.Create(device,null,false);
+            var activation = PracticeActivation.Create(_practiceId,device, null,false);
 
             Assert.IsFalse(activation.IsActive());
             Console.WriteLine(activation);

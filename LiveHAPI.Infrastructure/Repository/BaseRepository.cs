@@ -44,7 +44,15 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public void InsertOrUpdate(T entity)
         {
-            throw new NotImplementedException();
+            var exisits = Get(entity.Id);
+            if (null != exisits)
+            {
+                Update(entity);
+            }
+            else
+            {
+                Save(entity);
+            }
         }
 
         public void InsertOrUpdateAny(object entity)
@@ -62,7 +70,9 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public void Delete(TId id)
         {
-            throw new NotImplementedException();
+            var entity = Get(id);
+            if (null != entity)
+                Context.Remove(entity);
         }
 
         public void Void(TId id)

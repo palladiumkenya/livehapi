@@ -61,7 +61,7 @@ namespace LiveHAPI.Core.Model.Network
                 return expiredDevice;
             }
 
-            return PracticeActivation.Create(deviceIdentity, deviceLocation);
+            return PracticeActivation.Create(Id, deviceIdentity, deviceLocation);
         }
 
         public void AddActivation(PracticeActivation activation)

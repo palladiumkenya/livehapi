@@ -58,8 +58,6 @@ namespace LiveHAPI.Infrastructure
         public DbSet<Item> Items { get; set; }
         public DbSet<Concept> Concepts { get; set; }
 
-
-
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionBranch> QuestionBranches { get; set; }
         public DbSet<QuestionRemoteTransformation> QuestionRemoteTransformations { get; set; }
@@ -67,12 +65,9 @@ namespace LiveHAPI.Infrastructure
         public DbSet<QuestionTransformation> QuestionTransformation { get; set; }
         public DbSet<QuestionValidation> QuestionValidations { get; set; }
 
-
         public DbSet<Module> Modules { get; set; }
         public DbSet<Form> Forms { get; set; }
         public DbSet<FormImplementation> FormImplementations { get; set; }
         public DbSet<FormProgram> Programs { get; set; }
-
-     
     }
 }

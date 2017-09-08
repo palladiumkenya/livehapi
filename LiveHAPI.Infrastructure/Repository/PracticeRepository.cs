@@ -15,7 +15,7 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public Practice GetByCode(string code)
         {
-            return GetAll().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
+            return Context.Practices.FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
         }
     }
 }

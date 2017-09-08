@@ -18,5 +18,10 @@ namespace LiveHAPI.Core.ValueModel
             Model = model;
             Code = code ?? throw new ArgumentNullException(nameof(code));
         }
+
+        public override string ToString()
+        {
+            return $"{Serial}-{Model}-{Code}";
+        }
     }
 }
