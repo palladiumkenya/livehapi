@@ -41,6 +41,22 @@ namespace LiveHAPI.Core.Model.People
         {
             Id = LiveGuid.NewGuid();
         }
+
+        private Person(string firstName, string middleName, string lastName, string gender, DateTime birthDate, bool? birthDateEstimated=false, string email="")
+        {
+            FirstName = firstName;
+            MiddleName = middleName;
+            LastName = lastName;
+            Gender = gender;
+            BirthDate = birthDate;
+            BirthDateEstimated = birthDateEstimated;
+            Email = email;
+        }
+
+        public void AssignUser(User user)
+        {
+            
+        }
         public override string ToString()
         {
             return $"{FullName}";
