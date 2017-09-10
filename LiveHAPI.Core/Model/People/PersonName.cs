@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LiveHAPI.Core.Interfaces.Model;
-using LiveHAPI.Core.ValueModel;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.People
 {
@@ -46,10 +46,10 @@ namespace LiveHAPI.Core.Model.People
             SourceRef = sourceRef;
             SourceSys = sourceSys;
         }
-        public static PersonName Create(PersonNameIdentity personNameIdentity,PersonIdentity personIdentity)
+        public static PersonName Create(PersonNameInfo personNameInfo,Identity identity)
         {
-            return new PersonName(personNameIdentity.FirstName, personNameIdentity.MiddleName, personNameIdentity.LastName, personNameIdentity.MothersName, personIdentity.Source,
-                personIdentity.SourceRef, personIdentity.SourceSys);
+            return new PersonName(personNameInfo.FirstName, personNameInfo.MiddleName, personNameInfo.LastName, personNameInfo.MothersName, identity.Source,
+                identity.SourceRef, identity.SourceSys);
         }
 
         public void ChangeTo(PersonName name)

@@ -10,7 +10,8 @@ namespace LiveHAPI.Core.Interfaces.Repository
         T Get(TId id, bool voided = false);
         IEnumerable<T> GetAll(bool voided = false);
         IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, bool voided = false);
-        void Save(T entity);
+
+        void Insert(T entity);
         void InsertOrUpdate(T entity);
         void InsertOrUpdate(IEnumerable<T> entities);
         void InsertOrUpdateAny(object entity);
@@ -18,5 +19,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
         void Update(T entity);
         void Delete(TId id);
         void Void(TId id);
+
+        void Save();
     }
 }

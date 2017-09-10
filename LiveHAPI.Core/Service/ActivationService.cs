@@ -2,7 +2,7 @@
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Network;
-using LiveHAPI.Core.ValueModel;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Service
 {
@@ -37,12 +37,13 @@ namespace LiveHAPI.Core.Service
             {
                 var practice = Practice.CreateFacility(facility);
                 _practiceRepository.InsertOrUpdate(practice);
+                _practiceRepository.Save();
                 return practice;
             }
             return null;
         }
 
-        public string GetActivationCode(string code, DeviceIdentity identity, DeviceLocation location=null)
+        public string GetActivationCode(string code, DeviceInfo info, DeviceLocationInfo locationInfo=null)
         {
             
             var practice = _practiceRepository.GetByCode(code);
@@ -50,13 +51,13 @@ namespace LiveHAPI.Core.Service
             if (null == practice)
                 throw new ArgumentException("Facility Code Not found");
 
-            var activation= practice.ActivateDevice(identity, location);
+            var activation= practice.ActivateDevice(info, locationInfo);
 
             if(null==activation)
                 throw new ArgumentException("Actrivation not possible");
 
             _practiceActivationRepository.InsertOrUpdate(activation);
-
+            _practiceRepository.Save();
             return activation.ActivationCode;
         }
     }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LiveHAPI.Core.Interfaces.Model;
-using LiveHAPI.Core.ValueModel;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.People
 {
@@ -107,7 +107,7 @@ namespace LiveHAPI.Core.Model.People
                 Users.Add(personUser);
                 return personUser;
             }
-
+            
             Users.Add(user);
             return user;
         }
@@ -137,12 +137,12 @@ namespace LiveHAPI.Core.Model.People
         }
 
 
-        public static Person CreateUser(PersonIdentity personIdentity, PersonNameIdentity personNameIdentity, UserIdentity userIdentity)
+        public static Person CreateUser(Identity identity, PersonNameInfo personNameInfo, UserInfo userInfo,Guid practiceId)
         {
             var person=new Person();
             
-            var user = User.Create(userIdentity,personIdentity);
-            var personName = PersonName.Create(personNameIdentity, personIdentity);
+            var user = User.Create(userInfo,identity,practiceId);
+            var personName = PersonName.Create(personNameInfo, identity);
             person.AddName(personName);
             person.AssignUser(user);
 

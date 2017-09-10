@@ -1,6 +1,6 @@
 ﻿using System;
 using LiveHAPI.Core.Model.Network;
-using LiveHAPI.Core.ValueModel;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Interfaces.Services
 {
@@ -8,6 +8,6 @@ namespace LiveHAPI.Core.Interfaces.Services
     {
         MasterFacility Verify(int code);
         Practice EnrollPractice(string code);
-        string GetActivationCode(string code, DeviceIdentity identity, DeviceLocation location=null);
+        string GetActivationCode(string code, DeviceInfo info, DeviceLocationInfo locationInfo=null);
     }
 }

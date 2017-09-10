@@ -43,6 +43,7 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
             newActication.PracticeId = practiceActivation.PracticeId;
                       
             _practiceActivationRepository.InsertOrUpdate(newActication);
+            _practiceActivationRepository.Save();
 
             _practiceActivationRepository = new PracticeActivationRepository(_context);
             var saved = _practiceActivationRepository.Get(newActication.Id);
@@ -58,6 +59,7 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
 
             practiceActivation.ActivationCode = "xyz-";
             _practiceActivationRepository.InsertOrUpdate(practiceActivation);
+            _practiceActivationRepository.Save();
 
             _practiceActivationRepository=new PracticeActivationRepository(_context);
             var saved = _practiceActivationRepository.Get(practiceActivation.Id);

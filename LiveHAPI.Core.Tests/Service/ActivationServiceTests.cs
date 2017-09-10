@@ -4,9 +4,9 @@ using FizzWare.NBuilder;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Service;
-using LiveHAPI.Core.ValueModel;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
+using LiveHAPI.Shared.ValueObject;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
@@ -19,7 +19,7 @@ namespace LiveHAPI.Core.Tests.Service
         private IActivationService _activationService;
         private LiveHAPIContext _context;
         private Practice _practice;
-        private PracticeActivation _practiceActivation;
+
         [SetUp]
         public void SetUp()
         {
@@ -64,7 +64,7 @@ namespace LiveHAPI.Core.Tests.Service
         [Test]
         public void should_Get_Activation_Code_New()
         {
-            var device=new DeviceIdentity("1XY1","LG G6","192");
+            var device=new DeviceInfo("1XY1","LG G6","192");
 
             var code= _activationService.GetActivationCode(_practice.Code, device);
             Assert.IsTrue(!string.IsNullOrWhiteSpace(code));
@@ -76,11 +76,13 @@ namespace LiveHAPI.Core.Tests.Service
         {
             var expiredActivation= _practice.Activations.FirstOrDefault(x => x.IsExpired());
 
-            var device = new DeviceIdentity(expiredActivation.Device,expiredActivation.Model,expiredActivation.DeviceCode);
+            var device = new DeviceInfo(expiredActivation.Device,expiredActivation.Model,expiredActivation.DeviceCode);
 
             var code = _activationService.GetActivationCode(_practice.Code, device);
             Assert.IsTrue(!string.IsNullOrWhiteSpace(code));
             Console.WriteLine($"{device}>>>{code}");
         }
     }
+
+  
 }

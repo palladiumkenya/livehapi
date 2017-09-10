@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Core.Model.Encounters;
-using LiveHAPI.Core.ValueModel;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.People
 {
@@ -40,15 +40,16 @@ namespace LiveHAPI.Core.Model.People
             Email = email;
         }
 
-        private User(string userName, string password, int? phone, string email, string source, string sourceRef, string sourceSys):this( userName,  password,  phone,  email)
+        private User(string userName, string password, int? phone, string email, string source, string sourceRef, string sourceSys, Guid practiceId) :this( userName,  password,  phone,  email)
         {
             Source = source;
             SourceRef = sourceRef;
             SourceSys = sourceSys;
+            PracticeId = practiceId;
         }
-        public static User Create(UserIdentity userIdentity,PersonIdentity personIdentity)
+        public static User Create(UserInfo userInfo,Identity identity,Guid practiceId)
         {
-            return new User(userIdentity.UserName,userIdentity.Password,userIdentity.Phone,userIdentity.Email,personIdentity.Source,personIdentity.SourceRef,personIdentity.SourceSys);
+            return new User(userInfo.UserName,userInfo.Password,userInfo.Phone,userInfo.Email,identity.Source,identity.SourceRef,identity.SourceSys,practiceId);
         }
         public void ChangeTo(User name)
         {

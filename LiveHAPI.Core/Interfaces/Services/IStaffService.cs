@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LiveHAPI.Core.Model.People;
-using LiveHAPI.Core.ValueModel;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Interfaces.Services
 {
     public interface IStaffService
     {
-        Person Find(PersonIdentity personIdentity);
-        User EnlistUser(PersonIdentity personIdentity, PersonNameIdentity personNameIdentity, UserIdentity userIdentity);
+        Person Find(Identity identity);
+        User EnlistUser(Identity identity, PersonNameInfo personNameInfo, UserInfo userInfo, Guid practiceId);
+        void SyncUser(User user);
     }
 }

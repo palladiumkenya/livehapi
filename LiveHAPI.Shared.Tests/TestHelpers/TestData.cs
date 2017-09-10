@@ -5,7 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 using FizzWare.NBuilder;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
-using LiveHAPI.Core.ValueModel;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Shared.Tests.TestHelpers
 {
@@ -19,7 +19,11 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
         private static List<Practice> _pracs = new List<Practice>();
         private static List<Practice> _pracWithActivation = new List<Practice>();
         private static List<PracticeActivation> _pracActvs = new List<PracticeActivation>();
-        private static List<DeviceIdentity> _devices = new List<DeviceIdentity>();
+        private static List<DeviceInfo> _devices = new List<DeviceInfo>();
+
+        private static List<Identity> _personIdentities = new List<Identity>();
+        private static List<PersonNameInfo> _personNameIdentities = new List<PersonNameInfo>();
+        private static List<UserInfo> _userIdentities = new List<UserInfo>();
 
         public static void Init()
         {
@@ -131,14 +135,14 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             list[1].AddActivation(TestPracticeActivations()[1]);
             return list;
         }
-        public static List<DeviceIdentity> TestDevices()
+        public static List<DeviceInfo> TestDevices()
         {
             if (_devices.Count > 0) return _devices;
 
-            var list = new List<DeviceIdentity>
+            var list = new List<DeviceInfo>
             {
-                new DeviceIdentity("S1", "HTC 10", "1001"),
-                new DeviceIdentity("S2", "SAMSUNG S8", "2002")
+                new DeviceInfo("S1", "HTC 10", "1001"),
+                new DeviceInfo("S2", "SAMSUNG S8", "2002")
             };
             return list;
         }
@@ -168,5 +172,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
             return list;
         }
+
+       
     }
 }

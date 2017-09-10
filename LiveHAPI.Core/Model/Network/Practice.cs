@@ -7,9 +7,9 @@ using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Studio;
-using LiveHAPI.Core.ValueModel;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.Network
 {
@@ -59,22 +59,22 @@ namespace LiveHAPI.Core.Model.Network
             return Activations.Any(x => x.Device.ToLower() == device.ToLower() && x.IsExpired());
         }
 
-        public PracticeActivation ActivateDevice(DeviceIdentity deviceIdentity,DeviceLocation deviceLocation = null)
+        public PracticeActivation ActivateDevice(DeviceInfo deviceInfo,DeviceLocationInfo deviceLocationInfo = null)
         {
-            if (IsDeviceActivated(deviceIdentity.Serial))
+            if (IsDeviceActivated(deviceInfo.Serial))
             {
                 return Activations.FirstOrDefault(x => x.IsActive());
             }
 
-            if (IsDeviceExpired(deviceIdentity.Serial))
+            if (IsDeviceExpired(deviceInfo.Serial))
             {
                 var expiredDevice=Activations.FirstOrDefault(x => x.IsExpired());
-                expiredDevice.Renew(deviceIdentity, deviceLocation);
+                expiredDevice.Renew(deviceInfo, deviceLocationInfo);
 
                 return expiredDevice;
             }
 
-            return PracticeActivation.Create(Id, deviceIdentity, deviceLocation);
+            return PracticeActivation.Create(Id, deviceInfo, deviceLocationInfo);
         }
 
         public void AddActivation(PracticeActivation activation)

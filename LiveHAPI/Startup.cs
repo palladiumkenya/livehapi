@@ -45,19 +45,12 @@ namespace LiveHAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
-                .AddMvcOptions(o => o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter()));
-            //                .AddJsonOptions(o =>
-            //                {
-            //                    if (o.SerializerSettings.ContractResolver != null)
-            //                    {
-            //                        var castedResolver = o.SerializerSettings.ContractResolver as DefaultContractResolver;
-            //                        castedResolver.NamingStrategy=null;
-            //                    }
-            //                });
+                .AddMvcOptions(o => o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter()))
+                .AddJsonOptions(o =>o.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-         
 
-        #if DEBUG
+
+#if DEBUG
             services.AddTransient<IMailService, LocalMailService>();
 #else
             services.AddTransient<IMailService, CloudMailService>();

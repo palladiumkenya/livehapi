@@ -1,18 +1,18 @@
 ﻿using System;
 
-namespace LiveHAPI.Core.ValueModel
+namespace LiveHAPI.Shared.ValueObject
 {
-    public class DeviceIdentity
+    public class DeviceInfo
     {
         public string Serial { get; set; }
         public string Model { get; set; }
         public string Code { get; set; }
 
-        public DeviceIdentity()
+        public DeviceInfo()
         {
         }
 
-        public DeviceIdentity(string serial, string model, string code)
+        public DeviceInfo(string serial, string model, string code)
         {
             Serial = serial ?? throw new ArgumentNullException(nameof(serial));
             Model = model;

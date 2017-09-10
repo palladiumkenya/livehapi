@@ -1,12 +1,12 @@
-﻿namespace LiveHAPI.Core.ValueModel
+﻿namespace LiveHAPI.Shared.ValueObject
 {
-    public class DeviceLocation
+    public class DeviceLocationInfo
     {
         public string IPAddress { get; set; }
         public decimal? Lng { get; set; }
         public decimal? Lat { get; set; }
 
-        public DeviceLocation(string ipAddress, decimal? lng, decimal? lat)
+        public DeviceLocationInfo(string ipAddress, decimal? lng, decimal? lat)
         {
             IPAddress = ipAddress;
             Lng = lng;

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FizzWare.NBuilder;
 using LiveHAPI.Core.Model.Network;
-using LiveHAPI.Core.ValueModel;
 using LiveHAPI.Shared.Tests.TestHelpers;
+using LiveHAPI.Shared.ValueObject;
 using NUnit.Framework;
 
 namespace LiveHAPI.Core.Tests.Model.Network
@@ -13,7 +13,7 @@ namespace LiveHAPI.Core.Tests.Model.Network
     public class PracticeActivationTests
     {
         private List<Practice> _practiceWithActivations;
-        private List<DeviceIdentity> _devices;
+        private List<DeviceInfo> _devices;
         private Guid _practiceId;
 
 

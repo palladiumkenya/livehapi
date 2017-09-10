@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using LiveHAPI.Core.ValueModel;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.Network
 {
@@ -60,19 +60,19 @@ namespace LiveHAPI.Core.Model.Network
         }
 
      
-        public static PracticeActivation Create(Guid practiceId, DeviceIdentity deviceIdentity, DeviceLocation deviceLocation = null,bool activate=true)
+        public static PracticeActivation Create(Guid practiceId, DeviceInfo deviceInfo, DeviceLocationInfo deviceLocationInfo = null,bool activate=true)
         {
             PracticeActivation activation = null;
 
-            if (null != deviceLocation)
+            if (null != deviceLocationInfo)
             {
                 activation = new PracticeActivation(practiceId,
-                    deviceIdentity.Serial, deviceIdentity.Model, deviceIdentity.Code,
-                    deviceLocation.IPAddress,deviceLocation.Lng, deviceLocation.Lat);
+                    deviceInfo.Serial, deviceInfo.Model, deviceInfo.Code,
+                    deviceLocationInfo.IPAddress,deviceLocationInfo.Lng, deviceLocationInfo.Lat);
             }
             else
             {
-                activation = new PracticeActivation(practiceId, deviceIdentity.Serial, deviceIdentity.Model, deviceIdentity.Code);
+                activation = new PracticeActivation(practiceId, deviceInfo.Serial, deviceInfo.Model, deviceInfo.Code);
             }
 
             if (activate)
@@ -90,22 +90,22 @@ namespace LiveHAPI.Core.Model.Network
             ExpiryDate = DateTime.Now.AddYears(1);
         }
 
-        internal void Renew(DeviceIdentity deviceIdentity, DeviceLocation deviceLocation=null)
+        internal void Renew(DeviceInfo deviceInfo, DeviceLocationInfo deviceLocationInfo=null)
         {
-            Update(deviceIdentity,deviceLocation);
+            Update(deviceInfo,deviceLocationInfo);
             Activate();
         }
 
-        private void Update(DeviceIdentity deviceIdentity, DeviceLocation deviceLocation = null)
+        private void Update(DeviceInfo deviceInfo, DeviceLocationInfo deviceLocationInfo = null)
         {
-            Model = deviceIdentity.Model;
-            DeviceCode = deviceIdentity.Code;
+            Model = deviceInfo.Model;
+            DeviceCode = deviceInfo.Code;
 
-            if (null != deviceLocation)
+            if (null != deviceLocationInfo)
             {
-                IPAddress = deviceLocation.IPAddress;
-                Lng = deviceLocation.Lng;
-                Lat = deviceLocation.Lat;
+                IPAddress = deviceLocationInfo.IPAddress;
+                Lng = deviceLocationInfo.Lng;
+                Lat = deviceLocationInfo.Lat;
             }
             else
             {

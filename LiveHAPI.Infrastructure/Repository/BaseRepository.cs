@@ -21,28 +21,27 @@ namespace LiveHAPI.Infrastructure.Repository
         }
 
 
-        public T Get(TId id, bool voided = false)
+        public virtual T Get(TId id, bool voided = false)
         {
             return DbSet.Find(id);
         }
 
-        public IEnumerable<T> GetAll(bool voided = false)
+        public virtual IEnumerable<T> GetAll(bool voided = false)
         {
             return DbSet;
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, bool voided = false)
+        public virtual  IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, bool voided = false)
         {
             return DbSet.Where(predicate);
         }
 
-        public void Save(T entity)
+        public virtual void Insert(T entity)
         {
             DbSet.Add(entity);
-            Context.SaveChanges();
         }
 
-        public void InsertOrUpdate(T entity)
+        public virtual void InsertOrUpdate(T entity)
         {
             var exisits = Get(entity.Id);
             if (null != exisits)
@@ -51,11 +50,11 @@ namespace LiveHAPI.Infrastructure.Repository
             }
             else
             {
-                Save(entity);
+                Insert(entity);
             }
         }
 
-        public void InsertOrUpdate(IEnumerable<T> entities)
+        public virtual void InsertOrUpdate(IEnumerable<T> entities)
         {
             foreach (var entity in entities)
             {
@@ -70,33 +69,34 @@ namespace LiveHAPI.Infrastructure.Repository
                     DbSet.Add(entity);
                 }
             }
-
-            Context.SaveChanges();
         }
 
-        public void InsertOrUpdateAny(object entity)
+        public virtual void InsertOrUpdateAny(object entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             DbSet.Attach(entity);
             Context.Entry(entity).State = EntityState.Modified;
-            Context.SaveChanges();
         }
-    
 
-        public void Delete(TId id)
+        public virtual void Delete(TId id)
         {
             var entity = Get(id);
             if (null != entity)
                 Context.Remove(entity);
         }
 
-        public void Void(TId id)
+        public virtual void Void(TId id)
         {
             throw new NotImplementedException();
+        }
+
+        public virtual void Save()
+        {
+            Context.SaveChanges();
         }
     }
 }

@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.People;
-using LiveHAPI.Core.ValueModel;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Service
 {
@@ -21,12 +22,13 @@ namespace LiveHAPI.Core.Service
             _userRepository = userRepository;
         }
 
-        public Person Find(PersonIdentity personIdentity)
+
+        public Person Find(Identity identity)
         {
             var personName = _personNameRepository
-                .GetAll(x => x.Source.IsSameAs(personIdentity.Source) &&
-                             x.SourceRef.IsSameAs(personIdentity.SourceRef) &&
-                             x.SourceSys.IsSameAs(personIdentity.SourceSys))
+                .GetAll(x => x.Source.IsSameAs(identity.Source) &&
+                             x.SourceRef.IsSameAs(identity.SourceRef) &&
+                             x.SourceSys.IsSameAs(identity.SourceSys))
                 .FirstOrDefault();
 
             if (null != personName)
@@ -35,26 +37,41 @@ namespace LiveHAPI.Core.Service
             return null;
         }
 
-        public User EnlistUser(PersonIdentity personIdentity, PersonNameIdentity personNameIdentity, UserIdentity userIdentity)
+        public User EnlistUser(Identity identity, PersonNameInfo personNameInfo, UserInfo userInfo,Guid practiceId)
         {
-            var person = Find(personIdentity);
+
+            var person = Find(identity);
 
             if (null == person)
             {
-                person = Person.CreateUser(personIdentity, personNameIdentity, userIdentity);
+                person = Person.CreateUser(identity, personNameInfo, userInfo,practiceId);
                 var user = person.Users.First();
                 _personRepository.InsertOrUpdate(person);
+                _personRepository.Save();
                 _userRepository.InsertOrUpdate(user);
+                _userRepository.Save();
                 return user;
             }
             else
             {
-                var user = User.Create(userIdentity, personIdentity);
-                person.AssignUser(user);
-                
-                _userRepository.InsertOrUpdate(user);
-                return user;
+                var user = User.Create(userInfo, identity, practiceId);
+                var personName = PersonName.Create(personNameInfo, identity);
+
+                var updatedNames= person.AssignName(personName);
+                var updateUser=person.AssignUser(user);
+
+                _personNameRepository.InsertOrUpdate(updatedNames);
+                _personNameRepository.Save();
+                _userRepository.InsertOrUpdate(updateUser);
+                _userRepository.Save();
+
+                return updateUser;
             }
+        }
+
+        public void SyncUser(User user)
+        {
+            throw new NotImplementedException();
         }
     }
 }
