@@ -5,6 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 using FizzWare.NBuilder;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
+using LiveHAPI.Core.Model.People;
 using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Shared.Tests.TestHelpers
@@ -18,12 +19,13 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
         private static List<PracticeType> _pracTypes = new List<PracticeType>();
         private static List<Practice> _pracs = new List<Practice>();
         private static List<Practice> _pracWithActivation = new List<Practice>();
+        private static List<Person> _persons = new List<Person>();
+        private static List<User> _users = new List<User>();
+
         private static List<PracticeActivation> _pracActvs = new List<PracticeActivation>();
         private static List<DeviceInfo> _devices = new List<DeviceInfo>();
-
-        private static List<Identity> _personIdentities = new List<Identity>();
-        private static List<PersonInfo> _personNameIdentities = new List<PersonInfo>();
-        private static List<UserInfo> _userIdentities = new List<UserInfo>();
+        private static List<PersonInfo> _personInfos = new List<PersonInfo>();
+        private static List<UserInfo> _userInfos = new List<UserInfo>();
 
         public static void Init()
         {
@@ -32,12 +34,16 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _subcounties = TestSubCounties();
             _pracTypes = TestPracticeTypes();
             _pracs = TestPractices();
+            _persons = TestPersons();
+            _users= TestUsers();
             _devices = TestDevices();
             _pracActvs = TestPracticeActivations();
             _pracWithActivation = TestPracticeWithActivation();
+            _personInfos = TestPersonInfos();
+            _userInfos = TestUserInfos();
         }
 
-       
+
 
         public static List<County> TestCounties()
         {
@@ -135,6 +141,58 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             list[1].AddActivation(TestPracticeActivations()[1]);
             return list;
         }
+
+        public static List<Person> TestPersons()
+        {
+            if (_persons.Count > 0) return _persons;
+
+            var personNames = Builder<PersonName>.CreateListOfSize(_count).Build().ToList();
+            personNames[0].Source = "14080";
+            personNames[0].SourceRef = "1";
+            personNames[0].SourceRef = "KenyaEMR";
+
+            personNames[1].Source = "13023";
+            personNames[1].SourceRef = "1";
+            personNames[1].SourceSys = "IQCare";
+
+            var list = Builder<Person>.CreateListOfSize(_count)
+                .All()
+                .With(x => x.Voided = false)
+                .Build()
+                .ToList();
+            
+            list[0].AssignName(personNames[0]);
+            list[1].AssignName(personNames[1]);
+
+            return list;
+        }
+
+        public static List<User> TestUsers()
+        {
+            if (_users.Count > 0) return _users;
+
+            var list = Builder<User>.CreateListOfSize(_count)
+                .All()
+                .With(x => x.Voided = false)
+                .Build()
+                .ToList();
+
+            list[0].PersonId = TestPersons()[0].Id;
+            list[0].PracticeId = TestPracticeWithActivation()[0].Id;
+            list[0].Source = "14080";
+            list[0].SourceRef = "10";
+            list[0].SourceRef = "KenyaEMR";
+
+             
+            list[1].PersonId = TestPersons()[1].Id;
+            list[1].PracticeId = TestPracticeWithActivation()[1].Id;
+            list[1].Source = "13023";
+            list[1].SourceRef = "10";
+            list[1].SourceSys = "IQCare";
+
+            return list;
+        }
+
         public static List<DeviceInfo> TestDevices()
         {
             if (_devices.Count > 0) return _devices;
@@ -172,7 +230,78 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
             return list;
         }
+        private static List<PersonInfo> TestPersonInfos()
+        {
+            if (_personInfos.Count > 0) return _personInfos;
 
-       
+            var personInfos = Builder<PersonInfo>.CreateListOfSize(4).Build().ToList();
+            var identities = Builder<Identity>.CreateListOfSize(4).Build().ToList();
+
+            var p1 = personInfos[0];
+            p1.Identity = identities[0];
+            p1.Identity.Source = "14080";
+            p1.Identity.SourceRef = "1";
+            p1.Identity.SourceRef = "KenyaEMR";
+
+            var p3 = personInfos[1];
+            p3.Identity = identities[1];
+            p3.Identity.Source = "14080";
+            p3.Identity.SourceRef = "2";
+            p3.Identity.SourceRef = "KenyaEMR";
+
+
+            var p2 = personInfos[2];
+            p2.Identity = identities[2];
+            p2.Identity.Source = "13023";
+            p2.Identity.SourceRef = "1";
+            p2.Identity.SourceSys = "IQCare";
+
+            var p4 = personInfos[3];
+            p4.Identity = identities[3];
+            p4.Identity.Source = "13023";
+            p4.Identity.SourceRef = "2";
+            p4.Identity.SourceSys = "IQCare";
+
+            return new List<PersonInfo> {p1, p2, p3, p4};
+        }
+
+        private static List<UserInfo> TestUserInfos()
+        {
+            if (_userInfos.Count > 0) return _userInfos;
+
+
+            var userInfos = Builder<UserInfo>.CreateListOfSize(4).Build().ToList();
+            var identities = Builder<Identity>.CreateListOfSize(4).Build().ToList();
+
+            var u1 = userInfos[0];
+            u1.Identity = identities[0];
+            u1.Identity.Source = "14080";
+            u1.Identity.SourceRef = "10";
+            u1.Identity.SourceSys = "KenyaEMR";
+            u1.PersonInfo = TestPersonInfos()[0];
+
+            var u2 = userInfos[1];
+            u1.Identity = identities[1];
+            u1.Identity.Source = "14080";
+            u1.Identity.SourceRef = "11";
+            u1.Identity.SourceSys = "KenyaEMR";
+            u1.PersonInfo = TestPersonInfos()[1];
+
+            var u3 = userInfos[2];
+            u3.Identity = identities[2];
+            u3.Identity.Source = "13023";
+            u3.Identity.SourceRef = "10";
+            u3.Identity.SourceSys = "IQCare";
+            u3.PersonInfo = TestPersonInfos()[2];
+
+            var u4 = userInfos[3];
+            u4.Identity = identities[3];
+            u4.Identity.Source = "13023";
+            u4.Identity.SourceRef = "11";
+            u4.Identity.SourceSys = "IQCare";
+            u4.PersonInfo = TestPersonInfos()[3];
+
+            return new List<UserInfo> {u1, u2, u3, u4};
+        }
     }
 }

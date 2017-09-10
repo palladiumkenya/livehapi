@@ -39,35 +39,36 @@ namespace LiveHAPI.Core.Service
             return null;
         }
 
-        public User EnlistUser(UserInfo userInfo,Guid practiceId)
+        public User EnlistUser(UserInfo userInfo, Guid practiceId)
         {
             var person = Find(userInfo.PersonInfo);
+            var user = User.Create(userInfo, practiceId);
 
             if (null == person)
             {
-                person = Person.CreateUser( userInfo,practiceId);
-                var user = person.Users.First();
+                person = Person.CreateUser(userInfo);
+
+                var newUser = person.AssignUser(user);
+
                 _personRepository.InsertOrUpdate(person);
                 _personRepository.Save();
-                _userRepository.InsertOrUpdate(user);
+                _userRepository.InsertOrUpdate(newUser);
                 _userRepository.Save();
-                return user;
+                return newUser;
             }
-            else
-            {
-                var user = User.Create(userInfo,practiceId);
-                var personName = PersonName.Create(userInfo.PersonInfo);
 
-                var updatedNames= person.AssignName(personName);
-                var updateUser=person.AssignUser(user);
+            var personName = PersonName.Create(userInfo.PersonInfo);
 
-                _personNameRepository.InsertOrUpdate(updatedNames);
-                _personNameRepository.Save();
-                _userRepository.InsertOrUpdate(updateUser);
-                _userRepository.Save();
+            var updatedNames = person.AssignName(personName);
+            var updateUser = person.AssignUser(user);
 
-                return updateUser;
-            }
+            _personNameRepository.InsertOrUpdate(updatedNames);
+            _personNameRepository.Save();
+            _userRepository.InsertOrUpdate(updateUser);
+            _userRepository.Save();
+
+            return updateUser;
+
         }
 
         public void SyncUser(User user)

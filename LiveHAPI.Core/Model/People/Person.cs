@@ -28,6 +28,21 @@ namespace LiveHAPI.Core.Model.People
             Id = LiveGuid.NewGuid();
         }
 
+        private Person(string gender, DateTime? birthDate, bool? birthDateEstimated):this()
+        {
+            Gender = gender;
+            BirthDate = birthDate;
+            BirthDateEstimated = birthDateEstimated;
+        }
+
+        public static Person CreateUser(UserInfo userInfo)
+        {
+            var person = new Person();
+            var personName = PersonName.Create(userInfo.PersonInfo);
+            person.AddName(personName);
+            return person;
+        }
+
         public PersonName AssignName(PersonName name)
         {
             name.PersonId = Id;
@@ -137,17 +152,7 @@ namespace LiveHAPI.Core.Model.People
         }
 
 
-        public static Person CreateUser( UserInfo userInfo,Guid practiceId)
-        {
-            var person=new Person();
-            
-            var user = User.Create(userInfo,practiceId);
-            var personName = PersonName.Create(userInfo.PersonInfo);
-            person.AddName(personName);
-            person.AssignUser(user);
-
-            return person;
-        }
+        
 
         private void AddName(PersonName personName)
         {
