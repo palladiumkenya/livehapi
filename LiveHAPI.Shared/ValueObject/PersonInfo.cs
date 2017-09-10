@@ -6,7 +6,7 @@
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string MothersName { get; set; }
-        public Identity Identity { get; set; }
+        public Identity Identity { get; set; }=new Identity();
 
         public PersonInfo()
         {

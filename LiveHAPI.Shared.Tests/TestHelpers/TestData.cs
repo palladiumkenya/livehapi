@@ -34,17 +34,15 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _subcounties = TestSubCounties();
             _pracTypes = TestPracticeTypes();
             _pracs = TestPractices();
-            _persons = TestPersons();
-            
             _devices = TestDevices();
             _pracActvs = TestPracticeActivations();
             _pracWithActivation = TestPracticeWithActivation();
+            _persons = TestPersons();
             _users = TestUsers();
+
             _personInfos = TestPersonInfos();
             _userInfos = TestUserInfos();
         }
-
-
 
         public static List<County> TestCounties()
         {
@@ -92,7 +90,6 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             list[3].CountyId = TestCounties()[1].Id;
             return list;
         }
-
         public static List<PracticeType> TestPracticeTypes()
         {
 
@@ -108,7 +105,6 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             list[0].Name = "Facility";
             return list;
         }
-
         public static List<Practice> TestPractices()
         {
 
@@ -142,7 +138,6 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             list[1].AddActivation(TestPracticeActivations()[1]);
             return list;
         }
-
         public static List<Person> TestPersons()
         {
             if (_persons.Count > 0) return _persons;
@@ -150,7 +145,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             var personNames = Builder<PersonName>.CreateListOfSize(_count).Build().ToList();
             personNames[0].Source = "14080";
             personNames[0].SourceRef = "1";
-            personNames[0].SourceRef = "KenyaEMR";
+            personNames[0].SourceSys = "KenyaEMR";
 
             personNames[1].Source = "13023";
             personNames[1].SourceRef = "1";
@@ -167,7 +162,6 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
             return list;
         }
-
         public static List<User> TestUsers()
         {
             if (_users.Count > 0) return _users;
@@ -182,7 +176,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             list[0].PracticeId = TestPracticeWithActivation()[0].Id;
             list[0].Source = "14080";
             list[0].SourceRef = "10";
-            list[0].SourceRef = "KenyaEMR";
+            list[0].SourceSys = "KenyaEMR";
 
              
             list[1].PersonId = TestPersons()[1].Id;
@@ -193,7 +187,6 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
             return list;
         }
-
         public static List<DeviceInfo> TestDevices()
         {
             if (_devices.Count > 0) return _devices;
@@ -205,7 +198,6 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             };
             return list;
         }
-
         public static List<PracticeActivation> TestPracticeActivations()
         {
             if (_pracActvs.Count > 0) return _pracActvs;
@@ -231,7 +223,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
             return list;
         }
-        private static List<PersonInfo> TestPersonInfos()
+        public static List<PersonInfo> TestPersonInfos()
         {
             if (_personInfos.Count > 0) return _personInfos;
 
@@ -242,13 +234,13 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             p1.Identity = identities[0];
             p1.Identity.Source = "14080";
             p1.Identity.SourceRef = "1";
-            p1.Identity.SourceRef = "KenyaEMR";
+            p1.Identity.SourceSys = "KenyaEMR";
 
             var p3 = personInfos[1];
             p3.Identity = identities[1];
             p3.Identity.Source = "14080";
             p3.Identity.SourceRef = "2";
-            p3.Identity.SourceRef = "KenyaEMR";
+            p3.Identity.SourceSys = "KenyaEMR";
 
 
             var p2 = personInfos[2];
@@ -265,8 +257,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
             return new List<PersonInfo> {p1, p2, p3, p4};
         }
-
-        private static List<UserInfo> TestUserInfos()
+        public static List<UserInfo> TestUserInfos()
         {
             if (_userInfos.Count > 0) return _userInfos;
 
@@ -282,11 +273,11 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             u1.PersonInfo = TestPersonInfos()[0];
 
             var u2 = userInfos[1];
-            u1.Identity = identities[1];
-            u1.Identity.Source = "14080";
-            u1.Identity.SourceRef = "11";
-            u1.Identity.SourceSys = "KenyaEMR";
-            u1.PersonInfo = TestPersonInfos()[1];
+            u2.Identity = identities[1];
+            u2.Identity.Source = "14080";
+            u2.Identity.SourceRef = "11";
+            u2.Identity.SourceSys = "KenyaEMR";
+            u2.PersonInfo = TestPersonInfos()[1];
 
             var u3 = userInfos[2];
             u3.Identity = identities[2];
@@ -304,5 +295,6 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
             return new List<UserInfo> {u1, u2, u3, u4};
         }
+        
     }
 }

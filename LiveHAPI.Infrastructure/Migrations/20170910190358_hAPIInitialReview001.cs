@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LiveHAPI.Infrastructure.Migrations
 {
-    public partial class hAPIInitial : Migration
+    public partial class hAPIInitialReview001 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -131,6 +131,7 @@ namespace LiveHAPI.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
+                    AreaCode = table.Column<int>(type: "int", nullable: false),
                     AreaInfo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Voided = table.Column<bool>(type: "bit", nullable: false)
@@ -161,13 +162,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     BirthDateEstimated = table.Column<bool>(type: "bit", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    MiddleName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Voided = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -346,6 +343,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                     Lng = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Preferred = table.Column<bool>(type: "bit", nullable: false),
+                    Source = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    SourceRef = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    SourceSys = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Voided = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -371,8 +371,11 @@ namespace LiveHAPI.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Phone = table.Column<int>(type: "int", nullable: true),
+                    Phone = table.Column<int>(type: "int", nullable: false),
                     Preferred = table.Column<bool>(type: "bit", nullable: false),
+                    Source = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    SourceRef = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    SourceSys = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Voided = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -380,6 +383,33 @@ namespace LiveHAPI.Infrastructure.Migrations
                     table.PrimaryKey("PK_PersonContacts", x => x.Id);
                     table.ForeignKey(
                         name: "FK_PersonContacts_Persons_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Persons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PersonNames",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    MiddleName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    MothersName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Preferred = table.Column<bool>(type: "bit", nullable: false),
+                    Source = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    SourceRef = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    SourceSys = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PersonNames", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PersonNames_Persons_PersonId",
                         column: x => x.PersonId,
                         principalTable: "Persons",
                         principalColumn: "Id",
@@ -561,9 +591,15 @@ namespace LiveHAPI.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Initials = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PracticeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Phone = table.Column<int>(type: "int", nullable: true),
+                    PracticeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProviderTypeId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Source = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    SourceRef = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    SourceSys = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Voided = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -580,7 +616,7 @@ namespace LiveHAPI.Infrastructure.Migrations
                         column: x => x.PracticeId,
                         principalTable: "Practices",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Providers_ProviderTypes_ProviderTypeId",
                         column: x => x.ProviderTypeId,
@@ -594,9 +630,14 @@ namespace LiveHAPI.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Password = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Phone = table.Column<int>(type: "int", nullable: true),
                     PracticeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Source = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    SourceRef = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    SourceSys = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Voided = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -1175,6 +1216,11 @@ namespace LiveHAPI.Infrastructure.Migrations
                 column: "PersonId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PersonNames_PersonId",
+                table: "PersonNames",
+                column: "PersonId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PracticeActivations_PracticeId",
                 table: "PracticeActivations",
                 column: "PracticeId");
@@ -1359,6 +1405,9 @@ namespace LiveHAPI.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "PersonContacts");
+
+            migrationBuilder.DropTable(
+                name: "PersonNames");
 
             migrationBuilder.DropTable(
                 name: "PracticeActivations");

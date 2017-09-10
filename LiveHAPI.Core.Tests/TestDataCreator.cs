@@ -17,10 +17,12 @@ namespace LiveHAPI.Core.Tests
             var practices = TestData.TestPracticeWithActivation();
             var practiceActivations = practices.SelectMany(x => x.Activations).ToList();
             var persons = TestData.TestPersons();
+            var personNames = persons.SelectMany(x => x.Names);
             var users = TestData.TestUsers();
             
             Clear(context);
-            Create(context, counties, facs, subCounties, practiceTypes, practices, practiceActivations,persons,users);
+            Create(context, counties, facs, subCounties, practiceTypes, practices, practiceActivations, persons,
+                personNames, users);
         }
 
         public static void Create(LiveHAPIContext context, params IEnumerable<object>[] entities)

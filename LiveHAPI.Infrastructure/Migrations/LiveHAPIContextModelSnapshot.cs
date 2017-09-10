@@ -738,7 +738,7 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("PersonName");
+                    b.ToTable("PersonNames");
                 });
 
             modelBuilder.Entity("LiveHAPI.Core.Model.People.Provider", b =>

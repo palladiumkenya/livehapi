@@ -61,9 +61,7 @@ namespace LiveHAPI.Core.Model.People
 
         public override string ToString()
         {
-            return $"{UserName}";
+            return $"{UserName} ({SourceSys})";
         }
-
-      
     }
 }

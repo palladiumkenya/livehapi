@@ -11,8 +11,8 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    [Migration("20170908223543_hAPIInitial")]
-    partial class hAPIInitial
+    [Migration("20170910190358_hAPIInitialReview001")]
+    partial class hAPIInitialReview001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -409,6 +409,8 @@ namespace LiveHAPI.Infrastructure.Migrations
                 {
                     b.Property<int>("Id");
 
+                    b.Property<int>("AreaCode");
+
                     b.Property<string>("AreaInfo")
                         .HasMaxLength(100);
 
@@ -620,24 +622,12 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("BirthDate");
+                    b.Property<DateTime?>("BirthDate");
 
                     b.Property<bool?>("BirthDateEstimated");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(100);
-
                     b.Property<string>("Gender")
                         .HasMaxLength(10);
-
-                    b.Property<string>("LastName")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("MiddleName")
-                        .HasMaxLength(100);
 
                     b.Property<bool>("Voided");
 
@@ -664,6 +654,15 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<bool>("Preferred");
 
+                    b.Property<string>("Source")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("SourceRef")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("SourceSys")
+                        .HasMaxLength(50);
+
                     b.Property<bool>("Voided");
 
                     b.HasKey("Id");
@@ -682,9 +681,18 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<Guid>("PersonId");
 
-                    b.Property<int?>("Phone");
+                    b.Property<int>("Phone");
 
                     b.Property<bool>("Preferred");
+
+                    b.Property<string>("Source")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("SourceRef")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("SourceSys")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("Voided");
 
@@ -695,6 +703,45 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.ToTable("PersonContacts");
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.People.PersonName", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("MiddleName")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("MothersName")
+                        .HasMaxLength(100);
+
+                    b.Property<Guid>("PersonId");
+
+                    b.Property<bool>("Preferred");
+
+                    b.Property<string>("Source")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("SourceRef")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("SourceSys")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("PersonNames");
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.People.Provider", b =>
                 {
                     b.Property<Guid>("Id")
@@ -703,11 +750,28 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<string>("Code")
                         .HasMaxLength(50);
 
+                    b.Property<string>("Email")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Initials")
+                        .HasMaxLength(50);
+
                     b.Property<Guid>("PersonId");
 
-                    b.Property<Guid>("PracticeId");
+                    b.Property<int?>("Phone");
+
+                    b.Property<Guid?>("PracticeId");
 
                     b.Property<string>("ProviderTypeId")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Source")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("SourceRef")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("SourceSys")
                         .HasMaxLength(50);
 
                     b.Property<bool>("Voided");
@@ -728,12 +792,26 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Email")
+                        .HasMaxLength(100);
+
                     b.Property<string>("Password")
                         .HasMaxLength(200);
 
                     b.Property<Guid>("PersonId");
 
+                    b.Property<int?>("Phone");
+
                     b.Property<Guid?>("PracticeId");
+
+                    b.Property<string>("Source")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("SourceRef")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("SourceSys")
+                        .HasMaxLength(50);
 
                     b.Property<string>("UserName")
                         .HasMaxLength(100);
@@ -1357,6 +1435,14 @@ namespace LiveHAPI.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.People.PersonName", b =>
+                {
+                    b.HasOne("LiveHAPI.Core.Model.People.Person")
+                        .WithMany("Names")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.People.Provider", b =>
                 {
                     b.HasOne("LiveHAPI.Core.Model.People.Person")
@@ -1366,8 +1452,7 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.HasOne("LiveHAPI.Core.Model.Network.Practice")
                         .WithMany("Providers")
-                        .HasForeignKey("PracticeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PracticeId");
 
                     b.HasOne("LiveHAPI.Core.Model.Lookup.ProviderType")
                         .WithMany("Providers")

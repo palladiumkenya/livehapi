@@ -6,8 +6,8 @@
         public string Password { get; set; }
         public int? Phone { get; set; }
         public string Email { get; set; }
-        public Identity Identity { get; set; }
-        public PersonInfo PersonInfo { get; set; }
+        public Identity Identity { get; set; }=new Identity();
+        public PersonInfo PersonInfo { get; set; }=new PersonInfo();
 
         public UserInfo()
         {
