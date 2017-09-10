@@ -55,6 +55,25 @@ namespace LiveHAPI.Infrastructure.Repository
             }
         }
 
+        public void InsertOrUpdate(IEnumerable<T> entities)
+        {
+            foreach (var entity in entities)
+            {
+                var exisits = Get(entity.Id);
+                if (null != exisits)
+                {
+                    DbSet.Attach(entity);
+                    Context.Entry(entity).State = EntityState.Modified;
+                }
+                else
+                {
+                    DbSet.Add(entity);
+                }
+            }
+
+            Context.SaveChanges();
+        }
+
         public void InsertOrUpdateAny(object entity)
         {
             throw new NotImplementedException();

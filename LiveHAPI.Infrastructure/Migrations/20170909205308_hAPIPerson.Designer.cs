@@ -11,9 +11,10 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    partial class LiveHAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20170909205308_hAPIPerson")]
+    partial class hAPIPerson
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -653,15 +654,6 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<bool>("Preferred");
 
-                    b.Property<string>("Source")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("SourceRef")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("SourceSys")
-                        .HasMaxLength(50);
-
                     b.Property<bool>("Voided");
 
                     b.HasKey("Id");
@@ -680,18 +672,9 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<Guid>("PersonId");
 
-                    b.Property<int>("Phone");
+                    b.Property<int?>("Phone");
 
                     b.Property<bool>("Preferred");
-
-                    b.Property<string>("Source")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("SourceRef")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("SourceSys")
-                        .HasMaxLength(50);
 
                     b.Property<bool>("Voided");
 
@@ -723,13 +706,7 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<bool>("Preferred");
 
-                    b.Property<string>("Source")
-                        .HasMaxLength(50);
-
                     b.Property<string>("SourceRef")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("SourceSys")
                         .HasMaxLength(50);
 
                     b.Property<bool>("Voided");
@@ -764,15 +741,6 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<string>("ProviderTypeId")
                         .HasMaxLength(50);
 
-                    b.Property<string>("Source")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("SourceRef")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("SourceSys")
-                        .HasMaxLength(50);
-
                     b.Property<bool>("Voided");
 
                     b.HasKey("Id");
@@ -802,15 +770,6 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<int?>("Phone");
 
                     b.Property<Guid?>("PracticeId");
-
-                    b.Property<string>("Source")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("SourceRef")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("SourceSys")
-                        .HasMaxLength(50);
 
                     b.Property<string>("UserName")
                         .HasMaxLength(100);

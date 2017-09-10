@@ -1,9 +1,10 @@
 ﻿namespace LiveHAPI.Core.Interfaces.Model
 {
-    public interface IUser
+    public interface IProvider
     {
-        string UserName { get; set; }
-        string Password { get; set; }
+        string Initials { get; set; }
+        string Code { get; set; }
+        string ProviderTypeId { get; set; }
         int? Phone { get; set; }
         string Email { get; set; }
         string Source { get; set; }

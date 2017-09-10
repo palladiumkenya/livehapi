@@ -2,6 +2,9 @@
 {
     public interface IContact
     {
-        int? Phone { get; set; }
+        int Phone { get; set; }
+        string Source { get; set; }
+        string SourceRef { get; set; }
+        string SourceSys { get; set; }
     }
 }
