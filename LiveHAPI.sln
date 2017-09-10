@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.Infrastructure", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.Infrastructure.Tests", "LiveHAPI.Infrastructure.Tests\LiveHAPI.Infrastructure.Tests.csproj", "{32134D3C-0BDE-4CA2-AB6A-A388B7FEA390}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveHAPI.Core.Tests", "LiveHAPI.Core.Tests\LiveHAPI.Core.Tests.csproj", "{ECD274CB-5E8D-46AB-A128-FE221C604F57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.Core.Tests", "LiveHAPI.Core.Tests\LiveHAPI.Core.Tests.csproj", "{ECD274CB-5E8D-46AB-A128-FE221C604F57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
