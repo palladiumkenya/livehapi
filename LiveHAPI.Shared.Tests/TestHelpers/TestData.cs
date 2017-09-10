@@ -22,7 +22,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
         private static List<DeviceInfo> _devices = new List<DeviceInfo>();
 
         private static List<Identity> _personIdentities = new List<Identity>();
-        private static List<PersonNameInfo> _personNameIdentities = new List<PersonNameInfo>();
+        private static List<PersonInfo> _personNameIdentities = new List<PersonInfo>();
         private static List<UserInfo> _userIdentities = new List<UserInfo>();
 
         public static void Init()

@@ -46,10 +46,10 @@ namespace LiveHAPI.Core.Model.People
             SourceRef = sourceRef;
             SourceSys = sourceSys;
         }
-        public static PersonName Create(PersonNameInfo personNameInfo,Identity identity)
+        public static PersonName Create(PersonInfo personInfo)
         {
-            return new PersonName(personNameInfo.FirstName, personNameInfo.MiddleName, personNameInfo.LastName, personNameInfo.MothersName, identity.Source,
-                identity.SourceRef, identity.SourceSys);
+            return new PersonName(personInfo.FirstName, personInfo.MiddleName, personInfo.LastName, personInfo.MothersName, personInfo.Identity.Source,
+                personInfo.Identity.SourceRef, personInfo.Identity.SourceSys);
         }
 
         public void ChangeTo(PersonName name)

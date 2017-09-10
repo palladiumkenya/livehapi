@@ -7,8 +7,8 @@ namespace LiveHAPI.Core.Interfaces.Services
 {
     public interface IStaffService
     {
-        Person Find(Identity identity);
-        User EnlistUser(Identity identity, PersonNameInfo personNameInfo, UserInfo userInfo, Guid practiceId);
+        Person Find(PersonInfo personInfo);
+        User EnlistUser(UserInfo userInfo, Guid practiceId);
         void SyncUser(User user);
     }
 }

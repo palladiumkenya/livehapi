@@ -47,9 +47,9 @@ namespace LiveHAPI.Core.Model.People
             SourceSys = sourceSys;
             PracticeId = practiceId;
         }
-        public static User Create(UserInfo userInfo,Identity identity,Guid practiceId)
+        public static User Create(UserInfo userInfo,Guid practiceId)
         {
-            return new User(userInfo.UserName,userInfo.Password,userInfo.Phone,userInfo.Email,identity.Source,identity.SourceRef,identity.SourceSys,practiceId);
+            return new User(userInfo.UserName,userInfo.Password,userInfo.Phone,userInfo.Email, userInfo.Identity.Source, userInfo.Identity.SourceRef, userInfo.Identity.SourceSys,practiceId);
         }
         public void ChangeTo(User name)
         {

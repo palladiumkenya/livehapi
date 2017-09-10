@@ -23,8 +23,10 @@ namespace LiveHAPI.Core.Service
         }
 
 
-        public Person Find(Identity identity)
+        public Person Find(PersonInfo personInfo)
         {
+            var identity = personInfo.Identity;
+
             var personName = _personNameRepository
                 .GetAll(x => x.Source.IsSameAs(identity.Source) &&
                              x.SourceRef.IsSameAs(identity.SourceRef) &&
@@ -37,14 +39,13 @@ namespace LiveHAPI.Core.Service
             return null;
         }
 
-        public User EnlistUser(Identity identity, PersonNameInfo personNameInfo, UserInfo userInfo,Guid practiceId)
+        public User EnlistUser(UserInfo userInfo,Guid practiceId)
         {
-
-            var person = Find(identity);
+            var person = Find(userInfo.PersonInfo);
 
             if (null == person)
             {
-                person = Person.CreateUser(identity, personNameInfo, userInfo,practiceId);
+                person = Person.CreateUser( userInfo,practiceId);
                 var user = person.Users.First();
                 _personRepository.InsertOrUpdate(person);
                 _personRepository.Save();
@@ -54,8 +55,8 @@ namespace LiveHAPI.Core.Service
             }
             else
             {
-                var user = User.Create(userInfo, identity, practiceId);
-                var personName = PersonName.Create(personNameInfo, identity);
+                var user = User.Create(userInfo,practiceId);
+                var personName = PersonName.Create(userInfo.PersonInfo);
 
                 var updatedNames= person.AssignName(personName);
                 var updateUser=person.AssignUser(user);

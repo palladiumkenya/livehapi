@@ -137,12 +137,12 @@ namespace LiveHAPI.Core.Model.People
         }
 
 
-        public static Person CreateUser(Identity identity, PersonNameInfo personNameInfo, UserInfo userInfo,Guid practiceId)
+        public static Person CreateUser( UserInfo userInfo,Guid practiceId)
         {
             var person=new Person();
             
-            var user = User.Create(userInfo,identity,practiceId);
-            var personName = PersonName.Create(personNameInfo, identity);
+            var user = User.Create(userInfo,practiceId);
+            var personName = PersonName.Create(userInfo.PersonInfo);
             person.AddName(personName);
             person.AssignUser(user);
 

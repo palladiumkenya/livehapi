@@ -6,20 +6,23 @@
         public string Password { get; set; }
         public int? Phone { get; set; }
         public string Email { get; set; }
-        Identity Identity { get; set; }
+        public Identity Identity { get; set; }
+        public PersonInfo PersonInfo { get; set; }
 
         public UserInfo()
         {
         }
 
-        public UserInfo(string userName, string password,Identity identity)
+        public UserInfo(string userName, string password, Identity identity, PersonInfo personInfo)
         {
             UserName = userName;
             Password = password;
             Identity = identity;
+            PersonInfo = personInfo;
         }
 
-        public UserInfo(string userName, string password, int? phone, string email, Identity identity) :this(userName,password,identity)
+        public UserInfo(string userName, string password, int? phone, string email, Identity identity,
+            PersonInfo personInfo) : this(userName, password, identity, personInfo)
         {
             Phone = phone;
             Email = email;
