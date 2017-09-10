@@ -11,15 +11,17 @@ namespace LiveHAPI.Core.Service
 {
     public class StaffService: IStaffService
     {
+        private readonly IActivationService _activationService;
         private readonly IPersonNameRepository _personNameRepository;
         private readonly IPersonRepository _personRepository;
         private readonly IUserRepository _userRepository;
 
-        public StaffService(IPersonNameRepository personNameRepository, IPersonRepository personRepository, IUserRepository userRepository)
+        public StaffService(IPersonNameRepository personNameRepository, IPersonRepository personRepository, IUserRepository userRepository, IActivationService activationService)
         {
             _personNameRepository = personNameRepository;
             _personRepository = personRepository;
             _userRepository = userRepository;
+            _activationService = activationService;
         }
 
 
@@ -69,6 +71,25 @@ namespace LiveHAPI.Core.Service
 
             return updateUser;
 
+        }
+
+        public IEnumerable<User> EnlistUsers(string practiceCode, IEnumerable<UserInfo> userInfos)
+        {
+            var practice = _activationService.EnrollPractice(practiceCode);
+
+            if (null == practice)
+                throw new ArgumentException("Facility is not Registered!");
+
+            var users = new List<User>();
+
+            foreach (var userInfo in userInfos)
+            {
+                var enlisted = EnlistUser(userInfo, practice.Id);
+                if(null!=enlisted)
+                    users.Add(enlisted);
+            }
+
+            return users;
         }
 
         public void SyncUser(User user)

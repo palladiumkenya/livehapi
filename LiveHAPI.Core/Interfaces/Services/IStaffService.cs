@@ -9,5 +9,6 @@ namespace LiveHAPI.Core.Interfaces.Services
     {
         Person Find(PersonInfo personInfo);
         User EnlistUser(UserInfo userInfo, Guid practiceId);
+        IEnumerable<User> EnlistUsers(string practiceCode,IEnumerable<UserInfo> userInfos);
     }
 }

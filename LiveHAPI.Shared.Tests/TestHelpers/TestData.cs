@@ -35,10 +35,11 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _pracTypes = TestPracticeTypes();
             _pracs = TestPractices();
             _persons = TestPersons();
-            _users= TestUsers();
+            
             _devices = TestDevices();
             _pracActvs = TestPracticeActivations();
             _pracWithActivation = TestPracticeWithActivation();
+            _users = TestUsers();
             _personInfos = TestPersonInfos();
             _userInfos = TestUserInfos();
         }

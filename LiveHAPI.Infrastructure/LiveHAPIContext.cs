@@ -37,6 +37,7 @@ namespace LiveHAPI.Infrastructure
         public DbSet<PracticeActivation> PracticeActivations { get; set; }
         
         public DbSet<Person> Persons { get; set; }
+        public DbSet<PersonName> PersonNames { get; set; }
         public DbSet<PersonAddress> PersonAddresss { get; set; }
         public DbSet<PersonContact> PersonContacts { get; set; }
         public DbSet<Provider> Providers { get; set; }

@@ -29,8 +29,15 @@ namespace LiveHAPI.Core.Service
             return facility;
         }
 
+
+
         public Practice EnrollPractice(string code)
         {
+            var existingPractice = _practiceRepository.GetByCode(code);
+
+            if (null != existingPractice)
+                return existingPractice;
+
             var facility = Verify(Convert.ToInt32(code));
 
             if (null != facility)
