@@ -29,6 +29,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
         private static List<PersonNameInfo> _personInfos = new List<PersonNameInfo>();
         private static List<UserInfo> _userInfos = new List<UserInfo>();
         private static List<ProviderInfo> _providerInfos = new List<ProviderInfo>();
+        private static List<ClientInfo> _clientInfos = new List<ClientInfo>();
 
         public static void Init()
         {
@@ -49,6 +50,8 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _personInfos = TestPersonInfos();
             _userInfos = TestUserInfos();
             _providerInfos = TestProviderInfos();
+
+            _clientInfos = TestClientInfos();
         }
 
         public static List<ProviderType> TestProviderTypes()
@@ -386,6 +389,27 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             p4.PersonNameInfo = TestPersonInfos()[3];
 
             return new List<ProviderInfo> { p1, p2, p3, p4 };
+        }
+
+        public static List<ClientInfo> TestClientInfos()
+        {
+            if (_clientInfos.Count > 0) return _clientInfos;
+
+            var personNames = Builder<ClientInfo>.CreateListOfSize(4).Build().ToList();
+
+            personNames[0].PracticeId = TestPracticeWithActivation()[0].Id;
+            personNames[0].PracticeCode = "14080";
+
+            personNames[1].PracticeId = TestPracticeWithActivation()[0].Id;
+            personNames[1].PracticeCode = "14080";
+
+            personNames[2].PracticeId = TestPracticeWithActivation()[1].Id;
+            personNames[2].PracticeCode = "13023";
+
+            personNames[3].PracticeId = TestPracticeWithActivation()[1].Id;
+            personNames[3].PracticeCode = "13023";
+
+            return new List<ClientInfo>();
         }
     }
 }

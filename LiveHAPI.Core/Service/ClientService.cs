@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.People;
@@ -32,6 +33,7 @@ namespace LiveHAPI.Core.Service
             //person
 
             var personInfo = client.Person;
+            
 
             var exisitngPerson = _personRepository.Get(personInfo.Id);
 
@@ -44,7 +46,24 @@ namespace LiveHAPI.Core.Service
                 var cient = Client.Create(client, practiceId, person.Id);
                 _clientRepository.Insert(cient);
             }
+            else
+            {
+                exisitngPerson.UpdateClient(personInfo);
+                _personRepository.Update(exisitngPerson);
 
+                var existingClient = exisitngPerson.Clients.FirstOrDefault(x => x.Id == client.Id);
+
+                if (null != existingClient)
+                {
+                    existingClient.Update(client);
+                    _clientRepository.Update(existingClient);
+                }
+                else
+                {
+                    var cient = Client.Create(client, practiceId, exisitngPerson.Id);
+                    _clientRepository.Insert(cient);
+                }
+            }
         }
     }
 }

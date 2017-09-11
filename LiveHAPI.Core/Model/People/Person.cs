@@ -50,6 +50,25 @@ namespace LiveHAPI.Core.Model.People
 
             return person;
         }
+        public void UpdateClient(PersonInfo personInfo)
+        {
+            Gender = personInfo.Gender;
+            BirthDate = personInfo.BirthDate;
+            BirthDateEstimated = personInfo.BirthDateEstimated;
+
+            var personNames = PersonName.Create(personInfo);
+            Names.Clear();
+            AddNames(personNames);
+
+            var addresses = PersonAddress.Create(personInfo);
+            Addresses.Clear();
+            AddAddresss(addresses);
+
+            var contacts = PersonContact.Create(personInfo);
+            Contacts.Clear();
+            AddContacts(contacts);
+        }
+
         public static Person CreateUser(UserInfo userInfo)
         {
             var person = new Person();

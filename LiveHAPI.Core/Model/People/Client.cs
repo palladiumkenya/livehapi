@@ -54,6 +54,20 @@ namespace LiveHAPI.Core.Model.People
 
             return client;
         }
+        public void Update(ClientInfo clientInfo)
+        {
+            MaritalStatus = clientInfo.MaritalStatus;
+            KeyPop = clientInfo.KeyPop;
+            OtherKeyPop = clientInfo.OtherKeyPop;
+
+            Identifiers.Clear();
+            var identifiers = ClientIdentifier.Create(clientInfo);
+            AddIdentifiers(identifiers);
+
+            Relationships.Clear();
+            var relationships = ClientRelationship.Create(clientInfo);
+            AddRelationships(relationships);
+        }
 
         private void AddIdentifier(ClientIdentifier personName)
         {
@@ -80,5 +94,7 @@ namespace LiveHAPI.Core.Model.People
                 AddRelationship(personName);
             }
         }
+
+      
     }
 }
