@@ -3,7 +3,8 @@ using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.Lookup
 {
-    public class KeyPop:Entity<string>
+
+    public class KeyPop:Entity<string>, IKeyPop
     {
         [Key]
         [MaxLength(50)]

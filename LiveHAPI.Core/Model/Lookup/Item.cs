@@ -6,7 +6,7 @@ using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.Lookup
 {
-    public class Item : Entity<Guid>
+    public class Item : Entity<Guid>, IItem
     {
         [MaxLength(50)]
         public string Code { get; set; }

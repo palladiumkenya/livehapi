@@ -1,4 +1,6 @@
-﻿namespace LiveHAPI.Core.Interfaces.Model
+﻿using System;
+
+namespace LiveHAPI.Shared.Interfaces.Model
 {
     public interface IProvider
     {
@@ -7,8 +9,5 @@
         string ProviderTypeId { get; set; }
         int? Phone { get; set; }
         string Email { get; set; }
-        string Source { get; set; }
-        string SourceRef { get; set; }
-        string SourceSys { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.Lookup
 {
-    public class RelationshipType:Entity<string>
+    public class RelationshipType:Entity<string>, IRelationshipType
     {
         [Key]
         [MaxLength(50)]

@@ -1,30 +1,21 @@
-﻿namespace LiveHAPI.Shared.ValueObject
+﻿using System;
+using System.Collections.Generic;
+using LiveHAPI.Shared.Interfaces.Model;
+
+namespace LiveHAPI.Shared.ValueObject
 {
-    public class PersonInfo
+    public class PersonInfo:IPerson,IPersonName
     {
+        public Guid Id { get; set; }
+        public string Gender { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public bool? BirthDateEstimated { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string MothersName { get; set; }
-        public Identity Identity { get; set; }=new Identity();
+        public List<AddressInfo> Addresses { get; set; }
+        public List<ContactInfo> Contacts { get; set; }
 
-        public PersonInfo()
-        {
-        }
-
-        public PersonInfo(string firstName, string lastName, Identity identity)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Identity = identity;
-        }
-        public PersonInfo(string firstName, string middleName, string lastName, Identity identity):this(firstName,lastName,identity)
-        {
-            MiddleName = middleName;
-        }
-        public PersonInfo(string firstName, string middleName, string lastName, string mothersName, Identity identity):this(firstName,middleName,lastName,identity)
-        {
-            MothersName = mothersName;
-        }
     }
 }

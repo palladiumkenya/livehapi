@@ -6,23 +6,23 @@
         public string Password { get; set; }
         public int? Phone { get; set; }
         public string Email { get; set; }
-        public Identity Identity { get; set; }=new Identity();
-        public PersonInfo PersonInfo { get; set; }=new PersonInfo();
+        public SourceIdentity SourceIdentity { get; set; }=new SourceIdentity();
+        public PersonNameInfo PersonNameInfo { get; set; }=new PersonNameInfo();
 
         public UserInfo()
         {
         }
 
-        public UserInfo(string userName, string password, Identity identity, PersonInfo personInfo)
+        public UserInfo(string userName, string password, SourceIdentity sourceIdentity, PersonNameInfo personNameInfo)
         {
             UserName = userName;
             Password = password;
-            Identity = identity;
-            PersonInfo = personInfo;
+            SourceIdentity = sourceIdentity;
+            PersonNameInfo = personNameInfo;
         }
 
-        public UserInfo(string userName, string password, int? phone, string email, Identity identity,
-            PersonInfo personInfo) : this(userName, password, identity, personInfo)
+        public UserInfo(string userName, string password, int? phone, string email, SourceIdentity sourceIdentity,
+            PersonNameInfo personNameInfo) : this(userName, password, sourceIdentity, personNameInfo)
         {
             Phone = phone;
             Email = email;

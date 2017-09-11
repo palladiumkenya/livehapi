@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.People
 {
-    public class Provider:Entity<Guid>, IProvider
+    public class Provider:Entity<Guid>, IProvider, ISourceIdentity
     {
         [MaxLength(50)]
         public string Initials { get; set; }
@@ -62,7 +62,7 @@ namespace LiveHAPI.Core.Model.People
 
         public static Provider Create(ProviderInfo providerInfo, Guid practiceId)
         {
-            return new Provider(providerInfo.Initials, providerInfo.Code,providerInfo.ProviderTypeId, providerInfo.Phone, providerInfo.Email,providerInfo.Identity.Source, providerInfo.Identity.SourceRef,providerInfo.Identity.SourceSys, practiceId);
+            return new Provider(providerInfo.Initials, providerInfo.Code,providerInfo.ProviderTypeId, providerInfo.Phone, providerInfo.Email,providerInfo.SourceIdentity.Source, providerInfo.SourceIdentity.SourceRef,providerInfo.SourceIdentity.SourceSys, practiceId);
         }
 
         public override string ToString()

@@ -4,7 +4,7 @@ using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.People
 {
-    public class ClientAttribute:Entity<string>
+    public class ClientAttribute:Entity<string>, IClientAttribute
     {
         [Key]
         [MaxLength(50)]

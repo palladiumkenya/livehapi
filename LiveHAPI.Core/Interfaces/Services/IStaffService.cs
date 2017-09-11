@@ -7,12 +7,15 @@ namespace LiveHAPI.Core.Interfaces.Services
 {
     public interface IStaffService
     {
-        Person Find(PersonInfo personInfo);
+        Person Find(PersonNameInfo personNameInfo);
 
         User EnlistUser(UserInfo userInfo, Guid practiceId);
         IEnumerable<User> EnlistUsers(string practiceCode,IEnumerable<UserInfo> userInfos);
 
         Provider EnlistProvider(ProviderInfo providerInfo, Guid practiceId);
         IEnumerable<Provider> EnlistProviders(string practiceCode, IEnumerable<ProviderInfo> providerInfos);
+
+        IEnumerable<User> ReadUsers(Guid practiceId);
+        IEnumerable<Provider> ReadProviders(Guid practiceId);
     }
 }

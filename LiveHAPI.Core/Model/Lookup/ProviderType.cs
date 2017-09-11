@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Core.Model.People;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.Lookup
 {
-    public class ProviderType:Entity<string>
+    public class ProviderType:Entity<string>,IProviderType
     {
         [Key]
         [MaxLength(50)]

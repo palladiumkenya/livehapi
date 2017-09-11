@@ -3,7 +3,7 @@ using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.Lookup
 {
-    public class MaritalStatus:Entity<string>
+    public class MaritalStatus:Entity<string>, IMaritalStatus
     {
         [Key]
         [MaxLength(50)]

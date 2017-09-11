@@ -26,9 +26,9 @@ namespace LiveHAPI.Core.Service
             _providerRepository = providerRepository;
         }
 
-        public Person Find(PersonInfo personInfo)
+        public Person Find(PersonNameInfo personNameInfo)
         {
-            var identity = personInfo.Identity;
+            var identity = personNameInfo.SourceIdentity;
 
             var personName = _personNameRepository
                 .GetAll(x => x.Source.IsSameAs(identity.Source) &&
@@ -43,7 +43,7 @@ namespace LiveHAPI.Core.Service
         }
         public User EnlistUser(UserInfo userInfo, Guid practiceId)
         {
-            var person = Find(userInfo.PersonInfo);
+            var person = Find(userInfo.PersonNameInfo);
             var user = User.Create(userInfo, practiceId);
 
             if (null == person)
@@ -59,7 +59,7 @@ namespace LiveHAPI.Core.Service
                 return newUser;
             }
 
-            var personName = PersonName.Create(userInfo.PersonInfo);
+            var personName = PersonName.Create(userInfo.PersonNameInfo);
 
             var updatedNames = person.AssignName(personName);
             var updateUser = person.AssignUser(user);
@@ -93,7 +93,7 @@ namespace LiveHAPI.Core.Service
 
         public Provider EnlistProvider(ProviderInfo providerInfo, Guid practiceId)
         {
-            var person = Find(providerInfo.PersonInfo);
+            var person = Find(providerInfo.PersonNameInfo);
             var provider = Provider.Create(providerInfo, practiceId);
 
             if (null == person)
@@ -109,7 +109,7 @@ namespace LiveHAPI.Core.Service
                 return newProvider;
             }
 
-            var personName = PersonName.Create(providerInfo.PersonInfo);
+            var personName = PersonName.Create(providerInfo.PersonNameInfo);
 
             var updatedNames = person.AssignName(personName);
             var updateProvider = person.AssignProvider(provider);
@@ -140,9 +140,14 @@ namespace LiveHAPI.Core.Service
             return providers;
         }
 
-        public void SyncUser(User user)
+        public IEnumerable<User> ReadUsers(Guid practiceCode)
         {
-            throw new NotImplementedException();
+            return _userRepository.GetAll(x => x.PracticeId == practiceCode);
+        }
+
+        public IEnumerable<Provider> ReadProviders(Guid practiceCode)
+        {
+            return _providerRepository.GetAll(x => x.PracticeId == practiceCode);
         }
     }
 }

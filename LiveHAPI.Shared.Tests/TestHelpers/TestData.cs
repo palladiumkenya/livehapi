@@ -26,7 +26,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
         private static List<PracticeActivation> _pracActvs = new List<PracticeActivation>();
         private static List<DeviceInfo> _devices = new List<DeviceInfo>();
-        private static List<PersonInfo> _personInfos = new List<PersonInfo>();
+        private static List<PersonNameInfo> _personInfos = new List<PersonNameInfo>();
         private static List<UserInfo> _userInfos = new List<UserInfo>();
         private static List<ProviderInfo> _providerInfos = new List<ProviderInfo>();
 
@@ -274,39 +274,39 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
             return list;
         }
-        public static List<PersonInfo> TestPersonInfos()
+        public static List<PersonNameInfo> TestPersonInfos()
         {
             if (_personInfos.Count > 0) return _personInfos;
 
-            var personInfos = Builder<PersonInfo>.CreateListOfSize(4).Build().ToList();
-            var identities = Builder<Identity>.CreateListOfSize(4).Build().ToList();
+            var personInfos = Builder<PersonNameInfo>.CreateListOfSize(4).Build().ToList();
+            var identities = Builder<SourceIdentity>.CreateListOfSize(4).Build().ToList();
 
             var p1 = personInfos[0];
-            p1.Identity = identities[0];
-            p1.Identity.Source = "14080";
-            p1.Identity.SourceRef = "1";
-            p1.Identity.SourceSys = "KenyaEMR";
+            p1.SourceIdentity = identities[0];
+            p1.SourceIdentity.Source = "14080";
+            p1.SourceIdentity.SourceRef = "1";
+            p1.SourceIdentity.SourceSys = "KenyaEMR";
 
             var p3 = personInfos[1];
-            p3.Identity = identities[1];
-            p3.Identity.Source = "14080";
-            p3.Identity.SourceRef = "2";
-            p3.Identity.SourceSys = "KenyaEMR";
+            p3.SourceIdentity = identities[1];
+            p3.SourceIdentity.Source = "14080";
+            p3.SourceIdentity.SourceRef = "2";
+            p3.SourceIdentity.SourceSys = "KenyaEMR";
 
 
             var p2 = personInfos[2];
-            p2.Identity = identities[2];
-            p2.Identity.Source = "13023";
-            p2.Identity.SourceRef = "1";
-            p2.Identity.SourceSys = "IQCare";
+            p2.SourceIdentity = identities[2];
+            p2.SourceIdentity.Source = "13023";
+            p2.SourceIdentity.SourceRef = "1";
+            p2.SourceIdentity.SourceSys = "IQCare";
 
             var p4 = personInfos[3];
-            p4.Identity = identities[3];
-            p4.Identity.Source = "13023";
-            p4.Identity.SourceRef = "2";
-            p4.Identity.SourceSys = "IQCare";
+            p4.SourceIdentity = identities[3];
+            p4.SourceIdentity.Source = "13023";
+            p4.SourceIdentity.SourceRef = "2";
+            p4.SourceIdentity.SourceSys = "IQCare";
 
-            return new List<PersonInfo> {p1, p2, p3, p4};
+            return new List<PersonNameInfo> {p1, p2, p3, p4};
         }
         public static List<UserInfo> TestUserInfos()
         {
@@ -314,35 +314,35 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
 
             var userInfos = Builder<UserInfo>.CreateListOfSize(4).Build().ToList();
-            var identities = Builder<Identity>.CreateListOfSize(4).Build().ToList();
+            var identities = Builder<SourceIdentity>.CreateListOfSize(4).Build().ToList();
 
             var u1 = userInfos[0];
-            u1.Identity = identities[0];
-            u1.Identity.Source = "14080";
-            u1.Identity.SourceRef = "10";
-            u1.Identity.SourceSys = "KenyaEMR";
-            u1.PersonInfo = TestPersonInfos()[0];
+            u1.SourceIdentity = identities[0];
+            u1.SourceIdentity.Source = "14080";
+            u1.SourceIdentity.SourceRef = "10";
+            u1.SourceIdentity.SourceSys = "KenyaEMR";
+            u1.PersonNameInfo = TestPersonInfos()[0];
 
             var u2 = userInfos[1];
-            u2.Identity = identities[1];
-            u2.Identity.Source = "14080";
-            u2.Identity.SourceRef = "11";
-            u2.Identity.SourceSys = "KenyaEMR";
-            u2.PersonInfo = TestPersonInfos()[1];
+            u2.SourceIdentity = identities[1];
+            u2.SourceIdentity.Source = "14080";
+            u2.SourceIdentity.SourceRef = "11";
+            u2.SourceIdentity.SourceSys = "KenyaEMR";
+            u2.PersonNameInfo = TestPersonInfos()[1];
 
             var u3 = userInfos[2];
-            u3.Identity = identities[2];
-            u3.Identity.Source = "13023";
-            u3.Identity.SourceRef = "10";
-            u3.Identity.SourceSys = "IQCare";
-            u3.PersonInfo = TestPersonInfos()[2];
+            u3.SourceIdentity = identities[2];
+            u3.SourceIdentity.Source = "13023";
+            u3.SourceIdentity.SourceRef = "10";
+            u3.SourceIdentity.SourceSys = "IQCare";
+            u3.PersonNameInfo = TestPersonInfos()[2];
 
             var u4 = userInfos[3];
-            u4.Identity = identities[3];
-            u4.Identity.Source = "13023";
-            u4.Identity.SourceRef = "11";
-            u4.Identity.SourceSys = "IQCare";
-            u4.PersonInfo = TestPersonInfos()[3];
+            u4.SourceIdentity = identities[3];
+            u4.SourceIdentity.Source = "13023";
+            u4.SourceIdentity.SourceRef = "11";
+            u4.SourceIdentity.SourceSys = "IQCare";
+            u4.PersonNameInfo = TestPersonInfos()[3];
 
             return new List<UserInfo> {u1, u2, u3, u4};
         }
@@ -355,35 +355,35 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
                 .All()
                 .With(x=>x.ProviderTypeId=TestProviderTypes()[0].Id)
                 .Build().ToList();
-            var identities = Builder<Identity>.CreateListOfSize(4).Build().ToList();
+            var identities = Builder<SourceIdentity>.CreateListOfSize(4).Build().ToList();
 
             var p1 = userInfos[0];
-            p1.Identity = identities[0];
-            p1.Identity.Source = "14080";
-            p1.Identity.SourceRef = "20";
-            p1.Identity.SourceSys = "KenyaEMR";
-            p1.PersonInfo = TestPersonInfos()[0];
+            p1.SourceIdentity = identities[0];
+            p1.SourceIdentity.Source = "14080";
+            p1.SourceIdentity.SourceRef = "20";
+            p1.SourceIdentity.SourceSys = "KenyaEMR";
+            p1.PersonNameInfo = TestPersonInfos()[0];
 
             var p2 = userInfos[1];
-            p2.Identity = identities[1];
-            p2.Identity.Source = "14080";
-            p2.Identity.SourceRef = "21";
-            p2.Identity.SourceSys = "KenyaEMR";
-            p2.PersonInfo = TestPersonInfos()[1];
+            p2.SourceIdentity = identities[1];
+            p2.SourceIdentity.Source = "14080";
+            p2.SourceIdentity.SourceRef = "21";
+            p2.SourceIdentity.SourceSys = "KenyaEMR";
+            p2.PersonNameInfo = TestPersonInfos()[1];
 
             var p3 = userInfos[2];
-            p3.Identity = identities[2];
-            p3.Identity.Source = "13023";
-            p3.Identity.SourceRef = "20";
-            p3.Identity.SourceSys = "IQCare";
-            p3.PersonInfo = TestPersonInfos()[2];
+            p3.SourceIdentity = identities[2];
+            p3.SourceIdentity.Source = "13023";
+            p3.SourceIdentity.SourceRef = "20";
+            p3.SourceIdentity.SourceSys = "IQCare";
+            p3.PersonNameInfo = TestPersonInfos()[2];
 
             var p4 = userInfos[3];
-            p4.Identity = identities[3];
-            p4.Identity.Source = "13023";
-            p4.Identity.SourceRef = "21";
-            p4.Identity.SourceSys = "IQCare";
-            p4.PersonInfo = TestPersonInfos()[3];
+            p4.SourceIdentity = identities[3];
+            p4.SourceIdentity.Source = "13023";
+            p4.SourceIdentity.SourceRef = "21";
+            p4.SourceIdentity.SourceSys = "IQCare";
+            p4.PersonNameInfo = TestPersonInfos()[3];
 
             return new List<ProviderInfo> { p1, p2, p3, p4 };
         }

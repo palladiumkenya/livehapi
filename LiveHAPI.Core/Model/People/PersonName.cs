@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.People
 {
-    public class PersonName:Entity<Guid>, IPersonName
+    public class PersonName:Entity<Guid>, IPersonName, ISourceIdentity
     {
         [MaxLength(100)]
         public  string FirstName { get; set; }
@@ -36,20 +36,32 @@ namespace LiveHAPI.Core.Model.People
         {
             Id = LiveGuid.NewGuid();
         }
-        private PersonName(string firstName, string middleName, string lastName, string mothersName, string source, string sourceRef, string sourceSys):this()
+        private PersonName(string firstName, string middleName, string lastName, string mothersName) : this()
         {
             FirstName = firstName;
             MiddleName = middleName;
             LastName = lastName;
             MothersName = mothersName;
+        }
+        private PersonName(string firstName, string middleName, string lastName, string mothersName, string source, string sourceRef, string sourceSys):this(firstName,middleName,lastName,mothersName)
+        {
             Source = source;
             SourceRef = sourceRef;
             SourceSys = sourceSys;
         }
-        public static PersonName Create(PersonInfo personInfo)
+        public static PersonName Create(PersonNameInfo personNameInfo)
         {
-            return new PersonName(personInfo.FirstName, personInfo.MiddleName, personInfo.LastName, personInfo.MothersName, personInfo.Identity.Source,
-                personInfo.Identity.SourceRef, personInfo.Identity.SourceSys);
+            return new PersonName(personNameInfo.FirstName, personNameInfo.MiddleName, personNameInfo.LastName, personNameInfo.MothersName, personNameInfo.SourceIdentity.Source,
+                personNameInfo.SourceIdentity.SourceRef, personNameInfo.SourceIdentity.SourceSys);
+        }
+
+        public static List<PersonName> Create(PersonInfo personInfo)
+        {
+            var list = new List<PersonName>
+            {
+                new PersonName(personInfo.FirstName, personInfo.MiddleName, personInfo.LastName, personInfo.MothersName)
+            };
+            return list;
         }
 
         public void ChangeTo(PersonName name)

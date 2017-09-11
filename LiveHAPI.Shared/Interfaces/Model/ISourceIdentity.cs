@@ -1,8 +1,7 @@
-﻿namespace LiveHAPI.Core.Interfaces.Model
+﻿namespace LiveHAPI.Shared.Interfaces.Model
 {
-    public interface IContact
+    public interface ISourceIdentity
     {
-        int Phone { get; set; }
         string Source { get; set; }
         string SourceRef { get; set; }
         string SourceSys { get; set; }

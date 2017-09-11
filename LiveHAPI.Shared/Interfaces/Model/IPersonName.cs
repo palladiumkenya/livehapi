@@ -1,6 +1,6 @@
 using System;
 
-namespace LiveHAPI.Core.Interfaces.Model
+namespace LiveHAPI.Shared.Interfaces.Model
 {
     public interface IPersonName
     {
@@ -8,8 +8,5 @@ namespace LiveHAPI.Core.Interfaces.Model
         string MiddleName { get; set; }
         string LastName { get; set; }
         string MothersName { get; set; }
-        string Source { get; set; }
-        string SourceRef { get; set; }
-        string SourceSys { get; set; }
     }
 }

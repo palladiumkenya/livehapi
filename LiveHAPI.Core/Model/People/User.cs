@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.People
 {
-    public class User:Entity<Guid>, IUser
+    public class User:Entity<Guid>, IUser,ISourceIdentity
     {
         [MaxLength(100)]
         public string UserName { get; set; }
@@ -49,7 +49,7 @@ namespace LiveHAPI.Core.Model.People
         }
         public static User Create(UserInfo userInfo,Guid practiceId)
         {
-            return new User(userInfo.UserName,userInfo.Password,userInfo.Phone,userInfo.Email, userInfo.Identity.Source, userInfo.Identity.SourceRef, userInfo.Identity.SourceSys,practiceId);
+            return new User(userInfo.UserName,userInfo.Password,userInfo.Phone,userInfo.Email, userInfo.SourceIdentity.Source, userInfo.SourceIdentity.SourceRef, userInfo.SourceIdentity.SourceSys,practiceId);
         }
         public void ChangeTo(User name)
         {

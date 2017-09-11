@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LiveHAPI.Core.Interfaces.Model
+namespace LiveHAPI.Shared.Interfaces.Model
 {
     public interface IEnrollment
     {

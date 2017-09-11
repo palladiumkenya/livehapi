@@ -1,7 +1,8 @@
-﻿namespace LiveHAPI.Core.Interfaces.Model
+﻿namespace LiveHAPI.Shared.Interfaces.Model
 {
     public interface ICounty
     {
+        
         string Name { get; set; }
     }
 }

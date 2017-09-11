@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.People
 {
@@ -21,9 +23,32 @@ namespace LiveHAPI.Core.Model.People
             Id = LiveGuid.NewGuid();
         }
 
+        private ClientIdentifier(string identifierTypeId, string identifier, DateTime registrationDate)
+        {
+            IdentifierTypeId = identifierTypeId;
+            Identifier = identifier;
+            RegistrationDate = registrationDate;
+        }
+
         public override string ToString()
         {
             return $"{IdentifierTypeId}|{Identifier}";
+        }
+
+        public static ClientIdentifier Create(IdentifierInfo address)
+        {
+            return new ClientIdentifier(address.IdentifierTypeId, address.Identifier, address.RegistrationDate);
+        }
+
+        public static List<ClientIdentifier> Create(ClientInfo clientInfo)
+        {
+            var list = new List<ClientIdentifier>();
+
+            foreach (var address in clientInfo.Identifiers)
+            {
+                list.Add(Create(address));
+            }
+            return list;
         }
     }
 }

@@ -5,7 +5,7 @@ using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.Lookup
 {
-    public class IdentifierType : Entity<string>
+    public class IdentifierType : Entity<string>, IIdentifierType
     {
         [Key]
         [MaxLength(50)]

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
 
@@ -21,10 +21,10 @@ namespace LiveHAPI.Core.Model.Network
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
-        public bool IsDefault { get; set; }
         [MaxLength(50)]
         public string PracticeTypeId { get; set; }
         public int? CountyId { get; set; }
+        public bool IsDefault { get; set; }
         public ICollection<User> Users { get; set; } = new List<User>();
         public ICollection<Provider> Providers { get; set; } = new List<Provider>();
         public ICollection<Client> Clients { get; set; } = new List<Client>();

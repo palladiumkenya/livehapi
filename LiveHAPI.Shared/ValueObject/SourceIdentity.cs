@@ -1,6 +1,8 @@
-﻿namespace LiveHAPI.Shared.ValueObject
+﻿using LiveHAPI.Shared.Interfaces.Model;
+
+namespace LiveHAPI.Shared.ValueObject
 {
-    public class Identity
+    public class SourceIdentity: ISourceIdentity
     {    
         /// <summary>
         /// e.g Facility Code
@@ -15,11 +17,11 @@
         /// </summary>
         public string SourceSys { get; set; }
 
-        public Identity()
+        public SourceIdentity()
         {
         }
 
-        public Identity(string source, string sourceRef, string sourceSys)
+        public SourceIdentity(string source, string sourceRef, string sourceSys)
         {
             Source = source;
             SourceRef = sourceRef;

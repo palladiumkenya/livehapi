@@ -43,7 +43,7 @@
     <Compile Include="Model\People\PersonAddress.cs" />
     <Compile Include="Model\People\PersonContact.cs" />
     <Compile Include="Model\Network\Practice.cs" />
-    <Compile Include="Model\Network\PracticeType.cs" />
+    <Compile Include="Model\Lookup\PracticeType.cs" />
     <Compile Include="Model\Studio\FormProgram.cs" />
     <Compile Include="Model\People\Provider.cs" />
     <Compile Include="Model\Lookup\ProviderType.cs" />
@@ -62,6 +62,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LiveHAPI.Shared\LiveHAPI.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\Model\" />
   </ItemGroup>
 
 </Project>

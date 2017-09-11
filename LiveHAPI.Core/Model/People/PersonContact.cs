@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.People
 {
-    public class PersonContact : Entity<Guid>, IContact
+    public class PersonContact : Entity<Guid>, IContact, ISourceIdentity
     {
         public int Phone { get; set; }
         [MaxLength(50)]
@@ -25,6 +27,27 @@ namespace LiveHAPI.Core.Model.People
         public void ChangeTo(PersonContact contact)
         {
             Phone = contact.Phone;
+        }
+
+        public PersonContact(int phone):this()
+        {
+            Phone = phone;
+        }
+
+        public static PersonContact Create(ContactInfo address)
+        {
+            return new PersonContact(address.Phone);
+        }
+
+        public static List<PersonContact> Create(PersonInfo personInfo)
+        {
+            var list = new List<PersonContact>();
+
+            foreach (var address in personInfo.Contacts)
+            {
+                list.Add(Create(address));
+            }
+            return list;
         }
     } 
 }

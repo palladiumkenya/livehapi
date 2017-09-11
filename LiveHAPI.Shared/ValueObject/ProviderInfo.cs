@@ -9,22 +9,22 @@ namespace LiveHAPI.Shared.ValueObject
         public string ProviderTypeId { get; set; }
         public int? Phone { get; set; }
         public string Email { get; set; }
-        public Identity Identity { get; set; }=new Identity();
-        public PersonInfo PersonInfo { get; set; }=new PersonInfo();
+        public SourceIdentity SourceIdentity { get; set; }=new SourceIdentity();
+        public PersonNameInfo PersonNameInfo { get; set; }=new PersonNameInfo();
 
         public ProviderInfo()
         {
         }
-        public ProviderInfo(Identity identity, PersonInfo personInfo)
+        public ProviderInfo(SourceIdentity sourceIdentity, PersonNameInfo personNameInfo)
         {
-            Identity = identity;
-            PersonInfo = personInfo;
+            SourceIdentity = sourceIdentity;
+            PersonNameInfo = personNameInfo;
         }
-        public ProviderInfo(string code, Identity identity, PersonInfo personInfo):this(identity,personInfo)
+        public ProviderInfo(string code, SourceIdentity sourceIdentity, PersonNameInfo personNameInfo):this(sourceIdentity,personNameInfo)
         {
             Code = code;
         }
-        public ProviderInfo(string initials, string code, string providerTypeId, int? phone, string email, Identity identity, PersonInfo personInfo) :this(code,identity,personInfo)
+        public ProviderInfo(string initials, string code, string providerTypeId, int? phone, string email, SourceIdentity sourceIdentity, PersonNameInfo personNameInfo) :this(code,sourceIdentity,personNameInfo)
         {
             Initials = initials;
             ProviderTypeId = providerTypeId;

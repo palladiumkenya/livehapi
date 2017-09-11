@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
 
@@ -35,17 +35,32 @@ namespace LiveHAPI.Core.Model.People
             BirthDateEstimated = birthDateEstimated;
         }
 
+        public static Person CreateClient(PersonInfo personInfo)
+        {
+            var person = new Person();
+
+            var personNames = PersonName.Create(personInfo);
+            person.AddNames(personNames);
+
+            var addresses = PersonAddress.Create(personInfo);
+            person.AddAddresss(addresses);
+
+            var contacts = PersonContact.Create(personInfo);
+            person.AddContacts(contacts);
+
+            return person;
+        }
         public static Person CreateUser(UserInfo userInfo)
         {
             var person = new Person();
-            var personName = PersonName.Create(userInfo.PersonInfo);
+            var personName = PersonName.Create(userInfo.PersonNameInfo);
             person.AddName(personName);
             return person;
         }
         public static Person CreateProvider(ProviderInfo providerInfo)
         {
             var person = new Person();
-            var personName = PersonName.Create(providerInfo.PersonInfo);
+            var personName = PersonName.Create(providerInfo.PersonNameInfo);
             person.AddName(personName);
             return person;
         }
@@ -159,14 +174,43 @@ namespace LiveHAPI.Core.Model.People
         }
 
 
-
-
+        private void AddNames(List<PersonName> personNames)
+        {
+            foreach (var personName in personNames)
+            {
+                AddName(personName);
+            }
+        }
         private void AddName(PersonName personName)
         {
             personName.PersonId = Id;
             Names.Add(personName);
         }
 
-      
+        private void AddAddresss(List<PersonAddress> personNames)
+        {
+            foreach (var personName in personNames)
+            {
+                AddAddress(personName);
+            }
+        }
+        private void AddAddress(PersonAddress personName)
+        {
+            personName.PersonId = Id;
+            Addresses.Add(personName);
+        }
+
+        private void AddContacts(List<PersonContact> personNames)
+        {
+            foreach (var personName in personNames)
+            {
+                AddContact(personName);
+            }
+        }
+        private void AddContact(PersonContact personName)
+        {
+            personName.PersonId = Id;
+            Contacts.Add(personName);
+        }
     }
 }
