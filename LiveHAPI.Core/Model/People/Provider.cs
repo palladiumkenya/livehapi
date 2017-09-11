@@ -5,6 +5,7 @@ using LiveHAPI.Core.Interfaces.Model;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.People
 {
@@ -28,10 +29,26 @@ namespace LiveHAPI.Core.Model.People
         public Guid? PracticeId { get; set; }
         public Guid PersonId { get; set; }
         
-
         public Provider()
         {
             Id = LiveGuid.NewGuid();
+        }
+
+        private Provider(string initials, string code, string providerTypeId, int? phone, string email)
+        {
+            Initials = initials;
+            Code = code;
+            ProviderTypeId = providerTypeId;
+            Phone = phone;
+            Email = email;
+        }
+
+        private Provider(string initials, string code, string providerTypeId, int? phone, string email, string source, string sourceRef, string sourceSys, Guid? practiceId):this(initials,code,providerTypeId,phone,email)
+        {
+            Source = source;
+            SourceRef = sourceRef;
+            SourceSys = sourceSys;
+            PracticeId = practiceId;
         }
 
         public void ChangeTo(Provider provider)
@@ -41,6 +58,16 @@ namespace LiveHAPI.Core.Model.People
             ProviderTypeId = provider.ProviderTypeId;
             Phone = provider.Phone;
             Email = provider.Email;
+        }
+
+        public static Provider Create(ProviderInfo providerInfo, Guid practiceId)
+        {
+            return new Provider(providerInfo.Initials, providerInfo.Code,providerInfo.ProviderTypeId, providerInfo.Phone, providerInfo.Email,providerInfo.Identity.Source, providerInfo.Identity.SourceRef,providerInfo.Identity.SourceSys, practiceId);
+        }
+
+        public override string ToString()
+        {
+            return $"{Initials}|{Code}|{ProviderTypeId}";
         }
     }
 }

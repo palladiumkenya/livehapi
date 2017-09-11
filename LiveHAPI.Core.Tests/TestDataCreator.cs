@@ -14,15 +14,17 @@ namespace LiveHAPI.Core.Tests
             var facs = TestData.TestFacilities();
             var subCounties = TestData.TestSubCounties();
             var practiceTypes = TestData.TestPracticeTypes();
+            var providerTypes = TestData.TestProviderTypes();
             var practices = TestData.TestPracticeWithActivation();
             var practiceActivations = practices.SelectMany(x => x.Activations).ToList();
             var persons = TestData.TestPersons();
             var personNames = persons.SelectMany(x => x.Names);
             var users = TestData.TestUsers();
+            var providers = TestData.TestProviders();
             
             Clear(context);
-            Create(context, counties, facs, subCounties, practiceTypes, practices, practiceActivations, persons,
-                personNames, users);
+            Create(context, counties, facs, subCounties, practiceTypes, providerTypes, practices, practiceActivations, persons,
+                personNames, users,providers);
         }
 
         public static void Create(LiveHAPIContext context, params IEnumerable<object>[] entities)
@@ -35,12 +37,14 @@ namespace LiveHAPI.Core.Tests
         }
         public static void Clear(LiveHAPIContext context, params DbSet<object>[] entities)
         {
+            context.RemoveRange(context.Providers);
             context.RemoveRange(context.Users);
             context.RemoveRange(context.PersonNames);
             context.RemoveRange(context.Persons);
             context.RemoveRange(context.PracticeActivations);
             context.RemoveRange(context.Practices);
             context.RemoveRange(context.PracticeTypes);
+            context.RemoveRange(context.ProviderTypes);
             context.RemoveRange(context.SubCounties);
             context.RemoveRange(context.MasterFacilities);
             context.RemoveRange(context.Counties);

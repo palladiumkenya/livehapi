@@ -17,15 +17,18 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
         private static List<MasterFacility> _facilities=new List<MasterFacility>();
         private static List<SubCounty> _subcounties = new List<SubCounty>();
         private static List<PracticeType> _pracTypes = new List<PracticeType>();
+        private static List<ProviderType> _providerTypes = new List<ProviderType>();
         private static List<Practice> _pracs = new List<Practice>();
         private static List<Practice> _pracWithActivation = new List<Practice>();
         private static List<Person> _persons = new List<Person>();
         private static List<User> _users = new List<User>();
+        private static List<Provider> _providers=new List<Provider>();
 
         private static List<PracticeActivation> _pracActvs = new List<PracticeActivation>();
         private static List<DeviceInfo> _devices = new List<DeviceInfo>();
         private static List<PersonInfo> _personInfos = new List<PersonInfo>();
         private static List<UserInfo> _userInfos = new List<UserInfo>();
+        private static List<ProviderInfo> _providerInfos = new List<ProviderInfo>();
 
         public static void Init()
         {
@@ -33,6 +36,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _facilities = TestFacilities();
             _subcounties = TestSubCounties();
             _pracTypes = TestPracticeTypes();
+            _providerTypes = TestProviderTypes();
             _pracs = TestPractices();
             _devices = TestDevices();
             _pracActvs = TestPracticeActivations();
@@ -40,9 +44,28 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _persons = TestPersons();
             _users = TestUsers();
 
+            _providers = TestProviders();
+
             _personInfos = TestPersonInfos();
             _userInfos = TestUserInfos();
+            _providerInfos = TestProviderInfos();
         }
+
+        public static List<ProviderType> TestProviderTypes()
+        {
+            if (_providerTypes.Count > 0) return _providerTypes;
+
+            var list = Builder<ProviderType>.CreateListOfSize(1)
+                .All()
+                .With(x => x.Voided = false)
+                .Build()
+                .ToList();
+
+            list[0].Id = "HW";
+            list[0].Name = "Health Worker";
+            return list;
+        }
+
 
         public static List<County> TestCounties()
         {
@@ -187,6 +210,34 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
             return list;
         }
+        public static List<Provider> TestProviders()
+        {
+            if (_providers.Count > 0) return _providers;
+
+            var list = Builder<Provider>.CreateListOfSize(_count)
+                .All()
+                .With(x => x.ProviderTypeId = TestProviderTypes()[0].Id)
+                .With(x => x.Voided = false)
+                .Build()
+                .ToList();
+
+            list[0].PersonId = TestPersons()[0].Id;
+            list[0].PracticeId = TestPracticeWithActivation()[0].Id;
+            list[0].Source = "14080";
+            list[0].SourceRef = "20";
+            list[0].SourceSys = "KenyaEMR";
+
+
+            list[1].PersonId = TestPersons()[1].Id;
+            list[1].PracticeId = TestPracticeWithActivation()[1].Id;
+            list[1].Source = "13023";
+            list[1].SourceRef = "20";
+            list[1].SourceSys = "IQCare";
+
+            return list;
+            
+        }
+      
         public static List<DeviceInfo> TestDevices()
         {
             if (_devices.Count > 0) return _devices;
@@ -295,6 +346,46 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
             return new List<UserInfo> {u1, u2, u3, u4};
         }
-        
+        public static List<ProviderInfo> TestProviderInfos()
+        {
+            if (_providerInfos.Count > 0) return _providerInfos;
+
+
+            var userInfos = Builder<ProviderInfo>.CreateListOfSize(4)
+                .All()
+                .With(x=>x.ProviderTypeId=TestProviderTypes()[0].Id)
+                .Build().ToList();
+            var identities = Builder<Identity>.CreateListOfSize(4).Build().ToList();
+
+            var p1 = userInfos[0];
+            p1.Identity = identities[0];
+            p1.Identity.Source = "14080";
+            p1.Identity.SourceRef = "20";
+            p1.Identity.SourceSys = "KenyaEMR";
+            p1.PersonInfo = TestPersonInfos()[0];
+
+            var p2 = userInfos[1];
+            p2.Identity = identities[1];
+            p2.Identity.Source = "14080";
+            p2.Identity.SourceRef = "21";
+            p2.Identity.SourceSys = "KenyaEMR";
+            p2.PersonInfo = TestPersonInfos()[1];
+
+            var p3 = userInfos[2];
+            p3.Identity = identities[2];
+            p3.Identity.Source = "13023";
+            p3.Identity.SourceRef = "20";
+            p3.Identity.SourceSys = "IQCare";
+            p3.PersonInfo = TestPersonInfos()[2];
+
+            var p4 = userInfos[3];
+            p4.Identity = identities[3];
+            p4.Identity.Source = "13023";
+            p4.Identity.SourceRef = "21";
+            p4.Identity.SourceSys = "IQCare";
+            p4.PersonInfo = TestPersonInfos()[3];
+
+            return new List<ProviderInfo> { p1, p2, p3, p4 };
+        }
     }
 }

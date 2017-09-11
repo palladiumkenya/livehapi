@@ -15,15 +15,16 @@ namespace LiveHAPI.Core.Service
         private readonly IPersonNameRepository _personNameRepository;
         private readonly IPersonRepository _personRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IProviderRepository _providerRepository;
 
-        public StaffService(IPersonNameRepository personNameRepository, IPersonRepository personRepository, IUserRepository userRepository, IActivationService activationService)
+        public StaffService(IPersonNameRepository personNameRepository, IPersonRepository personRepository, IUserRepository userRepository,IProviderRepository providerRepository, IActivationService activationService)
         {
             _personNameRepository = personNameRepository;
             _personRepository = personRepository;
             _userRepository = userRepository;
             _activationService = activationService;
+            _providerRepository = providerRepository;
         }
-
 
         public Person Find(PersonInfo personInfo)
         {
@@ -40,7 +41,6 @@ namespace LiveHAPI.Core.Service
 
             return null;
         }
-
         public User EnlistUser(UserInfo userInfo, Guid practiceId)
         {
             var person = Find(userInfo.PersonInfo);
@@ -72,7 +72,6 @@ namespace LiveHAPI.Core.Service
             return updateUser;
 
         }
-
         public IEnumerable<User> EnlistUsers(string practiceCode, IEnumerable<UserInfo> userInfos)
         {
             var practice = _activationService.EnrollPractice(practiceCode);
@@ -90,6 +89,55 @@ namespace LiveHAPI.Core.Service
             }
 
             return users;
+        }
+
+        public Provider EnlistProvider(ProviderInfo providerInfo, Guid practiceId)
+        {
+            var person = Find(providerInfo.PersonInfo);
+            var provider = Provider.Create(providerInfo, practiceId);
+
+            if (null == person)
+            {
+                person = Person.CreateProvider(providerInfo);
+
+                var newProvider = person.AssignProvider(provider);
+
+                _personRepository.InsertOrUpdate(person);
+                _personRepository.Save();
+                _providerRepository.InsertOrUpdate(newProvider);
+                _providerRepository.Save();
+                return newProvider;
+            }
+
+            var personName = PersonName.Create(providerInfo.PersonInfo);
+
+            var updatedNames = person.AssignName(personName);
+            var updateProvider = person.AssignProvider(provider);
+
+            _personNameRepository.InsertOrUpdate(updatedNames);
+            _personNameRepository.Save();
+            _providerRepository.InsertOrUpdate(updateProvider);
+            _providerRepository.Save();
+
+            return updateProvider;
+        }
+        public IEnumerable<Provider> EnlistProviders(string practiceCode, IEnumerable<ProviderInfo> providerInfos)
+        {
+            var practice = _activationService.EnrollPractice(practiceCode);
+
+            if (null == practice)
+                throw new ArgumentException("Facility is not Registered!");
+
+            var providers= new List<Provider>();
+
+            foreach (var providerInfo in providerInfos)
+            {
+                var enlisted = EnlistProvider(providerInfo, practice.Id);
+                if (null != enlisted)
+                    providers.Add(enlisted);
+            }
+
+            return providers;
         }
 
         public void SyncUser(User user)

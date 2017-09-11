@@ -39,7 +39,7 @@ namespace LiveHAPI.Core.Tests.Service
             TestDataCreator.Init(_context);
             _personRepository=new PersonRepository(_context);
             var activationService = new ActivationService(new PracticeRepository(_context),new PracticeActivationRepository(_context),new MasterFacilityRepository(_context));
-            _staffService=new StaffService(new PersonNameRepository(_context),new PersonRepository(_context),new UserRepository(_context),activationService);
+            _staffService=new StaffService(new PersonNameRepository(_context),new PersonRepository(_context),new UserRepository(_context),new ProviderRepository(_context),  activationService);
         }
 
         [Test]
@@ -81,6 +81,48 @@ namespace LiveHAPI.Core.Tests.Service
             Assert.AreEqual("Maun M", person.Names.First().LastName);
             Console.WriteLine(person.Names.First().FullName);
             Console.WriteLine(userUpdated);
+        }
+
+        [Test]
+        public void should_Enlist_Providers_New()
+        {
+            var providersKenyaEmr = TestData.TestProviderInfos().Where(
+                x => x.Identity.SourceRef == "21" &&
+                     x.Identity.SourceSys == "KenyaEMR").ToList();
+
+            var code = providersKenyaEmr.First().Identity.Source;
+
+            var providers = _staffService.EnlistProviders(code, providersKenyaEmr).ToList();
+
+            Assert.IsTrue(providers.Count > 0);
+
+            foreach (var provider in providers)
+            {
+                Console.WriteLine(provider);
+            }
+        }
+
+        [Test]
+        public void should_Enlist_Providers_Existing()
+        {
+            var providersKenyaEmr = TestData.TestProviderInfos().Where(
+                x => x.Identity.SourceRef == "20" &&
+                     x.Identity.SourceSys == "KenyaEMR").ToList();
+            providersKenyaEmr[0].Initials = "Maun";
+            providersKenyaEmr[0].PersonInfo.LastName = "Maun M";
+
+
+            var codeKenyaEmr = providersKenyaEmr.First().Identity.Source;
+
+            var providers = _staffService.EnlistProviders(codeKenyaEmr, providersKenyaEmr).ToList();
+            var providerUpdated = providers.First();
+            Assert.IsNotNull(providerUpdated);
+            Assert.AreEqual("Maun", providerUpdated.Initials);
+            var person = _personRepository.Get(providerUpdated.PersonId);
+            Assert.IsNotNull(person);
+            Assert.AreEqual("Maun M", person.Names.First().LastName);
+            Console.WriteLine(person.Names.First().FullName);
+            Console.WriteLine(providerUpdated);
         }
     }
 }

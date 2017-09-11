@@ -42,7 +42,13 @@ namespace LiveHAPI.Core.Model.People
             person.AddName(personName);
             return person;
         }
-
+        public static Person CreateProvider(ProviderInfo providerInfo)
+        {
+            var person = new Person();
+            var personName = PersonName.Create(providerInfo.PersonInfo);
+            person.AddName(personName);
+            return person;
+        }
         public PersonName AssignName(PersonName name)
         {
             name.PersonId = Id;
@@ -126,38 +132,41 @@ namespace LiveHAPI.Core.Model.People
             Users.Add(user);
             return user;
         }
-
-        public void AssignProvider(Provider provider)
+        //Provider
+        public Provider AssignProvider(Provider provider)
         {
             if (null == provider)
-                throw new ArgumentException("No provider!");
+                throw new ArgumentException("No Provider!");
 
             provider.PersonId = Id;
 
-            var personProvider = Providers.FirstOrDefault(
-                x => x.Source.IsSameAs(provider.Source) &&
-                     x.SourceRef.IsSameAs(provider.SourceRef) &&
-                     x.SourceSys.IsSameAs(provider.SourceSys));
+            var personProvider = Providers
+                .FirstOrDefault(
+                    x => x.Source.IsSameAs(provider.Source) &&
+                         x.SourceRef.IsSameAs(provider.SourceRef) &&
+                         x.SourceSys.IsSameAs(provider.SourceSys));
 
-            if (null!=personProvider)
+            if (null != personProvider)
             {
                 Providers.Remove(personProvider);
                 personProvider.ChangeTo(provider);
                 Providers.Add(personProvider);
+                return personProvider;
             }
-            else
-            {
-                Providers.Add(provider);
-            }
+
+            Providers.Add(provider);
+            return provider;
         }
 
 
-        
+
 
         private void AddName(PersonName personName)
         {
             personName.PersonId = Id;
             Names.Add(personName);
         }
+
+      
     }
 }
