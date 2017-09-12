@@ -27,17 +27,18 @@ namespace LiveHAPI.Core.Model.People
         {
             Id = LiveGuid.NewGuid();
         }
-
-        private Person(string gender, DateTime? birthDate, bool? birthDateEstimated):this()
+        private Person(Guid id,string gender, DateTime? birthDate, bool? birthDateEstimated): base(id)
         {
             Gender = gender;
             BirthDate = birthDate;
             BirthDateEstimated = birthDateEstimated;
         }
-
+        private Person(string gender, DateTime? birthDate, bool? birthDateEstimated) : this(LiveGuid.NewGuid(),gender,birthDate,birthDateEstimated)
+        {
+        }
         public static Person CreateClient(PersonInfo personInfo)
         {
-            var person = new Person();
+            var person = new Person(personInfo.Id, personInfo.Gender, personInfo.BirthDate, personInfo.BirthDateEstimated);
 
             var personNames = PersonName.Create(personInfo);
             person.AddNames(personNames);
@@ -193,17 +194,17 @@ namespace LiveHAPI.Core.Model.People
         }
 
 
-        private void AddNames(List<PersonName> personNames)
+        private void AddNames(List<PersonName> names)
         {
-            foreach (var personName in personNames)
+            foreach (var personName in names)
             {
                 AddName(personName);
             }
         }
-        private void AddName(PersonName personName)
+        private void AddName(PersonName name)
         {
-            personName.PersonId = Id;
-            Names.Add(personName);
+            name.PersonId = Id;
+            Names.Add(name);
         }
 
         private void AddAddresss(List<PersonAddress> personNames)
@@ -213,23 +214,30 @@ namespace LiveHAPI.Core.Model.People
                 AddAddress(personName);
             }
         }
-        private void AddAddress(PersonAddress personName)
+        private void AddAddress(PersonAddress address)
         {
-            personName.PersonId = Id;
-            Addresses.Add(personName);
+            address.PersonId = Id;
+            Addresses.Add(address);
         }
 
-        private void AddContacts(List<PersonContact> personNames)
+        private void AddContacts(List<PersonContact> contacts)
         {
-            foreach (var personName in personNames)
+            foreach (var personName in contacts)
             {
                 AddContact(personName);
             }
         }
-        private void AddContact(PersonContact personName)
+        private void AddContact(PersonContact contact)
         {
-            personName.PersonId = Id;
-            Contacts.Add(personName);
+            contact.PersonId = Id;
+            Contacts.Add(contact);
+        }
+
+        public override string ToString()
+        {
+            var info = $" {Gender}|{BirthDate:yyyy MMMM dd}";
+            var names = Names.Count > 0 ? Names.First().FullName : "";
+            return $"{names}{info}";
         }
     }
 }

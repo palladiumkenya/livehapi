@@ -15,16 +15,28 @@ namespace LiveHAPI.Core.Tests
             var subCounties = TestData.TestSubCounties();
             var practiceTypes = TestData.TestPracticeTypes();
             var providerTypes = TestData.TestProviderTypes();
+            var identifierTypes = TestData.TestIdentifierTypes();
+            var relationshipTypes = TestData.TestRelationshipTypes();
             var practices = TestData.TestPracticeWithActivation();
             var practiceActivations = practices.SelectMany(x => x.Activations).ToList();
             var persons = TestData.TestPersons();
             var personNames = persons.SelectMany(x => x.Names);
+            var personAddresses = persons.SelectMany(x => x.Addresses);
+            var personContacts = persons.SelectMany(x => x.Contacts);
+
             var users = TestData.TestUsers();
             var providers = TestData.TestProviders();
-            
+            var clients = TestData.TestClients();
+            var clientIdentifiers = clients.SelectMany(x => x.Identifiers);
+            var clientRelationships = clients.SelectMany(x => x.Relationships);
+
             Clear(context);
-            Create(context, counties, facs, subCounties, practiceTypes, providerTypes, practices, practiceActivations, persons,
-                personNames, users,providers);
+            Create(context, 
+                counties, facs, subCounties, practiceTypes, relationshipTypes,providerTypes,identifierTypes, practices, practiceActivations, 
+                persons,personNames,personAddresses,personContacts, 
+                users,
+                providers,
+                clients,clientIdentifiers,clientRelationships);
         }
 
         public static void Create(LiveHAPIContext context, params IEnumerable<object>[] entities)
@@ -40,11 +52,19 @@ namespace LiveHAPI.Core.Tests
             context.RemoveRange(context.Providers);
             context.RemoveRange(context.Users);
             context.RemoveRange(context.PersonNames);
+            context.RemoveRange(context.PersonContacts);
+            context.RemoveRange(context.PersonAddresss);
             context.RemoveRange(context.Persons);
+            context.RemoveRange(context.ClientRelationships);
+            context.RemoveRange(context.ClientIdentifiers);
+            context.RemoveRange(context.Clients);
             context.RemoveRange(context.PracticeActivations);
             context.RemoveRange(context.Practices);
             context.RemoveRange(context.PracticeTypes);
             context.RemoveRange(context.ProviderTypes);
+            context.RemoveRange(context.IdentifierTypes);
+            context.RemoveRange(context.RelationshipTypes);
+
             context.RemoveRange(context.SubCounties);
             context.RemoveRange(context.MasterFacilities);
             context.RemoveRange(context.Counties);

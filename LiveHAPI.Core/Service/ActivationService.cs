@@ -1,6 +1,7 @@
 ﻿using System;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
+using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Shared.ValueObject;
 

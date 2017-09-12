@@ -61,5 +61,10 @@ namespace LiveHAPI.Core.Model.People
             }
             return list;
         }
+
+        public override string ToString()
+        {
+            return $"{Landmark},{CountyId} [{Lng},{Lat}]";
+        }
     }
 }

@@ -17,6 +17,15 @@ namespace LiveHAPI.Infrastructure
            Database.Migrate();
         }
 
+        #region Geo
+
+        public DbSet<County> Counties { get; set; }
+        public DbSet<SubCounty> SubCounties { get; set; }
+
+        #endregion
+
+        #region Lookup
+
         public DbSet<MasterFacility> MasterFacilities { get; set; }
         public DbSet<PracticeType> PracticeTypes { get; set; }
         public DbSet<RelationshipType> RelationshipTypes { get; set; }
@@ -30,23 +39,35 @@ namespace LiveHAPI.Infrastructure
         public DbSet<Action> Actions { get; set; }
         public DbSet<Condition> Conditions { get; set; }
 
-        public DbSet<County> Counties { get; set; }
-        public DbSet<SubCounty> SubCounties { get; set; }
+        #endregion
 
+        #region Practice
         public DbSet<Practice> Practices { get; set; }
         public DbSet<PracticeActivation> PracticeActivations { get; set; }
-        
+
+        #endregion
+
+        #region Person
         public DbSet<Person> Persons { get; set; }
         public DbSet<PersonName> PersonNames { get; set; }
         public DbSet<PersonAddress> PersonAddresss { get; set; }
         public DbSet<PersonContact> PersonContacts { get; set; }
-        public DbSet<Provider> Providers { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Client> Clients { get; set; }
+        #endregion
 
+        #region Provider
+        public DbSet<Provider> Providers { get; set; }
+        #endregion
+
+        #region User
+        public DbSet<User> Users { get; set; } 
+        #endregion
+
+        #region Client
+        public DbSet<Client> Clients { get; set; }
         public DbSet<ClientAttribute> ClientAttributes { get; set; }
         public DbSet<ClientIdentifier> ClientIdentifiers { get; set; }
-        public DbSet<ClientRelationship> ClientRelationships { get; set; }
+        public DbSet<ClientRelationship> ClientRelationships { get; set; } 
+        #endregion
 
         public DbSet<Encounter> Encounters { get; set; }
         public DbSet<Obs> Obses { get; set; }

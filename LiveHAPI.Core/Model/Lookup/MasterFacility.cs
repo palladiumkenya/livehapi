@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
-namespace LiveHAPI.Core.Model.Network
+namespace LiveHAPI.Core.Model.Lookup
 {
     public class MasterFacility:Entity<int>
     {

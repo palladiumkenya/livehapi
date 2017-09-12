@@ -32,7 +32,8 @@ namespace LiveHAPI.Core.Model.People
             Id = LiveGuid.NewGuid();
         }
 
-        private Client(string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId)
+      
+        private Client(Guid id, string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId):base(id)
         {
             MaritalStatus = maritalStatus;
             KeyPop = keyPop;
@@ -40,10 +41,12 @@ namespace LiveHAPI.Core.Model.People
             PracticeId = practiceId;
             PersonId = personId;
         }
-
+        private Client(string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId):this(LiveGuid.NewGuid(),maritalStatus,keyPop,otherKeyPop,practiceId, personId)
+        {
+        }
         public static Client Create(ClientInfo clientInfo, Guid practiceId, Guid personId)
         {
-            var client = new Client(clientInfo.MaritalStatus, clientInfo.KeyPop, clientInfo.OtherKeyPop, practiceId,
+            var client = new Client(clientInfo.Id, clientInfo.MaritalStatus, clientInfo.KeyPop, clientInfo.OtherKeyPop, practiceId,
                 personId);
 
             var identifiers = ClientIdentifier.Create(clientInfo);
@@ -69,12 +72,12 @@ namespace LiveHAPI.Core.Model.People
             AddRelationships(relationships);
         }
 
-        private void AddIdentifier(ClientIdentifier personName)
+        public void AddIdentifier(ClientIdentifier personName)
         {
             personName.ClientId = Id;
             Identifiers.Add(personName);
         }
-        private void AddIdentifiers(List<ClientIdentifier> personNames)
+        public void AddIdentifiers(List<ClientIdentifier> personNames)
         {
             foreach (var personName in personNames)
             {
@@ -82,12 +85,12 @@ namespace LiveHAPI.Core.Model.People
             }
         }
 
-        private void AddRelationship(ClientRelationship personName)
+        public void AddRelationship(ClientRelationship personName)
         {
             personName.ClientId = Id;
             Relationships.Add(personName);
         }
-        private void AddRelationships(List<ClientRelationship> personNames)
+        public void AddRelationships(List<ClientRelationship> personNames)
         {
             foreach (var personName in personNames)
             {

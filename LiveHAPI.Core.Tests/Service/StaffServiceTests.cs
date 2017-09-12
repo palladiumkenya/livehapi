@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using FizzWare.NBuilder;
@@ -21,6 +22,7 @@ namespace LiveHAPI.Core.Tests.Service
         private LiveHAPIContext _context;
         private IStaffService _staffService;
         private PersonRepository _personRepository;
+        
 
         [SetUp]
         public void SetUp()
@@ -37,9 +39,12 @@ namespace LiveHAPI.Core.Tests.Service
             _context = new LiveHAPIContext(options);
             TestData.Init();
             TestDataCreator.Init(_context);
-            _personRepository=new PersonRepository(_context);
+            
+            _personRepository =new PersonRepository(_context);
             var activationService = new ActivationService(new PracticeRepository(_context),new PracticeActivationRepository(_context),new MasterFacilityRepository(_context));
             _staffService=new StaffService(new PersonNameRepository(_context),new PersonRepository(_context),new UserRepository(_context),new ProviderRepository(_context),  activationService);
+
+
         }
 
         [Test]

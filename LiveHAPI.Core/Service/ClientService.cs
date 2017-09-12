@@ -41,15 +41,18 @@ namespace LiveHAPI.Core.Service
             {
                 var person = Person.CreateClient(personInfo);
                 _personRepository.Insert(person);
+                _personRepository.Save();
 
                 //client
                 var cient = Client.Create(client, practiceId, person.Id);
                 _clientRepository.Insert(cient);
+                _clientRepository.Save();
             }
             else
             {
                 exisitngPerson.UpdateClient(personInfo);
                 _personRepository.Update(exisitngPerson);
+                _personRepository.Save();
 
                 var existingClient = exisitngPerson.Clients.FirstOrDefault(x => x.Id == client.Id);
 
@@ -63,6 +66,8 @@ namespace LiveHAPI.Core.Service
                     var cient = Client.Create(client, practiceId, exisitngPerson.Id);
                     _clientRepository.Insert(cient);
                 }
+
+                _clientRepository.Save();
             }
         }
     }
