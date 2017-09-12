@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.Encounters
 {
-    public class Encounter:Entity<Guid>
+    public class Encounter:Entity<Guid>,IEncounter
     {
         
         public Guid ClientId { get; set; }

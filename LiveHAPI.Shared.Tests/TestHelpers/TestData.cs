@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using FizzWare.NBuilder;
+using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
+using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Shared.ValueObject;
 
@@ -32,7 +34,8 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
         private static List<Module> _modules = new List<Module>();
         private static List<Form> _forms = new List<Form>();
         private static List<EncounterType> _encounterTypes = new List<EncounterType>();
-        
+        private static List<Concept> _concepts = new List<Concept>();
+        private static List<Question> _questions = new List<Question>();
 
         private static List<PracticeActivation> _pracActvs = new List<PracticeActivation>();
         private static List<DeviceInfo> _devices = new List<DeviceInfo>();
@@ -49,7 +52,8 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
         private static List<AddressInfo> _addressInfos = new List<AddressInfo>();
         private static List<ContactInfo> _contactInfos = new List<ContactInfo>();
-
+        private static List<EncounterInfo> _encounterInfos =new List<EncounterInfo>();
+        private static List<ObsInfo> _obsInfos=new List<ObsInfo>();
 
         
 
@@ -87,9 +91,16 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
              _addressInfos = new List<AddressInfo>();
              _contactInfos = new List<ContactInfo>();
 
+            _conceptTypes=new List<ConceptType>();
             _modules=new List<Module>();
             _forms = new List<Form>();
             _encounterTypes = new List<EncounterType>();
+            _concepts=new List<Concept>();
+            _questions=new List<Question>();
+
+            _encounterInfos=new List<EncounterInfo>();
+            _obsInfos=new List<ObsInfo>();
+
 
         _counties = TestCounties();
             _facilities = TestFacilities();
@@ -113,6 +124,14 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _userInfos = TestUserInfos();
             _providerInfos = TestProviderInfos();
 
+            _encounterTypes = TestEncounterTypes();
+            _conceptTypes = TestConceptTypes();
+            _concepts = TestConcepts();
+            _modules = TestModules();
+            _forms = TestForms();
+            _questions = TestQuestions();
+
+
             _personInfos = TestPersonInfos();
             _addressInfos = TestAddressInfos();
             _contactInfos = TestContactInfos();
@@ -120,8 +139,13 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _clientInfos = TestClientInfos();
             _identifierInfos = TestIdentifierInfos();
 
+            _encounterInfos = TestEncounterInfos();
+            _obsInfos = TestObsInfos();
+
         }
-        
+
+     
+
         public static List<County> TestCounties()
         {
             if (_counties.Count > 0) return _counties;
@@ -224,6 +248,18 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
             list[0].Id = "HW";
             list[0].Name = "Health Worker";
+            return list;
+        }
+        public static List<ConceptType> TestConceptTypes()
+        {
+            if (_conceptTypes.Count > 0) return _conceptTypes;
+
+            var list = Builder<ConceptType>.CreateListOfSize(1)
+                .All()
+                .With(x => x.Voided = false)
+                .Build()
+                .ToList();
+
             return list;
         }
 
@@ -558,30 +594,62 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
             if (_forms.Count > 0) return _forms;
 
-            var list = Builder<Form>.CreateListOfSize(1)
+            var list = Builder<Form>.CreateListOfSize(2)
                 .All()
                 .With(x => x.Voided = false)
+                .With(x => x.ModuleId = TestModules()[0].Id)
                 .Build()
                 .ToList();
 
-            list[0].ModuleId = TestModules()[0].Id;
+            
             return list;
         }
         public static List<EncounterType> TestEncounterTypes()
         {
             if (_encounterTypes.Count > 0) return _encounterTypes;
 
-            var list = Builder<EncounterType>.CreateListOfSize(1)
+            var list = Builder<EncounterType>.CreateListOfSize(2)
                 .All()
                 .With(x => x.Voided = false)
                 .Build()
                 .ToList();
-
-            list[0] = "Facility";
-            list[0].Name = "Facility";
             return list;
         }
 
+        public static List<Concept> TestConcepts()
+        {
+            if (_concepts.Count > 0) return _concepts;
+
+            var list = Builder<Concept>.CreateListOfSize(4)
+                .All()
+                .With(x => x.Voided = false)
+                .With(x=>x.CategoryId=null)
+                .With(x => x.ConceptTypeId = TestConceptTypes()[0].Id)
+                .Build()
+                .ToList();
+            return list;
+        }
+
+        public static List<Question> TestQuestions()
+        {
+            if (_questions.Count > 0) return _questions;
+
+            var list = Builder<Question>.CreateListOfSize(4)
+                .All()
+                .With(x => x.Voided = false)
+                .Build()
+                .ToList();
+            list[0].ConceptId = TestConcepts()[0].Id;
+            list[0].FormId = TestForms()[0].Id;
+            list[1].ConceptId = TestConcepts()[1].Id;
+            list[1].FormId = TestForms()[0].Id;
+
+            list[2].ConceptId = TestConcepts()[2].Id;
+            list[2].FormId = TestForms()[1].Id;
+            list[3].ConceptId = TestConcepts()[3].Id;
+            list[3].FormId = TestForms()[1].Id;
+            return list;
+        }
         public static List<ClientInfo> TestClientInfos()
         {
             if (_clientInfos.Count > 0) return _clientInfos;
@@ -666,6 +734,41 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             if (_contactInfos.Count > 0) return _contactInfos;
             var contactInfos = Builder<ContactInfo>.CreateListOfSize(4).Build().ToList();
             return contactInfos;
+        }
+
+        public static List<ObsInfo> TestObsInfos()
+        {
+            if (_obsInfos.Count > 0) return _obsInfos;
+            var obsInfos = Builder<ObsInfo>.CreateListOfSize(2).Build().ToList();
+            obsInfos[0].QuestionId = TestQuestions()[0].Id;
+            obsInfos[0].EncounterId = TestEncounterInfos()[0].Id;
+            obsInfos[1].QuestionId = TestQuestions()[1].Id;
+            obsInfos[1].EncounterId = TestEncounterInfos()[0].Id;
+            return obsInfos;
+        }
+
+        public static List<EncounterInfo> TestEncounterInfos()
+        {
+            if (_encounterInfos.Count > 0) return _encounterInfos;
+
+            
+            
+            
+            var encounterInfos = Builder<EncounterInfo>.CreateListOfSize(1).Build().ToList();
+
+            encounterInfos[0].ClientId = TestClients()[0].Id;
+            encounterInfos[0].FormId = TestForms()[0].Id;
+            encounterInfos[0].EncounterTypeId = TestEncounterTypes()[0].Id;
+            encounterInfos[0].ProviderId = TestProviders()[0].Id;
+            encounterInfos[0].PracticeId = TestClients()[0].PracticeId;
+
+            var obs = Builder<ObsInfo>.CreateListOfSize(2).All().With(x=>x.EncounterId= encounterInfos[0].Id).Build().ToList();
+            obs[0].QuestionId = TestQuestions()[0].Id;
+            obs[1].QuestionId = TestQuestions()[1].Id;
+
+            encounterInfos[0].Obses = obs;
+
+            return encounterInfos;
         }
     }
 }

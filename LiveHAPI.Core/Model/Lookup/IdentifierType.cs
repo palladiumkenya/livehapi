@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Core.Model.People;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.Lookup

@@ -1,4 +1,4 @@
-﻿namespace LiveHAPI.Core.Model.Lookup
+﻿namespace LiveHAPI.Shared.Interfaces.Model
 {
     public interface IKeyPop
     {

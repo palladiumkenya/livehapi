@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LiveHAPI.Core.Model.People
+namespace LiveHAPI.Shared.Interfaces.Model
 {
     public interface IClientAttribute
     {

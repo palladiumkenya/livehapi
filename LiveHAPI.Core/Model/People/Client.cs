@@ -7,6 +7,7 @@ using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
+using Encounter = LiveHAPI.Core.Model.Encounters.Encounter;
 
 namespace LiveHAPI.Core.Model.People
 {

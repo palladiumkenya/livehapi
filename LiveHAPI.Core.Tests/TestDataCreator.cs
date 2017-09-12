@@ -17,6 +17,14 @@ namespace LiveHAPI.Core.Tests
             var providerTypes = TestData.TestProviderTypes();
             var identifierTypes = TestData.TestIdentifierTypes();
             var relationshipTypes = TestData.TestRelationshipTypes();
+            var conceptTypes = TestData.TestConceptTypes();
+            var encounterTypes = TestData.TestEncounterTypes();
+
+            var modules = TestData.TestModules();
+            var forms = TestData.TestForms();
+            var concepts = TestData.TestConcepts();
+            var questions = TestData.TestQuestions();
+
             var practices = TestData.TestPracticeWithActivation();
             var practiceActivations = practices.SelectMany(x => x.Activations).ToList();
             var persons = TestData.TestPersons();
@@ -31,14 +39,15 @@ namespace LiveHAPI.Core.Tests
             var clientRelationships = clients.SelectMany(x => x.Relationships).ToList();
 
             Clear(context);
-            Create(context, 
-                counties, facs, subCounties, practiceTypes, relationshipTypes,providerTypes,identifierTypes, practices, practiceActivations, 
-                persons,personNames,personAddresses,personContacts, 
+            Create(context,
+                counties, facs, subCounties, practiceTypes, relationshipTypes, providerTypes, identifierTypes,
+                conceptTypes, encounterTypes,
+                modules, forms, concepts, questions,
+                practices, practiceActivations,
+                persons, personNames, personAddresses, personContacts,
                 users,
                 providers,
-                clients,clientIdentifiers,clientRelationships);
-
-
+                clients, clientIdentifiers, clientRelationships);
         }
 
         public static void Create(LiveHAPIContext context, params IEnumerable<object>[] entities)
@@ -51,6 +60,9 @@ namespace LiveHAPI.Core.Tests
         }
         public static void Clear(LiveHAPIContext context, params DbSet<object>[] entities)
         {
+
+            context.RemoveRange(context.Obses);
+            context.RemoveRange(context.Encounters);
             context.RemoveRange(context.Providers);
             context.RemoveRange(context.Users);
             context.RemoveRange(context.PersonNames);
@@ -66,6 +78,13 @@ namespace LiveHAPI.Core.Tests
             context.RemoveRange(context.ProviderTypes);
             context.RemoveRange(context.IdentifierTypes);
             context.RemoveRange(context.RelationshipTypes);
+
+            context.RemoveRange(context.Forms);
+            context.RemoveRange(context.Questions);
+            context.RemoveRange(context.Concepts);
+            context.RemoveRange(context.ConceptTypes);
+            context.RemoveRange(context.EncounterTypes);
+            context.RemoveRange(context.Modules);
 
             context.RemoveRange(context.SubCounties);
             context.RemoveRange(context.MasterFacilities);

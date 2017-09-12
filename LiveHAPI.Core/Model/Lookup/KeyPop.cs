@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.Lookup

@@ -4,8 +4,9 @@ using LiveHAPI.Shared.Interfaces.Model;
 
 namespace LiveHAPI.Shared.ValueObject
 {
-    public class EncounterInfo
+    public class EncounterInfo : IEncounter
     {
+        public Guid Id { get; set; }
         public Guid ClientId { get; set; }
 
         public Guid FormId { get; set; }
@@ -16,10 +17,12 @@ namespace LiveHAPI.Shared.ValueObject
         public Guid ProviderId { get; set; }
 
         public Guid DeviceId { get; set; }
-
+        public string PracticeCode { get; set; }
         public Guid PracticeId { get; set; }
 
         public DateTime? Started { get; set; }
         public DateTime? Stopped { get; set; }
+
+        public List<ObsInfo> Obses { get; set; }=new List<ObsInfo>();
     }
 }

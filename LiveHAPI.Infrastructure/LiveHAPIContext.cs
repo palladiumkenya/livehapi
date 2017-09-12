@@ -34,6 +34,7 @@ namespace LiveHAPI.Infrastructure
         public DbSet<ValidatorType> ValidatorTypes { get; set; }
         public DbSet<Validator> Validators { get; set; }
         public DbSet<ConceptType> ConceptTypes { get; set; }
+        public DbSet<EncounterType> EncounterTypes { get; set; }
         public DbSet<KeyPop> KeyPops { get; set; }
         public DbSet<MaritalStatus> MaritalStatuses { get; set; }
         public DbSet<Action> Actions { get; set; }

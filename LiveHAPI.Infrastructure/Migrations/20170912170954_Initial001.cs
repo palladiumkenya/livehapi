@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LiveHAPI.Infrastructure.Migrations
 {
-    public partial class hAPIInitialReview001 : Migration
+    public partial class Initial001 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -71,6 +71,19 @@ namespace LiveHAPI.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Counties", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EncounterTypes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EncounterTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -460,6 +473,12 @@ namespace LiveHAPI.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Programs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Programs_EncounterTypes_EncounterTypeId",
+                        column: x => x.EncounterTypeId,
+                        principalTable: "EncounterTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Programs_Forms_FormId",
                         column: x => x.FormId,
@@ -959,6 +978,12 @@ namespace LiveHAPI.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Encounters_EncounterTypes_EncounterTypeId",
+                        column: x => x.EncounterTypeId,
+                        principalTable: "EncounterTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Encounters_Forms_FormId",
                         column: x => x.FormId,
                         principalTable: "Forms",
@@ -1156,6 +1181,11 @@ namespace LiveHAPI.Infrastructure.Migrations
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Encounters_EncounterTypeId",
+                table: "Encounters",
+                column: "EncounterTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Encounters_FormId",
                 table: "Encounters",
                 column: "FormId");
@@ -1234,6 +1264,11 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "IX_Practices_PracticeTypeId",
                 table: "Practices",
                 column: "PracticeTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Programs_EncounterTypeId",
+                table: "Programs",
+                column: "EncounterTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Programs_FormId",
@@ -1471,6 +1506,9 @@ namespace LiveHAPI.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Clients");
+
+            migrationBuilder.DropTable(
+                name: "EncounterTypes");
 
             migrationBuilder.DropTable(
                 name: "Concepts");

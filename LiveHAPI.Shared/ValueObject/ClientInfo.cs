@@ -16,8 +16,5 @@ namespace LiveHAPI.Shared.ValueObject
         public List<IdentifierInfo> Identifiers { get; set; }=new List<IdentifierInfo>();
         public List<RelationshipInfo> Relationship { get; set; } = new List<RelationshipInfo>();
 
-        
-
-
     }
 }

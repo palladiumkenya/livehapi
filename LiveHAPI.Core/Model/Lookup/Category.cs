@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.Lookup

@@ -5,6 +5,6 @@ namespace LiveHAPI.Core.Interfaces.Services
 {
     public interface IEncounterService
     {
-        void Sync(Guid practiceId, Guid clientId);
+        void Sync(EncounterInfo encounterInfo);
     }
 }

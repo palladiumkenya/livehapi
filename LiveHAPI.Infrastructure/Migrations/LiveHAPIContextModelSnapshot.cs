@@ -53,6 +53,8 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.HasIndex("ClientId");
 
+                    b.HasIndex("EncounterTypeId");
+
                     b.HasIndex("FormId");
 
                     b.ToTable("Encounters");
@@ -349,6 +351,42 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.ToTable("MaritalStatuses");
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.Lookup.MasterFacility", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<int>("AreaCode");
+
+                    b.Property<string>("AreaInfo")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100);
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MasterFacilities");
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Lookup.PracticeType", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PracticeTypes");
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.Lookup.ProviderType", b =>
                 {
                     b.Property<string>("Id")
@@ -402,25 +440,6 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.HasIndex("CountyId");
 
                     b.ToTable("SubCounties");
-                });
-
-            modelBuilder.Entity("LiveHAPI.Core.Model.Network.MasterFacility", b =>
-                {
-                    b.Property<int>("Id");
-
-                    b.Property<int>("AreaCode");
-
-                    b.Property<string>("AreaInfo")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(100);
-
-                    b.Property<bool>("Voided");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MasterFacilities");
                 });
 
             modelBuilder.Entity("LiveHAPI.Core.Model.Network.Practice", b =>
@@ -495,23 +514,6 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.HasIndex("PracticeId");
 
                     b.ToTable("PracticeActivations");
-                });
-
-            modelBuilder.Entity("LiveHAPI.Core.Model.Network.PracticeType", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(60);
-
-                    b.Property<bool>("Voided");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PracticeTypes");
                 });
 
             modelBuilder.Entity("LiveHAPI.Core.Model.People.Client", b =>
@@ -1171,6 +1173,21 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.ToTable("ConceptTypes");
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.Studio.EncounterType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EncounterTypes");
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.Studio.Form", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1248,6 +1265,8 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EncounterTypeId");
+
                     b.HasIndex("FormId");
 
                     b.ToTable("Programs");
@@ -1281,6 +1300,11 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.HasOne("LiveHAPI.Core.Model.People.Client")
                         .WithMany("Encounters")
                         .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LiveHAPI.Core.Model.Studio.EncounterType")
+                        .WithMany("Encounters")
+                        .HasForeignKey("EncounterTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LiveHAPI.Core.Model.Studio.Form")
@@ -1356,7 +1380,7 @@ namespace LiveHAPI.Infrastructure.Migrations
                         .WithMany("Practices")
                         .HasForeignKey("CountyId");
 
-                    b.HasOne("LiveHAPI.Core.Model.Network.PracticeType")
+                    b.HasOne("LiveHAPI.Core.Model.Lookup.PracticeType")
                         .WithMany("Practices")
                         .HasForeignKey("PracticeTypeId");
                 });
@@ -1593,6 +1617,11 @@ namespace LiveHAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("LiveHAPI.Core.Model.Studio.FormProgram", b =>
                 {
+                    b.HasOne("LiveHAPI.Core.Model.Studio.EncounterType")
+                        .WithMany("Programs")
+                        .HasForeignKey("EncounterTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("LiveHAPI.Core.Model.Studio.Form")
                         .WithMany("Programs")
                         .HasForeignKey("FormId")
