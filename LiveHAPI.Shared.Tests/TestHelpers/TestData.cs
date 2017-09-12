@@ -533,14 +533,18 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
             var clientInfos = Builder<ClientInfo>.CreateListOfSize(4).Build().ToList();
 
+            clientInfos[0].Id = TestClients()[0].Id;
             clientInfos[0].PracticeId = TestPracticeWithActivation()[0].Id;
             clientInfos[0].PracticeCode = "14080";
             clientInfos[0].Person = TestPersonInfos()[0];
+            clientInfos[0].Person.Id = TestPersons()[0].Id;
             clientInfos[0].Identifiers = new List<IdentifierInfo> { TestIdentifierInfos()[0]};
 
+            clientInfos[1].Id = TestClients()[1].Id;
             clientInfos[1].PracticeId = TestPracticeWithActivation()[0].Id;
             clientInfos[1].PracticeCode = "14080";
             clientInfos[1].Person = TestPersonInfos()[1];
+            clientInfos[1].Person.Id = TestPersons()[1].Id;
             clientInfos[1].Identifiers = new List<IdentifierInfo> { TestIdentifierInfos()[1] };
 
             clientInfos[2].PracticeId = TestPracticeWithActivation()[1].Id;

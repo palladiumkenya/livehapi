@@ -49,7 +49,7 @@ namespace LiveHAPI.Core.Tests.Service
         [Test]
         public void should_Sync_New_Create_Person()
         {
-            var client = _clientInfos.First();
+            var client = _clientInfos.Last();
             var prac = _practiceRepository.GetByCode(client.PracticeCode);
 
 
@@ -77,6 +77,39 @@ namespace LiveHAPI.Core.Tests.Service
             }
         }
 
+
+        [Test]
+        public void should_Sync_Update_Person()
+        {
+            var client = _clientInfos.First();
+            client.Person.FirstName = "MAUN";
+            client.Person.LastName = "MAUN L";
+
+            _clientService.Sync(client.PracticeId.Value, client);
+
+            _personRepository = new PersonRepository(_context);
+            var savedPerson = _personRepository.Get(client.Person.Id);
+            Assert.IsNotNull(savedPerson);
+            Assert.IsTrue(savedPerson.Names.Count > 0);
+            Assert.IsTrue(savedPerson.Contacts.Count > 0);
+            Assert.IsTrue(savedPerson.Addresses.Count > 0);
+            Console.WriteLine(savedPerson);
+
+            foreach (var name in savedPerson.Names)
+            {
+                Console.WriteLine($"  {name}");
+            }
+            foreach (var address in savedPerson.Addresses)
+            {
+                Console.WriteLine($"  {address}");
+            }
+            foreach (var contact in savedPerson.Contacts)
+            {
+                Console.WriteLine($"  {contact}");
+            }
+        }
+
+
         [Test]
         public void should_Sync_New_Create_Client()
         {
@@ -88,7 +121,8 @@ namespace LiveHAPI.Core.Tests.Service
 
             var savedClient = _clientRepository.Get(client.Id);
             Assert.IsNotNull(savedClient);
-          
+            Console.WriteLine(savedClient);
+
         }
 
         [TearDown]

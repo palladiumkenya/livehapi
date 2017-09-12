@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces.Model;
@@ -98,6 +99,11 @@ namespace LiveHAPI.Core.Model.People
             }
         }
 
-      
+        public override string ToString()
+        {
+            var info = $"{Id}({PersonId}) {MaritalStatus}|{KeyPop}";
+            var ids = Identifiers.Count > 0 ? Identifiers.First().ToString(): "";
+            return $"{info} {ids}";
+        }
     }
 }
