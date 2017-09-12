@@ -234,7 +234,11 @@ namespace LiveHAPI.Core.Model.People
             contact.PersonId = Id;
             Contacts.Add(contact);
         }
-
+        public bool MatchScore(Person otherPerson)
+        {
+            return Gender == otherPerson.Gender && 
+                BirthDate.Value.Date == otherPerson.BirthDate.Value;
+        }
         public override string ToString()
         {
             var info = $" {Gender}|{BirthDate:yyyy MMMM dd}";

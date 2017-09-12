@@ -42,6 +42,8 @@ namespace LiveHAPI.Core.Tests.Service
             TestDataCreator.Init(_context);
             _clientInfos = TestData.TestClientInfos();
             _practiceRepository = new PracticeRepository(_context);
+            _personRepository = new PersonRepository(_context);
+            _clientRepository = new ClientRepository(_context);
             _clientService = new ClientService(_practiceRepository, new PersonRepository(_context),
                 new ClientRepository(_context));
         }
@@ -81,18 +83,22 @@ namespace LiveHAPI.Core.Tests.Service
         [Test]
         public void should_Sync_Update_Person()
         {
-            var client = _clientInfos.First();
+            var client = _clientInfos.First();            
+            var c = _clientRepository.Get(client.Id);
+            Assert.AreEqual(c.PersonId,client.Person.Id);
+
+            
             client.Person.FirstName = "MAUN";
             client.Person.LastName = "MAUN L";
 
-            _clientService.Sync(client.PracticeId.Value, client);
+            _clientService.Sync(c.PracticeId, client);
 
             _personRepository = new PersonRepository(_context);
             var savedPerson = _personRepository.Get(client.Person.Id);
             Assert.IsNotNull(savedPerson);
-            Assert.IsTrue(savedPerson.Names.Count > 0);
-            Assert.IsTrue(savedPerson.Contacts.Count > 0);
-            Assert.IsTrue(savedPerson.Addresses.Count > 0);
+            
+            Assert.AreEqual("MAUN", savedPerson.Names.First().FirstName);
+            Assert.AreEqual("MAUN L", savedPerson.Names.First().LastName);
             Console.WriteLine(savedPerson);
 
             foreach (var name in savedPerson.Names)
@@ -109,7 +115,6 @@ namespace LiveHAPI.Core.Tests.Service
             }
         }
 
-
         [Test]
         public void should_Sync_New_Create_Client()
         {
@@ -122,13 +127,23 @@ namespace LiveHAPI.Core.Tests.Service
             var savedClient = _clientRepository.Get(client.Id);
             Assert.IsNotNull(savedClient);
             Console.WriteLine(savedClient);
-
         }
 
-        [TearDown]
-        public void TearDown()
+        [Test]
+        public void should_Sync_Update_Client()
         {
-            //_context.Database.EnsureDeleted();
+            var client = _clientInfos.First();
+            var c = _clientRepository.Get(client.Id);
+            Assert.AreEqual(c.PersonId, client.Person.Id);
+
+            client.KeyPop = "Fala";
+            _clientService.Sync(client.PracticeId.Value, client);
+            _clientRepository = new ClientRepository(_context);
+
+            var savedClient = _clientRepository.Get(client.Id);
+            Assert.IsNotNull(savedClient);
+            Assert.AreEqual("Fala", savedClient.KeyPop);
+            Console.WriteLine(savedClient);
         }
     }
 }

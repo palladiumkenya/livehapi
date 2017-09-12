@@ -6,6 +6,7 @@ using FizzWare.NBuilder;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
+using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Shared.Tests.TestHelpers
@@ -20,12 +21,18 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
         private static List<ProviderType> _providerTypes = new List<ProviderType>();
         private static List<IdentifierType> _identifierTypes = new List<IdentifierType>();
         private static List<RelationshipType> _relationshipTypes = new List<RelationshipType>();
+        private static List<ConceptType> _conceptTypes = new List<ConceptType>();
         private static List<Practice> _pracs = new List<Practice>();
         private static List<Practice> _pracWithActivation = new List<Practice>();
         private static List<Person> _persons = new List<Person>();
         private static List<User> _users = new List<User>();
         private static List<Provider> _providers=new List<Provider>();
         private static List<Client> _clients = new List<Client>();
+
+        private static List<Module> _modules = new List<Module>();
+        private static List<Form> _forms = new List<Form>();
+        private static List<EncounterType> _encounterTypes = new List<EncounterType>();
+        
 
         private static List<PracticeActivation> _pracActvs = new List<PracticeActivation>();
         private static List<DeviceInfo> _devices = new List<DeviceInfo>();
@@ -42,6 +49,10 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
         private static List<AddressInfo> _addressInfos = new List<AddressInfo>();
         private static List<ContactInfo> _contactInfos = new List<ContactInfo>();
+
+
+        
+
 
         public static void Init()
         {
@@ -75,6 +86,10 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
              _addressInfos = new List<AddressInfo>();
              _contactInfos = new List<ContactInfo>();
+
+            _modules=new List<Module>();
+            _forms = new List<Form>();
+            _encounterTypes = new List<EncounterType>();
 
         _counties = TestCounties();
             _facilities = TestFacilities();
@@ -527,6 +542,46 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             return new List<ProviderInfo> { p1, p2, p3, p4 };
         }
 
+        public static List<Module> TestModules()
+        {
+            if (_modules.Count > 0) return _modules;
+
+            var list = Builder<Module>.CreateListOfSize(1)
+                .All()
+                .With(x => x.Voided = false)
+                .Build()
+                .ToList();
+            return list;
+        }
+        public static List<Form> TestForms()
+        {
+
+            if (_forms.Count > 0) return _forms;
+
+            var list = Builder<Form>.CreateListOfSize(1)
+                .All()
+                .With(x => x.Voided = false)
+                .Build()
+                .ToList();
+
+            list[0].ModuleId = TestModules()[0].Id;
+            return list;
+        }
+        public static List<EncounterType> TestEncounterTypes()
+        {
+            if (_encounterTypes.Count > 0) return _encounterTypes;
+
+            var list = Builder<EncounterType>.CreateListOfSize(1)
+                .All()
+                .With(x => x.Voided = false)
+                .Build()
+                .ToList();
+
+            list[0] = "Facility";
+            list[0].Name = "Facility";
+            return list;
+        }
+
         public static List<ClientInfo> TestClientInfos()
         {
             if (_clientInfos.Count > 0) return _clientInfos;
@@ -537,14 +592,14 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             clientInfos[0].PracticeId = TestPracticeWithActivation()[0].Id;
             clientInfos[0].PracticeCode = "14080";
             clientInfos[0].Person = TestPersonInfos()[0];
-            clientInfos[0].Person.Id = TestPersons()[0].Id;
+            clientInfos[0].Person.Id = TestClients()[0].PersonId;
             clientInfos[0].Identifiers = new List<IdentifierInfo> { TestIdentifierInfos()[0]};
 
             clientInfos[1].Id = TestClients()[1].Id;
             clientInfos[1].PracticeId = TestPracticeWithActivation()[0].Id;
             clientInfos[1].PracticeCode = "14080";
             clientInfos[1].Person = TestPersonInfos()[1];
-            clientInfos[1].Person.Id = TestPersons()[1].Id;
+            clientInfos[1].Person.Id = TestClients()[1].PersonId;
             clientInfos[1].Identifiers = new List<IdentifierInfo> { TestIdentifierInfos()[1] };
 
             clientInfos[2].PracticeId = TestPracticeWithActivation()[1].Id;

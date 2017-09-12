@@ -66,15 +66,17 @@ namespace LiveHAPI.Infrastructure
         public DbSet<Client> Clients { get; set; }
         public DbSet<ClientAttribute> ClientAttributes { get; set; }
         public DbSet<ClientIdentifier> ClientIdentifiers { get; set; }
-        public DbSet<ClientRelationship> ClientRelationships { get; set; } 
+        public DbSet<ClientRelationship> ClientRelationships { get; set; }
         #endregion
 
+        #region Encounter
         public DbSet<Encounter> Encounters { get; set; }
         public DbSet<Obs> Obses { get; set; }
         public DbSet<ObsFinalTestResult> ObsFinalTestResults { get; set; }
         public DbSet<ObsLinkage> ObsLinkages { get; set; }
         public DbSet<ObsTestResult> ObsTestResults { get; set; }
         public DbSet<ObsTraceResult> ObsTraceResults { get; set; }
+        #endregion
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryItem> CategoryItems { get; set; }
