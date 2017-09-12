@@ -20,15 +20,15 @@ namespace LiveHAPI.Core.Tests
             var practices = TestData.TestPracticeWithActivation();
             var practiceActivations = practices.SelectMany(x => x.Activations).ToList();
             var persons = TestData.TestPersons();
-            var personNames = persons.SelectMany(x => x.Names);
-            var personAddresses = persons.SelectMany(x => x.Addresses);
-            var personContacts = persons.SelectMany(x => x.Contacts);
+            var personNames = persons.SelectMany(x => x.Names).ToList();
+            var personAddresses = persons.SelectMany(x => x.Addresses).ToList();
+            var personContacts = persons.SelectMany(x => x.Contacts).ToList();
 
             var users = TestData.TestUsers();
             var providers = TestData.TestProviders();
             var clients = TestData.TestClients();
-            var clientIdentifiers = clients.SelectMany(x => x.Identifiers);
-            var clientRelationships = clients.SelectMany(x => x.Relationships);
+            var clientIdentifiers = clients.SelectMany(x => x.Identifiers).ToList();
+            var clientRelationships = clients.SelectMany(x => x.Relationships).ToList();
 
             Clear(context);
             Create(context, 
@@ -37,6 +37,8 @@ namespace LiveHAPI.Core.Tests
                 users,
                 providers,
                 clients,clientIdentifiers,clientRelationships);
+
+
         }
 
         public static void Create(LiveHAPIContext context, params IEnumerable<object>[] entities)

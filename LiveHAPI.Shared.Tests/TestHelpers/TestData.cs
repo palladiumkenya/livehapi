@@ -45,7 +45,38 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
         public static void Init()
         {
-            _counties = TestCounties();
+
+             _counties = new List<County>();
+             _facilities = new List<MasterFacility>();
+             _subcounties = new List<SubCounty>();
+             _pracTypes = new List<PracticeType>();
+             _providerTypes = new List<ProviderType>();
+             _identifierTypes = new List<IdentifierType>();
+            _relationshipTypes = new List<RelationshipType>();
+             _pracs = new List<Practice>();
+             _pracWithActivation = new List<Practice>();
+            _persons = new List<Person>();
+             _users = new List<User>();
+             _providers = new List<Provider>();
+             _clients = new List<Client>();
+
+             _pracActvs = new List<PracticeActivation>();
+             _devices = new List<DeviceInfo>();
+             _personNameInfos = new List<PersonNameInfo>();
+             _userInfos = new List<UserInfo>();
+             _providerInfos = new List<ProviderInfo>();
+
+             _clientInfos = new List<ClientInfo>();
+
+             _identifierInfos = new List<IdentifierInfo>();
+             _relationshipInfos = new List<RelationshipInfo>();
+
+             _personInfos = new List<PersonInfo>();
+
+             _addressInfos = new List<AddressInfo>();
+             _contactInfos = new List<ContactInfo>();
+
+        _counties = TestCounties();
             _facilities = TestFacilities();
             _subcounties = TestSubCounties();
             _pracTypes = TestPracticeTypes();
@@ -272,9 +303,11 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             
             list[0].AssignName(personNames[0]);
             list[1].AssignName(personNames[1]);
+
             list[2].AssignName(personNames[2]);
             list[2].AssignAddress(personAddresses[0]);
             list[2].AssignContact(personContacts[0]);
+
             list[3].AssignName(personNames[3]);
             list[3].AssignAddress(personAddresses[1]);
             list[3].AssignContact(personContacts[1]);

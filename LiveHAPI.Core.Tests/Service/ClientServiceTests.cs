@@ -90,5 +90,11 @@ namespace LiveHAPI.Core.Tests.Service
             Assert.IsNotNull(savedClient);
           
         }
+
+        [TearDown]
+        public void TearDown()
+        {
+            //_context.Database.EnsureDeleted();
+        }
     }
 }

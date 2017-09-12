@@ -64,7 +64,7 @@ namespace LiveHAPI.Core.Model.People
 
         public override string ToString()
         {
-            return $"{Landmark},{CountyId} [{Lng},{Lat}]";
+            return $"{Landmark},{CountyId} [{Lng},{Lat}]   ({PersonId})";
         }
     }
 }

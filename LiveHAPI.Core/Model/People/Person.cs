@@ -104,44 +104,46 @@ namespace LiveHAPI.Core.Model.People
             return name;
         }
 
-        public void AssignAddress(PersonAddress address)
+        public PersonAddress AssignAddress(PersonAddress address)
         {
             address.PersonId = Id;
 
-            if (Addresses.Any(x => x.Source.ToLower() == address.Source.ToLower() &&
-                               x.SourceRef.ToLower() == address.SourceRef.ToLower()))
-            {
-                var personAddress = Addresses.First(x => x.Source.ToLower() == address.Source.ToLower() &&
-                                                  x.SourceRef.ToLower() == address.SourceRef.ToLower());
 
+            var personAddress = Addresses.FirstOrDefault(x => x.Source.ToLower() == address.Source.ToLower() &&
+                                                     x.SourceRef.ToLower() == address.SourceRef.ToLower());
+
+            if (null != personAddress)
+            {
                 Addresses.Remove(personAddress);
                 personAddress.ChangeTo(address);
                 Addresses.Add(personAddress);
+                return personAddress;
             }
-            else
-            {
-                Addresses.Add(address);
-            }
+
+            Addresses.Add(address);
+            return address;
+
         }
 
-        public void AssignContact(PersonContact contact)
+        public PersonContact AssignContact(PersonContact contact)
         {
             contact.PersonId = Id;
 
-            if (Contacts.Any(x => x.Source.ToLower() == contact.Source.ToLower() &&
-                               x.SourceRef.ToLower() == contact.SourceRef.ToLower()))
-            {
-                var personContact = Contacts.First(x => x.Source.ToLower() == contact.Source.ToLower() &&
-                                                  x.SourceRef.ToLower() == contact.SourceRef.ToLower());
+            var personContact = Contacts.FirstOrDefault(x => x.Source.ToLower() == contact.Source.ToLower() &&
+                                                    x.SourceRef.ToLower() == contact.SourceRef.ToLower());
 
+
+
+            if (null != personContact)
+            {
                 Contacts.Remove(personContact);
                 personContact.ChangeTo(contact);
                 Contacts.Add(personContact);
+                return personContact;
             }
-            else
-            {
-                Contacts.Add(contact);
-            }
+
+            Contacts.Add(contact);
+            return contact;
         }
 
         public User AssignUser(User user)
@@ -237,7 +239,7 @@ namespace LiveHAPI.Core.Model.People
         {
             var info = $" {Gender}|{BirthDate:yyyy MMMM dd}";
             var names = Names.Count > 0 ? Names.First().FullName : "";
-            return $"{names}{info}";
+            return $"{names}{info}      ({Id})";
         }
     }
 }
