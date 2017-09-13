@@ -22,6 +22,7 @@ namespace LiveHAPI.Shared.ValueObject
 
         public DateTime? Started { get; set; }
         public DateTime? Stopped { get; set; }
+        public Guid UserId { get; set; }
 
         public List<ObsInfo> Obses { get; set; }=new List<ObsInfo>();
     }

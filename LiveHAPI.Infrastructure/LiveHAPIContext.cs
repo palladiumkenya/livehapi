@@ -80,7 +80,7 @@ namespace LiveHAPI.Infrastructure
         #endregion
 
         public DbSet<Category> Categories { get; set; }
-        public DbSet<CategoryItem> CategoryItems { get; set; }
+        public DbSet<CategoryItem> CategoryItems { get; set; } 
         public DbSet<Item> Items { get; set; }
         public DbSet<Concept> Concepts { get; set; }
 

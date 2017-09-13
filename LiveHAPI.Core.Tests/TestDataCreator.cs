@@ -38,6 +38,9 @@ namespace LiveHAPI.Core.Tests
             var clientIdentifiers = clients.SelectMany(x => x.Identifiers).ToList();
             var clientRelationships = clients.SelectMany(x => x.Relationships).ToList();
 
+            var encounters = TestData.TestEncounters();
+            var obses = encounters.SelectMany(x => x.Obses).ToList();
+
             Clear(context);
             Create(context,
                 counties, facs, subCounties, practiceTypes, relationshipTypes, providerTypes, identifierTypes,
@@ -47,7 +50,7 @@ namespace LiveHAPI.Core.Tests
                 persons, personNames, personAddresses, personContacts,
                 users,
                 providers,
-                clients, clientIdentifiers, clientRelationships);
+                clients, clientIdentifiers, clientRelationships,encounters,obses);
         }
 
         public static void Create(LiveHAPIContext context, params IEnumerable<object>[] entities)

@@ -13,7 +13,7 @@ using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Shared.Tests.TestHelpers
 {
-    public class TestData
+    public class  TestData
     {
         private static readonly int _count = 2;
         private static List<County> _counties = new List<County>();
@@ -30,6 +30,8 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
         private static List<User> _users = new List<User>();
         private static List<Provider> _providers=new List<Provider>();
         private static List<Client> _clients = new List<Client>();
+        private static List<Encounter> _encounters = new List<Encounter>();
+
 
         private static List<Module> _modules = new List<Module>();
         private static List<Form> _forms = new List<Form>();
@@ -75,6 +77,8 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
              _providers = new List<Provider>();
              _clients = new List<Client>();
 
+
+
              _pracActvs = new List<PracticeActivation>();
              _devices = new List<DeviceInfo>();
              _personNameInfos = new List<PersonNameInfo>();
@@ -97,6 +101,8 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _encounterTypes = new List<EncounterType>();
             _concepts=new List<Concept>();
             _questions=new List<Question>();
+
+            _encounters=new List<Encounter>();
 
             _encounterInfos=new List<EncounterInfo>();
             _obsInfos=new List<ObsInfo>();
@@ -131,7 +137,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _forms = TestForms();
             _questions = TestQuestions();
 
-
+            _encounters = TestEncounters();
             _personInfos = TestPersonInfos();
             _addressInfos = TestAddressInfos();
             _contactInfos = TestContactInfos();
@@ -143,8 +149,6 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _obsInfos = TestObsInfos();
 
         }
-
-     
 
         public static List<County> TestCounties()
         {
@@ -684,6 +688,28 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             return clientInfos;
         }
 
+        public static List<Encounter> TestEncounters()
+        {
+            if (_encounters.Count > 0) return _encounters;
+            
+            var encounters = Builder<Encounter>.CreateListOfSize(1).Build().ToList();
+
+            encounters[0].ClientId = TestClients()[0].Id;
+            encounters[0].FormId = TestForms()[0].Id;
+            encounters[0].EncounterTypeId = TestEncounterTypes()[0].Id;
+            encounters[0].ProviderId = TestProviders()[0].Id;
+            encounters[0].PracticeId = TestClients()[0].PracticeId;
+            encounters[0].UserId = TestUsers()[0].Id;
+
+            var obs = Builder<Obs>.CreateListOfSize(2).All().With(x => x.EncounterId = encounters[0].Id).Build().ToList();
+            obs[0].QuestionId = TestQuestions()[0].Id;
+            obs[1].QuestionId = TestQuestions()[1].Id;
+            encounters[0].Obses = obs;
+
+            return encounters;
+        }
+
+
         public static List<PersonInfo> TestPersonInfos()
         {
             if (_personInfos.Count > 0) return _personInfos;
@@ -751,22 +777,44 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
         {
             if (_encounterInfos.Count > 0) return _encounterInfos;
 
-            
-            
-            
-            var encounterInfos = Builder<EncounterInfo>.CreateListOfSize(1).Build().ToList();
+            var obs = Builder<ObsInfo>.CreateListOfSize(4).All().Build().ToList();
 
-            encounterInfos[0].ClientId = TestClients()[0].Id;
-            encounterInfos[0].FormId = TestForms()[0].Id;
-            encounterInfos[0].EncounterTypeId = TestEncounterTypes()[0].Id;
-            encounterInfos[0].ProviderId = TestProviders()[0].Id;
-            encounterInfos[0].PracticeId = TestClients()[0].PracticeId;
+            var encounterInfos = Builder<EncounterInfo>.CreateListOfSize(2).Build().ToList();
 
-            var obs = Builder<ObsInfo>.CreateListOfSize(2).All().With(x=>x.EncounterId= encounterInfos[0].Id).Build().ToList();
-            obs[0].QuestionId = TestQuestions()[0].Id;
-            obs[1].QuestionId = TestQuestions()[1].Id;
+            encounterInfos[0].Id = TestEncounters()[0].Id;
+            encounterInfos[0].ClientId = TestEncounters()[0].ClientId;
+            encounterInfos[0].FormId = TestEncounters()[0].FormId;
+            encounterInfos[0].EncounterTypeId = TestEncounters()[0].EncounterTypeId;
+            encounterInfos[0].ProviderId = TestEncounters()[0].ProviderId;
+            encounterInfos[0].PracticeId = TestEncounters()[0].PracticeId;
+            encounterInfos[0].UserId = TestEncounters()[0].UserId;
 
-            encounterInfos[0].Obses = obs;
+
+            obs[0].EncounterId = TestEncounters()[0].Id;
+            obs[0].Id = TestEncounters()[0].Obses.ToList()[0].Id;
+            obs[0].QuestionId = TestEncounters()[0].Obses.ToList()[0].QuestionId;
+            obs[1].EncounterId = TestEncounters()[0].Id;
+            obs[1].Id = TestEncounters()[0].Obses.ToList()[1].Id;
+            obs[1].QuestionId = TestEncounters()[0].Obses.ToList()[1].QuestionId;
+
+            encounterInfos[0].Obses.Add(obs[0]);
+            encounterInfos[0].Obses.Add(obs[1]);
+
+            encounterInfos[1].ClientId = TestClients()[0].Id;
+            encounterInfos[1].FormId = TestForms()[1].Id;
+            encounterInfos[1].EncounterTypeId = TestEncounterTypes()[0].Id;
+            encounterInfos[1].ProviderId = TestProviders()[0].Id;
+            encounterInfos[1].PracticeId = TestClients()[0].PracticeId;
+            encounterInfos[1].UserId = TestUsers()[0].Id;
+
+            obs[2].EncounterId = encounterInfos[1].Id;
+            obs[2].QuestionId = TestQuestions()[0].Id;
+            obs[3].EncounterId = encounterInfos[1].Id;
+            obs[3].QuestionId = TestQuestions()[1].Id;
+
+            encounterInfos[1].Obses.Add(obs[2]);
+            encounterInfos[1].Obses.Add(obs[3]);
+
 
             return encounterInfos;
         }

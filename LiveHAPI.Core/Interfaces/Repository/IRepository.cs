@@ -12,6 +12,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
         IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, bool voided = false);
 
         void Insert(T entity);
+        void Insert(IEnumerable<T> entities);
         void InsertOrUpdate(T entity);
         void InsertOrUpdate(IEnumerable<T> entities);
         void InsertOrUpdateAny(object entity);

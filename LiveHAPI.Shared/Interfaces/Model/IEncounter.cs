@@ -13,5 +13,6 @@ namespace LiveHAPI.Shared.Interfaces.Model
         Guid PracticeId { get; set; }
         DateTime? Started { get; set; }
         DateTime? Stopped { get; set; }
+        Guid UserId { get; set; }
     }
 }

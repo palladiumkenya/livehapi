@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.Encounters
 {
@@ -23,9 +24,9 @@ namespace LiveHAPI.Core.Model.Encounters
         public Guid PracticeId { get; set; }
         
         public DateTime? Started { get; set; }
-        public DateTime? Stopped { get; set; }        
+        public DateTime? Stopped { get; set; }
+        public Guid UserId { get; set; }
 
-        
         public ICollection<Obs> Obses { get; set; } = new List<Obs>();
         
         public ICollection<ObsTestResult> ObsTestResults { get; set; } = new List<ObsTestResult>();
@@ -36,13 +37,58 @@ namespace LiveHAPI.Core.Model.Encounters
         
         public ICollection<ObsLinkage> ObsLinkages { get; set; } = new List<ObsLinkage>();
         
-        public Guid UserId { get; set; }
+        
         public bool IsComplete { get; set; }
         
         public Encounter()
         {
             Id = LiveGuid.NewGuid();
             EncounterDate = DateTime.Now;
+        }
+
+        private Encounter(Guid id, 
+            Guid clientId, Guid formId, Guid encounterTypeId, DateTime encounterDate, Guid providerId, Guid deviceId, Guid practiceId, DateTime? started, DateTime? stopped, Guid userId) 
+            : base(id)
+        {
+            ClientId = clientId;
+            FormId = formId;
+            EncounterTypeId = encounterTypeId;
+            EncounterDate = encounterDate;
+            ProviderId = providerId;
+            DeviceId = deviceId;
+            PracticeId = practiceId;
+            Started = started;
+            Stopped = stopped;
+            UserId = userId;
+        }
+
+        private Encounter(Guid clientId, Guid formId, Guid encounterTypeId, DateTime encounterDate, Guid providerId, Guid deviceId, Guid practiceId, DateTime? started, DateTime? stopped, Guid userId)
+            :this(LiveGuid.NewGuid(), clientId,formId,encounterTypeId,encounterDate,providerId,deviceId,practiceId,started,stopped,userId)
+        {           
+        }
+    
+        public static Encounter Create(EncounterInfo encounterInfo)
+        {
+            return new Encounter(encounterInfo.Id, encounterInfo.ClientId,encounterInfo.FormId,encounterInfo.EncounterTypeId,encounterInfo.EncounterDate, encounterInfo.ProviderId, encounterInfo.DeviceId, encounterInfo.PracticeId, encounterInfo.Started, encounterInfo.Stopped,encounterInfo.UserId);
+        }
+
+        public void Update(EncounterInfo encounterInfo)
+        {
+            ClientId = encounterInfo.ClientId;
+            FormId = encounterInfo.FormId;
+            EncounterTypeId = encounterInfo.EncounterTypeId;
+            EncounterDate = encounterInfo.EncounterDate;
+            ProviderId = encounterInfo.ProviderId;
+            DeviceId = encounterInfo.DeviceId;
+            PracticeId = encounterInfo.PracticeId;
+            Started = encounterInfo.Started;
+            Stopped = encounterInfo.Stopped;
+            UserId = encounterInfo.UserId;
+        }
+
+        public override string ToString()
+        {
+            return $"{Id}|{EncounterDate:yyyy-MMM-dd ddd}|{ClientId}";
         }
     }
 }
