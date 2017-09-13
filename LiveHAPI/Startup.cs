@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using LiveHAPI.Core.Interfaces.Repository;
+﻿using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
-using LiveHAPI.Core.Model;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Service;
 using LiveHAPI.Infrastructure;
@@ -13,13 +7,11 @@ using LiveHAPI.Infrastructure.Repository;
 using LiveHAPI.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Serialization;
 
 namespace LiveHAPI
 {
@@ -48,20 +40,29 @@ namespace LiveHAPI
                 .AddMvcOptions(o => o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter()))
                 .AddJsonOptions(o =>o.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-
-
-#if DEBUG
-            services.AddTransient<IMailService, LocalMailService>();
-#else
-            services.AddTransient<IMailService, CloudMailService>();
-#endif
-
-
             var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
             services.AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString));
 
-            services.AddScoped<ICountyRepository, CountyRepository>();
+            services.AddScoped<IMasterFacilityRepository, MasterFacilityRepository>();
+            services.AddScoped<IObsRepository, ObsRepository>();
+            services.AddScoped<IPersonNameRepository, PersonNameRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<IPracticeActivationRepository, PracticeActivationRepository>();
+            services.AddScoped<IPracticeRepository, PracticeRepository>();
+            services.AddScoped<IProviderRepository, ProviderRepository>();            
             services.AddScoped<ISubCountyRepository, SubCountyRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<ICountyRepository, CountyRepository>();
+            services.AddScoped<IEncounterRepository, EncounterRepository>();
+            services.AddScoped<ILookupRepository, LookupRepository>();
+
+            services.AddScoped<IMetaService, MetaService>();
+            services.AddScoped<IStaffService, StaffService>();
+            services.AddScoped<IActivationService, ActivationService>();
+            services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<IEncounterService, EncounterService>();
+            services.AddScoped<IFormsService, FormsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,7 +83,7 @@ namespace LiveHAPI
 //                                    }
                         
 
-            //context.EnsureSeeded();
+           context.EnsureSeeded();
 
             app.UseMvc();
 

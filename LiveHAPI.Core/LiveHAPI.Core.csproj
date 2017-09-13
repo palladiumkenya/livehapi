@@ -64,8 +64,4 @@
     <ProjectReference Include="..\LiveHAPI.Shared\LiveHAPI.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\Model\" />
-  </ItemGroup>
-
 </Project>

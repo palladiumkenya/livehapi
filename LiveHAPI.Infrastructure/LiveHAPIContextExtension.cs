@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using EFCore.BulkExtensions;
 using LiveHAPI.Core.Model;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
@@ -37,35 +38,14 @@ namespace LiveHAPI.Infrastructure
 
         public static void EnsureSeeded(this LiveHAPIContext context)
         {
-            context.SaveOrUpdateAll(InitialSeeder.ReadCsv<County>());
-            context.SaveOrUpdateAll(InitialSeeder.ReadCsv<SubCounty>());
-            context.SaveOrUpdateAll(InitialSeeder.ReadCsv<PracticeType>());
-            context.SaveOrUpdateAll(InitialSeeder.ReadCsv<Practice>());
-        }
-
-
-        public static void AddOrUpdateItem(this LiveHAPIContext ctx, object entity)
-        {
-
-            try
+            using (var transaction = context.Database.BeginTransaction())
             {
-                ctx.Attach(entity);
-                ctx.Entry(entity).State = EntityState.Modified;
-                
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<County>());
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubCounty>());
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<PracticeType>());
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Practice>());
+                transaction.Commit();
             }
-            catch 
-            {
-                ctx.Add(entity);
-            }
-        }
-
-        public static void SaveOrUpdateAll(this LiveHAPIContext context, IEnumerable<object> entities)
-        {
-            foreach (var entity in entities)
-            {
-                context.AddOrUpdateItem(entity);
-            }
-            context.SaveChanges();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using LiveHAPI.Core.Model.Encounters;
+﻿using System.Collections.Generic;
+using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
@@ -95,5 +96,8 @@ namespace LiveHAPI.Infrastructure
         public DbSet<Form> Forms { get; set; }
         public DbSet<FormImplementation> FormImplementations { get; set; }
         public DbSet<FormProgram> Programs { get; set; }
+
+
+       
     }
 }

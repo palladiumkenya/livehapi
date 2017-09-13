@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using LiveHAPI.Core.Interfaces.Repository;
+using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model;
 using LiveHAPI.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -17,13 +18,13 @@ namespace LiveHAPI.Controllers
     [Route("api/counties")]
     public class CountiesController : Controller
     {
-        private readonly ICountyRepository _countyRepository;
+        private readonly IMetaService _metaService;
         private readonly ILogger<CountiesController> _logger;
 
-        public CountiesController(ICountyRepository countyRepository, ILogger<CountiesController> logger)
+        public CountiesController(ILogger<CountiesController> logger, IMetaService metaService)
         {
-            _countyRepository = countyRepository;
             _logger = logger;
+            _metaService = metaService;
         }
 
         [HttpGet]
@@ -31,7 +32,8 @@ namespace LiveHAPI.Controllers
         {
             try
             {
-                var c = _countyRepository.GetAll().ToList();
+                var c = _metaService.ReadCounties().ToList();
+
                 var counties = Mapper.Map<IEnumerable<CountyDTO>>(c);
                 return Ok(counties);
             }
@@ -40,18 +42,6 @@ namespace LiveHAPI.Controllers
                 _logger.LogDebug($"Error loading counties: {e}");
                 return StatusCode(500, "Error loading counties");
             }
-        }
-        [HttpGet("{id}")]
-        public IActionResult GetCounty(int id)
-        {
-    
-
-            var c = _countyRepository.GetAll().FirstOrDefault(x => x.Id == id);
-            if (null != c)
-            {
-                return Ok(c);
-            }
-            return NotFound();
         }
     }
 }
