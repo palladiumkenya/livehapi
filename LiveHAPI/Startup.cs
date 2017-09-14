@@ -71,6 +71,10 @@ namespace LiveHAPI
             loggerFactory.AddLog4Net();
             loggerFactory.AddDebug();
 
+
+
+            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -85,6 +89,7 @@ namespace LiveHAPI
 
            context.EnsureSeeded();
 
+            
             app.UseMvc();
 
             AutoMapper.Mapper.Initialize(cfg =>

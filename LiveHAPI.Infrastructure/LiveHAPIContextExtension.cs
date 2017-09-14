@@ -44,6 +44,7 @@ namespace LiveHAPI.Infrastructure
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubCounty>());
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<PracticeType>());
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Practice>());
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<MasterFacility>());
                 transaction.Commit();
             }
         }

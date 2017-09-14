@@ -14,15 +14,27 @@ namespace LiveHAPI
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
-        }
-
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+            var config = new ConfigurationBuilder()
+                .AddCommandLine(args)
+                .Build();
+            var host = new WebHostBuilder()
+                .UseConfiguration(config)
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
                 .UseStartup<Startup>()
+                .UseUrls("http://0.0.0.0:6000")
                 .Build();
+            host.Run();
+
+           // BuildWebHost(args).Run();
+        }
+
+//        public static IWebHost BuildWebHost(string[] args) =>
+//            WebHost.CreateDefaultBuilder(args)
+//                .UseKestrel()
+//                .UseContentRoot(Directory.GetCurrentDirectory())
+//                .UseIISIntegration()
+//                .UseStartup<Startup>()
+//                .Build();
     }
 }

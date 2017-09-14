@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <None Remove="Seed\County.csv" />
+    <None Remove="Seed\MasterFacility.csv" />
     <None Remove="Seed\Practice.csv" />
     <None Remove="Seed\PracticeType.csv" />
     <None Remove="Seed\SubCounty.csv" />
@@ -13,6 +14,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Seed\County.csv" />
+    <EmbeddedResource Include="Seed\MasterFacility.csv" />
     <EmbeddedResource Include="Seed\Practice.csv" />
     <EmbeddedResource Include="Seed\PracticeType.csv" />
     <EmbeddedResource Include="Seed\SubCounty.csv" />

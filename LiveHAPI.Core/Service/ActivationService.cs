@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Lookup;
@@ -18,6 +19,28 @@ namespace LiveHAPI.Core.Service
             _practiceRepository = practiceRepository;
             _practiceActivationRepository = practiceActivationRepository;
             _masterFacilityRepository = masterFacilityRepository;
+        }
+
+        public Practice GetCentral()
+        {
+            int code = 1;
+            var existingPractice = _practiceRepository.GetByCode(code.ToString());
+
+            if (null == existingPractice)
+                throw new ArgumentException("Central hAPI.Server does not exist");
+
+            return existingPractice;
+        }
+
+        public Practice GetLocal()
+        {
+            var existingPractice =
+                _practiceRepository.GetAll(x => x.IsDefault && x.Code != "1").ToList().FirstOrDefault();
+
+            if (null == existingPractice)
+                throw new ArgumentException("Facility hAPI.Server not setup");
+
+            return existingPractice;
         }
 
         public MasterFacility Verify(int code)
