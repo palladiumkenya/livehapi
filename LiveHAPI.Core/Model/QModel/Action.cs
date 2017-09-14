@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.QModel
 {
-    public class Action:Entity<string>
+    public class Action:Entity<string>,IAction
     {
         [Key]
         [MaxLength(50)]

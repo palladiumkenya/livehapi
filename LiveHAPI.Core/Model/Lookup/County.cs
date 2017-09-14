@@ -27,6 +27,10 @@ namespace LiveHAPI.Core.Model.Lookup
         {
             Name = name;
         }
-      
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }

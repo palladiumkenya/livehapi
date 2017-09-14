@@ -1,10 +1,14 @@
 ﻿using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Lookup;
+using LiveHAPI.Core.Model.QModel;
+using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Core.Service;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
 using LiveHAPI.Model;
+using LiveHAPI.Shared.ValueObject;
+using LiveHAPI.Shared.ValueObject.Meta;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -94,13 +98,30 @@ namespace LiveHAPI
 
             AutoMapper.Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<County,CountyDTO>();
+                cfg.CreateMap<County,CountyInfo>();
+                cfg.CreateMap<SubCounty, SubCountyInfo>();
+
+                cfg.CreateMap<Category, CategoryInfo>();
+                cfg.CreateMap<Item, ItemInfo>();
+                cfg.CreateMap<CategoryItem, CategoryItemInfo>();
+
+                cfg.CreateMap<PracticeType, PracticeTypeInfo>();
+                cfg.CreateMap<IdentifierType, IdentifierTypeInfo>();
+                cfg.CreateMap<RelationshipType, RelationshipTypeInfo>();
+                cfg.CreateMap<KeyPop, KeyPopInfo>();
+                cfg.CreateMap<MaritalStatus, MaritalStatusInfo>();
+                cfg.CreateMap<ProviderType, ProviderTypeInfo>();
+                cfg.CreateMap<Action, ActionInfo>();
+                cfg.CreateMap<Condition, ConditionInfo>();
+                cfg.CreateMap<ValidatorType, ValidatorTypeInfo>();
+                cfg.CreateMap<CategoryItem, CategoryItemInfo>();
+                cfg.CreateMap<ConceptType, ConceptTypeInfo>();
+                cfg.CreateMap<Validator, ValidatorInfo>();
+                cfg.CreateMap<EncounterType, EncounterTypeInfo>();
+
             });
 
-            //            app.Run(async (context) =>
-            //            {
-            //                await context.Response.WriteAsync("Hello World!");
-            //            });
+        
         }
     }
 }

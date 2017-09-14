@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.Lookup
 {
-    public class MasterFacility:Entity<int>
+    public class MasterFacility:Entity<int>,IMasterFacility
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

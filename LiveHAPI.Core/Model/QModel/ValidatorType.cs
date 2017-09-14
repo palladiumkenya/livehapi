@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Shared.Model;
+using LiveHAPI.Shared.ValueObject.Meta;
 
 namespace LiveHAPI.Core.Model.QModel
 {
-    public class ValidatorType:Entity<string>
+    public class ValidatorType:Entity<string>,IValidatorType
     {
         [Key]
         [MaxLength(50)]

@@ -21,85 +21,85 @@ namespace LiveHAPI.Core.Service
 
         public IEnumerable<County> ReadCounties()
         {
-            return _lookupRepository.ReadAll<County>();
+            return _lookupRepository.ReadAll<County>(x=>x.SubCounties);
         }
 
-        public IEnumerable<Category> ReadLookupCategories(Guid practiceId)
+        public IEnumerable<Category> ReadLookupCategories()
         {
             return _lookupRepository.ReadAll<Category>();
         }
 
-        public IEnumerable<Item> ReadLookupItems(Guid practiceId)
+        public IEnumerable<Item> ReadLookupItems()
         {
             return _lookupRepository.ReadAll<Item>();
         }
 
-        public IEnumerable<CategoryItem> ReadLookupCategoriesItems(Guid practiceId)
+        public IEnumerable<CategoryItem> ReadLookupCategoriesItems()
         {
             return _lookupRepository.ReadAll<CategoryItem>();
         }
 
-        public IEnumerable<SubCounty> ReadSubCounties(Guid practiceId)
+        public IEnumerable<SubCounty> ReadSubCounties()
         {
             return _lookupRepository.ReadAll<SubCounty>();
         }
 
-        public IEnumerable<PracticeType> ReadPracticeTypes(Guid practiceId)
+        public IEnumerable<PracticeType> ReadPracticeTypes()
         {
             return _lookupRepository.ReadAll<PracticeType>();
         }
 
-        public IEnumerable<IdentifierType> ReadIdentifierTypes(Guid practiceId)
+        public IEnumerable<IdentifierType> ReadIdentifierTypes()
         {
             return _lookupRepository.ReadAll<IdentifierType>();
         }
 
-        public IEnumerable<RelationshipType> ReadRelationshipTypes(Guid practiceId)
+        public IEnumerable<RelationshipType> ReadRelationshipTypes()
         {
             return _lookupRepository.ReadAll<RelationshipType>();
         }
 
-        public IEnumerable<KeyPop> ReadKeyPops(Guid practiceId)
+        public IEnumerable<KeyPop> ReadKeyPops()
         {
             return _lookupRepository.ReadAll<KeyPop>();
         }
 
-        public IEnumerable<MaritalStatus> ReadMaritalStatuses(Guid practiceId)
+        public IEnumerable<MaritalStatus> ReadMaritalStatuses()
         {
             return _lookupRepository.ReadAll<MaritalStatus>();
         }
 
-        public IEnumerable<ProviderType> ReadProviderTypes(Guid practiceId)
+        public IEnumerable<ProviderType> ReadProviderTypes()
         {
             return _lookupRepository.ReadAll<ProviderType>();
         }
 
-        public IEnumerable<Action> ReadActions(Guid practiceId)
+        public IEnumerable<Action> ReadActions()
         {
             return _lookupRepository.ReadAll<Action>();
         }
 
-        public IEnumerable<Condition> ReadConditions(Guid practiceId)
+        public IEnumerable<Condition> ReadConditions()
         {
             return _lookupRepository.ReadAll<Condition>();
         }
 
-        public IEnumerable<ConceptType> ReadConceptTypes(Guid practiceId)
+        public IEnumerable<ConceptType> ReadConceptTypes()
         {
             return _lookupRepository.ReadAll<ConceptType>();
         }
 
-        public IEnumerable<ValidatorType> ReadValidatorTypes(Guid practiceId)
+        public IEnumerable<ValidatorType> ReadValidatorTypes()
         {
             return _lookupRepository.ReadAll<ValidatorType>();
         }
 
-        public IEnumerable<Validator> ReadValidators(Guid practiceId)
+        public IEnumerable<Validator> ReadValidators()
         {
             return _lookupRepository.ReadAll<Validator>();
         }
 
-        public IEnumerable<EncounterType> ReadEncounterTypes(Guid practiceId)
+        public IEnumerable<EncounterType> ReadEncounterTypes()
         {
             return _lookupRepository.ReadAll<EncounterType>();
         }

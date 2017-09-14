@@ -18,5 +18,10 @@ namespace LiveHAPI.Core.Model.Lookup
         {
             Id = LiveGuid.NewGuid();
         }
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }
