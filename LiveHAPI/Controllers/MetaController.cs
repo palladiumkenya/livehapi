@@ -38,28 +38,26 @@ namespace LiveHAPI.Controllers
             {
                 var m=new MetaInfo();
                 
-                var practiceTypes = _metaService.ReadLookupCategoriesItems().ToList();
-
+                m.PracticeTypes = Mapper.Map<List<PracticeTypeInfo>>(_metaService.ReadPracticeTypes().ToList());
+                m.IdentifierTypes = Mapper.Map<List<IdentifierTypeInfo>>(_metaService.ReadIdentifierTypes().ToList());
+                m.RelationshipTypes = Mapper.Map<List<RelationshipTypeInfo>>(_metaService.ReadRelationshipTypes().ToList());
+                m.KeyPops = Mapper.Map<List<KeyPopInfo>>(_metaService.ReadKeyPops().ToList());
+                m.MaritalStatuses = Mapper.Map<List<MaritalStatusInfo>>(_metaService.ReadMaritalStatuses().ToList());
+                m.ProviderTypes = Mapper.Map<List<ProviderTypeInfo>>(_metaService.ReadProviderTypes().ToList());
                 m.Actions = Mapper.Map<List<ActionInfo>>(_metaService.ReadActions().ToList());
-                m.IdentifierTypes = Mapper.Map<List<IdentifierTypeInfo>>(_metaService.ReadLookupCategoriesItems().ToList());
-                m.RelationshipTypes = Mapper.Map<List<RelationshipTypeInfo>>(_metaService.ReadLookupCategoriesItems().ToList());
-                m.KeyPops = Mapper.Map<List<KeyPopInfo>>(_metaService.ReadLookupCategoriesItems().ToList());
-                m.MaritalStatuses = Mapper.Map<List<MaritalStatusInfo>>(_metaService.ReadLookupCategoriesItems().ToList());
-                m.PracticeTypes = Mapper.Map<List<PracticeTypeInfo>>(_metaService.ReadLookupCategoriesItems().ToList());
-                m.Conditions = Mapper.Map<List<ConditionInfo>>(_metaService.ReadLookupCategoriesItems().ToList());
-                m.Conditions = Mapper.Map<List<ConceptTypeInfo>>(_metaService.ReadLookupCategoriesItems().ToList());
-                m.Validators = Mapper.Map<List<ValidatorTypeInfo>>(_metaService.ReadLookupCategoriesItems().ToList());
-                m.ValidatorTypes = Mapper.Map<List<ValidatorInfo>>(_metaService.ReadLookupCategoriesItems().ToList());
-                m.EncounterTypes = Mapper.Map<List<EncounterTypeInfo>>(= _metaService.ReadLookupCategoriesItems().ToList());
-
-
-                var counties = Mapper.Map<List<CategoryItemInfo>>(c);
-                return Ok(counties);
+                m.Conditions = Mapper.Map<List<ConditionInfo>>(_metaService.ReadConditions().ToList());
+                m.ConceptTypes = Mapper.Map<List<ConceptTypeInfo>>(_metaService.ReadConceptTypes().ToList());
+                m.ValidatorTypes = Mapper.Map<List<ValidatorTypeInfo>>(_metaService.ReadValidatorTypes().ToList());
+                m.Validators = Mapper.Map<List<ValidatorInfo>>(_metaService.ReadValidators().ToList());
+                m.PracticeTypes = Mapper.Map<List<PracticeTypeInfo>>(_metaService.ReadPracticeTypes().ToList());
+                m.EncounterTypes = Mapper.Map<List<EncounterTypeInfo>>( _metaService.ReadEncounterTypes().ToList());
+                
+                return Ok(m);
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"Error loading counties: {e}");
-                return StatusCode(500, "Error loading counties");
+                _logger.LogDebug($"{e}");
+                return StatusCode(500, "Error loading meta");
             }
         }
 
