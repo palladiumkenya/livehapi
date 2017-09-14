@@ -9,7 +9,6 @@ namespace LiveHAPI.Core.Interfaces.Services
     {
         Practice GetCentral();
         Practice GetLocal();
-
         MasterFacility Verify(int code);
         Practice EnrollPractice(string code);
         string GetActivationCode(string code, DeviceInfo info, DeviceLocationInfo locationInfo=null);

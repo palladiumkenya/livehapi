@@ -50,6 +50,8 @@ namespace LiveHAPI.Core.Service
             if (null == facility)
                 throw new ArgumentException("Facility does not exist");
 
+
+
             return facility;
         }
 
