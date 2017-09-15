@@ -1,0 +1,21 @@
+Id|Name|ConceptTypeId|CategoryId|Voided
+b25fb496-852f-11e7-bb31-be2e44b06b34|Ever Tested|Single|b25f86d8-852f-11e7-bb31-be2e44b06b34|0
+b25fb5fe-852f-11e7-bb31-be2e44b06b34|Re-Testing|Numeric||0
+b25fb86a-852f-11e7-bb31-be2e44b06b34|Disability|Multi|b25f8926-852f-11e7-bb31-be2e44b06b34|0
+b25fbb30-852f-11e7-bb31-be2e44b06b34|Consent|Single|b25f86d8-852f-11e7-bb31-be2e44b06b34|0
+b25fbcca-852f-11e7-bb31-be2e44b06b34|Client tested as|Single|b25f8b88-852f-11e7-bb31-be2e44b06b34|0
+b25fbf5e-852f-11e7-bb31-be2e44b06b34|Strategy|Single|b25f8fa2-852f-11e7-bb31-be2e44b06b34|0
+b25fc0c6-852f-11e7-bb31-be2e44b06b34|TB Screening|Single|b25f911e-852f-11e7-bb31-be2e44b06b34|0
+b25fc698-852f-11e7-bb31-be2e44b06b34|HIV self-test|Single|b25f86d8-852f-11e7-bb31-be2e44b06b34|0
+b25fc864-852f-11e7-bb31-be2e44b06b34|Remarks|Text||0
+b25fcac6-852f-11e7-bb31-be2e44b06b34|HIV Test|Single|b25f93d0-852f-11e7-bb31-be2e44b06b34|0
+b25fcd6e-852f-11e7-bb31-be2e44b06b34|Kit Name:|Single|b25f9c72-852f-11e7-bb31-be2e44b06b34|0
+b25fcecc-852f-11e7-bb31-be2e44b06b34|Lot No:|Text||0
+b25fd1a6-852f-11e7-bb31-be2e44b06b34|Expiry Date:|DateTime||0
+b25fd322-852f-11e7-bb31-be2e44b06b34|Test Result:|Single|b25f951a-852f-11e7-bb31-be2e44b06b34|0
+b25fd62e-852f-11e7-bb31-be2e44b06b34|Final Result|Single|b25f97a4-852f-11e7-bb31-be2e44b06b34|0
+b25fd78c-852f-11e7-bb31-be2e44b06b34|Final Result Given?|Single|b25f86d8-852f-11e7-bb31-be2e44b06b34|0
+b25fd94e-852f-11e7-bb31-be2e44b06b34|Couple Discordant|Single|b25f9952-852f-11e7-bb31-be2e44b06b34|0
+b25fdb9c-852f-11e7-bb31-be2e44b06b34|Linked to Care?|Single|b25f86d8-852f-11e7-bb31-be2e44b06b34|0
+b25fddea-852f-11e7-bb31-be2e44b06b34|CCC Number|Text||0
+b25fdf3e-852f-11e7-bb31-be2e44b06b34|Reason Result Not Given|Text||0
