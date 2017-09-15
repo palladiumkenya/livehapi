@@ -22,9 +22,9 @@ namespace LiveHAPI.Controllers
     public class MetaController : Controller
     {
         private readonly IMetaService _metaService;
-        private readonly ILogger<CountiesController> _logger;
+        private readonly ILogger<MetaController> _logger;
 
-        public MetaController(ILogger<CountiesController> logger, IMetaService metaService)
+        public MetaController(ILogger<MetaController> logger, IMetaService metaService)
         {
             _logger = logger;
             _metaService = metaService;

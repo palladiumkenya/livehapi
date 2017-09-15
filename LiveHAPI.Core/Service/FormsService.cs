@@ -25,7 +25,7 @@ namespace LiveHAPI.Core.Service
 
         public IEnumerable<Form> ReadForms()
         {
-            return _lookupRepository.ReadAll<Form>();
+            return _lookupRepository.ReadAllForms();
         }
 
         public IEnumerable<FormImplementation> ReadFormImplementations()
@@ -43,9 +43,9 @@ namespace LiveHAPI.Core.Service
             return _lookupRepository.ReadAll<Concept>();
         }
 
-        public IEnumerable<Question> Questions()
+        public IEnumerable<Question> ReadQuestions()
         {
-            return _lookupRepository.ReadAll<Question>();
+            return _lookupRepository.ReadAllQuestions();
         }
 
         public IEnumerable<QuestionBranch> QuestionBranches()

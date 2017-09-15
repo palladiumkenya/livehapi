@@ -19,9 +19,9 @@ namespace LiveHAPI.Controllers
     public class ActivateController : Controller
     {
         private readonly IActivationService _activationService;
-        private readonly ILogger<CountiesController> _logger;
+        private readonly ILogger<ActivateController> _logger;
 
-        public ActivateController(ILogger<CountiesController> logger, IActivationService activationService)
+        public ActivateController(ILogger<ActivateController> logger, IActivationService activationService)
         {
             _logger = logger;
             _activationService = activationService;

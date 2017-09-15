@@ -16,7 +16,7 @@ namespace LiveHAPI.Core.Interfaces.Services
         IEnumerable<FormProgram> ReadFormPrograms();
         IEnumerable<Concept> ReadConcepts();
 
-        IEnumerable<Question> Questions();
+        IEnumerable<Question> ReadQuestions();
         IEnumerable<QuestionBranch> QuestionBranches();
         IEnumerable<QuestionValidation> QuestionValidations();
         IEnumerable<QuestionReValidation> QuestionReValidations();
