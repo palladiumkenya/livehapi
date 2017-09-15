@@ -1,0 +1,5 @@
+Id|FormId|EncounterTypeId|Display|Description|Rank|Voided
+b262ff02-852f-11e7-bb31-be2e44b06b34|b25ebcda-852f-11e7-bb31-be2e44b06b34|7e5164a6-6b99-11e7-907b-a6006ad3dba0|Lab Detail|Lab Detail|1|0
+b263006a-852f-11e7-bb31-be2e44b06b34|b25ec568-852f-11e7-bb31-be2e44b06b34|b262f4ee-852f-11e7-bb31-be2e44b06b34|Initial Test|Initial Test|2|0
+b26301d2-852f-11e7-bb31-be2e44b06b34|b25ec568-852f-11e7-bb31-be2e44b06b34|b262faac-852f-11e7-bb31-be2e44b06b34|Confirmatory Test|Confirmatory Test|3|0
+b263063c-852f-11e7-bb31-be2e44b06b34|b25ec112-852f-11e7-bb31-be2e44b06b34|b262fc32-852f-11e7-bb31-be2e44b06b34|Linkage|Linkage|4|0
