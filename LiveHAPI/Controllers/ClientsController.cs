@@ -33,9 +33,9 @@ namespace LiveHAPI.Controllers
         }
 
         [HttpPost("demographics")]
-        public IActionResult CreateClients(int countyId, [FromBody] List<ClientInfo> clients)
+        public IActionResult CreateClients(int countyId, [FromBody] ClientInfo client)
         {
-            if (null == clients)
+            if (null == client)
                 return BadRequest();
 
 //            if (!ModelState.IsValid)
@@ -43,7 +43,7 @@ namespace LiveHAPI.Controllers
 
             try
             {
-                _clientService.Sync(clients);
+                _clientService.SyncClient(client);
 
                 return Ok();
             }

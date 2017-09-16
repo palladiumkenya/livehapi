@@ -69,49 +69,45 @@ namespace LiveHAPI.Core.Service
             }
         }
 
-        public void Sync(List<ClientInfo> clients)
+        public void SyncClient(ClientInfo client)
         {
-            foreach (var client in clients)
+            var personInfo = client.Person;
+
+            var exisitngPerson = _personRepository.GetDemographics(personInfo.Id);
+
+            if (null == exisitngPerson)
             {
-                var personInfo = client.Person;
+                var person = Person.CreateClient(personInfo);
+                _personRepository.Insert(person);
+                _personRepository.Save();
 
+                //client
+                var cient = Client.Create(client, client.PracticeId.Value, person.Id);
+                _clientRepository.Insert(cient);
+                _clientRepository.Save();
+            }
+            else
+            {
+                exisitngPerson.UpdateClient(personInfo);
+                _personRepository.Update(exisitngPerson);
+                _personRepository.Save();
 
-                var exisitngPerson = _personRepository.Get(personInfo.Id);
+                var existingClient = _clientRepository.GetClient(client.Id);
 
-                if (null == exisitngPerson)
+                if (null != existingClient)
                 {
-                    var person = Person.CreateClient(personInfo);
-                    _personRepository.Insert(person);
-                    _personRepository.Save();
-
-                    //client
-                    var cient = Client.Create(client, client.PracticeId.Value, person.Id);
-                    _clientRepository.Insert(cient);
-                    _clientRepository.Save();
+                    existingClient.Update(client);
+                    _clientRepository.Update(existingClient);
                 }
                 else
                 {
-                    exisitngPerson.UpdateClient(personInfo);
-                    _personRepository.Update(exisitngPerson);
-                    _personRepository.Save();
-
-                    var existingClient = exisitngPerson.Clients.FirstOrDefault(x => x.Id == client.Id);
-
-                    if (null != existingClient)
-                    {
-                        existingClient.Update(client);
-                        _clientRepository.Update(existingClient);
-                    }
-                    else
-                    {
-                        var cient = Client.Create(client, client.PracticeId.Value, exisitngPerson.Id);
-                        _clientRepository.Insert(cient);
-                    }
-
-                    _clientRepository.Save();
+                    var cient = Client.Create(client, client.PracticeId.Value, exisitngPerson.Id);
+                    _clientRepository.Insert(cient);
                 }
 
+                _clientRepository.Save();
             }
+
         }
     }
 }

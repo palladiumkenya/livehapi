@@ -34,18 +34,18 @@ namespace LiveHAPI.Core.Model.People
             Phone = phone;
         }
 
-        public static PersonContact Create(ContactInfo address)
+        public static PersonContact Create(ContactInfo contact)
         {
-            return new PersonContact(address.Phone);
+            return new PersonContact(contact.Phone);
         }
 
         public static List<PersonContact> Create(PersonInfo personInfo)
         {
             var list = new List<PersonContact>();
 
-            foreach (var address in personInfo.Contacts)
+            foreach (var contactInfo in personInfo.Contacts)
             {
-                list.Add(Create(address));
+                list.Add(Create(contactInfo));
             }
             return list;
         }

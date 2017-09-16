@@ -16,6 +16,15 @@ namespace LiveHAPI.Infrastructure.Repository
         {
         }
 
+        public Person GetDemographics(Guid id)
+        {
+            return Context.Persons
+                .Include(x => x.Addresses)
+                .Include(x => x.Contacts)
+                .Include(x => x.Names)
+                .FirstOrDefault(x => x.Id == id);
+        }
+
         public IEnumerable<Person> GetStaff()
         {
             var users = Context.Users.Select(x => x.PersonId).ToList();

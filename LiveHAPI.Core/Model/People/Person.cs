@@ -209,11 +209,11 @@ namespace LiveHAPI.Core.Model.People
             Names.Add(name);
         }
 
-        private void AddAddresss(List<PersonAddress> personNames)
+        private void AddAddresss(List<PersonAddress> addresses)
         {
-            foreach (var personName in personNames)
+            foreach (var address in addresses)
             {
-                AddAddress(personName);
+                AddAddress(address);
             }
         }
         private void AddAddress(PersonAddress address)
@@ -224,9 +224,9 @@ namespace LiveHAPI.Core.Model.People
 
         private void AddContacts(List<PersonContact> contacts)
         {
-            foreach (var personName in contacts)
+            foreach (var contact in contacts)
             {
-                AddContact(personName);
+                AddContact(contact);
             }
         }
         private void AddContact(PersonContact contact)
