@@ -49,6 +49,12 @@ namespace LiveHAPI
 
             services.AddScoped<IMasterFacilityRepository, MasterFacilityRepository>();
             services.AddScoped<IObsRepository, ObsRepository>();
+
+            services.AddScoped<IObsTraceResultRepository, ObsTraceResultRepository>();
+            services.AddScoped<IObsTestResultRepository, ObsTestResultRepository>();
+            services.AddScoped<IObsFinalTestResultRepository, ObsFinalTestResultRepository>();
+            services.AddScoped<IObsLinkageRepository, ObsLinkageRepository>();
+
             services.AddScoped<IPersonNameRepository, PersonNameRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IPracticeActivationRepository, PracticeActivationRepository>();

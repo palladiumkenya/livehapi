@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.Encounters
 {
-    public class ObsFinalTestResult : Entity<Guid>
+    public class ObsFinalTestResult : Entity<Guid>, IObsFinalTestResult
     {
         
         public Guid? FirstTestResult { get; set; }
@@ -28,6 +30,38 @@ namespace LiveHAPI.Core.Model.Encounters
         public ObsFinalTestResult()
         {
             Id = LiveGuid.NewGuid();
+        }
+
+        private ObsFinalTestResult(Guid id,Guid? firstTestResult, string firstTestResultCode, Guid? secondTestResult, string secondTestResultCode, Guid? finalResult, string finalResultCode, Guid? resultGiven, Guid? coupleDiscordant, Guid? selfTestOption, Guid encounterId)
+        {
+            Id = id;
+            FirstTestResult = firstTestResult;
+            FirstTestResultCode = firstTestResultCode;
+            SecondTestResult = secondTestResult;
+            SecondTestResultCode = secondTestResultCode;
+            FinalResult = finalResult;
+            FinalResultCode = finalResultCode;
+            ResultGiven = resultGiven;
+            CoupleDiscordant = coupleDiscordant;
+            SelfTestOption = selfTestOption;
+            EncounterId = encounterId;
+        }
+
+        public static ObsFinalTestResult Create(ObsFinalTestResultInfo obsInfo)
+        {
+            return new ObsFinalTestResult(obsInfo.Id,obsInfo.FirstTestResult, obsInfo.FirstTestResultCode, obsInfo.SecondTestResult, obsInfo.SecondTestResultCode, obsInfo.FinalResult, obsInfo.FinalResultCode, obsInfo.ResultGiven,
+                obsInfo.CoupleDiscordant, obsInfo.SelfTestOption, obsInfo.EncounterId);
+        }
+
+        public static List<ObsFinalTestResult> Create(EncounterInfo encounterInfo)
+        {
+            var list = new List<ObsFinalTestResult>();
+
+            foreach (var obsInfo in encounterInfo.ObsFinalTestResults)
+            {
+                list.Add(Create(obsInfo));
+            }
+            return list;
         }
     }
 }

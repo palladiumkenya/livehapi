@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Shared.Interfaces.Model;
 
 namespace LiveHAPI.Shared.ValueObject
@@ -25,5 +26,10 @@ namespace LiveHAPI.Shared.ValueObject
         public Guid UserId { get; set; }
 
         public List<ObsInfo> Obses { get; set; }=new List<ObsInfo>();
+        public List<ObsTestResultInfo> ObsTestResults { get; set; } = new List<ObsTestResultInfo>();
+        public List<ObsFinalTestResultInfo> ObsFinalTestResults { get; set; } = new List<ObsFinalTestResultInfo>();
+        public List<ObsTraceResultInfo> ObsTraceResults { get; set; } = new List<ObsTraceResultInfo>();
+        public List<ObsLinkageInfo> ObsLinkages { get; set; } = new List<ObsLinkageInfo>();
+
     }
 }
