@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Encounters;
@@ -19,6 +20,41 @@ namespace LiveHAPI.Core.Service
             _practiceRepository = practiceRepository;
             _encounterRepository = encounterRepository;
             _obsRepository = obsRepository;
+        }
+
+        public void Sync(List<EncounterInfo> encounterInfos)
+        {
+            foreach (var encounterInfo in encounterInfos)
+            {
+                //Check client
+                var client = _clientRepository.Get(encounterInfo.ClientId);
+                if (null != client)
+                {
+                    var encounter = _encounterRepository.Get(encounterInfo.Id);
+
+                    if (null == encounter)
+                    {
+                        encounter = Encounter.Create(encounterInfo);
+                        _encounterRepository.Insert(encounter);
+                        _encounterRepository.Save();
+
+
+                        var obs = Obs.Create(encounterInfo);
+                        _obsRepository.Insert(obs);
+                        _obsRepository.Save();
+                    }
+                    else
+                    {
+                        encounter.Update(encounterInfo);
+                        _encounterRepository.Update(encounter);
+                        _encounterRepository.Save();
+
+                        var obs = Obs.Create(encounterInfo);
+                        _obsRepository.ReplaceAll(encounter.Id, obs);
+                        _obsRepository.Save();
+                    }
+                }
+            }
         }
 
         public void Sync(EncounterInfo encounterInfo)

@@ -21,8 +21,6 @@ namespace LiveHAPI.Core.Service
             _personRepository = personRepository;
             _clientRepository = clientRepository;
         }
-
-
         public void Sync(Guid practiceId, ClientInfo client)
         {
             var practice = _practiceRepository.Get(practiceId);
@@ -68,6 +66,51 @@ namespace LiveHAPI.Core.Service
                 }
 
                 _clientRepository.Save();
+            }
+        }
+
+        public void Sync(List<ClientInfo> clients)
+        {
+            foreach (var client in clients)
+            {
+                var personInfo = client.Person;
+
+
+                var exisitngPerson = _personRepository.Get(personInfo.Id);
+
+                if (null == exisitngPerson)
+                {
+                    var person = Person.CreateClient(personInfo);
+                    _personRepository.Insert(person);
+                    _personRepository.Save();
+
+                    //client
+                    var cient = Client.Create(client, client.PracticeId.Value, person.Id);
+                    _clientRepository.Insert(cient);
+                    _clientRepository.Save();
+                }
+                else
+                {
+                    exisitngPerson.UpdateClient(personInfo);
+                    _personRepository.Update(exisitngPerson);
+                    _personRepository.Save();
+
+                    var existingClient = exisitngPerson.Clients.FirstOrDefault(x => x.Id == client.Id);
+
+                    if (null != existingClient)
+                    {
+                        existingClient.Update(client);
+                        _clientRepository.Update(existingClient);
+                    }
+                    else
+                    {
+                        var cient = Client.Create(client, client.PracticeId.Value, exisitngPerson.Id);
+                        _clientRepository.Insert(cient);
+                    }
+
+                    _clientRepository.Save();
+                }
+
             }
         }
     }

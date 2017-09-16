@@ -8,5 +8,6 @@ namespace LiveHAPI.Core.Interfaces.Services
     public interface IClientService
     {
         void Sync(Guid practiceId, ClientInfo clients);
+        void Sync(List<ClientInfo>  clients);
     }
 }
