@@ -22,7 +22,7 @@ namespace LiveHAPI
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
-                .UseUrls("http://0.0.0.0:6000")
+                .UseUrls("http://0.0.0.0:4747")
                 .Build();
             host.Run();
 

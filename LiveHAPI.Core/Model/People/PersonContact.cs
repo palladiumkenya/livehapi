@@ -54,5 +54,21 @@ namespace LiveHAPI.Core.Model.People
         {
             return $"{Phone}";
         }
+
+        public static List<ContactInfo> GetContactInfos(List<PersonContact> contacts)
+        {
+            var list = new List<ContactInfo>();
+            foreach (var contact in contacts)
+            {
+                list.Add(contact.GetContactInfo());
+            }
+
+            return list;
+        }
+
+        private ContactInfo GetContactInfo()
+        {
+            return new ContactInfo(Id,Phone,PersonId);
+        }
     } 
 }

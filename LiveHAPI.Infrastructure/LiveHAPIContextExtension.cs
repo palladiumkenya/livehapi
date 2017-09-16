@@ -67,6 +67,7 @@ namespace LiveHAPI.Infrastructure
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<CategoryItem>());
                 
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Person>());
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<PersonName>());
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Provider>());
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<User>());
 

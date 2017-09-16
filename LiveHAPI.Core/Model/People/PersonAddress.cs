@@ -66,5 +66,21 @@ namespace LiveHAPI.Core.Model.People
         {
             return $"{Landmark},{CountyId} [{Lng},{Lat}]   ({PersonId})";
         }
+
+        public static List<AddressInfo> GetAddressInfos(List<PersonAddress> addresses)
+        {
+            var list=new List<AddressInfo>();
+            foreach (var personAddress in addresses)
+            {
+                    list.Add(personAddress.GetAddressInfo());
+            }
+
+            return list;
+        }
+
+        private AddressInfo GetAddressInfo()
+        {
+            return new AddressInfo(Id, Landmark, CountyId, Lat, Lng,PersonId);
+        }
     }
 }

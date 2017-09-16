@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Seed\PersonName.csv" />
     <EmbeddedResource Include="Seed\Validator.csv" />
     <EmbeddedResource Include="Seed\Category.csv" />
     <EmbeddedResource Include="Seed\CategoryItem.csv" />

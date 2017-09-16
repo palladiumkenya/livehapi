@@ -156,5 +156,18 @@ namespace LiveHAPI.Core.Tests.Service
                 Console.WriteLine($" >.{provider}");
             }
         }
+        [Test]
+        public void should_Read_Staff()
+        {
+            var practice = new PracticeRepository(_context).GetByCode("14080");
+
+            var users = _staffService.ReadStaff().ToList();
+            Assert.IsTrue(users.Count > 0);
+            Console.WriteLine(practice);
+            foreach (var user in users)
+            {
+                Console.WriteLine($" >.{user}");
+            }
+        }
     }
 }

@@ -15,7 +15,11 @@ namespace LiveHAPI.Core.Interfaces.Services
         Provider EnlistProvider(ProviderInfo providerInfo, Guid practiceId);
         IEnumerable<Provider> EnlistProviders(string practiceCode, IEnumerable<ProviderInfo> providerInfos);
 
+        IEnumerable<Person> ReadStaff();
+        IEnumerable<PersonInfo> ReadStaffInfo();
+        IEnumerable<User> ReadUsers();
         IEnumerable<User> ReadUsers(Guid practiceId);
+        IEnumerable<Provider> ReadProviders();
         IEnumerable<Provider> ReadProviders(Guid practiceId);
     }
 }

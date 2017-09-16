@@ -239,6 +239,22 @@ namespace LiveHAPI.Core.Model.People
             return Gender == otherPerson.Gender && 
                 BirthDate.Value.Date == otherPerson.BirthDate.Value;
         }
+
+        public PersonInfo GetPersonInfo()
+        {
+            var p= new PersonInfo();
+            p.Id = Id;
+            p.Gender = Gender;
+            p.BirthDate = BirthDate;
+            p.BirthDateEstimated = BirthDateEstimated;
+            p.FirstName = Names.FirstOrDefault()?.FirstName;
+            p.MiddleName = Names.FirstOrDefault()?.MiddleName;
+            p.LastName = Names.FirstOrDefault()?.LastName;
+            p.MothersName = Names.FirstOrDefault()?.MothersName;
+            p.Addresses = PersonAddress.GetAddressInfos(Addresses.ToList());
+            p.Contacts = PersonContact.GetContactInfos(Contacts.ToList());
+            return p;
+        }
         public override string ToString()
         {
             var info = $" {Gender}|{BirthDate:yyyy MMMM dd}";

@@ -140,14 +140,40 @@ namespace LiveHAPI.Core.Service
             return providers;
         }
 
+        public IEnumerable<Person> ReadStaff()
+        {
+            return _personRepository.GetStaff();
+        }
+
+        public IEnumerable<PersonInfo> ReadStaffInfo()
+        {
+            var persons = ReadStaff().ToList();
+            var personsInfo=new List<PersonInfo>();
+
+            foreach (var person in persons)
+            {
+                personsInfo.Add(person.GetPersonInfo());
+            }
+
+            return personsInfo;
+        }
+
         public IEnumerable<User> ReadUsers(Guid practiceCode)
         {
             return _userRepository.GetAll(x => x.PracticeId == practiceCode);
+        }
+        public IEnumerable<User> ReadUsers()
+        {
+            return _userRepository.GetAll();
         }
 
         public IEnumerable<Provider> ReadProviders(Guid practiceCode)
         {
             return _providerRepository.GetAll(x => x.PracticeId == practiceCode);
+        }
+        public IEnumerable<Provider> ReadProviders()
+        {
+            return _providerRepository.GetAll();
         }
     }
 }
