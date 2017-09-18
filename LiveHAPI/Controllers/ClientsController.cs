@@ -11,6 +11,7 @@ using LiveHAPI.Shared.ValueObject;
 using LiveHAPI.Shared.ValueObject.Meta;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Remotion.Linq;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -38,8 +39,11 @@ namespace LiveHAPI.Controllers
             if (null == client)
                 return BadRequest();
 
-//            if (!ModelState.IsValid)
-//                return BadRequest(ModelState);
+
+            _logger.LogDebug(JsonConvert.SerializeObject(client));
+
+            //            if (!ModelState.IsValid)
+            //                return BadRequest(ModelState);
 
             try
             {
@@ -59,6 +63,8 @@ namespace LiveHAPI.Controllers
         {
             if (null == encounters)
                 return BadRequest();
+
+            _logger.LogDebug(JsonConvert.SerializeObject(encounters));
 
             //            if (!ModelState.IsValid)
             //                return BadRequest(ModelState);

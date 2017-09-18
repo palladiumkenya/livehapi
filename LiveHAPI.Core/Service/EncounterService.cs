@@ -60,13 +60,15 @@ namespace LiveHAPI.Core.Service
                         _obsFinalTestResultRepository.Insert(obsFinalTestResults);
                         _obsFinalTestResultRepository.Save();
 
+                        var bsLinkages = ObsLinkage.Create(encounterInfo);
+                        _obsLinkageRepository.Insert(bsLinkages);
+                        _obsLinkageRepository.Save();``
+
                         var obsTraceResults = ObsTraceResult.Create(encounterInfo);
                         _obsTraceResultRepository.Insert(obsTraceResults);
                         _obsTraceResultRepository.Save();
 
-                        var bsLinkages = ObsLinkage.Create(encounterInfo);
-                        _obsLinkageRepository.Insert(bsLinkages);
-                        _obsLinkageRepository.Save();
+                     
                     }
                     else
                     {
@@ -86,13 +88,15 @@ namespace LiveHAPI.Core.Service
                         _obsFinalTestResultRepository.ReplaceAll(encounter.Id, obsFinalTestResults);
                         _obsFinalTestResultRepository.Save();
 
+                        var bsLinkages = ObsLinkage.Create(encounterInfo);
+                        _obsLinkageRepository.ReplaceAll(encounter.Id, bsLinkages);
+                        _obsLinkageRepository.Save();
+
                         var obsTraceResults = ObsTraceResult.Create(encounterInfo);
                         _obsTraceResultRepository.ReplaceAll(encounter.Id, obsTraceResults);
                         _obsTraceResultRepository.Save();
 
-                        var bsLinkages = ObsLinkage.Create(encounterInfo);
-                        _obsLinkageRepository.ReplaceAll(encounter.Id, bsLinkages);
-                        _obsLinkageRepository.Save();
+                 
 
                     }
                 }
