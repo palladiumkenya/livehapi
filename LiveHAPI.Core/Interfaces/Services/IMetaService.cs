@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LiveHAPI.Core.Model.Lookup;
-using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
-using LiveHAPI.Shared.ValueObject;
 
 
 namespace LiveHAPI.Core.Interfaces.Services

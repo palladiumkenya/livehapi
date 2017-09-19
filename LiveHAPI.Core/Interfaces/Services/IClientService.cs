@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using LiveHAPI.Core.Model.People;
 using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Interfaces.Services

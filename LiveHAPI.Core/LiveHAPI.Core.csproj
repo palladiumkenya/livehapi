@@ -58,6 +58,14 @@
     <Compile Include="Model\People\User.cs" />
     <Compile Include="Model\QModel\Validator.cs" />
     <Compile Include="Model\QModel\ValidatorType.cs" />
+    <Compile Include="Model\Subscriber\SubscriberMessage.cs" />
+    <Compile Include="Model\Subscriber\SubscriberSqlAction.cs" />
+    <Compile Include="Model\Subscriber\SubscriberConfig.cs" />
+    <Compile Include="Model\Subscriber\SubscriberSystem.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

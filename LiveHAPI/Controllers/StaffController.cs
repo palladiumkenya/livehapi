@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
-using LiveHAPI.Core.Model;
-using LiveHAPI.Model;
-using LiveHAPI.Shared.ValueObject;
-using LiveHAPI.Shared.ValueObject.Meta;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Remotion.Linq;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

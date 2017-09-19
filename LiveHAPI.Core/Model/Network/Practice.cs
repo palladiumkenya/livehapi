@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Studio;

@@ -35,7 +35,7 @@ namespace LiveHAPI.Core.Tests.Service
             TestData.Init();
             TestDataCreator.Init(_context);
             _encounterRepository =new EncounterRepository(_context);
-            _encounterService =new EncounterService(new ClientRepository(_context),new PracticeRepository(_context),_encounterRepository,new ObsRepository(_context)  );
+            //_encounterService =new EncounterService(new ClientRepository(_context),new PracticeRepository(_context),_encounterRepository,new ObsRepository(_context)  );
         }
 
         [Test]

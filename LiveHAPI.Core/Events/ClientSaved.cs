@@ -7,6 +7,12 @@ namespace LiveHAPI.Core.Events
     public class ClientSaved:IhEvent
     {
         public Guid ClientId { get;}
+        public Client Client { get; }
+
+        public ClientSaved(Client client)
+        {
+            Client = client;
+        }
 
         public ClientSaved(Guid clientId)
         {

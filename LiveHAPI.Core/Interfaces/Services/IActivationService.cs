@@ -1,5 +1,4 @@
-﻿using System;
-using LiveHAPI.Core.Model.Lookup;
+﻿using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Shared.ValueObject;
 

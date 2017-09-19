@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
 

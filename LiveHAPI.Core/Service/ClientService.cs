@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.People;
-using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Service

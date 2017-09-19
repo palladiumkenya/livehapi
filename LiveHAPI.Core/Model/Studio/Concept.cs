@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;

@@ -5,6 +5,7 @@ using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
+using LiveHAPI.Core.Model.Subscriber;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -97,7 +98,10 @@ namespace LiveHAPI.Infrastructure
         public DbSet<FormImplementation> FormImplementations { get; set; }
         public DbSet<FormProgram> Programs { get; set; }
 
+        public DbSet<SubscriberSystem> Systems { get; set; }
+        public DbSet<SubscriberConfig> Configs { get; set; }
+        public DbSet<SubscriberSqlAction> SqlActions { get; set; }
+        public DbSet<SubscriberMessage> Messages { get; set; }
 
-       
     }
 }

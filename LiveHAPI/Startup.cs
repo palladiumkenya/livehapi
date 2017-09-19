@@ -1,6 +1,6 @@
-﻿using LiveHAPI.Core.Handlers;
-using LiveHAPI.Core.Interfaces.Handler;
+﻿using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
+using LiveHAPI.Core.Interfaces.Repository.Subscriber;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.QModel;
@@ -8,7 +8,10 @@ using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Core.Service;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
-using LiveHAPI.Model;
+using LiveHAPI.IQCare.Core.Handlers;
+using LiveHAPI.IQCare.Core.Interfaces.Repository;
+using LiveHAPI.IQCare.Infrastructure;
+using LiveHAPI.IQCare.Infrastructure.Repository;
 using LiveHAPI.Shared.ValueObject;
 using LiveHAPI.Shared.ValueObject.Meta;
 using Microsoft.AspNetCore.Builder;
@@ -49,6 +52,9 @@ namespace LiveHAPI
             var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
             services.AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString));
 
+            var emrconnectionString = Startup.Configuration["connectionStrings:EMRConnection"];
+            services.AddDbContext<EMRContext>(o => o.UseSqlServer(connectionString));
+
             services.AddScoped<IMasterFacilityRepository, MasterFacilityRepository>();
             services.AddScoped<IObsRepository, ObsRepository>();
 
@@ -78,6 +84,10 @@ namespace LiveHAPI
 
             services.AddScoped<IClientSavedHandler,ClientSavedHandler>();
             services.AddScoped<IEncounterSavedHandler, EncounterSavedHandler>();
+
+            services.AddScoped<IConfigRepository, ConfigRepository>();
+            services.AddScoped<IPatientRepository, PatientRepository>();
+            services.AddScoped<IPatientEncounterRepository, PatientEncounterRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
