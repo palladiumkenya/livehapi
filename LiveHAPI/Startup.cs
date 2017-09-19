@@ -1,4 +1,6 @@
-﻿using LiveHAPI.Core.Interfaces.Repository;
+﻿using LiveHAPI.Core.Handlers;
+using LiveHAPI.Core.Interfaces.Handler;
+using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.QModel;
@@ -73,6 +75,9 @@ namespace LiveHAPI
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IEncounterService, EncounterService>();
             services.AddScoped<IFormsService, FormsService>();
+
+            services.AddScoped<IClientSavedHandler,ClientSavedHandler>();
+            services.AddScoped<IEncounterSavedHandler, EncounterSavedHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,6 +106,9 @@ namespace LiveHAPI
 
             
             app.UseMvc();
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             AutoMapper.Mapper.Initialize(cfg =>
             {

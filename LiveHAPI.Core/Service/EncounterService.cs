@@ -62,7 +62,7 @@ namespace LiveHAPI.Core.Service
 
                         var bsLinkages = ObsLinkage.Create(encounterInfo);
                         _obsLinkageRepository.Insert(bsLinkages);
-                        _obsLinkageRepository.Save();``
+                        _obsLinkageRepository.Save();
 
                         var obsTraceResults = ObsTraceResult.Create(encounterInfo);
                         _obsTraceResultRepository.Insert(obsTraceResults);

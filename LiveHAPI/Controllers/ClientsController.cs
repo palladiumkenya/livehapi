@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using LiveHAPI.Core.Dispatcher;
+using LiveHAPI.Core.Events;
+using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model;
@@ -24,17 +27,21 @@ namespace LiveHAPI.Controllers
     {
         private readonly IClientService _clientService;
         private readonly IEncounterService _encounterService;
+        private readonly IClientSavedHandler _clientSavedHandler;
+        private readonly IEncounterSavedHandler _encounterSavedHandler;
         private readonly ILogger<ClientsController> _logger;
 
-        public ClientsController(ILogger<ClientsController> logger, IClientService clientService, IEncounterService encounterService)
+        public ClientsController(ILogger<ClientsController> logger, IClientService clientService, IEncounterService encounterService, IClientSavedHandler clientSavedHandler, IEncounterSavedHandler encounterSavedHandler)
         {
             _logger = logger;
             _clientService = clientService;
             _encounterService = encounterService;
+            _clientSavedHandler = clientSavedHandler;
+            _encounterSavedHandler = encounterSavedHandler;
         }
 
         [HttpPost("demographics")]
-        public IActionResult CreateClients(int countyId, [FromBody] ClientInfo client)
+        public IActionResult CreateClients([FromBody] ClientInfo client)
         {
             if (null == client)
                 return BadRequest();
@@ -49,6 +56,8 @@ namespace LiveHAPI.Controllers
             {
                 _clientService.SyncClient(client);
 
+                SyncEventDispatcher.Raise(new ClientSaved(client.Id),_clientSavedHandler);
+
                 return Ok();
             }
             catch (Exception e)
@@ -59,7 +68,7 @@ namespace LiveHAPI.Controllers
         }
 
         [HttpPost("encounters")]
-        public IActionResult CreateEncounters(int countyId, [FromBody] List<EncounterInfo> encounters)
+        public IActionResult CreateEncounters( [FromBody] List<EncounterInfo> encounters)
         {
             if (null == encounters)
                 return BadRequest();
@@ -72,6 +81,10 @@ namespace LiveHAPI.Controllers
             try
             {
                 _encounterService.Sync(encounters);
+
+                var ids = encounters.Select(x => x.Id).ToList();
+
+                SyncEventDispatcher.Raise(new EncounterSaved(ids), _encounterSavedHandler);
 
                 return Ok();
             }

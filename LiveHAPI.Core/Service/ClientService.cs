@@ -104,10 +104,8 @@ namespace LiveHAPI.Core.Service
                     var cient = Client.Create(client, client.PracticeId.Value, exisitngPerson.Id);
                     _clientRepository.Insert(cient);
                 }
-
                 _clientRepository.Save();
             }
-
         }
     }
 }
