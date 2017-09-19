@@ -68,6 +68,8 @@
     <EmbeddedResource Include="Seed\RelationshipType.csv" />
     <EmbeddedResource Include="Seed\SubCounty.csv" />
     <EmbeddedResource Include="Seed\User.csv" />
+    <EmbeddedResource Include="Seed\SubscriberConfig.csv" />
+    <EmbeddedResource Include="Seed\SubscriberSystem.csv" />
     <EmbeddedResource Include="Seed\ValidatorType.csv" />
   </ItemGroup>
 
@@ -77,6 +79,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>

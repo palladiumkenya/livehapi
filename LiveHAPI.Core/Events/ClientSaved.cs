@@ -1,22 +1,17 @@
 ﻿using System;
 using LiveHAPI.Core.Interfaces.Events;
 using LiveHAPI.Core.Model.People;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Events
 {
     public class ClientSaved:IhEvent
     {
-        public Guid ClientId { get;}
-        public Client Client { get; }
+        public ClientInfo Client { get; }
 
-        public ClientSaved(Client client)
+        public ClientSaved(ClientInfo client)
         {
             Client = client;
-        }
-
-        public ClientSaved(Guid clientId)
-        {
-            ClientId = clientId;
         }
     }
 }

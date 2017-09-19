@@ -98,10 +98,9 @@ namespace LiveHAPI.Infrastructure
         public DbSet<FormImplementation> FormImplementations { get; set; }
         public DbSet<FormProgram> Programs { get; set; }
 
-        public DbSet<SubscriberSystem> Systems { get; set; }
-        public DbSet<SubscriberConfig> Configs { get; set; }
-        public DbSet<SubscriberSqlAction> SqlActions { get; set; }
-        public DbSet<SubscriberMessage> Messages { get; set; }
-
+        public DbSet<SubscriberSystem> SubscriberSystems { get; set; }
+        public DbSet<SubscriberConfig> SubscriberConfigs { get; set; }
+        public DbSet<SubscriberSqlAction> SubscriberSqlActions { get; set; }
+        public DbSet<SubscriberMessage> SubscriberMessagess { get; set; }
     }
 }

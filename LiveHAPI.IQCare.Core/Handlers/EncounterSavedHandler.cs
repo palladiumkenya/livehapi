@@ -2,6 +2,7 @@
 using LiveHAPI.Core.Events;
 using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
+using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.IQCare.Core.Interfaces.Repository;
 using Microsoft.Extensions.Logging;
 
@@ -18,7 +19,7 @@ namespace LiveHAPI.IQCare.Core.Handlers
             _logger = logger;
         }
 
-        public void Handle(EncounterSaved args)
+        public void Handle(EncounterSaved args, SubscriberSystem subscriberSystem)
         {
             foreach (var e in args.Encounters)
             {

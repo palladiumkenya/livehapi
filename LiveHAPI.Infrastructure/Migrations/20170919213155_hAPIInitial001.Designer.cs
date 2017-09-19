@@ -11,8 +11,8 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    [Migration("20170912170954_Initial001")]
-    partial class Initial001
+    [Migration("20170919213155_hAPIInitial001")]
+    partial class hAPIInitial001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1296,6 +1296,98 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.ToTable("Modules");
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberConfig", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Area");
+
+                    b.Property<string>("Name");
+
+                    b.Property<Guid>("SubscriberSystemId");
+
+                    b.Property<string>("Value");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubscriberSystemId");
+
+                    b.ToTable("SubscriberConfigs");
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime>("DateProcessed");
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("Processed");
+
+                    b.Property<decimal>("Rank");
+
+                    b.Property<string>("Subject");
+
+                    b.Property<Guid>("SubscriberSystemId");
+
+                    b.Property<string>("Type");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubscriberSystemId");
+
+                    b.ToTable("SubscriberMessagess");
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberSqlAction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Action");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<decimal>("Rank");
+
+                    b.Property<Guid?>("SubscriberSystemId");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubscriberSystemId");
+
+                    b.ToTable("SubscriberSqlActions");
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberSystem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsDefault");
+
+                    b.Property<string>("Name");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SubscriberSystems");
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.Encounter", b =>
                 {
                     b.HasOne("LiveHAPI.Core.Model.People.Client")
@@ -1627,6 +1719,29 @@ namespace LiveHAPI.Infrastructure.Migrations
                         .WithMany("Programs")
                         .HasForeignKey("FormId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberConfig", b =>
+                {
+                    b.HasOne("LiveHAPI.Core.Model.Subscriber.SubscriberSystem")
+                        .WithMany("Configs")
+                        .HasForeignKey("SubscriberSystemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberMessage", b =>
+                {
+                    b.HasOne("LiveHAPI.Core.Model.Subscriber.SubscriberSystem")
+                        .WithMany("Messages")
+                        .HasForeignKey("SubscriberSystemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberSqlAction", b =>
+                {
+                    b.HasOne("LiveHAPI.Core.Model.Subscriber.SubscriberSystem")
+                        .WithMany("Actions")
+                        .HasForeignKey("SubscriberSystemId");
                 });
 #pragma warning restore 612, 618
         }

@@ -13,7 +13,11 @@ namespace LiveHAPI.IQCare.Infrastructure
 		                ALTER TABLE [mst_Patient] ADD [mAfyaId] [uniqueidentifier] NULL
 	                END
 
-
+                IF COL_LENGTH('ord_Visit','mAfyaVisitType') IS NULL
+	                BEGIN
+		                ALTER TABLE [ord_Visit] ADD [mAfyaVisitType] [int] NULL
+	                END
+                
                 IF OBJECT_ID('dbo.mAfyaView') IS NULL
                     BEGIN
                          EXECUTE('
@@ -26,7 +30,7 @@ namespace LiveHAPI.IQCare.Infrastructure
 		                    CAST(decryptbykey(MiddleName) AS varchar(50)) AS MiddleName, 
 		                    LocationID, 
 		                    RegistrationDate, 
-		                    DOB, 
+		                    Phone(decryptbykey(Phone) AS varchar(50)) AS Phone, 
 		                    Sex, 
 		                    DobPrecision, 
 		                    HTSID, 

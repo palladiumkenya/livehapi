@@ -1,4 +1,6 @@
-﻿namespace LiveHAPI.Core.Interfaces.Events
+﻿using LiveHAPI.Core.Model.Subscriber;
+
+namespace LiveHAPI.Core.Interfaces.Events
 {
     public interface IhEvent
     {

@@ -12,6 +12,7 @@ using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
+using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Infrastructure.Seeder;
 using LiveHAPI.Shared.Model;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,13 @@ namespace LiveHAPI.Infrastructure
 
         public static void EnsureSeeded(this LiveHAPIContext context)
         {
+            var x= new CsvHelper.Configuration.CsvConfiguration();
+            x.Delimiter = "|";
+            x.TrimFields = true;
+            x.TrimHeaders = true;
+            x.WillThrowOnMissingField = false;
+
+
             using (var transaction = context.Database.BeginTransaction())
             {
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<County>());
@@ -81,6 +89,9 @@ namespace LiveHAPI.Infrastructure
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<QuestionReValidation>());
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<QuestionTransformation>());
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<QuestionValidation>());
+
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberSystem>());
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberConfig>());
 
                 transaction.Commit();
             }

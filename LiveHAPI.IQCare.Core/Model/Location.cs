@@ -15,8 +15,9 @@ namespace LiveHAPI.IQCare.Core.Model
         public string PosID { get; set; }
         public string SatelliteID { get; set; }
         public int DeleteFlag { get; set; }
-    
-      public override string ToString()
+        
+
+        public override string ToString()
       {
           return $"{FacilityName} ({FacilityID})";
       }

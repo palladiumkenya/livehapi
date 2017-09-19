@@ -53,7 +53,7 @@ namespace LiveHAPI
             services.AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString));
 
             var emrconnectionString = Startup.Configuration["connectionStrings:EMRConnection"];
-            services.AddDbContext<EMRContext>(o => o.UseSqlServer(connectionString));
+            services.AddDbContext<EMRContext>(o => o.UseSqlServer(emrconnectionString));
 
             services.AddScoped<IMasterFacilityRepository, MasterFacilityRepository>();
             services.AddScoped<IObsRepository, ObsRepository>();
@@ -74,6 +74,8 @@ namespace LiveHAPI
             services.AddScoped<ICountyRepository, CountyRepository>();
             services.AddScoped<IEncounterRepository, EncounterRepository>();
             services.AddScoped<ILookupRepository, LookupRepository>();
+            services.AddScoped<ISubscriberSystemRepository, SubscriberSystemRepository>();
+            
 
             services.AddScoped<IMetaService, MetaService>();
             services.AddScoped<IStaffService, StaffService>();
@@ -91,7 +93,7 @@ namespace LiveHAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,LiveHAPIContext context)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,LiveHAPIContext context,EMRContext emrContext)
         {
             loggerFactory.AddLog4Net();
             loggerFactory.AddDebug();
@@ -113,7 +115,7 @@ namespace LiveHAPI
                         
 
            context.EnsureSeeded();
-
+            emrContext.ApplyMigrations();
             
             app.UseMvc();
 

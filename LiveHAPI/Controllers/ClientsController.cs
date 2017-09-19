@@ -4,7 +4,9 @@ using System.Linq;
 using LiveHAPI.Core.Dispatcher;
 using LiveHAPI.Core.Events;
 using LiveHAPI.Core.Interfaces.Handler;
+using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
+using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Shared.ValueObject;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,14 +25,19 @@ namespace LiveHAPI.Controllers
         private readonly IClientSavedHandler _clientSavedHandler;
         private readonly IEncounterSavedHandler _encounterSavedHandler;
         private readonly ILogger<ClientsController> _logger;
+        private readonly ISubscriberSystemRepository _subscriberSystemRepository;
+        private readonly SubscriberSystem _subscriberSystem;
 
-        public ClientsController(ILogger<ClientsController> logger, IClientService clientService, IEncounterService encounterService, IClientSavedHandler clientSavedHandler, IEncounterSavedHandler encounterSavedHandler)
+        public ClientsController(ILogger<ClientsController> logger, IClientService clientService, IEncounterService encounterService, IClientSavedHandler clientSavedHandler, IEncounterSavedHandler encounterSavedHandler, ISubscriberSystemRepository subscriberSystemRepository)
         {
             _logger = logger;
             _clientService = clientService;
             _encounterService = encounterService;
             _clientSavedHandler = clientSavedHandler;
             _encounterSavedHandler = encounterSavedHandler;
+            _subscriberSystemRepository = subscriberSystemRepository;
+
+            _subscriberSystem = _subscriberSystemRepository.GetDefault();
         }
 
         [HttpPost("demographics")]
@@ -38,18 +45,14 @@ namespace LiveHAPI.Controllers
         {
             if (null == client)
                 return BadRequest();
+            
 
-
-            _logger.LogDebug(JsonConvert.SerializeObject(client));
-
-            //            if (!ModelState.IsValid)
-            //                return BadRequest(ModelState);
 
             try
             {
                 _clientService.SyncClient(client);
-
-                SyncEventDispatcher.Raise(new ClientSaved(client.Id),_clientSavedHandler);
+                
+                SyncEventDispatcher.Raise(new ClientSaved(client),_clientSavedHandler, _subscriberSystem);
 
                 return Ok();
             }
@@ -66,18 +69,11 @@ namespace LiveHAPI.Controllers
             if (null == encounters)
                 return BadRequest();
 
-            _logger.LogDebug(JsonConvert.SerializeObject(encounters));
-
-            //            if (!ModelState.IsValid)
-            //                return BadRequest(ModelState);
-
             try
             {
                 _encounterService.Sync(encounters);
 
-                var ids = encounters.Select(x => x.Id).ToList();
-
-                SyncEventDispatcher.Raise(new EncounterSaved(ids), _encounterSavedHandler);
+                SyncEventDispatcher.Raise(new EncounterSaved(encounters),  _encounterSavedHandler, _subscriberSystem);
 
                 return Ok();
             }

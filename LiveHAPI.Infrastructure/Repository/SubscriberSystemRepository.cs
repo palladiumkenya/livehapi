@@ -16,7 +16,7 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public SubscriberSystem GetDefault()
         {
-            return Context.Systems
+            return Context.SubscriberSystems
                 .Include(x => x.Configs)
                 .Include(x => x.Actions)
                 .Include(x => x.Messages)

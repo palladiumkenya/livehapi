@@ -19,15 +19,18 @@ namespace LiveHAPI.IQCare.Core.Model
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        public string Phone { get; set; }
         public int Sex { get; set; }
         public DateTime Dob { get; set; }
         public int? DobPrecision { get; set; }
+        
         public string HTSID { get; set; }
         public int LocationId { get; set; }
         public DateTime? RegistrationDate { get; set; }
         public DateTime? CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public int DeleteFlag { get; set; }
+        public int UserId { get; set; }
         public Guid? mAfyaId { get; set; }
 
         private Patient(string firstName, string middleName, string lastName, int sex, DateTime dob, int? dobPrecision, string htsid, int locationId, DateTime? registrationDate ,Guid? mafyaId)
@@ -45,7 +48,7 @@ namespace LiveHAPI.IQCare.Core.Model
             mAfyaId = mafyaId;
         }
 
-        public Patient Create(ClientInfo client)
+        public static Patient Create(ClientInfo client,int locationId)
         {
             return new Patient(
                 client.Person.FirstName,
@@ -53,16 +56,21 @@ namespace LiveHAPI.IQCare.Core.Model
                 client.Person.LastName,
                 GetSex(client.Person.Gender),
                 client.Person.BirthDate.Value,
-                0,
+                GetDobPrecion(client.Person.BirthDateEstimated.Value),
                 client.Identifiers.First().Identifier,
-                1,
+                locationId,
                 client.Identifiers.First().RegistrationDate,
                 client.Id);
         }
 
-        public int GetSex(string gender)
+        public static int GetSex(string gender)
         {
             return gender == "M" ? 16 : 17;
+        }
+
+        public static int GetDobPrecion(bool estimated)
+        {
+            return estimated? 1 : 0;
         }
 
         public override string ToString()

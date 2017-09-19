@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using LiveHAPI.Core.Interfaces.Events;
 using LiveHAPI.Core.Model.Encounters;
+using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Events
 {
     public class EncounterSaved:IhEvent
     {
-        public List<Guid> EncounterIds { get; }
-        public List<Encounter> Encounters { get;}
+        public List<EncounterInfo> Encounters { get;}
 
-        public EncounterSaved(List<Guid> encounterIds)
-        {
-            EncounterIds = encounterIds;
-        }
-        public EncounterSaved(List<Encounter> encounters)
+        public EncounterSaved(List<EncounterInfo> encounters)
         {
             Encounters = encounters;
         }
