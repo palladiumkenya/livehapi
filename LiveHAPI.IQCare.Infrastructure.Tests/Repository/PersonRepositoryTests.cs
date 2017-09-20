@@ -47,7 +47,6 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
                 .UseSqlServer(connectionString2)
                 .Options;
 
-
             _context = new EMRContext(options);
             _context.ApplyMigrations();
             _subscriberSystemRepository = new SubscriberSystemRepository(new LiveHAPIContext(options2));
@@ -59,17 +58,16 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
              patient = Patient.Create(_client, location.FacilityID);
             _db = _context.Database.GetDbConnection();
         }
-
         
         [Test]
-        public void should_CreateOrUpdate()
+        public void should_CreateOrUpdate_New()
         {
             _patientRepository.CreateOrUpdate(patient,subscriberSystem,location);
             var savePatient = _patientRepository.Get(patient.mAfyaId.Value);
             Assert.IsNotNull(savePatient);
-            Console.WriteLine($"Patient: {savePatient}");
             Assert.AreEqual("201707001", savePatient.HTSID);
             Assert.True(savePatient.Id > -1);
+            Console.WriteLine($"Patient: {savePatient}");
 
             var regVisitTypeId = subscriberSystem.Configs.First(x => x.Area == "Registration" && x.Name == "VisitTypeId").Value;
             var htsVisitTypeId = subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "Enrollment.VisitTypeId").Value;
@@ -81,6 +79,32 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={htsVisitTypeId}"));
             Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [lnk_patientprogramstart] where Ptn_Pk in ({savePatient.Id}) AND ModuleID={moduleId}"));
         }
+
+        [Test]
+        public void should_CreateOrUpdate_Update()
+        {
+            _patientRepository.CreateOrUpdate(patient, subscriberSystem, location);
+            var savePatient = _patientRepository.Get(patient.mAfyaId.Value);
+            Assert.IsNotNull(savePatient);
+
+            patient.FirstName = "Maun";
+            patient.MiddleName = "Maun";
+            patient.LastName = "Maun";
+            patient.HTSID = "XXX";
+
+            _patientRepository.CreateOrUpdate(patient, subscriberSystem, location);
+            _patientRepository=new PatientRepository(_context);
+            var updatedPatient = _patientRepository.Get(patient.mAfyaId.Value);
+
+            Assert.IsNotNull(updatedPatient);
+            Assert.AreEqual("Maun", updatedPatient.FirstName);
+            Assert.AreEqual("Maun", updatedPatient.MiddleName);
+            Assert.AreEqual("Maun", updatedPatient.LastName);
+            Assert.AreEqual("XXX", updatedPatient.HTSID);
+            
+            Console.WriteLine($"Patient: {updatedPatient}");
+        }
+
 
         [Test]
         public void TearDown()

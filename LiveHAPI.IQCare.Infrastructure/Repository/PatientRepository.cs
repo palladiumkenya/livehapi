@@ -391,7 +391,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 	                    ord_visit(
 		                    Ptn_Pk,LocationID,VisitDate,VisitType,DataQuality,DeleteFlag,UserID,CreateDate,mAfyaVisitType)
 	                    values (
-		                    @ptnpk,{location.FacilityID},'{patient.RegistrationDate:yyyy MMMM dd}',{visitType.Value},0,0,{patient.UserId}, Getdate(),{visitType.Value});
+		                    @ptnpk,{location.FacilityID},'{patient.RegistrationDate:yyyy MMMM dd}',{visitType.Value},0,0,{patient.UserId}, Getdate(),1);
 
                 UPDATE 
 	                [lnk_patientprogramstart] 
