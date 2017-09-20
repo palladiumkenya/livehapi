@@ -16,5 +16,19 @@ namespace LiveHAPI.Shared.ValueObject
         public List<IdentifierInfo> Identifiers { get; set; }=new List<IdentifierInfo>();
         public List<RelationshipInfo> Relationship { get; set; } = new List<RelationshipInfo>();
 
+        /*
+         client.Person.FirstName,
+                client.Person.MiddleName,
+                client.Person.LastName,
+                GetSex(client.Person.Gender),
+                client.Person.BirthDate.Value,
+                GetDobPrecion(client.Person.BirthDateEstimated.Value),
+                client.Identifiers.First().Identifier,
+                locationId,
+                client.Identifiers.First().RegistrationDate,
+                client.Id,
+                client.Person.Addresses.FirstOrDefault().Landmark,
+                client.Person.Contacts.FirstOrDefault().Phone.ToString()
+         */
     }
 }

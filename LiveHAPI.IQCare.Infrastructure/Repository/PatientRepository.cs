@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -10,6 +11,7 @@ using LiveHAPI.IQCare.Core.Model;
 using LiveHAPI.Shared;
 using LiveHAPI.Shared.ValueObject;
 using Microsoft.EntityFrameworkCore;
+using Dapper;
 
 namespace LiveHAPI.IQCare.Infrastructure.Repository
 {
@@ -18,6 +20,14 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
         private List<SqlAction> _sqlActions;
         public PatientRepository(EMRContext context) : base(context)
         {
+            
+        }
+
+        public Patient Get(Guid id)
+        {
+            var db = Context.Database.GetDbConnection();
+            var patient = db.Query<Patient>($"{GetSqlDecrptyion()} SELECT * FROM mAfyaView WHERE mAfyaId='{id}'").FirstOrDefault();
+            return patient;
         }
 
         public void CreateOrUpdate(Patient patient, SubscriberSystem subscriberSystem, Location location)
@@ -46,7 +56,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             _sqlActions.Add(InsertVisit(rank, patient, subscriberSystem, location)); rank++;
             _sqlActions.Add(InsertContacts(rank, patient, subscriberSystem, location)); rank++;
             _sqlActions.Add(InsertDefualts(rank, patient, subscriberSystem, location)); rank++;
-            //_sqlActions.Add(InsertRegistration(rank, patient, subscriberSystem, location)); rank++;
+            _sqlActions.Add(InsertRegistration(rank, patient, subscriberSystem, location)); rank++;
             _sqlActions.Add(UpdateReference(rank)); rank++;
             _sqlActions.Add(InsertEnrollment(rank, patient, subscriberSystem, location)); rank++;
 
@@ -132,7 +142,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                     [UpdateDate]=GETDATE(),
                     [mAfyaVisitType]=1
                 WHERE 
-	                Ptn_pk=@ptnpk AND LocationId={location.FacilityID} AND mAfyaVisitType=1                
+	                Ptn_pk=@ptnpk AND LocationId={location.FacilityID} AND mAfyaVisitType=1 AND VisitType={visitType.Value}         
                 IF @@ROWCOUNT=0
                     INSERT INTO 
                         ord_Visit(
@@ -375,7 +385,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                     [UpdateDate]=GETDATE(),
                     [mAfyaVisitType]=1
                 WHERE 
-	                Ptn_pk=@ptnpk AND LocationId={location.FacilityID} AND mAfyaVisitType=1               
+	                Ptn_pk=@ptnpk AND LocationId={location.FacilityID} AND mAfyaVisitType=1 AND VisitType={visitType.Value}            
                 IF @@ROWCOUNT=0
                     Insert into 
 	                    ord_visit(

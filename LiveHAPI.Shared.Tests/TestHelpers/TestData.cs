@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.Serialization.Json;
 using FizzWare.NBuilder;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.Lookup;
@@ -10,6 +11,7 @@ using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Shared.ValueObject;
+using Newtonsoft.Json;
 
 namespace LiveHAPI.Shared.Tests.TestHelpers
 {
@@ -817,6 +819,72 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
 
             return encounterInfos;
+        }
+
+        public static ClientInfo TestClientInfo()
+        {
+            var json= @"
+{
+  ^Id^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
+  ^MaritalStatus^: ^MM^,
+  ^KeyPop^: ^NA^,
+  ^OtherKeyPop^: ^^,
+  ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
+  ^PracticeCode^: null,
+  ^Person^: {
+    ^FirstName^: ^Julie^,
+    ^MiddleName^: ^^,
+    ^LastName^: ^Swagger^,
+    ^Gender^: ^F^,
+    ^BirthDate^: ^/Date(389048400000+0300)/^,
+    ^BirthDateEstimated^: false,
+    ^Email^: ^jswagger@gmail.com^,
+    ^Addresses^: [
+      {
+        ^Landmark^: ^Kibera School^,
+        ^CountyId^: 47,
+        ^Preferred^: true,
+        ^PersonId^: ^82dfdc68-6c3c-4a39-8f1f-a7b7016df22e^,
+        ^Id^: ^a2127fa6-7776-11e7-b5a5-be2e44b06b34^,
+        ^Voided^: false
+      }
+    ],
+    ^Contacts^: [
+      {
+        ^Phone^: 134021121,
+        ^Preferred^: true,
+        ^PersonId^: ^82dfdc68-6c3c-4a39-8f1f-a7b7016df22e^,
+        ^Id^: ^a21271a8-7776-11e7-b5a5-be2e44b06b34^,
+        ^Voided^: false
+      }
+    ],
+    ^Id^: ^82dfdc68-6c3c-4a39-8f1f-a7b7016df22e^,
+    ^Voided^: false
+  },
+  ^Identifiers^: [
+    {
+      ^IdentifierTypeId^: ^Serial^,
+      ^Identifier^: ^201707001^,
+      ^RegistrationDate^: ^2017JUL01^,
+      ^Preferred^: true,
+      ^ClientId^: ^4547b7e0-98c7-4c6f-9d2a-a7b7016df232^,
+      ^Id^: ^7e61629e-6b99-11e7-907b-a6006ad4dba0^,
+      ^Voided^: false
+    }
+  ],
+  ^Relationships^: [
+    {
+      ^RelationshipTypeId^: ^Partner^,
+      ^RelatedClientId^: ^4547b7e0-98c7-4c6f-9d2a-a7b7016df232^,
+      ^Preferred^: true,
+      ^ClientId^: ^4547b7e0-98c7-4c6f-9d2a-a7b7016df234^,
+      ^Id^: ^7e51629e-6b99-11e7-907b-a6006ad4dba0^,
+      ^Voided^: false
+    }
+  ]
+}
+".Replace("^","'");
+            return JsonConvert.DeserializeObject<ClientInfo>(json);
         }
     }
 }

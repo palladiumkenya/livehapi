@@ -20,6 +20,7 @@ namespace LiveHAPI.IQCare.Core.Model
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string Phone { get; set; }
+        public string Landmark { get; set; }
         public int Sex { get; set; }
         public DateTime Dob { get; set; }
         public int? DobPrecision { get; set; }
@@ -29,11 +30,15 @@ namespace LiveHAPI.IQCare.Core.Model
         public DateTime? RegistrationDate { get; set; }
         public DateTime? CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
-        public int DeleteFlag { get; set; }
+        public bool DeleteFlag { get; set; }
         public int UserId { get; set; }
         public Guid? mAfyaId { get; set; }
 
-        private Patient(string firstName, string middleName, string lastName, int sex, DateTime dob, int? dobPrecision, string htsid, int locationId, DateTime? registrationDate ,Guid? mafyaId)
+        private Patient()
+        {
+        }
+
+        private Patient(string firstName, string middleName, string lastName, int sex, DateTime dob, int? dobPrecision, string htsid, int locationId, DateTime? registrationDate ,Guid? mafyaId,string landmark,string phone)
         {
             FirstName = firstName;
             MiddleName = middleName;
@@ -46,6 +51,8 @@ namespace LiveHAPI.IQCare.Core.Model
             RegistrationDate = registrationDate;
             CreateDate =DateTime.Now;
             mAfyaId = mafyaId;
+            Landmark = landmark;
+            Phone = phone;
         }
 
         public static Patient Create(ClientInfo client,int locationId)
@@ -60,7 +67,10 @@ namespace LiveHAPI.IQCare.Core.Model
                 client.Identifiers.First().Identifier,
                 locationId,
                 client.Identifiers.First().RegistrationDate,
-                client.Id);
+                client.Id,
+                client.Person.Addresses.FirstOrDefault().Landmark,
+                client.Person.Contacts.FirstOrDefault().Phone.ToString()
+                );
         }
 
         public static int GetSex(string gender)

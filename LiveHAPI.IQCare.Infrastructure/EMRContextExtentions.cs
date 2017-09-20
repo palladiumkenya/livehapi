@@ -20,26 +20,30 @@ namespace LiveHAPI.IQCare.Infrastructure
                 
                 IF OBJECT_ID('dbo.mAfyaView') IS NULL
                     BEGIN
-                         EXECUTE('
-	                    create view mAfyaView
-	                    as
-	                    SELECT        
-		                    Ptn_Pk, 
-		                    CAST(decryptbykey(FirstName) AS varchar(50)) AS FirstName, 
-		                    CAST(decryptbykey(LastName) AS varchar(50)) AS LastName, 
-		                    CAST(decryptbykey(MiddleName) AS varchar(50)) AS MiddleName, 
-		                    LocationID, 
-		                    RegistrationDate, 
-		                    Phone(decryptbykey(Phone) AS varchar(50)) AS Phone, 
-		                    Sex, 
-		                    DobPrecision, 
-		                    HTSID, 
-		                    UserID, 
-		                    CreateDate, 
-		                    UpdateDate, 
-		                    DeleteFlag
-	                    FROM            
-		                    mst_Patient')
+                        EXECUTE('
+	                        create view mAfyaView
+	                        as
+                            SELECT       
+	                            Ptn_Pk as Id,
+	                            CAST(decryptbykey(FirstName) AS varchar(50)) AS FirstName, 
+	                            CAST(decryptbykey(LastName) AS varchar(50)) AS LastName, 
+	                            CAST(decryptbykey(MiddleName) AS varchar(50)) AS MiddleName, 
+	                            LocationID, 
+	                            RegistrationDate, 
+	                            DOB, 
+	                            Sex, 
+	                            DobPrecision, 
+	                            HTSID, 
+	                            UserID, 
+	                            CreateDate, 
+	                            UpdateDate, 
+	                            DeleteFlag, 
+	                            mAfyaId, 
+	                            CAST(decryptbykey(Phone) AS varchar(50)) AS Phone,
+                                Landmark
+                            FROM            
+	                            dbo.mst_Patient
+                                ')
                     END
             ");
         }

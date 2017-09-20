@@ -23,7 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LiveHAPI.Infrastructure\LiveHAPI.Infrastructure.csproj" />
     <ProjectReference Include="..\LiveHAPI.IQCare.Infrastructure\LiveHAPI.IQCare.Infrastructure.csproj" />
+    <ProjectReference Include="..\LiveHAPI.Shared.Tests\LiveHAPI.Shared.Tests.csproj" />
   </ItemGroup>
 
 </Project>
