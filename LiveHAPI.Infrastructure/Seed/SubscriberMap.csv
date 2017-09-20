@@ -1,0 +1,12 @@
+Id|Name|Field|Type|SubName|SubField|SubType|Group|Mode|SubscriberSystemId
+ab07be94-98b9-11e7-abc4-cec278b6b50a|ObsLinkage|ReferredTo|Text|DTL_FBCUSTOMFIELD_LinkageAndTracking|FacilityName|Text|1|Single|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+ab07bf52-98b9-11e7-abc4-cec278b6b50a|ObsLinkage|DatePromised|Date|DTL_FBCUSTOMFIELD_LinkageAndTracking|ReferalDate|Date|1|Single|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+ab07c010-98b9-11e7-abc4-cec278b6b50a|ObsLinkage|FacilityHandedTo|Text|DTL_FBCUSTOMFIELD_LinkageAndTracking|FacilityHandedOverTo|Text|1|Single|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+ab07c0ce-98b9-11e7-abc4-cec278b6b50a|ObsLinkage|HandedTo|Text|DTL_FBCUSTOMFIELD_LinkageAndTracking|handedOverTo|Text|1|Single|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+ab07c18c-98b9-11e7-abc4-cec278b6b50a|ObsLinkage|WorkerCarde|Text|DTL_FBCUSTOMFIELD_LinkageAndTracking|handedOverToCadre|Text|1|Single|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+ab07c362-98b9-11e7-abc4-cec278b6b50a|ObsLinkage|EnrollmentId|Text|DTL_FBCUSTOMFIELD_LinkageAndTracking|CCCNumber|Text|1|Single|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+ab07c42a-98b9-11e7-abc4-cec278b6b50a|ObsLinkage|DateEnrolled|Date|DTL_FBCUSTOMFIELD_LinkageAndTracking|dateEnrolled|Date|1|Single|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+ab07c4e8-98b9-11e7-abc4-cec278b6b50a|ObsLinkage|Remarks|Text|DTL_FBCUSTOMFIELD_LinkageAndTracking|Remarks|Text|1|Single|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+ab07c5a6-98b9-11e7-abc4-cec278b6b50a|ObsTraceResult|Mode|Text|DTL_CUSTOMFORM_HTS Tracing_LinkageAndTracking|tracingType|Text|2|Multi|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+ab07c664-98b9-11e7-abc4-cec278b6b50a|ObsTraceResult|Date|Date|DTL_CUSTOMFORM_HTS Tracing_LinkageAndTracking|tracingDate|Date|2|Multi|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+ab07c72c-98b9-11e7-abc4-cec278b6b50a|ObsTraceResult|Outcome|Text|DTL_CUSTOMFORM_HTS Tracing_LinkageAndTracking|tracingOutcome|Text|2|Multi|16E23866-9D69-11E7-ABC4-CEC278B6B50A

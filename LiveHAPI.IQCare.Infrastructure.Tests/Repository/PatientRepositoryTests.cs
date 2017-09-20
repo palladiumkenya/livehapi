@@ -19,7 +19,7 @@ using Dapper;
 namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
 {
     [TestFixture]
-    public class PersonRepositoryTests
+    public class PatientRepositoryTests
     {
         private EMRContext  _context;
         private IPatientRepository _patientRepository;
@@ -55,7 +55,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             location = _configRepository.GetLocations().FirstOrDefault();
             _patientRepository=new PatientRepository(_context);
             _client = TestData.TestClientInfo();
-             patient = Patient.Create(_client, location.FacilityID);
+             patient = Patient.Create(_client, location.FacilityID, subscriberSystem);
             _db = _context.Database.GetDbConnection();
         }
         

@@ -92,7 +92,8 @@ namespace LiveHAPI.Infrastructure
 
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberSystem>());
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberConfig>());
-
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberMap>());
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberTranslation>());
                 transaction.Commit();
             }
         }

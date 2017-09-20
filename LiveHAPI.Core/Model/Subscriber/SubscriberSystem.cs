@@ -12,6 +12,8 @@ namespace LiveHAPI.Core.Model.Subscriber
         public ICollection<SubscriberConfig> Configs { get; set; }
         public ICollection<SubscriberSqlAction> Actions { get; set; }
         public ICollection<SubscriberMessage> Messages { get; set; }
+        public ICollection<SubscriberMap> Maps { get; set; }
+        public ICollection<SubscriberTranslation> Translations { get; set; }
 
         public SubscriberSystem()
         {

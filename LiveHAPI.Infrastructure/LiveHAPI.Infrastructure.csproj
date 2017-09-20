@@ -31,12 +31,16 @@
     <None Remove="Seed\QuestionValidation.csv" />
     <None Remove="Seed\RelationshipType.csv" />
     <None Remove="Seed\SubCounty.csv" />
+    <None Remove="Seed\SubscriberMap.csv" />
+    <None Remove="Seed\SubscriberTranslation.csv" />
     <None Remove="Seed\User.csv" />
     <None Remove="Seed\ValidatorType.csv" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Seed\PersonName.csv" />
+    <EmbeddedResource Include="Seed\SubscriberMap.csv" />
+    <EmbeddedResource Include="Seed\SubscriberTranslation.csv" />
     <EmbeddedResource Include="Seed\Validator.csv" />
     <EmbeddedResource Include="Seed\Category.csv" />
     <EmbeddedResource Include="Seed\CategoryItem.csv" />

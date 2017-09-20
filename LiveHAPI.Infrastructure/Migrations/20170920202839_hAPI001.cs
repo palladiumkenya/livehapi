@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LiveHAPI.Infrastructure.Migrations
 {
-    public partial class hAPIInitial001 : Migration
+    public partial class hAPI001 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -495,6 +495,33 @@ namespace LiveHAPI.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SubscriberMaps",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Field = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Group = table.Column<int>(type: "int", nullable: false),
+                    Mode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubField = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubscriberSystemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubscriberMaps", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SubscriberMaps_SubscriberSystems_SubscriberSystemId",
+                        column: x => x.SubscriberSystemId,
+                        principalTable: "SubscriberSystems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SubscriberMessagess",
                 columns: table => new
                 {
@@ -541,6 +568,32 @@ namespace LiveHAPI.Infrastructure.Migrations
                         principalTable: "SubscriberSystems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubscriberTranslations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Display = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsText = table.Column<bool>(type: "bit", nullable: false),
+                    Ref = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubDisplay = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubRef = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubscriberSystemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubscriberTranslations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SubscriberTranslations_SubscriberSystems_SubscriberSystemId",
+                        column: x => x.SubscriberSystemId,
+                        principalTable: "SubscriberSystems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1471,6 +1524,11 @@ namespace LiveHAPI.Infrastructure.Migrations
                 column: "SubscriberSystemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SubscriberMaps_SubscriberSystemId",
+                table: "SubscriberMaps",
+                column: "SubscriberSystemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SubscriberMessagess_SubscriberSystemId",
                 table: "SubscriberMessagess",
                 column: "SubscriberSystemId");
@@ -1478,6 +1536,11 @@ namespace LiveHAPI.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_SubscriberSqlActions_SubscriberSystemId",
                 table: "SubscriberSqlActions",
+                column: "SubscriberSystemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubscriberTranslations_SubscriberSystemId",
+                table: "SubscriberTranslations",
                 column: "SubscriberSystemId");
 
             migrationBuilder.CreateIndex(
@@ -1575,10 +1638,16 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "SubscriberConfigs");
 
             migrationBuilder.DropTable(
+                name: "SubscriberMaps");
+
+            migrationBuilder.DropTable(
                 name: "SubscriberMessagess");
 
             migrationBuilder.DropTable(
                 name: "SubscriberSqlActions");
+
+            migrationBuilder.DropTable(
+                name: "SubscriberTranslations");
 
             migrationBuilder.DropTable(
                 name: "Users");

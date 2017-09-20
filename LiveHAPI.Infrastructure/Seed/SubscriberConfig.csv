@@ -5,3 +5,5 @@ Id|Area|Name|Value|SubscriberSystemId|Voided
 16e26b9a-9d69-11e7-abc4-cec278b6b50a|HTS|Enrollment.VisitTypeId|115|16e23866-9d69-11e7-abc4-cec278b6b50a|0
 16e27b9a-9d69-11e7-abc4-cec278b6b50a|HTS|Lab.VisitTypeId|116|16e23866-9d69-11e7-abc4-cec278b6b50a|0
 16e28b9a-9d69-11e7-abc4-cec278b6b50a|HTS|Linkage.VisitTypeId|117|16e23866-9d69-11e7-abc4-cec278b6b50a|0
+16e29b9a-9d69-11e7-abc4-cec278b6b50a|HTS|Lab.FeatureId|1012|16e23866-9d69-11e7-abc4-cec278b6b50a|0
+16e30b9a-9d69-11e7-abc4-cec278b6b50a|HTS|Linkage.FeatureId|1013|16e23866-9d69-11e7-abc4-cec278b6b50a|0

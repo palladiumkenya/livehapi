@@ -27,7 +27,7 @@ namespace LiveHAPI.IQCare.Core.Handlers
         public void Handle(ClientSaved args,SubscriberSystem subscriberSystem)
         {
             var location = _configRepository.GetLocations().FirstOrDefault();
-            var patient = Patient.Create(args.Client, location.FacilityID);
+            var patient = Patient.Create(args.Client, location.FacilityID, subscriberSystem);
             
             _patientRepository.CreateOrUpdate(patient, subscriberSystem, location);
         

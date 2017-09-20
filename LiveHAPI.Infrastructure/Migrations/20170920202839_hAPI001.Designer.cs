@@ -11,8 +11,8 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    [Migration("20170919213155_hAPIInitial001")]
-    partial class hAPIInitial001
+    [Migration("20170920202839_hAPI001")]
+    partial class hAPI001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1318,6 +1318,38 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.ToTable("SubscriberConfigs");
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberMap", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Field");
+
+                    b.Property<int>("Group");
+
+                    b.Property<string>("Mode");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("SubField");
+
+                    b.Property<string>("SubName");
+
+                    b.Property<string>("SubType");
+
+                    b.Property<Guid>("SubscriberSystemId");
+
+                    b.Property<string>("Type");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubscriberSystemId");
+
+                    b.ToTable("SubscriberMaps");
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberMessage", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1386,6 +1418,36 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SubscriberSystems");
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberTranslation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code");
+
+                    b.Property<string>("Display");
+
+                    b.Property<bool>("IsText");
+
+                    b.Property<string>("Ref");
+
+                    b.Property<string>("SubCode");
+
+                    b.Property<string>("SubDisplay");
+
+                    b.Property<string>("SubRef");
+
+                    b.Property<Guid>("SubscriberSystemId");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubscriberSystemId");
+
+                    b.ToTable("SubscriberTranslations");
                 });
 
             modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.Encounter", b =>
@@ -1729,6 +1791,14 @@ namespace LiveHAPI.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberMap", b =>
+                {
+                    b.HasOne("LiveHAPI.Core.Model.Subscriber.SubscriberSystem")
+                        .WithMany("Maps")
+                        .HasForeignKey("SubscriberSystemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberMessage", b =>
                 {
                     b.HasOne("LiveHAPI.Core.Model.Subscriber.SubscriberSystem")
@@ -1742,6 +1812,14 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.HasOne("LiveHAPI.Core.Model.Subscriber.SubscriberSystem")
                         .WithMany("Actions")
                         .HasForeignKey("SubscriberSystemId");
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberTranslation", b =>
+                {
+                    b.HasOne("LiveHAPI.Core.Model.Subscriber.SubscriberSystem")
+                        .WithMany("Translations")
+                        .HasForeignKey("SubscriberSystemId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

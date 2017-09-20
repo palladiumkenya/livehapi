@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using LiveHAPI.Core.Model.People;
+using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.IQCare.Core.Model
@@ -22,6 +23,7 @@ namespace LiveHAPI.IQCare.Core.Model
         public string Phone { get; set; }
         public string Landmark { get; set; }
         public int Sex { get; set; }
+        public int MaritalStatus { get; set; }
         public DateTime Dob { get; set; }
         public int? DobPrecision { get; set; }
         
@@ -38,7 +40,7 @@ namespace LiveHAPI.IQCare.Core.Model
         {
         }
 
-        private Patient(string firstName, string middleName, string lastName, int sex, DateTime dob, int? dobPrecision, string htsid, int locationId, DateTime? registrationDate ,Guid? mafyaId,string landmark,string phone)
+        private Patient(string firstName, string middleName, string lastName, int sex, DateTime dob, int? dobPrecision, string htsid, int locationId, DateTime? registrationDate ,Guid? mafyaId,string landmark,string phone,int maritalStatus)
         {
             FirstName = firstName;
             MiddleName = middleName;
@@ -53,15 +55,16 @@ namespace LiveHAPI.IQCare.Core.Model
             mAfyaId = mafyaId;
             Landmark = landmark;
             Phone = phone;
+            MaritalStatus = maritalStatus;
         }
 
-        public static Patient Create(ClientInfo client,int locationId)
+        public static Patient Create(ClientInfo client, int locationId, SubscriberSystem subscriberSystem)
         {
             return new Patient(
                 client.Person.FirstName,
                 client.Person.MiddleName,
                 client.Person.LastName,
-                GetSex(client.Person.Gender),
+                Convert.ToInt32(GetTranslation("Sex",client.Person.Gender,subscriberSystem,"0")),
                 client.Person.BirthDate.Value,
                 GetDobPrecion(client.Person.BirthDateEstimated.Value),
                 client.Identifiers.First().Identifier,
@@ -69,18 +72,16 @@ namespace LiveHAPI.IQCare.Core.Model
                 client.Identifiers.First().RegistrationDate,
                 client.Id,
                 client.Person.Addresses.FirstOrDefault().Landmark,
-                client.Person.Contacts.FirstOrDefault().Phone.ToString()
+                client.Person.Contacts.FirstOrDefault().Phone.ToString(),
+                Convert.ToInt32(GetTranslation("MaritalStatus",client.MaritalStatus,subscriberSystem,"0"))
                 );
         }
 
-        public static int GetSex(string gender)
-        {
-            return gender == "M" ? 16 : 17;
-        }
+
 
         public static int GetDobPrecion(bool estimated)
         {
-            return estimated? 1 : 0;
+            return estimated? 0 : 1;
         }
 
         public override string ToString()
@@ -90,6 +91,14 @@ namespace LiveHAPI.IQCare.Core.Model
         public string ToStringDetail()
         {
             return $"{HTSID}|{FirstName} {MiddleName} {LastName}|{mAfyaId??new Guid()}";
+        }
+
+        public static string GetTranslation(string tref,string tval,SubscriberSystem subscriberSystem,string def)
+        {
+            var translatio = subscriberSystem.Translations.FirstOrDefault(x => x.Ref == tref && x.Code == tval);
+            if (null == translatio)
+                return def;
+            return translatio.SubCode;
         }
     }
 }

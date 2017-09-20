@@ -58,6 +58,8 @@
     <Compile Include="Model\People\User.cs" />
     <Compile Include="Model\QModel\Validator.cs" />
     <Compile Include="Model\QModel\ValidatorType.cs" />
+    <Compile Include="Model\Subscriber\SubscriberTranslation.cs" />
+    <Compile Include="Model\Subscriber\SubscriberMap.cs" />
     <Compile Include="Model\Subscriber\SubscriberMessage.cs" />
     <Compile Include="Model\Subscriber\SubscriberSqlAction.cs" />
     <Compile Include="Model\Subscriber\SubscriberConfig.cs" />

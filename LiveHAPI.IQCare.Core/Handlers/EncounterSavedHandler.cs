@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using LiveHAPI.Core.Events;
 using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
@@ -10,22 +11,22 @@ namespace LiveHAPI.IQCare.Core.Handlers
 {
     public class EncounterSavedHandler : IEncounterSavedHandler
     {
+        private readonly IConfigRepository _configRepository;
         private readonly IPatientEncounterRepository _encounterRepository;
         private readonly ILogger<EncounterSavedHandler> _logger;
 
-        public EncounterSavedHandler(IPatientEncounterRepository encounterRepository, ILogger<EncounterSavedHandler> logger)
+        public EncounterSavedHandler(IPatientEncounterRepository encounterRepository, ILogger<EncounterSavedHandler> logger, IConfigRepository configRepository)
         {
             _encounterRepository = encounterRepository;
             _logger = logger;
+            _configRepository = configRepository;
         }
 
         public void Handle(EncounterSaved args, SubscriberSystem subscriberSystem)
         {
-            foreach (var e in args.Encounters)
-            {
-                var msg = $"Encounter: {e} SAVED !";
-                Console.WriteLine(msg);
-            }
+            var location = _configRepository.GetLocations().FirstOrDefault();
+
+            //var encounters=Enc
             _logger.LogDebug(new string('+', 50));
             _logger.LogDebug(new string('+', 50));
         }
