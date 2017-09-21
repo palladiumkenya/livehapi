@@ -107,6 +107,10 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             {
                 _sqlActions.Add(InsertLinkageDetailVisit(rank, encounterInfo, subscriberSystem, location)); rank++;
             }
+            if (encounterInfo.ObsTraceResults.Count > 0)
+            {
+                _sqlActions.Add(InsertTracingVisit(rank, encounterInfo, subscriberSystem, location)); rank++;
+            }
 
             StringBuilder sqlBuilder = new StringBuilder(" ");
             foreach (var action in _sqlActions.OrderBy(x => x.Rank))
@@ -261,6 +265,41 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             var action = new SqlAction(rank, sql);
             return action;
         }
+        private SqlAction InsertTracingVisit(decimal rank, EncounterInfo encounterInfo, SubscriberSystem subscriberSystem, Location location)
+        {
+            //Lab.VisitTypeId | 116
+            //Linkage.VisitTypeId | 117
+
+            //Registration|VisitTypeId
+            var visitType = subscriberSystem.Configs.FirstOrDefault(x => x.Area == "HTS" && x.Name == "Linkage.VisitTypeId");
+
+            string sql = $@"
+
+                UPDATE 
+	                [ord_Visit] 
+                SET 
+	                [Ptn_Pk]=@ptnpk,
+                    [LocationID]='{location.FacilityID}',
+                    [VisitDate]='{encounterInfo.EncounterDate:yyyy MMM dd}',
+                    [VisitType]= {visitType.Value},
+                    [DataQuality]='0',
+                    [UserID]='0',
+                    [Signature]='0',
+                    [UpdateDate]=GETDATE(),
+                    [mAfyaVisitType]=1
+                WHERE 
+	                Ptn_pk=@ptnpk AND LocationId={location.FacilityID} AND mAfyaVisitType=1 AND [VisitType]={visitType.Value} 
+                IF @@ROWCOUNT=0
+                    INSERT INTO 
+                        ord_Visit(Ptn_Pk, LocationID, VisitDate, VisitType,DataQuality,UserID,Signature,CreateDate,mAfyaVisitType)
+                    VALUES(
+                        @ptnpk,'{location.FacilityID}', '{encounterInfo.EncounterDate:yyyy MMMM dd}', {visitType.Value},'0', '0','0', GETDATE(),1);
+                
+                SET @visitipk=(SELECT TOP 1 [Visit_Id] FROM [ord_Visit] WHERE Ptn_Pk=@ptnpk AND mAfyaVisitType=1 AND [VisitType]={visitType.Value} ORDER BY CreateDate desc);";
+
+            var action = new SqlAction(rank, sql);
+            return action;
+        }
         private List<SqlAction> InsertLinkage(decimal rank, EncounterInfo encounter, SubscriberSystem subscriberSystem, Location location)
         {
             //Lab.VisitTypeId | 116
@@ -338,7 +377,83 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
             return actions;
         }
-        
+        private List<SqlAction> InsertTracing(decimal rank, EncounterInfo encounter, SubscriberSystem subscriberSystem, Location location)
+        {
+            //Lab.VisitTypeId | 116
+            //Linkage.VisitTypeId | 117
+
+            //Registration|VisitTypeId
+            var visitType = subscriberSystem.Configs.FirstOrDefault(x => x.Area == "HTS" && x.Name == "Linkage.VisitTypeId");
+
+            //GET MAP
+            var actions = new List<SqlAction>();
+
+            var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsTraceResult)).ToList();
+
+            if (maps.Count > 0)
+            {
+                //MULTII
+                var mapTbl = maps.Where(x => x.Mode == "Single").Select(x => x.SubName).Distinct().FirstOrDefault();
+
+                var s = @"
+                            DECLARE @ptnpk int
+                            DECLARE @visitipk int
+                
+                            SET @ptnpk=(SELECT TOP 1 Ptn_Pk  FROM mst_Patient WHERE mAfyaId ='{encounter.ClientId}');               
+                            SET @visitipk=(SELECT TOP 1 Ptn_Pk  FROM  ord_visit WHERE (Ptn_Pk = @ptnpk) AND (VisitType = {visitType.Value}) AND (mAfyaVisitType = 1));";
+
+                actions.Add(new SqlAction(rank, s));
+                rank++;
+
+                Guid mAfyId;
+                foreach (var encounterObsTraceResult in encounter.ObsTraceResults)
+                {
+                    mAfyId = encounterObsTraceResult.Id;
+                    string sql22 = $@"
+
+                        UPDATE 
+	                        [{mapTbl}] 
+                        SET 
+	                        [mAfyaId]='{mAfyId}',
+                            [Visit_Pk]=@visitipk,                    
+                            [LocationID]='{location.FacilityID}',
+                            [UserID]='0',                
+                            [UpdateDate]=GETDATE()
+                        WHERE 
+	                        mAfyaId='{mAfyId}'
+
+                        IF @@ROWCOUNT=0
+                            INSERT INTO 
+                                    [{mapTbl}](
+                                    ptn_pk, Visit_Pk, LocationID, UserID, CreateDate,mAfyaId)
+                            VALUES(@ptnpk,@visitipk, 
+                                {location.FacilityID}, 0, GETDATE(),'{mAfyId}');
+                    ";
+
+                    actions.Add(new SqlAction(rank, sql22));
+                    rank++;
+
+                    
+                        foreach (var subscriberMap in maps)
+                        {
+                            string sql223 = $@"
+
+                        UPDATE 
+	                        [{mapTbl}] 
+                        SET 
+	                        [{subscriberMap.SubField}]= {GetValue(encounterObsTraceResult, subscriberMap)}
+                        WHERE 
+	                        mAfyaId='{mAfyId}';
+                    ";
+                            actions.Add(new SqlAction(rank, sql223));
+                            rank++;
+                        }
+                    
+                }
+            }
+
+            return actions;
+        }
         private static string GetValue(object obj, SubscriberMap subscriberMap)
         {
             var propname = subscriberMap.Field;
