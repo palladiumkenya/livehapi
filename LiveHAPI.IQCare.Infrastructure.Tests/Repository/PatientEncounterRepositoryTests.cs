@@ -81,7 +81,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={linkVisitTypeId}"));
         }
 
-        [Test]
+        [TearDown]
         public void TearDown()
         {
             //  4700b0e0-00c0-0c0f-0d0a-a0b0000df000
@@ -93,7 +93,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             delete from  [DTL_URBANRESIDENCE]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
             delete from  [DTL_PATIENTHIVPREVCAREENROLLMENT]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
             delete from  [DTL_FBCUSTOMFIELD_LinkageAndTracking]  where mAfyaId like '47%b0e0%';	
-            delete from  [DTL_CUSTOMFORM_HTS Tracing_LinkageAndTracking]  where WHERE mAfyaId like '47%b0e0%';	
+            delete from  [DTL_CUSTOMFORM_HTS Tracing_LinkageAndTracking]  WHERE mAfyaId like '47%b0e0%';	
             delete from  ord_Visit where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             delete from  mst_Patient where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             delete from  lnk_patientprogramstart where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');

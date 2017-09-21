@@ -106,7 +106,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
         }
 
 
-        [Test]
+        [TearDown]
         public void TearDown()
         {
             //  4700b0e0-00c0-0c0f-0d0a-a0b0000df000

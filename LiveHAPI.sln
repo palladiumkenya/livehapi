@@ -23,9 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.Infrastructure.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.Core.Tests", "LiveHAPI.Core.Tests\LiveHAPI.Core.Tests.csproj", "{ECD274CB-5E8D-46AB-A128-FE221C604F57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveHAPI.IQCare.Core", "LiveHAPI.IQCare.Core\LiveHAPI.IQCare.Core.csproj", "{79041D24-3A86-414C-B77C-173D69F2BE0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.IQCare.Core", "LiveHAPI.IQCare.Core\LiveHAPI.IQCare.Core.csproj", "{79041D24-3A86-414C-B77C-173D69F2BE0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveHAPI.IQCare.Infrastructure", "LiveHAPI.IQCare.Infrastructure\LiveHAPI.IQCare.Infrastructure.csproj", "{CF3AC98E-C2C5-40AB-B746-B8BA51D56B06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.IQCare.Infrastructure", "LiveHAPI.IQCare.Infrastructure\LiveHAPI.IQCare.Infrastructure.csproj", "{CF3AC98E-C2C5-40AB-B746-B8BA51D56B06}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IQCare", "IQCare", "{94D040E5-E0EB-489B-A7D7-58DE7B24B5A3}"
 EndProject
@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{DD849DFF-B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{0D0FCC7B-AA3D-4F9F-A885-1E6FF975F4C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveHAPI.IQCare.Infrastructure.Tests", "LiveHAPI.IQCare.Infrastructure.Tests\LiveHAPI.IQCare.Infrastructure.Tests.csproj", "{5026ABBB-B2E8-4E87-8281-BF0D3D7E64F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.IQCare.Infrastructure.Tests", "LiveHAPI.IQCare.Infrastructure.Tests\LiveHAPI.IQCare.Infrastructure.Tests.csproj", "{5026ABBB-B2E8-4E87-8281-BF0D3D7E64F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

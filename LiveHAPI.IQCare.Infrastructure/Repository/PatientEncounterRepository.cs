@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using LiveHAPI.Core.Model.Encounters;
@@ -8,6 +10,7 @@ using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.IQCare.Core.Interfaces.Repository;
 using LiveHAPI.IQCare.Core.Model;
 using LiveHAPI.Shared;
+using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.ValueObject;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,6 +44,17 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                 using (SqlConnection conn = new SqlConnection(Context.Database.GetDbConnection().ConnectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                var sql2 = GenerateSqlActions(encounterInfo, subscriberSystem, location);
+
+                using (SqlConnection conn = new SqlConnection(Context.Database.GetDbConnection().ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql2, conn))
                     {
                         conn.Open();
                         cmd.ExecuteNonQuery();
@@ -83,23 +97,10 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             decimal rank = 0;
             _sqlActions = new List<SqlAction>();
             _sqlActions.Add(new SqlAction(rank, GetSqlDecrptyion())); rank++;
-            _sqlActions.Add(InsertLabDetailVisit(rank, encounterInfo, subscriberSystem, location)); rank++;
             //_sqlActions.Add(InsertLabDetail(rank, encounterInfo, subscriberSystem, location)); rank++;
-
-            if (encounterInfo.ObsLinkages.Count > 0)
-            {
-                _sqlActions.Add(InsertLinkageDetailVisit(rank, encounterInfo, subscriberSystem, location)); rank++;
+            if (encounterInfo.ObsLinkages.Count > 0) 
                 _sqlActions.AddRange(InsertLinkage(rank, encounterInfo, subscriberSystem, location)); rank++;
-            }
-
-            //Linkage
-            /*
-            _sqlActions.Add(InsertContacts(rank, patient, subscriberSystem, location)); rank++;
-            _sqlActions.Add(InsertDefualts(rank, patient, subscriberSystem, location)); rank++;
-            _sqlActions.Add(InsertRegistration(rank, patient, subscriberSystem, location)); rank++;
-            _sqlActions.Add(UpdateReference(rank)); rank++;
-            _sqlActions.Add(InsertEnrollment(rank, patient, subscriberSystem, location)); rank++;
-            */
+            
 
             StringBuilder sqlBuilder = new StringBuilder(" ");
             foreach (var action in _sqlActions.OrderBy(x => x.Rank))
@@ -239,6 +240,12 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
         }
         private List<SqlAction> InsertLinkage(decimal rank, EncounterInfo encounter, SubscriberSystem subscriberSystem, Location location)
         {
+            //Lab.VisitTypeId | 116
+            //Linkage.VisitTypeId | 117
+
+            //Registration|VisitTypeId
+            var visitType = subscriberSystem.Configs.FirstOrDefault(x => x.Area == "HTS" && x.Name == "Linkage.VisitTypeId");
+
             //GET MAP
             var actions=new List<SqlAction>();
 
@@ -255,11 +262,17 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
                 string sql22 = $@"
 
+                DECLARE @ptnpk int
+                DECLARE @visitipk int
+                
+                SET @ptnpk=(SELECT TOP 1 Ptn_Pk  FROM mst_Patient WHERE mAfyaId ='{encounter.ClientId}');               
+                SET @visitipk=(SELECT TOP 1 Ptn_Pk  FROM  ord_visit WHERE (Ptn_Pk = @ptnpk) AND (VisitType = {visitType.Value}) AND (mAfyaVisitType = 1));       
+
                         UPDATE 
 	                        [{mapTbl}] 
                         SET 
 	                        [mAfyaId]='{mAfyId}',
-                            [VisitId]=@visitipk,                    
+                            [Visit_Pk]=@visitipk,                    
                             [LocationID]='{location.FacilityID}',
                             [UserID]='0',                
                             [UpdateDate]=GETDATE()
@@ -269,7 +282,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         IF @@ROWCOUNT=0
                             INSERT INTO 
                                     [{mapTbl}](
-                                    ptn_pk, VisitId, LocationID, UserID, CreateDate,mAfyaId)
+                                    ptn_pk, Visit_Pk, LocationID, UserID, CreateDate,mAfyaId)
                             VALUES(@ptnpk,@visitipk, 
                                 {location.FacilityID}, 0, GETDATE(),'{mAfyId}');
                     ";
@@ -290,7 +303,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         UPDATE 
 	                        [{mapTbl}] 
                         SET 
-	                        [{subscriberMap.SubField}]= '${GetValue(obsLinkage,subscriberMap.Field)}'
+	                        [{subscriberMap.SubField}]= {GetValue(obsLinkage,subscriberMap)}
                         WHERE 
 	                        mAfyaId='{mAfyId}';
                     ";
@@ -302,12 +315,23 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
             return actions;
         }
-
-        private object GetValue(object obj, string propname)
+        
+        private static string GetValue(object obj, SubscriberMap subscriberMap)
         {
-            return obj.GetType().GetProperty(propname).GetValue(obj, null);
-        }
+            var propname = subscriberMap.Field;
 
-      
+            var val = obj.GetPropValue(propname);
+
+            if (null == val)
+                return $"NULL";
+
+            if (subscriberMap.Type == "Date")
+            {
+                DateTime vall = obj.GetPropValue<DateTime>(propname);
+                return $"'{vall:yyyy MMM dd}'";
+            }
+            
+            return $"'{val}'";
+        }
     }
 }
