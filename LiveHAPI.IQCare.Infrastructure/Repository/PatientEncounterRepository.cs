@@ -13,6 +13,7 @@ using LiveHAPI.Shared;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.ValueObject;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace LiveHAPI.IQCare.Infrastructure.Repository
 {
@@ -31,8 +32,15 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             {
                 using (SqlCommand cmd = new SqlCommand(sqlA, conn))
                 {
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    try
+                    {
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error($"{e}");
+                    }
                 }
             }
 
@@ -45,8 +53,16 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                 {
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
+                        try
+                        {
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error($"{e}");
+                        }
+
                     }
                 }
 
@@ -56,8 +72,15 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                 {
                     using (SqlCommand cmd = new SqlCommand(sql2, conn))
                     {
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
+                        try
+                        {
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error($"{e}");
+                        }
                     }
                 }
             }

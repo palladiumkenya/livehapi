@@ -73,7 +73,7 @@ namespace LiveHAPI.IQCare.Core.Model
                 client.Id,
                 client.Person.Addresses.FirstOrDefault().Landmark,
                 client.Person.Contacts.FirstOrDefault().Phone.ToString(),
-                Convert.ToInt32(GetTranslation("MaritalStatus",client.MaritalStatus,subscriberSystem,"0"))
+                Convert.ToInt32(GetTranslation("MaritalStatus", client.MaritalStatus,subscriberSystem,"0"))
                 );
         }
 

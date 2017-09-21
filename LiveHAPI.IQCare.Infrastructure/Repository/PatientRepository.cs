@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using EFCore.BulkExtensions;
 using LiveHAPI.Core.Model.Subscriber;
@@ -12,11 +13,14 @@ using LiveHAPI.Shared;
 using LiveHAPI.Shared.ValueObject;
 using Microsoft.EntityFrameworkCore;
 using Dapper;
+using Serilog;
+
 
 namespace LiveHAPI.IQCare.Infrastructure.Repository
 {
     public class PatientRepository : BaseRepository, IPatientRepository
     {
+        
         private List<SqlAction> _sqlActions;
         public PatientRepository(EMRContext context) : base(context)
         {
@@ -34,17 +38,22 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
         {
             var sql = GenerateSqlActions(patient, subscriberSystem, location);
 
+
             using (SqlConnection conn = new SqlConnection(Context.Database.GetDbConnection().ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    try
+                    {
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {                        
+                        Log.Error($"{e}");
+                    }
                 }
             }
-
-
-           
         }
 
         private string GenerateSqlActions(Patient patient, SubscriberSystem subscriberSystem, Location location)
@@ -95,7 +104,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                     [SatelliteId]='{location.SatelliteID}', 
                     [UserID]='1', 
                     [UpdateDate]=GETDATE(),    
-
+                    [MaritalStatus]='{patient.MaritalStatus}',
                     [Phone]= encryptbykey(key_guid('Key_CTC'), '{patient.Phone}'),
                     [HTSID]= '{patient.HTSID}'
 
@@ -109,12 +118,13 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                             Status, FirstName, MiddleName, LastName, 
                             LocationID, RegistrationDate, Sex, DOB, DobPrecision,
                             CountryId, PosId, SatelliteId, UserID, CreateDate,
-                            Phone,HTSID,mAfyaId)
+                            Phone,HTSID,mAfyaId,
+                            MaritalStatus)
                     VALUES(
                         '0', encryptbykey(key_guid('Key_CTC'), '{patient.FirstName}'), encryptbykey(key_guid('Key_CTC'), '{patient.MiddleName}'), encryptbykey(key_guid('Key_CTC'), '{patient.LastName}'), 
                         '{location.FacilityID}', '{patient.RegistrationDate:yyyy MMMM dd}', '{patient.Sex}', '{patient.Dob:yyyy MMMM dd}', '{patient.DobPrecision}', 
                         '{location.CountryID}', '{location.PosID}', '{location.SatelliteID}', '{patient.UserId}', GETDATE(),
-                        encryptbykey(key_guid('Key_CTC'), '{patient.Phone}'),'{patient.HTSID}','{patient.mAfyaId}');
+                        encryptbykey(key_guid('Key_CTC'), '{patient.Phone}'),'{patient.HTSID}','{patient.mAfyaId}','{patient.MaritalStatus}');
                 
                 SET @ptnpk=(SELECT Ptn_Pk  FROM mst_Patient WHERE mAfyaId ='{patient.mAfyaId}');";
 

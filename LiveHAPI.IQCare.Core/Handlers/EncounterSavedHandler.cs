@@ -5,7 +5,7 @@ using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.IQCare.Core.Interfaces.Repository;
-using Microsoft.Extensions.Logging;
+
 
 namespace LiveHAPI.IQCare.Core.Handlers
 {
@@ -13,12 +13,10 @@ namespace LiveHAPI.IQCare.Core.Handlers
     {
         private readonly IConfigRepository _configRepository;
         private readonly IPatientEncounterRepository _encounterRepository;
-        private readonly ILogger<EncounterSavedHandler> _logger;
 
-        public EncounterSavedHandler(IPatientEncounterRepository encounterRepository, ILogger<EncounterSavedHandler> logger, IConfigRepository configRepository)
+        public EncounterSavedHandler(IPatientEncounterRepository encounterRepository, IConfigRepository configRepository)
         {
             _encounterRepository = encounterRepository;
-            _logger = logger;
             _configRepository = configRepository;
         }
 
@@ -26,10 +24,6 @@ namespace LiveHAPI.IQCare.Core.Handlers
         {
             var location = _configRepository.GetLocations().FirstOrDefault();
             _encounterRepository.CreateOrUpdate(args.Encounters,subscriberSystem,location);
-           
-            //var encounters=Enc
-            _logger.LogDebug(new string('+', 50));
-            _logger.LogDebug(new string('+', 50));
         }
     }
 }

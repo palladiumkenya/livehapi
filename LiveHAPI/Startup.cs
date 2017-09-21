@@ -93,10 +93,11 @@ namespace LiveHAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,LiveHAPIContext context,EMRContext emrContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, LiveHAPIContext context,EMRContext emrContext)
         {
-            loggerFactory.AddLog4Net();
-            loggerFactory.AddDebug();
+            
+            
+            
 
 
 

@@ -7,7 +7,7 @@ using LiveHAPI.Core.Interfaces.Repository.Subscriber;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.IQCare.Core.Interfaces.Repository;
 using LiveHAPI.IQCare.Core.Model;
-using Microsoft.Extensions.Logging;
+
 
 namespace LiveHAPI.IQCare.Core.Handlers
 {
@@ -15,12 +15,12 @@ namespace LiveHAPI.IQCare.Core.Handlers
     {
         private readonly IConfigRepository _configRepository;
         private readonly IPatientRepository _patientRepository;
-        private readonly ILogger<ClientSavedHandler> _logger;
 
-        public ClientSavedHandler(IPatientRepository patientRepository, ILogger<ClientSavedHandler> logger, IConfigRepository configRepository)
+
+        public ClientSavedHandler(IPatientRepository patientRepository,IConfigRepository configRepository)
         {
             _patientRepository = patientRepository;
-            _logger = logger;
+         
             _configRepository = configRepository;
         }
 

@@ -7,6 +7,7 @@ using LiveHAPI.Shared.ValueObject;
 using LiveHAPI.Shared.ValueObject.Meta;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,11 +18,9 @@ namespace LiveHAPI.Controllers
     public class MetaController : Controller
     {
         private readonly IMetaService _metaService;
-        private readonly ILogger<MetaController> _logger;
 
-        public MetaController(ILogger<MetaController> logger, IMetaService metaService)
+        public MetaController( IMetaService metaService)
         {
-            _logger = logger;
             _metaService = metaService;
         }
 
@@ -51,7 +50,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"{e}");
+                Log.Debug($"{e}");
                 return StatusCode(500, "Error loading meta");
             }
         }
@@ -70,7 +69,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"{e}");
+                Log.Debug($"{e}");
                 return StatusCode(500, "Error loading counties");
             }
         }
@@ -87,7 +86,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"{e}");
+                Log.Debug($"{e}");
                 return StatusCode(500, "Error loading Categories");
             }
         }
@@ -104,7 +103,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"{e}");
+                Log.Debug($"{e}");
                 return StatusCode(500, "Error loading items");
             }
         }
@@ -121,7 +120,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"Error loading counties: {e}");
+                Log.Debug($"Error loading counties: {e}");
                 return StatusCode(500, "Error loading counties");
             }
         }

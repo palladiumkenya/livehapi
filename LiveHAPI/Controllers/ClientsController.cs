@@ -11,6 +11,7 @@ using LiveHAPI.Shared.ValueObject;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Serilog;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,13 +25,11 @@ namespace LiveHAPI.Controllers
         private readonly IEncounterService _encounterService;
         private readonly IClientSavedHandler _clientSavedHandler;
         private readonly IEncounterSavedHandler _encounterSavedHandler;
-        private readonly ILogger<ClientsController> _logger;
         private readonly ISubscriberSystemRepository _subscriberSystemRepository;
         private readonly SubscriberSystem _subscriberSystem;
 
-        public ClientsController(ILogger<ClientsController> logger, IClientService clientService, IEncounterService encounterService, IClientSavedHandler clientSavedHandler, IEncounterSavedHandler encounterSavedHandler, ISubscriberSystemRepository subscriberSystemRepository)
+        public ClientsController(IClientService clientService, IEncounterService encounterService, IClientSavedHandler clientSavedHandler, IEncounterSavedHandler encounterSavedHandler, ISubscriberSystemRepository subscriberSystemRepository)
         {
-            _logger = logger;
             _clientService = clientService;
             _encounterService = encounterService;
             _clientSavedHandler = clientSavedHandler;
@@ -58,8 +57,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug(e.Message);
-                _logger.LogDebug($"{e}");
+                Log.Error($"{e}");
                 return StatusCode(500, $"{e.Message}");
             }
         }
@@ -80,8 +78,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug(e.Message);
-                _logger.LogDebug($"{e}");
+                Log.Error($"{e}");
                 return StatusCode(500, $"{e.Message}");
             }
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using LiveHAPI.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,11 +12,10 @@ namespace LiveHAPI.Controllers
     public class ActivateController : Controller
     {
         private readonly IActivationService _activationService;
-        private readonly ILogger<ActivateController> _logger;
+        
 
-        public ActivateController(ILogger<ActivateController> logger, IActivationService activationService)
+        public ActivateController(IActivationService activationService)
         {
-            _logger = logger;
             _activationService = activationService;
         }
         [Route("central")]
@@ -30,7 +29,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"{e}");
+                Log.Debug($"{e}");
                 return StatusCode(500, $"{e.Message}");
             }
         }
@@ -46,7 +45,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"{e}");
+                Log.Debug($"{e}");
                 return StatusCode(500, $"{e.Message}");
             }
         }
@@ -62,7 +61,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"Error loading counties: {e}");
+                Log.Debug($"Error loading counties: {e}");
                 return StatusCode(500, "Error loading counties");
             }
         }
@@ -77,7 +76,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"Error loading Practice: {e}");
+                Log.Debug($"Error loading Practice: {e}");
                 return StatusCode(500, "Error loading Practice");
             }
         }

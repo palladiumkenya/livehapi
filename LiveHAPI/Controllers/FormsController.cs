@@ -3,6 +3,7 @@ using System.Linq;
 using LiveHAPI.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,11 +14,8 @@ namespace LiveHAPI.Controllers
     public class FormsController : Controller
     {
         private readonly IFormsService _formsService;
-        private readonly ILogger<FormsController> _logger;
-
-        public FormsController(ILogger<FormsController> logger, IFormsService formsService)
+        public FormsController( IFormsService formsService)
         {
-            _logger = logger;
             _formsService = formsService;
         }
 
@@ -32,7 +30,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"{e}");
+                Log.Debug($"{e}");
                 return StatusCode(500, "Error loading forms");
             }
         }
@@ -48,7 +46,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"{e}");
+                Log.Debug($"{e}");
                 return StatusCode(500, "Error loading forms");
             }
         }
@@ -64,7 +62,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"{e}");
+                Log.Debug($"{e}");
                 return StatusCode(500, "Error loading forms");
             }
         }
@@ -80,7 +78,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"{e}");
+                Log.Debug($"{e}");
                 return StatusCode(500, "Error loading forms");
             }
         }

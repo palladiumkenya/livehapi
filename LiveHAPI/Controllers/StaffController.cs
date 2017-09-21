@@ -2,7 +2,7 @@
 using System.Linq;
 using LiveHAPI.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,11 +13,9 @@ namespace LiveHAPI.Controllers
     public class StaffController : Controller
     {
         private readonly IStaffService _staffService;
-        private readonly ILogger<StaffController> _logger;
-
-        public StaffController(ILogger<StaffController> logger, IStaffService staffService)
+        
+        public StaffController( IStaffService staffService)
         {
-            _logger = logger;
             _staffService = staffService;
         }
 
@@ -32,7 +30,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"{e}");
+                Log.Debug($"{e}");
                 return StatusCode(500, "Error loading Staff information");
             }
         }
@@ -48,7 +46,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"{e}");
+                Log.Debug($"{e}");
                 return StatusCode(500, "Error loading Staff information");
             }
         }
@@ -64,7 +62,7 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogDebug($"{e}");
+                Log.Debug($"{e}");
                 return StatusCode(500, "Error loading Staff information");
             }
         }
