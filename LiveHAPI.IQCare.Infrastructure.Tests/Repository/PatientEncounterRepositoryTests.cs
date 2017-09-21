@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
@@ -19,17 +20,19 @@ using Dapper;
 namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
 {
     [TestFixture]
-    public class PatientRepositoryTests
+    public class PatientEncounterRepositoryTests
     {
         private EMRContext  _context;
-        private IPatientRepository _patientRepository;
+        private IPatientEncounterRepository _patientEncounterRepository;
         private IConfigRepository _configRepository;
         private ISubscriberSystemRepository _subscriberSystemRepository;
-        private Patient _patient;
         private SubscriberSystem subscriberSystem;
         private Location location;
-        private ClientInfo _client;
+        private Patient _patient;
+        private EncounterInfo _encounterInfo;
         private DbConnection _db;
+        private ClientInfo _client;
+        private IPatientRepository _patientRepository;
 
         [SetUp]
         public void SetUp()
@@ -53,58 +56,30 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             subscriberSystem = _subscriberSystemRepository.GetDefault();
           _configRepository = new ConfigRepository(_context);
             location = _configRepository.GetLocations().FirstOrDefault();
-            _patientRepository=new PatientRepository(_context);
+            _patientEncounterRepository=new PatientEncounterRepository(_context);
+            _patientRepository = new PatientRepository(_context);
             _client = TestData.TestClientInfo();
-             _patient = Patient.Create(_client, location.FacilityID, subscriberSystem);
+            _patient = Patient.Create(_client, location.FacilityID, subscriberSystem);
+            _encounterInfo = TestData.TestEncounterInfoData();             
             _db = _context.Database.GetDbConnection();
+
+            _patientRepository.CreateOrUpdate(_patient, subscriberSystem, location);
         }
         
         [Test]
         public void should_CreateOrUpdate_New()
         {
-            _patientRepository.CreateOrUpdate(_patient,subscriberSystem,location);
-            var savePatient = _patientRepository.Get(_patient.mAfyaId.Value);
-            Assert.IsNotNull(savePatient);
-            Assert.AreEqual("201707001", savePatient.HTSID);
-            Assert.True(savePatient.Id > -1);
-            Console.WriteLine($"Patient: {savePatient}");
-
-            var regVisitTypeId = subscriberSystem.Configs.First(x => x.Area == "Registration" && x.Name == "VisitTypeId").Value;
-            var htsVisitTypeId = subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "Enrollment.VisitTypeId").Value;
-            var moduleId = subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "ModuleId").Value;
-
-            Assert.AreEqual(1,_db.ExecuteScalar($"select count(Ptn_Pk)  from  [mst_Patient] where Ptn_Pk in ({savePatient.Id})"));
-            Assert.True(_db.ExecuteScalar($"SELECT IQNumber FROM mst_Patient WHERE Ptn_Pk = {savePatient.Id}").ToString().Contains("IQ-"));
-            Assert.AreEqual(1,_db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={regVisitTypeId}"));
-            Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={htsVisitTypeId}"));
-            Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [lnk_patientprogramstart] where Ptn_Pk in ({savePatient.Id}) AND ModuleID={moduleId}"));
-        }
-
-        [Test]
-        public void should_CreateOrUpdate_Update()
-        {
-            _patientRepository.CreateOrUpdate(_patient, subscriberSystem, location);
             var savePatient = _patientRepository.Get(_patient.mAfyaId.Value);
             Assert.IsNotNull(savePatient);
 
-            _patient.FirstName = "Maun";
-            _patient.MiddleName = "Maun";
-            _patient.LastName = "Maun";
-            _patient.HTSID = "XXX";
+            _patientEncounterRepository.CreateOrUpdate(new List<EncounterInfo>{_encounterInfo},subscriberSystem,location);
 
-            _patientRepository.CreateOrUpdate(_patient, subscriberSystem, location);
-            _patientRepository=new PatientRepository(_context);
-            var updatedPatient = _patientRepository.Get(_patient.mAfyaId.Value);
+            var labVisitTypeId = subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "Lab.VisitTypeId").Value;
+            var linkVisitTypeId = subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "Linkage.VisitTypeId").Value;
 
-            Assert.IsNotNull(updatedPatient);
-            Assert.AreEqual("Maun", updatedPatient.FirstName);
-            Assert.AreEqual("Maun", updatedPatient.MiddleName);
-            Assert.AreEqual("Maun", updatedPatient.LastName);
-            Assert.AreEqual("XXX", updatedPatient.HTSID);
-            
-            Console.WriteLine($"Patient: {updatedPatient}");
+            Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={labVisitTypeId}"));
+            Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={linkVisitTypeId}"));
         }
-
 
         [Test]
         public void TearDown()
@@ -116,11 +91,13 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             delete from  [DTL_PATIENTHOUSEHOLDINFO] where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
             delete from  [DTL_RURALRESIDENCE] where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
             delete from  [DTL_URBANRESIDENCE]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
-            delete from  [DTL_PATIENTHIVPREVCAREENROLLMENT]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');			
+            delete from  [DTL_PATIENTHIVPREVCAREENROLLMENT]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
+            delete from  [DTL_FBCUSTOMFIELD_LinkageAndTracking]  where mAfyaId like '47%b0e0%';	
+            delete from  [DTL_CUSTOMFORM_HTS Tracing_LinkageAndTracking]  where WHERE mAfyaId like '47%b0e0%';	
             delete from  ord_Visit where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             delete from  mst_Patient where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             delete from  lnk_patientprogramstart where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             ");
         }
     }
-} 
+}

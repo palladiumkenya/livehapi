@@ -20,5 +20,15 @@ namespace LiveHAPI.Core.Model.Subscriber
         {
             Id = LiveGuid.NewGuid();
         }
+
+        public string GetSqlSetupAction()
+        {
+            return $@"
+                    IF COL_LENGTH('[{SubName}]','mAfyaId') IS NULL
+			            BEGIN
+				            ALTER TABLE [{SubName}] ADD [mAfyaId] [uniqueidentifier] NULL
+			            END
+            ";
+        }
     }
 }

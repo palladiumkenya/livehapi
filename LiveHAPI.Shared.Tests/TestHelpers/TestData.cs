@@ -886,5 +886,50 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 ".Replace("^","'");
             return JsonConvert.DeserializeObject<ClientInfo>(json);
         }
+
+        public static EncounterInfo TestEncounterInfoData()
+        {
+            var json = @"
+
+  {
+    ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
+    ^FormId^: ^b25ec112-852f-11e7-bb31-be2e44b06b34^,
+    ^EncounterTypeId^: ^b262fc32-852f-11e7-bb31-be2e44b06b34^,
+    ^EncounterDate^: ^/Date(1505594526384+0300)/^,
+    ^ProviderId^: ^00000000-0000-0000-0000-000000000000^,
+    ^DeviceId^: ^00000000-0000-0000-0000-000000000000^,
+    ^PracticeId^: ^00000000-0000-0000-0000-000000000000^,
+    ^Started^: ^/Date(1505594526390+0300)/^,
+    ^Stopped^: null,
+    ^Obses^: [],
+    ^ObsTestResults^: [],
+    ^ObsFinalTestResults^: [],
+    ^ObsTraceResults^: [],
+    ^ObsLinkages^: [
+      {
+        ^ReferredTo^: ^asasfdas^,
+        ^DatePromised^: ^/Date(1505509200000+0300)/^,
+        ^FacilityHandedTo^: ^DEMO DH^,
+        ^HandedTo^: ^KARURI^,
+        ^WorkerCarde^: ^NURSE^,
+        ^DateEnrolled^: ^/Date(1505509200000+0300)/^,
+        ^EnrollmentId^: ^CC001^,
+        ^Remarks^: ^NONE^,
+        ^EncounterId^: ^4710b0e0-00c0-0c0f-0d0a-a0b0000df000^,
+        ^Id^: ^4720b0e0-00c0-0c0f-0d0a-a0b0000df000^,
+        ^Voided^: false
+      }
+    ],
+    ^UserId^: ^00000000-0000-0000-0000-000000000000^,
+    ^IsComplete^: false,
+    ^Status^: ^Started^,
+    ^HasObs^: false,
+    ^Id^: ^4710b0e0-00c0-0c0f-0d0a-a0b0000df000^,
+    ^Voided^: false
+  }
+
+".Replace("^", "'");
+            return JsonConvert.DeserializeObject<EncounterInfo>(json);
+        }
     }
 }
