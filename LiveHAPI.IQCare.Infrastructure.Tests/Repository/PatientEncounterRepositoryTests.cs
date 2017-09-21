@@ -29,7 +29,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
         private SubscriberSystem subscriberSystem;
         private Location location;
         private Patient _patient;
-        private EncounterInfo _encounterInfo;
+        private List<EncounterInfo> _encounterInfo;
         private DbConnection _db;
         private ClientInfo _client;
         private IPatientRepository _patientRepository;
@@ -72,7 +72,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             var savePatient = _patientRepository.Get(_patient.mAfyaId.Value);
             Assert.IsNotNull(savePatient);
 
-            _patientEncounterRepository.CreateOrUpdate(new List<EncounterInfo>{_encounterInfo},subscriberSystem,location);
+            _patientEncounterRepository.CreateOrUpdate(_encounterInfo,subscriberSystem,location);
 
             var labVisitTypeId = subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "Lab.VisitTypeId").Value;
             var linkVisitTypeId = subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "Linkage.VisitTypeId").Value;
@@ -92,8 +92,8 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             delete from  [DTL_RURALRESIDENCE] where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
             delete from  [DTL_URBANRESIDENCE]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
             delete from  [DTL_PATIENTHIVPREVCAREENROLLMENT]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
-            delete from  [DTL_FBCUSTOMFIELD_LinkageAndTracking]  where mAfyaId like '47%b0e0%';	
-            delete from  [DTL_CUSTOMFORM_HTS Tracing_LinkageAndTracking]  WHERE mAfyaId like '47%b0e0%';	
+            delete from  [DTL_FBCUSTOMFIELD_LinkageAndTracking]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
+            delete from  [DTL_CUSTOMFORM_HTS Tracing_LinkageAndTracking]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
             delete from  ord_Visit where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             delete from  mst_Patient where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             delete from  lnk_patientprogramstart where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');

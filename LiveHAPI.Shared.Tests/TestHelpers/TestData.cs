@@ -823,7 +823,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 
         public static ClientInfo TestClientInfo()
         {
-            var json= @"
+            var json = @"
 {
   ^Id^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
   ^MaritalStatus^: ^MM^,
@@ -836,7 +836,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
     ^MiddleName^: ^^,
     ^LastName^: ^Swagger^,
     ^Gender^: ^F^,
-    ^BirthDate^: ^/Date(389048400000+0300)/^,
+    ^BirthDate^: ^\/Date(389048400000+0300)\/^,
     ^BirthDateEstimated^: false,
     ^Email^: ^jswagger@gmail.com^,
     ^Addresses^: [
@@ -865,9 +865,9 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
     {
       ^IdentifierTypeId^: ^Serial^,
       ^Identifier^: ^201707001^,
-      ^RegistrationDate^: ^2017JUL01^,
+      ^RegistrationDate^: ^2017SEP01^,
       ^Preferred^: true,
-      ^ClientId^: ^4547b7e0-98c7-4c6f-9d2a-a7b7016df232^,
+      ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
       ^Id^: ^7e61629e-6b99-11e7-907b-a6006ad4dba0^,
       ^Voided^: false
     }
@@ -875,61 +875,263 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
   ^Relationships^: [
     {
       ^RelationshipTypeId^: ^Partner^,
-      ^RelatedClientId^: ^4547b7e0-98c7-4c6f-9d2a-a7b7016df232^,
+      ^RelatedClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
       ^Preferred^: true,
-      ^ClientId^: ^4547b7e0-98c7-4c6f-9d2a-a7b7016df234^,
+      ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
       ^Id^: ^7e51629e-6b99-11e7-907b-a6006ad4dba0^,
       ^Voided^: false
     }
   ]
 }
-".Replace("^","'");
-            return JsonConvert.DeserializeObject<ClientInfo>(json);
+".Replace("^", "'"); 
+return JsonConvert.DeserializeObject<ClientInfo>(json);
         }
 
-        public static EncounterInfo TestEncounterInfoData()
+        public static List<EncounterInfo> TestEncounterInfoData()
         {
             var json = @"
-
+[
+  {
+    ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
+    ^FormId^: ^b25ebcda-852f-11e7-bb31-be2e44b06b34^,
+    ^EncounterTypeId^: ^7e5164a6-6b99-11e7-907b-a6006ad3dba0^,
+    ^EncounterDate^: ^\/Date(1506001284128+0300)\/^,
+    ^ProviderId^: ^158790da-a5c7-4a11-9d49-a7b7016df234^,
+    ^DeviceId^: ^5f28d2d8-55fb-4b1d-ab97-a7f500e14133^,
+    ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
+    ^Started^: ^\/Date(1506001284141+0300)\/^,
+    ^Stopped^: null,
+    ^Obses^: [
+      {
+        ^QuestionId^: ^b2603772-852f-11e7-bb31-be2e44b06b34^,
+        ^ObsDate^: ^\/Date(1506004155650+0300)\/^,
+        ^ValueText^: null,
+        ^ValueNumeric^: null,
+        ^ValueCoded^: ^b25ed04e-852f-11e7-bb31-be2e44b06b34^,
+        ^ValueMultiCoded^: null,
+        ^ValueDateTime^: null,
+        ^EncounterId^: ^418fad8b-5c2e-41d3-9768-a7f500e19ad8^,
+        ^IsNull^: false,
+        ^Id^: ^1214f234-2c28-4c84-b2fc-a7f500eebfe8^,
+        ^Voided^: false
+      },
+      {
+        ^QuestionId^: ^b2603c5e-852f-11e7-bb31-be2e44b06b34^,
+        ^ObsDate^: ^\/Date(1506004158529+0300)\/^,
+        ^ValueText^: null,
+        ^ValueNumeric^: null,
+        ^ValueCoded^: null,
+        ^ValueMultiCoded^: ^b25ed332-852f-11e7-bb31-be2e44b06b34,b25ed648-852f-11e7-bb31-be2e44b06b34^,
+        ^ValueDateTime^: null,
+        ^EncounterId^: ^418fad8b-5c2e-41d3-9768-a7f500e19ad8^,
+        ^IsNull^: false,
+        ^Id^: ^331ce4e2-32f0-462a-aeb6-a7f500eec348^,
+        ^Voided^: false
+      },
+      {
+        ^QuestionId^: ^b2603dc6-852f-11e7-bb31-be2e44b06b34^,
+        ^ObsDate^: ^\/Date(1506004160493+0300)\/^,
+        ^ValueText^: null,
+        ^ValueNumeric^: null,
+        ^ValueCoded^: ^b25ed04e-852f-11e7-bb31-be2e44b06b34^,
+        ^ValueMultiCoded^: null,
+        ^ValueDateTime^: null,
+        ^EncounterId^: ^418fad8b-5c2e-41d3-9768-a7f500e19ad8^,
+        ^IsNull^: false,
+        ^Id^: ^b791e96f-c5b5-477d-a4b4-a7f500eec595^,
+        ^Voided^: false
+      },
+      {
+        ^QuestionId^: ^b260665c-852f-11e7-bb31-be2e44b06b34^,
+        ^ObsDate^: ^\/Date(1506004162492+0300)\/^,
+        ^ValueText^: ^wdfrwwrw^,
+        ^ValueNumeric^: null,
+        ^ValueCoded^: null,
+        ^ValueMultiCoded^: null,
+        ^ValueDateTime^: null,
+        ^EncounterId^: ^418fad8b-5c2e-41d3-9768-a7f500e19ad8^,
+        ^IsNull^: false,
+        ^Id^: ^ff2a3632-6e93-42d3-88f3-a7f500eec7ed^,
+        ^Voided^: false
+      }
+    ],
+    ^ObsTestResults^: [
+      
+    ],
+    ^ObsFinalTestResults^: [
+      
+    ],
+    ^ObsTraceResults^: [
+      
+    ],
+    ^ObsLinkages^: [
+      
+    ],
+    ^UserId^: ^61a9e04c-2ed0-414a-9387-a7b7016df233^,
+    ^IsComplete^: true,
+    ^Status^: ^Completed^,
+    ^HasObs^: true,
+    ^Id^: ^418fad8b-5c2e-41d3-9768-a7f500e19ad8^,
+    ^Voided^: false
+  },
   {
     ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
     ^FormId^: ^b25ec112-852f-11e7-bb31-be2e44b06b34^,
     ^EncounterTypeId^: ^b262fc32-852f-11e7-bb31-be2e44b06b34^,
-    ^EncounterDate^: ^/Date(1505594526384+0300)/^,
-    ^ProviderId^: ^00000000-0000-0000-0000-000000000000^,
-    ^DeviceId^: ^00000000-0000-0000-0000-000000000000^,
-    ^PracticeId^: ^00000000-0000-0000-0000-000000000000^,
-    ^Started^: ^/Date(1505594526390+0300)/^,
+    ^EncounterDate^: ^\/Date(1506001291815+0300)\/^,
+    ^ProviderId^: ^158790da-a5c7-4a11-9d49-a7b7016df234^,
+    ^DeviceId^: ^5f28d2d8-55fb-4b1d-ab97-a7f500e14133^,
+    ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
+    ^Started^: ^\/Date(1506001291816+0300)\/^,
     ^Stopped^: null,
-    ^Obses^: [],
-    ^ObsTestResults^: [],
-    ^ObsFinalTestResults^: [],
-    ^ObsTraceResults^: [],
-    ^ObsLinkages^: [
+    ^Obses^: [
+      
+    ],
+    ^ObsTestResults^: [
+      
+    ],
+    ^ObsFinalTestResults^: [
+      
+    ],
+    ^ObsTraceResults^: [
       {
-        ^ReferredTo^: ^asasfdas^,
-        ^DatePromised^: ^/Date(1505509200000+0300)/^,
-        ^FacilityHandedTo^: ^DEMO DH^,
-        ^HandedTo^: ^KARURI^,
-        ^WorkerCarde^: ^NURSE^,
-        ^DateEnrolled^: ^/Date(1505509200000+0300)/^,
-        ^EnrollmentId^: ^CC001^,
-        ^Remarks^: ^NONE^,
-        ^EncounterId^: ^4710b0e0-00c0-0c0f-0d0a-a0b0000df000^,
-        ^Id^: ^4720b0e0-00c0-0c0f-0d0a-a0b0000df000^,
+        ^Date^: ^\/Date(1505941200000+0300)\/^,
+        ^Mode^: ^b25f136a-852f-11e7-bb31-be2e44b06b34^,
+        ^ModeDisplay^: null,
+        ^Outcome^: ^b25f102c-852f-11e7-bb31-be2e44b06b34^,
+        ^OutcomeDisplay^: null,
+        ^EncounterId^: ^693e8318-8a4b-4a25-b733-a7f500e1a3da^,
+        ^Id^: ^b00fa212-2a37-4077-b8ac-a7f500e3feed^,
+        ^Voided^: false
+      },
+      {
+        ^Date^: ^\/Date(1505941200000+0300)\/^,
+        ^Mode^: ^b25f136a-852f-11e7-bb31-be2e44b06b34^,
+        ^ModeDisplay^: null,
+        ^Outcome^: ^b25f102c-852f-11e7-bb31-be2e44b06b34^,
+        ^OutcomeDisplay^: null,
+        ^EncounterId^: ^693e8318-8a4b-4a25-b733-a7f500e1a3da^,
+        ^Id^: ^d35bf1fb-9c0d-491f-99d6-a7f500e40b98^,
         ^Voided^: false
       }
     ],
-    ^UserId^: ^00000000-0000-0000-0000-000000000000^,
+    ^ObsLinkages^: [
+      {
+        ^ReferredTo^: ^werwer45564^,
+        ^DatePromised^: ^\/Date(1505941200000+0300)\/^,
+        ^FacilityHandedTo^: ^wqdsds^,
+        ^HandedTo^: ^sdfsdf^,
+        ^WorkerCarde^: ^sdfsfs^,
+        ^DateEnrolled^: ^\/Date(1505941200000+0300)\/^,
+        ^EnrollmentId^: ^34234234^,
+        ^Remarks^: ^sdfsdfsdf^,
+        ^EncounterId^: ^693e8318-8a4b-4a25-b733-a7f500e1a3da^,
+        ^Id^: ^4608d86b-53d4-4986-bd01-a7f500e1badc^,
+        ^Voided^: false
+      }
+    ],
+    ^UserId^: ^61a9e04c-2ed0-414a-9387-a7b7016df233^,
     ^IsComplete^: false,
     ^Status^: ^Started^,
     ^HasObs^: false,
-    ^Id^: ^4710b0e0-00c0-0c0f-0d0a-a0b0000df000^,
+    ^Id^: ^693e8318-8a4b-4a25-b733-a7f500e1a3da^,
+    ^Voided^: false
+  },
+  {
+    ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
+    ^FormId^: ^b25ec568-852f-11e7-bb31-be2e44b06b34^,
+    ^EncounterTypeId^: ^b262f4ee-852f-11e7-bb31-be2e44b06b34^,
+    ^EncounterDate^: ^\/Date(1506004218189+0300)\/^,
+    ^ProviderId^: ^158790da-a5c7-4a11-9d49-a7b7016df234^,
+    ^DeviceId^: ^5f28d2d8-55fb-4b1d-ab97-a7f500e14133^,
+    ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
+    ^Started^: ^\/Date(1506004218189+0300)\/^,
+    ^Stopped^: null,
+    ^Obses^: [
+      
+    ],
+    ^ObsTestResults^: [
+      {
+        ^TestName^: ^HIV Test 1^,
+        ^Attempt^: 0,
+        ^Kit^: ^b25f0456-852f-11e7-bb31-be2e44b06b34^,
+        ^KitDisplay^: null,
+        ^KitOther^: ^^,
+        ^LotNumber^: ^234234^,
+        ^Expiry^: ^\/Date(1537477200000+0300)\/^,
+        ^Result^: ^b25f001e-852f-11e7-bb31-be2e44b06b34^,
+        ^ResultCode^: ^I^,
+        ^ResultDisplay^: null,
+        ^IsValid^: false,
+        ^EncounterId^: ^47ae945c-74e2-4383-9d3e-a7f500ef0932^,
+        ^Id^: ^9a98bff9-4c7b-4d34-9fd7-a7f500ef23bc^,
+        ^Voided^: false
+      },
+      {
+        ^TestName^: ^HIV Test 1^,
+        ^Attempt^: 0,
+        ^Kit^: ^b25f0776-852f-11e7-bb31-be2e44b06b34^,
+        ^KitDisplay^: null,
+        ^KitOther^: ^retertert^,
+        ^LotNumber^: ^2343242423^,
+        ^Expiry^: ^\/Date(1569013200000+0300)\/^,
+        ^Result^: ^b25efd8a-852f-11e7-bb31-be2e44b06b34^,
+        ^ResultCode^: ^P^,
+        ^ResultDisplay^: null,
+        ^IsValid^: true,
+        ^EncounterId^: ^47ae945c-74e2-4383-9d3e-a7f500ef0932^,
+        ^Id^: ^76ae2922-95d4-4c97-9641-a7f500ef4bc3^,
+        ^Voided^: false
+      },
+      {
+        ^TestName^: ^HIV Test 2^,
+        ^Attempt^: 0,
+        ^Kit^: ^b25f0456-852f-11e7-bb31-be2e44b06b34^,
+        ^KitDisplay^: null,
+        ^KitOther^: ^^,
+        ^LotNumber^: ^1sdfsdfsdf^,
+        ^Expiry^: ^\/Date(1537477200000+0300)\/^,
+        ^Result^: ^b25efd8a-852f-11e7-bb31-be2e44b06b34^,
+        ^ResultCode^: ^P^,
+        ^ResultDisplay^: null,
+        ^IsValid^: true,
+        ^EncounterId^: ^47ae945c-74e2-4383-9d3e-a7f500ef0932^,
+        ^Id^: ^3543d6fd-5988-4477-950f-a7f500ef5d1f^,
+        ^Voided^: false
+      }
+    ],
+    ^ObsFinalTestResults^: [
+      {
+        ^FirstTestResult^: ^b25efd8a-852f-11e7-bb31-be2e44b06b34^,
+        ^FirstTestResultCode^: null,
+        ^SecondTestResult^: ^b25efd8a-852f-11e7-bb31-be2e44b06b34^,
+        ^SecondTestResultCode^: null,
+        ^FinalResult^: ^b25efd8a-852f-11e7-bb31-be2e44b06b34^,
+        ^FinalResultCode^: null,
+        ^ResultGiven^: ^b25ed04e-852f-11e7-bb31-be2e44b06b34^,
+        ^CoupleDiscordant^: ^b25ed04e-852f-11e7-bb31-be2e44b06b34^,
+        ^SelfTestOption^: ^b25eccd4-852f-11e7-bb31-be2e44b06b34^,
+        ^EncounterId^: ^47ae945c-74e2-4383-9d3e-a7f500ef0932^,
+        ^Id^: ^04ba3b1b-7035-4c3b-a850-a7f500ef4bcb^,
+        ^Voided^: false
+      }
+    ],
+    ^ObsTraceResults^: [
+      
+    ],
+    ^ObsLinkages^: [
+      
+    ],
+    ^UserId^: ^61a9e04c-2ed0-414a-9387-a7b7016df233^,
+    ^IsComplete^: false,
+    ^Status^: ^Started^,
+    ^HasObs^: false,
+    ^Id^: ^47ae945c-74e2-4383-9d3e-a7f500ef0932^,
     ^Voided^: false
   }
-
+]
 ".Replace("^", "'");
-            return JsonConvert.DeserializeObject<EncounterInfo>(json);
+            return JsonConvert.DeserializeObject<List<EncounterInfo>>(json);
         }
     }
 }

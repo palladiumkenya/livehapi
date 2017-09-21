@@ -25,6 +25,7 @@ namespace LiveHAPI.IQCare.Core.Handlers
         public void Handle(EncounterSaved args, SubscriberSystem subscriberSystem)
         {
             var location = _configRepository.GetLocations().FirstOrDefault();
+            _encounterRepository.CreateOrUpdate(args.Encounters,subscriberSystem,location);
            
             //var encounters=Enc
             _logger.LogDebug(new string('+', 50));

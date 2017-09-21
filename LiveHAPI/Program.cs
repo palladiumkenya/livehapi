@@ -21,9 +21,9 @@ namespace LiveHAPI
             var host= WebHost.CreateDefaultBuilder(args)
                 .UseConfiguration(config)
                 .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
+                .UseContentRoot(Directory.GetCurrentDirectory())                
                 .UseStartup<Startup>()
+                .UseUrls("http://0.0.0.0:4747")
                 .Build();
             return host;
         }

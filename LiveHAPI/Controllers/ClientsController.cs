@@ -58,8 +58,9 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogDebug(e.Message);
                 _logger.LogDebug($"{e}");
-                return StatusCode(500, "Not created !");
+                return StatusCode(500, $"{e.Message}");
             }
         }
 
@@ -79,8 +80,9 @@ namespace LiveHAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogDebug(e.Message);
                 _logger.LogDebug($"{e}");
-                return StatusCode(500, "Not created !");
+                return StatusCode(500, $"{e.Message}");
             }
         }
     }
