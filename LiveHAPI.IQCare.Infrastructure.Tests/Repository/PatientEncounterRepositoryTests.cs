@@ -80,7 +80,13 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={labVisitTypeId}"));
             Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={linkVisitTypeId}"));
             var traces =_db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_CUSTOMFORM_HTS Tracing_LinkageAndTracking] where Ptn_Pk in ({savePatient.Id})");
-            Assert.True(Convert.ToInt32(traces) > 1);
+            Assert.True(Convert.ToInt32(traces) > 0);
+
+            var tests1 = _db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_CUSTOMFORM_HIV-Test 1_HTC_Lab_MOH_362] where Ptn_Pk in ({savePatient.Id})");
+            Assert.True(Convert.ToInt32(tests1) > 0);
+
+            var tests2 = _db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_CUSTOMFORM_HIV-Test 2_HTC_Lab_MOH_362] where Ptn_Pk in ({savePatient.Id})");
+            Assert.True(Convert.ToInt32(tests2) > 0);
         }
 
         [TearDown]

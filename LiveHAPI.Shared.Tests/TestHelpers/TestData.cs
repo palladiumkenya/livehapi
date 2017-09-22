@@ -1070,9 +1070,9 @@ return JsonConvert.DeserializeObject<ClientInfo>(json);
       {
         ^TestName^: ^HIV Test 1^,
         ^Attempt^: 0,
-        ^Kit^: ^b25f0776-852f-11e7-bb31-be2e44b06b34^,
+        ^Kit^: ^B25F05AA-852F-11E7-BB31-BE2E44B06B34^,
         ^KitDisplay^: null,
-        ^KitOther^: ^retertert^,
+        ^KitOther^: ^^,
         ^LotNumber^: ^2343242423^,
         ^Expiry^: ^\/Date(1569013200000+0300)\/^,
         ^Result^: ^b25efd8a-852f-11e7-bb31-be2e44b06b34^,

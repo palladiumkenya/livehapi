@@ -33,5 +33,10 @@ namespace LiveHAPI.Core.Model.Subscriber
 			            END
             ";
         }
+
+        public bool HasSubName()
+        {
+            return !string.IsNullOrWhiteSpace(SubName);
+        }
     }
 }
