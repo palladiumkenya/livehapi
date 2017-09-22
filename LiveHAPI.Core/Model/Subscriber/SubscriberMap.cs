@@ -15,7 +15,10 @@ namespace LiveHAPI.Core.Model.Subscriber
         public string SubType { get; set; }
         public int Group { get; set; }
         public string Mode { get; set; }
+        public string SectionId { get; set; }
+        public string FormId { get; set; }
         public Guid SubscriberSystemId { get; set; }
+
         public SubscriberMap()
         {
             Id = LiveGuid.NewGuid();

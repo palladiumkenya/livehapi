@@ -24,10 +24,10 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
         {
         }
 
-        public void CreateOrUpdate(List<EncounterInfo> encounters ,SubscriberSystem subscriberSystem, Location location)
+        public void CreateOrUpdate(List<EncounterInfo> encounters, SubscriberSystem subscriberSystem, Location location)
         {
 
-            var sqlA = GenerateSqlSetupActions( subscriberSystem);
+            var sqlA = GenerateSqlSetupActions(subscriberSystem);
             using (SqlConnection conn = new SqlConnection(Context.Database.GetDbConnection().ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand(sqlA, conn))
@@ -40,6 +40,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                     catch (Exception e)
                     {
                         Log.Error($"{e}");
+                        throw;
                     }
                 }
             }
@@ -61,12 +62,15 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         catch (Exception e)
                         {
                             Log.Error($"{e}");
+                            throw;
                         }
 
                     }
                 }
+                
 
-                var sql2 = GenerateSqlActions(encounterInfo, subscriberSystem, location);
+
+                var sql2 = GenerateSqlActionsLinkage(encounterInfo, subscriberSystem, location);
 
                 using (SqlConnection conn = new SqlConnection(Context.Database.GetDbConnection().ConnectionString))
                 {
@@ -80,11 +84,32 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         catch (Exception e)
                         {
                             Log.Error($"{e}");
+                            throw;
+                        }
+                    }
+                }
+
+                var sql32 = GenerateSqlActionsTracing(encounterInfo, subscriberSystem, location);
+
+                using (SqlConnection conn = new SqlConnection(Context.Database.GetDbConnection().ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql32, conn))
+                    {
+                        try
+                        {
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error($"{e}");
+                            throw;
                         }
                     }
                 }
             }
         }
+
         private string GenerateSqlSetupActions(SubscriberSystem subscriberSystem)
         {
             decimal rank = 0;
@@ -119,15 +144,30 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             }
             return sqlBuilder.ToString();
         }
-        private string GenerateSqlActions(EncounterInfo encounterInfo, SubscriberSystem subscriberSystem, Location location)
+        private string GenerateSqlActionsLinkage(EncounterInfo encounterInfo, SubscriberSystem subscriberSystem, Location location)
         {
             decimal rank = 0;
             _sqlActions = new List<SqlAction>();
             _sqlActions.Add(new SqlAction(rank, GetSqlDecrptyion())); rank++;
-            //_sqlActions.Add(InsertLabDetail(rank, encounterInfo, subscriberSystem, location)); rank++;
+
             if (encounterInfo.ObsLinkages.Count > 0) 
                 _sqlActions.AddRange(InsertLinkage(rank, encounterInfo, subscriberSystem, location)); rank++;
-            
+
+
+            StringBuilder sqlBuilder = new StringBuilder(" ");
+            foreach (var action in _sqlActions.OrderBy(x => x.Rank))
+            {
+                sqlBuilder.AppendLine(action.Action);
+            }
+            return sqlBuilder.ToString();
+        }
+        private string GenerateSqlActionsTracing(EncounterInfo encounterInfo, SubscriberSystem subscriberSystem, Location location)
+        {
+            decimal rank = 0;
+            _sqlActions = new List<SqlAction>();
+            _sqlActions.Add(new SqlAction(rank, GetSqlDecrptyion())); rank++;
+            if (encounterInfo.ObsTraceResults.Count > 0)
+                _sqlActions.AddRange(InsertTracing(rank, encounterInfo, subscriberSystem, location)); rank++;
 
             StringBuilder sqlBuilder = new StringBuilder(" ");
             foreach (var action in _sqlActions.OrderBy(x => x.Rank))
@@ -379,23 +419,16 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
         }
         private List<SqlAction> InsertTracing(decimal rank, EncounterInfo encounter, SubscriberSystem subscriberSystem, Location location)
         {
-            //Lab.VisitTypeId | 116
             //Linkage.VisitTypeId | 117
-
-            //Registration|VisitTypeId
-            var visitType = subscriberSystem.Configs.FirstOrDefault(x => x.Area == "HTS" && x.Name == "Linkage.VisitTypeId");
-
-            //GET MAP
             var actions = new List<SqlAction>();
-
+            var visitType = subscriberSystem.Configs.FirstOrDefault(x => x.Area == "HTS" && x.Name == "Linkage.VisitTypeId");
             var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsTraceResult)).ToList();
-
             if (maps.Count > 0)
             {
                 //MULTII
-                var mapTbl = maps.Where(x => x.Mode == "Single").Select(x => x.SubName).Distinct().FirstOrDefault();
+                var mapTbl = maps.FirstOrDefault(x => x.Mode == "Multi");
 
-                var s = @"
+                var s = $@"
                             DECLARE @ptnpk int
                             DECLARE @visitipk int
                 
@@ -412,8 +445,10 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                     string sql22 = $@"
 
                         UPDATE 
-	                        [{mapTbl}] 
+	                        [{mapTbl.SubName}] 
                         SET 
+                            [SectionId]='{mapTbl.SectionId}',
+                            [FormID]='{mapTbl.FormId}',
 	                        [mAfyaId]='{mAfyId}',
                             [Visit_Pk]=@visitipk,                    
                             [LocationID]='{location.FacilityID}',
@@ -424,10 +459,10 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
                         IF @@ROWCOUNT=0
                             INSERT INTO 
-                                    [{mapTbl}](
-                                    ptn_pk, Visit_Pk, LocationID, UserID, CreateDate,mAfyaId)
+                                    [{mapTbl.SubName}](
+                                    ptn_pk, Visit_Pk, LocationID, UserID, CreateDate,mAfyaId,SectionId,FormID)
                             VALUES(@ptnpk,@visitipk, 
-                                {location.FacilityID}, 0, GETDATE(),'{mAfyId}');
+                                {location.FacilityID}, 0, GETDATE(),'{mAfyId}','{mapTbl.SectionId}','{mapTbl.FormId}');
                     ";
 
                     actions.Add(new SqlAction(rank, sql22));
@@ -439,9 +474,9 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                             string sql223 = $@"
 
                         UPDATE 
-	                        [{mapTbl}] 
+	                        [{mapTbl.SubName}] 
                         SET 
-	                        [{subscriberMap.SubField}]= {GetValue(encounterObsTraceResult, subscriberMap)}
+	                        [{subscriberMap.SubField}]={GetValue(encounterObsTraceResult, subscriberMap,subscriberSystem)}
                         WHERE 
 	                        mAfyaId='{mAfyId}';
                     ";
@@ -454,7 +489,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
             return actions;
         }
-        private static string GetValue(object obj, SubscriberMap subscriberMap)
+        private static string GetValue(object obj, SubscriberMap subscriberMap, SubscriberSystem subscriberSystem=null)
         {
             var propname = subscriberMap.Field;
 
@@ -463,13 +498,31 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             if (null == val)
                 return $"NULL";
 
+
             if (subscriberMap.Type == "Date")
             {
                 DateTime vall = obj.GetPropValue<DateTime>(propname);
                 return $"'{vall:yyyy MMM dd}'";
             }
+            else
+            {
+                if (null != subscriberSystem)
+                {
+
+                    val = GetTranslation($"{subscriberMap.Name}.{subscriberMap.Field}", val.ToString(),
+                        subscriberSystem);
+                }
+            }
             
             return $"'{val}'";
+        }
+        public static string GetTranslation(string tref, string tval, SubscriberSystem subscriberSystem)
+        {
+            var translatio = subscriberSystem.Translations.FirstOrDefault(x => x.Ref == tref && x.Code == tval);
+            if (null == translatio)
+                return tval;
+
+            return translatio.SubCode;
         }
     }
 }

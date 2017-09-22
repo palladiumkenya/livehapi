@@ -79,6 +79,8 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
 
             Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={labVisitTypeId}"));
             Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={linkVisitTypeId}"));
+            var traces =_db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_CUSTOMFORM_HTS Tracing_LinkageAndTracking] where Ptn_Pk in ({savePatient.Id})");
+            Assert.True(Convert.ToInt32(traces) > 1);
         }
 
         [TearDown]
