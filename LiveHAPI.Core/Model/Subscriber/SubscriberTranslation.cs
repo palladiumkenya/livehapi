@@ -13,11 +13,17 @@ namespace LiveHAPI.Core.Model.Subscriber
         public string SubDisplay { get; set; }
         public string SubRef { get; set; }
         public bool IsText { get; set; }
+        public int Group { get; set; }
         public Guid SubscriberSystemId { get; set; }
 
         public SubscriberTranslation()
         {
             Id = LiveGuid.NewGuid();
+        }
+
+        public bool HasSub()
+        {
+            return !string.IsNullOrWhiteSpace(SubRef);
         }
     }
 }

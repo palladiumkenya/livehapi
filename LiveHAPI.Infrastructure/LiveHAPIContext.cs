@@ -16,7 +16,7 @@ namespace LiveHAPI.Infrastructure
         public LiveHAPIContext(DbContextOptions<LiveHAPIContext> options) 
             : base(options)
         {
-           Database.Migrate();
+          Database.Migrate();
         }
 
         #region Geo

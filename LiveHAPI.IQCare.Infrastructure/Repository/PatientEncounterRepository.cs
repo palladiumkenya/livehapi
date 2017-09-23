@@ -535,11 +535,9 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             var visitType = subscriberSystem.Configs.FirstOrDefault(x => x.Area == "HTS" && x.Name == "Lab.VisitTypeId");
             var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsTestResult)&&x.HasSubName()).ToList();
             if (maps.Count > 0)
-            {
-             
-
+            {            
                 var s = $@"
-                            DECLARE @ptnpk int
+                                DECLARE @ptnpk int
                             DECLARE @visitipk int
                 
                             SET @ptnpk=(SELECT TOP 1 Ptn_Pk  FROM mst_Patient WHERE mAfyaId ='{encounter.ClientId}');               
@@ -549,10 +547,12 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                 rank++;
 
                 //MULTII
-                var mapTbl = maps.FirstOrDefault(x => x.Mode == "Multi");
-                Guid mAfyId;
-                foreach (var result in encounter.ObsTestResults)
+                //Test1
+                var mapTbl = maps.FirstOrDefault(x => x.Mode == "Multi"&&x.Group==3&&x.HasSubName());
+                
+                foreach (var result in encounter.ObsTestResults.Where(x=>x.TestName.Contains("1")))
                 {
+                    Guid mAfyId;
                     mAfyId = result.Id;
                     string sql22 = $@"
 
@@ -581,14 +581,14 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                     rank++;
 
 
-                    foreach (var subscriberMap in maps)
+                    foreach (var subscriberMap in maps.Where(x=>x.Group==3&&x.HasSubName()))
                     {
                         string sql223 = $@"
 
                         UPDATE 
 	                        [{mapTbl.SubName}] 
                         SET 
-	                        [{subscriberMap.SubField}]={GetValue(result, subscriberMap, subscriberSystem)}
+	                        [{subscriberMap.SubField}]={GetValue(result, subscriberMap, subscriberSystem,3)}
                         WHERE 
 	                        mAfyaId='{mAfyId}';
                     ";
@@ -597,11 +597,64 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                     }
 
                 }
+
+                //Test2
+                var mapTb2 = maps.FirstOrDefault(x => x.Mode == "Multi" && x.Group == 4 && x.HasSubName());
+
+                foreach (var result in encounter.ObsTestResults.Where(x => x.TestName.Contains("2")))
+                {
+                    Guid mAfyId;
+                    mAfyId = result.Id;
+                    string sql22 = $@"
+
+                        UPDATE 
+	                        [{mapTb2.SubName}] 
+                        SET 
+                            [SectionId]='{mapTb2.SectionId}',
+                            [FormID]='{mapTb2.FormId}',
+	                        [mAfyaId]='{mAfyId}',
+                            [Visit_Pk]=@visitipk,                    
+                            [LocationID]='{location.FacilityID}',
+                            [UserID]='0',                
+                            [UpdateDate]=GETDATE()
+                        WHERE 
+	                        mAfyaId='{mAfyId}'
+
+                        IF @@ROWCOUNT=0
+                            INSERT INTO 
+                                    [{mapTb2.SubName}](
+                                    ptn_pk, Visit_Pk, LocationID, UserID, CreateDate,mAfyaId,SectionId,FormID)
+                            VALUES(@ptnpk,@visitipk, 
+                                {location.FacilityID}, 0, GETDATE(),'{mAfyId}','{mapTb2.SectionId}','{mapTb2.FormId}');
+                    ";
+
+                    actions.Add(new SqlAction(rank, sql22));
+                    rank++;
+
+
+                    foreach (var subscriberMap in maps.Where(x => x.Group == 4 && x.HasSubName()))
+                    {
+                        string sql223 = $@"
+
+                        UPDATE 
+	                        [{mapTb2.SubName}] 
+                        SET 
+	                        [{subscriberMap.SubField}]={GetValue(result, subscriberMap, subscriberSystem,4)}
+                        WHERE 
+	                        mAfyaId='{mAfyId}';
+                    ";
+                        actions.Add(new SqlAction(rank, sql223));
+                        rank++;
+                    }
+
+                }
+
             }
 
             return actions;
         }
-        private static string GetValue(object obj, SubscriberMap subscriberMap, SubscriberSystem subscriberSystem=null)
+
+        private static string GetValue(object obj, SubscriberMap subscriberMap, SubscriberSystem subscriberSystem=null,int group=0)
         {
             var propname = subscriberMap.Field;
 
@@ -622,15 +675,15 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                 {
 
                     val = GetTranslation($"{subscriberMap.Name}.{subscriberMap.Field}", val.ToString(),
-                        subscriberSystem);
+                        subscriberSystem,group);
                 }
             }
             
             return $"'{val}'";
         }
-        public static string GetTranslation(string tref, string tval, SubscriberSystem subscriberSystem)
+        public static string GetTranslation(string tref, string tval, SubscriberSystem subscriberSystem,int group=0)
         {
-            var translatio = subscriberSystem.Translations.FirstOrDefault(x => x.Ref == tref && x.Code == tval);
+            var translatio = subscriberSystem.Translations.FirstOrDefault(x => x.Ref.ToLower() == tref.ToLower() && x.Code.ToLower() == tval.ToLower()&&x.HasSub()&&x.Group==group);
             if (null == translatio)
                 return tval;
 
