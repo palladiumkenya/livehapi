@@ -98,9 +98,14 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             _patientEncounterRepository.CreateOrUpdate(_encounterInfo, subscriberSystem, location);
             Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362] where Ptn_Pk in ({savePatient.Id})"));
             var dr=_db.ExecuteReader($"select *  from  [DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362] where Ptn_Pk in ({savePatient.Id}))");
+
             while (dr.Read())
             {
                 Assert.IsFalse(string.IsNullOrWhiteSpace(dr["FinalTestOneResult"].ToString()));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(dr["FinalResultTestTwo"].ToString()));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(dr["finalResultHTS"].ToString()));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(dr["FinalResultsGiven"].ToString()));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(dr["CoupleDiscordant"].ToString()));
             }
             /*
 FinalTestOneResult	DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362

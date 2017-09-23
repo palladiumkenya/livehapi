@@ -770,14 +770,14 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             //GET MAP
             var actions = new List<SqlAction>();
 
-            var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsFinalTestResult)).ToList();
+            var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsFinalTestResult) && x.HasSubName()).ToList();
 
             if (maps.Count > 0)
             {
                 //SINGLE
 
                 var mAfyId = encounter.ObsFinalTestResults.FirstOrDefault().EncounterId;
-                var mapTbl = maps.Where(x => x.Mode == "Single").Select(x => x.SubName).Distinct().FirstOrDefault();
+                var mapTbl = maps.Where(x => x.Mode == "Single"&&x.HasSubName()).Select(x => x.SubName).Distinct().FirstOrDefault();
 
 
 
@@ -811,11 +811,11 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                 actions.Add(new SqlAction(rank, sql22));
                 rank++;
 
-                var obsLinkage = encounter.ObsFinalTestResults.FirstOrDefault();
+                var finalTestResultInfo = encounter.ObsFinalTestResults.FirstOrDefault();
 
 
 
-                if (null != obsLinkage)
+                if (null != finalTestResultInfo)
                 {
                     foreach (var subscriberMap in maps)
                     {
@@ -824,7 +824,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         UPDATE 
 	                        [{mapTbl}] 
                         SET 
-	                        [{subscriberMap.SubField}]= {GetValue(obsLinkage, subscriberMap)}
+	                        [{subscriberMap.SubField}]= {GetValue(finalTestResultInfo, subscriberMap,subscriberSystem,6)}
                         WHERE 
 	                        mAfyaId='{mAfyId}';
                     ";
