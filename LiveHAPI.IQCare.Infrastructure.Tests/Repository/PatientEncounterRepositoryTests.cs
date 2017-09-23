@@ -106,6 +106,8 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
                 Assert.IsFalse(string.IsNullOrWhiteSpace(dr["finalResultHTS"].ToString()));
                 Assert.IsFalse(string.IsNullOrWhiteSpace(dr["FinalResultsGiven"].ToString()));
                 Assert.IsFalse(string.IsNullOrWhiteSpace(dr["CoupleDiscordant"].ToString()));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(dr["KeyPop"].ToString()));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(dr["phoneNumber"].ToString()));
             }
             /*
 FinalTestOneResult	DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362

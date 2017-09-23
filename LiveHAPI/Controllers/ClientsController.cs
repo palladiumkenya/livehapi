@@ -72,6 +72,7 @@ namespace LiveHAPI.Controllers
             {
                 _encounterService.Sync(encounters);
 
+
                 SyncEventDispatcher.Raise(new EncounterSaved(encounters),  _encounterSavedHandler, _subscriberSystem);
 
                 return Ok();

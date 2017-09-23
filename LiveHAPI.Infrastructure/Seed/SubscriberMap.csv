@@ -34,3 +34,5 @@ ab06a31a-98b9-11e7-abc4-cec278b6b50a|ObsTestResult|KitOther|Text||||4||||16E2386
 1a28e4be-a04f-11e7-abc4-cec278b6b50a|ObsFinalTestResult|ResultGiven|Text|DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362|FinalResultsGiven|Text|6|Single|||16E23866-9D69-11E7-ABC4-CEC278B6B50A
 1a28e5ea-a04f-11e7-abc4-cec278b6b50a|ObsFinalTestResult|SecondTestResult|Text|DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362|FinalResultTestTwo|Text|6|Single|||16E23866-9D69-11E7-ABC4-CEC278B6B50A
 1a28e734-a04f-11e7-abc4-cec278b6b50a|ObsFinalTestResult|SelfTestOption|Text|||Text|6|Single|||16E23866-9D69-11E7-ABC4-CEC278B6B50A
+1a28ef0e-a04f-11e7-abc4-cec278b6b50a|Client|KeyPop|Text|DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362|KeyPop|Text|99|Single|||16E23866-9D69-11E7-ABC4-CEC278B6B50A
+1a299f9e-a04f-11e7-abc4-cec278b6b50a|Client|Phone|Text|DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362|phoneNumber|Text|99|Single|||16E23866-9D69-11E7-ABC4-CEC278B6B50A

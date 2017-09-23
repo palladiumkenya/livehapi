@@ -25,6 +25,9 @@ namespace LiveHAPI.Shared.ValueObject
         public DateTime? Stopped { get; set; }
         public Guid UserId { get; set; }
 
+        public string KeyPop { get; set; }
+        public string Phone { get; set; }
+
         public List<ObsInfo> Obses { get; set; }=new List<ObsInfo>();
         public List<ObsTestResultInfo> ObsTestResults { get; set; } = new List<ObsTestResultInfo>();
         public List<ObsFinalTestResultInfo> ObsFinalTestResults { get; set; } = new List<ObsFinalTestResultInfo>();

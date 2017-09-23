@@ -901,6 +901,8 @@ return JsonConvert.DeserializeObject<ClientInfo>(json);
     ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
     ^Started^: ^\/Date(1506001284141+0300)\/^,
     ^Stopped^: null,
+    ^KeyPop^: ^NA^,
+    ^Phone^: 134021121,
     ^Obses^: [
       {
         ^QuestionId^: ^b2603772-852f-11e7-bb31-be2e44b06b34^,
@@ -983,6 +985,8 @@ return JsonConvert.DeserializeObject<ClientInfo>(json);
     ^DeviceId^: ^5f28d2d8-55fb-4b1d-ab97-a7f500e14133^,
     ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
     ^Started^: ^\/Date(1506001291816+0300)\/^,
+    ^KeyPop^: ^NA^,
+    ^Phone^: 134021121,
     ^Stopped^: null,
     ^Obses^: [
       
@@ -1047,6 +1051,8 @@ return JsonConvert.DeserializeObject<ClientInfo>(json);
     ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
     ^Started^: ^\/Date(1506004218189+0300)\/^,
     ^Stopped^: null,
+    ^KeyPop^: ^NA^,
+    ^Phone^: 134021121,
     ^Obses^: [
       
     ],

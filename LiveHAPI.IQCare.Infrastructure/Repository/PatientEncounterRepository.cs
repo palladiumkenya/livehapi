@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using LiveHAPI.Core.Model.Encounters;
+using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.IQCare.Core.Interfaces.Repository;
 using LiveHAPI.IQCare.Core.Model;
@@ -354,7 +355,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                             DECLARE @visitipk int
                 
                             SET @ptnpk=(SELECT TOP 1 Ptn_Pk  FROM mst_Patient WHERE mAfyaId ='{encounter.ClientId}');               
-                            SET @visitipk=(SELECT TOP 1 Ptn_Pk  FROM  ord_visit WHERE (Ptn_Pk = @ptnpk) AND (VisitType = {visitType.Value}) AND (mAfyaVisitType = 1));";
+                            SET @visitipk=(SELECT TOP 1 [Visit_Id]  FROM  ord_visit WHERE (Ptn_Pk = @ptnpk) AND (VisitType = {visitType.Value}) AND (mAfyaVisitType = 1));";
 
                 actions.Add(new SqlAction(rank, s));
                 rank++;
@@ -389,6 +390,25 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
                     actions.Add(new SqlAction(rank, sql22));
                     rank++;
+
+                    //KEY POP
+
+                    var clientmaps = subscriberSystem.Maps.Where(x => x.Name == nameof(Client) && x.HasSubName()).ToList();
+
+                    foreach (var subscriberMap in clientmaps)
+                    {
+                        string sql223 = $@"
+
+                        UPDATE 
+	                        [{mapTbl.SubName}] 
+                        SET 
+	                        [{subscriberMap.SubField}]= {GetValue(encounter, subscriberMap,subscriberSystem,99)}
+                        WHERE 
+	                        mAfyaId='{mAfyId}';
+                    ";
+                        actions.Add(new SqlAction(rank, sql223));
+                        rank++;
+                    }
 
                     foreach (var obs in encounter.Obses)
                     {
@@ -513,7 +533,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                 DECLARE @visitipk int
                 
                 SET @ptnpk=(SELECT TOP 1 Ptn_Pk  FROM mst_Patient WHERE mAfyaId ='{encounter.ClientId}');               
-                SET @visitipk=(SELECT TOP 1 Ptn_Pk  FROM  ord_visit WHERE (Ptn_Pk = @ptnpk) AND (VisitType = {visitType.Value}) AND (mAfyaVisitType = 1));       
+                SET @visitipk=(SELECT TOP 1 [Visit_Id]  FROM  ord_visit WHERE (Ptn_Pk = @ptnpk) AND (VisitType = {visitType.Value}) AND (mAfyaVisitType = 1));       
 
                         UPDATE 
 	                        [{mapTbl}] 
@@ -579,7 +599,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                             DECLARE @visitipk int
                 
                             SET @ptnpk=(SELECT TOP 1 Ptn_Pk  FROM mst_Patient WHERE mAfyaId ='{encounter.ClientId}');               
-                            SET @visitipk=(SELECT TOP 1 Ptn_Pk  FROM  ord_visit WHERE (Ptn_Pk = @ptnpk) AND (VisitType = {visitType.Value}) AND (mAfyaVisitType = 1));";
+                            SET @visitipk=(SELECT TOP 1 [Visit_Id]  FROM  ord_visit WHERE (Ptn_Pk = @ptnpk) AND (VisitType = {visitType.Value}) AND (mAfyaVisitType = 1));";
 
                 actions.Add(new SqlAction(rank, s));
                 rank++;
@@ -648,7 +668,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                             DECLARE @visitipk int
                 
                             SET @ptnpk=(SELECT TOP 1 Ptn_Pk  FROM mst_Patient WHERE mAfyaId ='{encounter.ClientId}');               
-                            SET @visitipk=(SELECT TOP 1 Ptn_Pk  FROM  ord_visit WHERE (Ptn_Pk = @ptnpk) AND (VisitType = {visitType.Value}) AND (mAfyaVisitType = 1));";
+                            SET @visitipk=(SELECT TOP 1 [Visit_Id]  FROM  ord_visit WHERE (Ptn_Pk = @ptnpk) AND (VisitType = {visitType.Value}) AND (mAfyaVisitType = 1));";
 
                 actions.Add(new SqlAction(rank, s));
                 rank++;
@@ -788,7 +808,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                 DECLARE @visitipk int
                 
                 SET @ptnpk=(SELECT TOP 1 Ptn_Pk  FROM mst_Patient WHERE mAfyaId ='{encounter.ClientId}');               
-                SET @visitipk=(SELECT TOP 1 Ptn_Pk  FROM  ord_visit WHERE (Ptn_Pk = @ptnpk) AND (VisitType = {visitType.Value}) AND (mAfyaVisitType = 1));       
+                SET @visitipk=(SELECT TOP 1 [Visit_Id]  FROM  ord_visit WHERE (Ptn_Pk = @ptnpk) AND (VisitType = {visitType.Value}) AND (mAfyaVisitType = 1));       
 
                         UPDATE 
 	                        [{mapTbl}] 
