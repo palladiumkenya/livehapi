@@ -90,6 +90,26 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             var tests2 = _db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_CUSTOMFORM_HIV-Test 2_HTC_Lab_MOH_362] where Ptn_Pk in ({savePatient.Id})");
             Assert.True(Convert.ToInt32(tests2) > 0);
         }
+        [Test]
+        public void should_CreateOrUpdate_New_Lab_Detail()
+        {
+            var savePatient = _patientRepository.Get(_patient.mAfyaId.Value);
+            Assert.IsNotNull(savePatient);
+            _patientEncounterRepository.CreateOrUpdate(_encounterInfo, subscriberSystem, location);
+            Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362] where Ptn_Pk in ({savePatient.Id})"));
+            var dr=_db.ExecuteReader($"select *  from  [DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362] where Ptn_Pk in ({savePatient.Id}))");
+            while (dr.Read())
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(dr["FinalTestOneResult"].ToString()));
+            }
+            /*
+FinalTestOneResult	DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362
+FinalResultTestTwo	DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362
+finalResultHTS	DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362
+FinalResultsGiven	DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362
+CoupleDiscordant	DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362
+             */
+        }
 
         [TearDown]
         public void TearDown()

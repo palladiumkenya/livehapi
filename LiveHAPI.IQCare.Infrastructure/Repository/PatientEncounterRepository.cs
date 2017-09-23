@@ -145,6 +145,25 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         }
                     }
                 }
+
+                var sql3332 = GenerateSqlActionsFinalTesting(encounterInfo, subscriberSystem, location);
+
+                using (SqlConnection conn = new SqlConnection(Context.Database.GetDbConnection().ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql3332, conn))
+                    {
+                        try
+                        {
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error($"{e}");
+                            throw;
+                        }
+                    }
+                }
             }
         }
 
@@ -238,6 +257,23 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             _sqlActions.Add(new SqlAction(rank, GetSqlDecrptyion())); rank++;
             if (encounterInfo.ObsTestResults.Count > 0)
                 _sqlActions.AddRange(InsertTesting(rank, encounterInfo, subscriberSystem, location)); rank++;
+
+            StringBuilder sqlBuilder = new StringBuilder(" ");
+            foreach (var action in _sqlActions.OrderBy(x => x.Rank))
+            {
+                sqlBuilder.AppendLine(action.Action);
+            }
+            return sqlBuilder.ToString();
+        }
+        private string GenerateSqlActionsFinalTesting(EncounterInfo encounterInfo, SubscriberSystem subscriberSystem, Location location)
+        {
+            decimal rank = 0;
+            _sqlActions = new List<SqlAction>();
+            _sqlActions.Add(new SqlAction(rank, GetSqlDecrptyion())); rank++;
+
+            if (encounterInfo.ObsFinalTestResults.Count > 0)
+                _sqlActions.AddRange(InsertFinalTest(rank, encounterInfo, subscriberSystem, location)); rank++;
+
 
             StringBuilder sqlBuilder = new StringBuilder(" ");
             foreach (var action in _sqlActions.OrderBy(x => x.Rank))
@@ -525,6 +561,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
             return actions;
         }
+
         private List<SqlAction> InsertTracing(decimal rank, EncounterInfo encounter, SubscriberSystem subscriberSystem, Location location)
         {
             //Linkage.VisitTypeId | 117
@@ -722,7 +759,83 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
             return actions;
         }
+        private List<SqlAction> InsertFinalTest(decimal rank, EncounterInfo encounter, SubscriberSystem subscriberSystem, Location location)
+        {
+            //Lab.VisitTypeId | 116
+            //Linkage.VisitTypeId | 117
 
+            //Registration|VisitTypeId
+            var visitType = subscriberSystem.Configs.FirstOrDefault(x => x.Area == "HTS" && x.Name == "Lab.VisitTypeId");
+
+            //GET MAP
+            var actions = new List<SqlAction>();
+
+            var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsFinalTestResult)).ToList();
+
+            if (maps.Count > 0)
+            {
+                //SINGLE
+
+                var mAfyId = encounter.ObsFinalTestResults.FirstOrDefault().EncounterId;
+                var mapTbl = maps.Where(x => x.Mode == "Single").Select(x => x.SubName).Distinct().FirstOrDefault();
+
+
+
+                string sql22 = $@"
+
+                DECLARE @ptnpk int
+                DECLARE @visitipk int
+                
+                SET @ptnpk=(SELECT TOP 1 Ptn_Pk  FROM mst_Patient WHERE mAfyaId ='{encounter.ClientId}');               
+                SET @visitipk=(SELECT TOP 1 Ptn_Pk  FROM  ord_visit WHERE (Ptn_Pk = @ptnpk) AND (VisitType = {visitType.Value}) AND (mAfyaVisitType = 1));       
+
+                        UPDATE 
+	                        [{mapTbl}] 
+                        SET 
+	                        [mAfyaId]='{mAfyId}',
+                            [Visit_Pk]=@visitipk,                    
+                            [LocationID]='{location.FacilityID}',
+                            [UserID]='0',                
+                            [UpdateDate]=GETDATE()
+                        WHERE 
+	                        mAfyaId='{mAfyId}'
+
+                        IF @@ROWCOUNT=0
+                            INSERT INTO 
+                                    [{mapTbl}](
+                                    ptn_pk, Visit_Pk, LocationID, UserID, CreateDate,mAfyaId)
+                            VALUES(@ptnpk,@visitipk, 
+                                {location.FacilityID}, 0, GETDATE(),'{mAfyId}');
+                    ";
+
+                actions.Add(new SqlAction(rank, sql22));
+                rank++;
+
+                var obsLinkage = encounter.ObsFinalTestResults.FirstOrDefault();
+
+
+
+                if (null != obsLinkage)
+                {
+                    foreach (var subscriberMap in maps)
+                    {
+                        string sql223 = $@"
+
+                        UPDATE 
+	                        [{mapTbl}] 
+                        SET 
+	                        [{subscriberMap.SubField}]= {GetValue(obsLinkage, subscriberMap)}
+                        WHERE 
+	                        mAfyaId='{mAfyId}';
+                    ";
+                        actions.Add(new SqlAction(rank, sql223));
+                        rank++;
+                    }
+                }
+            }
+
+            return actions;
+        }
         private static string GetObsValue(ObsInfo obj, SubscriberMap subscriberMap, SubscriberSystem subscriberSystem = null, int group = 0)
         {
             if (subscriberMap.SubType == "Numeric")
