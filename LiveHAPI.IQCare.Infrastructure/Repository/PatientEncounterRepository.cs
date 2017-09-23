@@ -214,7 +214,11 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
         private List<SqlAction> SetUpEncounters(decimal rank, SubscriberSystem subscriberSystem)
         {
             List<SqlAction> sqlActions=new List<SqlAction>();
-            var subscriberMaps = subscriberSystem.Maps.GroupBy(x => x.SubName).Select(x => x.FirstOrDefault());
+            var subscriberMaps = subscriberSystem.Maps
+                .Where(x=>x.HasSubName())
+                .GroupBy(x => x.SubName)
+                .Select(x => x.FirstOrDefault());
+
             foreach (var subscriberMap in subscriberMaps)
             {
                 sqlActions.Add(new SqlAction(rank,subscriberMap.GetSqlSetupAction()));
@@ -532,8 +536,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsTestResult)&&x.HasSubName()).ToList();
             if (maps.Count > 0)
             {
-                //MULTII
-                var mapTbl = maps.FirstOrDefault(x => x.Mode == "Multi");
+             
 
                 var s = $@"
                             DECLARE @ptnpk int
@@ -545,10 +548,12 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                 actions.Add(new SqlAction(rank, s));
                 rank++;
 
+                //MULTII
+                var mapTbl = maps.FirstOrDefault(x => x.Mode == "Multi");
                 Guid mAfyId;
-                foreach (var encounterObsTraceResult in encounter.ObsTestResults)
+                foreach (var result in encounter.ObsTestResults)
                 {
-                    mAfyId = encounterObsTraceResult.Id;
+                    mAfyId = result.Id;
                     string sql22 = $@"
 
                         UPDATE 
@@ -583,7 +588,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         UPDATE 
 	                        [{mapTbl.SubName}] 
                         SET 
-	                        [{subscriberMap.SubField}]={GetValue(encounterObsTraceResult, subscriberMap, subscriberSystem)}
+	                        [{subscriberMap.SubField}]={GetValue(result, subscriberMap, subscriberSystem)}
                         WHERE 
 	                        mAfyaId='{mAfyId}';
                     ";
