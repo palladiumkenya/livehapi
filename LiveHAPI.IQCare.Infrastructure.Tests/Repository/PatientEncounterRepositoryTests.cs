@@ -97,7 +97,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             Assert.IsNotNull(savePatient);
             _patientEncounterRepository.CreateOrUpdate(_encounterInfo, subscriberSystem, location);
             Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362] where Ptn_Pk in ({savePatient.Id})"));
-            var dr=_db.ExecuteReader($"select *  from  [DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362] where Ptn_Pk in ({savePatient.Id}))");
+            var dr=_db.ExecuteReader($"select *  from  [DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362] where Ptn_Pk in ({savePatient.Id})");
 
             while (dr.Read())
             {

@@ -364,7 +364,8 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                 if (null!=currentEncounter)
                 {
                     Guid mAfyId;
-                    mAfyId = currentEncounter.Id;
+                    //mAfyId = currentEncounter.Id;
+                    mAfyId =Guid.Empty;
                     string sql22 = $@"
 
                         UPDATE 
@@ -376,7 +377,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                             [UserID]='0',                
                             [UpdateDate]=GETDATE()
                         WHERE 
-	                        mAfyaId='{mAfyId}'
+	                        mAfyaId='{mAfyId}' AND [Visit_Pk]=@visitipk AND  Ptn_Pk=@ptnpk
 
                         IF @@ROWCOUNT=0
                             INSERT INTO 
@@ -403,7 +404,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         SET 
 	                        [{col.SubField}]={GetObsValue(obs, col, subscriberSystem)}
                         WHERE 
-	                        mAfyaId='{mAfyId}';
+	                        mAfyaId='{mAfyId}' AND [Visit_Pk]=@visitipk AND  Ptn_Pk=@ptnpk;
                     ";
                             actions.Add(new SqlAction(rank, sql223));
                             rank++;
@@ -776,7 +777,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             {
                 //SINGLE
 
-                var mAfyId = encounter.ObsFinalTestResults.FirstOrDefault().EncounterId;
+                var mAfyId = Guid.Empty;
                 var mapTbl = maps.Where(x => x.Mode == "Single"&&x.HasSubName()).Select(x => x.SubName).Distinct().FirstOrDefault();
 
 
@@ -798,7 +799,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                             [UserID]='0',                
                             [UpdateDate]=GETDATE()
                         WHERE 
-	                        mAfyaId='{mAfyId}'
+	                        mAfyaId='{mAfyId}' AND [Visit_Pk]=@visitipk AND  Ptn_Pk=@ptnpk
 
                         IF @@ROWCOUNT=0
                             INSERT INTO 
@@ -826,7 +827,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         SET 
 	                        [{subscriberMap.SubField}]= {GetValue(finalTestResultInfo, subscriberMap,subscriberSystem,6)}
                         WHERE 
-	                        mAfyaId='{mAfyId}';
+	                        mAfyaId='{mAfyId}' AND [Visit_Pk]=@visitipk AND  Ptn_Pk=@ptnpk;
                     ";
                         actions.Add(new SqlAction(rank, sql223));
                         rank++;
