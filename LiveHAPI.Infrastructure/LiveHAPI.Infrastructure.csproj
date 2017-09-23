@@ -4,4 +4,92 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Seed\Category.csv" />
+    <None Remove="Seed\CategoryItem.csv" />
+    <None Remove="Seed\Concept.csv" />
+    <None Remove="Seed\ConceptType.csv" />
+    <None Remove="Seed\County.csv" />
+    <None Remove="Seed\EncounterType.csv" />
+    <None Remove="Seed\Form.csv" />
+    <None Remove="Seed\IdentifierType.csv" />
+    <None Remove="Seed\Item.csv" />
+    <None Remove="Seed\KeyPop.csv" />
+    <None Remove="Seed\MaritalStatus.csv" />
+    <None Remove="Seed\MasterFacility.csv" />
+    <None Remove="Seed\Module.csv" />
+    <None Remove="Seed\Person.csv" />
+    <None Remove="Seed\Practice.csv" />
+    <None Remove="Seed\PracticeType.csv" />
+    <None Remove="Seed\Provider.csv" />
+    <None Remove="Seed\ProviderType.csv" />
+    <None Remove="Seed\Question.csv" />
+    <None Remove="Seed\QuestionBranch.csv" />
+    <None Remove="Seed\QuestionRemoteTransformation.csv" />
+    <None Remove="Seed\QuestionReValidation.csv" />
+    <None Remove="Seed\QuestionTransformation.csv" />
+    <None Remove="Seed\QuestionValidation.csv" />
+    <None Remove="Seed\RelationshipType.csv" />
+    <None Remove="Seed\SubCounty.csv" />
+    <None Remove="Seed\SubscriberMap.csv" />
+    <None Remove="Seed\SubscriberTranslation.csv" />
+    <None Remove="Seed\User.csv" />
+    <None Remove="Seed\ValidatorType.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Seed\PersonName.csv" />
+    <EmbeddedResource Include="Seed\SubscriberMap.csv" />
+    <EmbeddedResource Include="Seed\SubscriberTranslation.csv" />
+    <EmbeddedResource Include="Seed\Validator.csv" />
+    <EmbeddedResource Include="Seed\Category.csv" />
+    <EmbeddedResource Include="Seed\CategoryItem.csv" />
+    <EmbeddedResource Include="Seed\Concept.csv" />
+    <EmbeddedResource Include="Seed\ConceptType.csv" />
+    <EmbeddedResource Include="Seed\County.csv" />
+    <EmbeddedResource Include="Seed\EncounterType.csv" />
+    <EmbeddedResource Include="Seed\Form.csv" />
+    <EmbeddedResource Include="Seed\IdentifierType.csv" />
+    <EmbeddedResource Include="Seed\Item.csv" />
+    <EmbeddedResource Include="Seed\KeyPop.csv" />
+    <EmbeddedResource Include="Seed\MaritalStatus.csv" />
+    <EmbeddedResource Include="Seed\MasterFacility.csv" />
+    <EmbeddedResource Include="Seed\Module.csv" />
+    <EmbeddedResource Include="Seed\Person.csv" />
+    <EmbeddedResource Include="Seed\Practice.csv" />
+    <EmbeddedResource Include="Seed\Action.csv" />
+    <EmbeddedResource Include="Seed\Condition.csv" />
+    <EmbeddedResource Include="Seed\PracticeType.csv" />
+    <EmbeddedResource Include="Seed\FormProgram.csv" />
+    <EmbeddedResource Include="Seed\Provider.csv" />
+    <EmbeddedResource Include="Seed\ProviderType.csv" />
+    <EmbeddedResource Include="Seed\Question.csv" />
+    <EmbeddedResource Include="Seed\QuestionBranch.csv" />
+    <EmbeddedResource Include="Seed\QuestionRemoteTransformation.csv" />
+    <EmbeddedResource Include="Seed\QuestionReValidation.csv" />
+    <EmbeddedResource Include="Seed\QuestionTransformation.csv" />
+    <EmbeddedResource Include="Seed\QuestionValidation.csv" />
+    <EmbeddedResource Include="Seed\RelationshipType.csv" />
+    <EmbeddedResource Include="Seed\SubCounty.csv" />
+    <EmbeddedResource Include="Seed\User.csv" />
+    <EmbeddedResource Include="Seed\SubscriberConfig.csv" />
+    <EmbeddedResource Include="Seed\SubscriberSystem.csv" />
+    <EmbeddedResource Include="Seed\ValidatorType.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="2.16.3" />
+    <PackageReference Include="EFCore.BulkExtensions" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Serilog" Version="2.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LiveHAPI.Core\LiveHAPI.Core.csproj" />
+  </ItemGroup>
+
 </Project>

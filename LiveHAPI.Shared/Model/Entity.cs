@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Shared.Interfaces.Model;
 
 namespace LiveHAPI.Shared.Model
 {
     public abstract class Entity<TId> : IEntity<TId>
     {
-        public TId Id { get; set; }
+        [Key]
+        public virtual TId Id { get; set; }
         public bool Voided { get; set; }
 
         protected Entity()

@@ -11,8 +11,63 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Model\County.cs" />
-    <Compile Include="Model\SubCounty.cs" />
+    <Compile Include="Model\Lookup\MasterFacility.cs" />
+    <Compile Include="Model\People\PersonName.cs" />
+    <Compile Include="Model\QModel\Action.cs" />
+    <Compile Include="Model\Lookup\Category.cs" />
+    <Compile Include="Model\Lookup\CategoryItem.cs" />
+    <Compile Include="Model\People\Client.cs" />
+    <Compile Include="Model\People\ClientAttribute.cs" />
+    <Compile Include="Model\People\ClientIdentifier.cs" />
+    <Compile Include="Model\People\ClientRelationship.cs" />
+    <Compile Include="Model\Studio\Concept.cs" />
+    <Compile Include="Model\Studio\ConceptType.cs" />
+    <Compile Include="Model\QModel\Condition.cs" />
+    <Compile Include="Model\Lookup\County.cs" />
+    <Compile Include="Model\Encounters\Encounter.cs" />
+    <Compile Include="Model\Studio\EncounterType.cs" />
+    <Compile Include="Model\Studio\FormImplementation.cs" />
+    <Compile Include="Model\Studio\Form.cs" />
+    <Compile Include="Model\Lookup\IdentifierType.cs" />
+    <Compile Include="Model\Lookup\Item.cs" />
+    <Compile Include="Model\Lookup\KeyPop.cs" />
+    <Compile Include="Model\Lookup\MaritalStatus.cs" />
+    <Compile Include="Model\Studio\Module.cs" />
+    <Compile Include="Model\Encounters\Obs.cs" />
+    <Compile Include="Model\Encounters\ObsFinalTestResult.cs" />
+    <Compile Include="Model\Encounters\ObsLinkage.cs" />
+    <Compile Include="Model\Encounters\ObsTestResult.cs" />
+    <Compile Include="Model\Encounters\ObsTraceResult.cs" />
+    <Compile Include="Model\Network\PracticeActivation.cs" />
+    <Compile Include="Model\People\Person.cs" />
+    <Compile Include="Model\People\PersonAddress.cs" />
+    <Compile Include="Model\People\PersonContact.cs" />
+    <Compile Include="Model\Network\Practice.cs" />
+    <Compile Include="Model\Lookup\PracticeType.cs" />
+    <Compile Include="Model\Studio\FormProgram.cs" />
+    <Compile Include="Model\People\Provider.cs" />
+    <Compile Include="Model\Lookup\ProviderType.cs" />
+    <Compile Include="Model\QModel\Question.cs" />
+    <Compile Include="Model\QModel\QuestionBranch.cs" />
+    <Compile Include="Model\QModel\QuestionRemoteTransformation.cs" />
+    <Compile Include="Model\QModel\QuestionReValidation.cs" />
+    <Compile Include="Model\QModel\QuestionTransformation.cs" />
+    <Compile Include="Model\QModel\QuestionValidation.cs" />
+    <Compile Include="Model\Lookup\RelationshipType.cs" />
+    <Compile Include="Model\Lookup\SubCounty.cs" />
+    <Compile Include="Model\People\User.cs" />
+    <Compile Include="Model\QModel\Validator.cs" />
+    <Compile Include="Model\QModel\ValidatorType.cs" />
+    <Compile Include="Model\Subscriber\SubscriberTranslation.cs" />
+    <Compile Include="Model\Subscriber\SubscriberMap.cs" />
+    <Compile Include="Model\Subscriber\SubscriberMessage.cs" />
+    <Compile Include="Model\Subscriber\SubscriberSqlAction.cs" />
+    <Compile Include="Model\Subscriber\SubscriberConfig.cs" />
+    <Compile Include="Model\Subscriber\SubscriberSystem.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>
