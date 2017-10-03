@@ -105,6 +105,46 @@ namespace LiveHAPI.IQCare.Infrastructure
             {
                 Log.Debug($"{e}");
             }
+
+            try
+            {
+                context.Database.ExecuteSqlCommand(
+                    @"
+                IF OBJECT_ID('dbo.mAfyaView') IS NULL
+                    BEGIN
+                        EXECUTE('
+	                        create view [dbo].[mAfyaFamilyView]
+	                        as
+                            SELECT       
+	                            Id, 
+		                        Ptn_pk,
+	                            CAST(decryptbykey(RFirstName) AS varchar(50)) AS FirstName, 
+	                            CAST(decryptbykey(RLastName) AS varchar(50)) AS LastName, 
+	                            Sex, 
+		                        AgeYear, 
+		                        AgeMonth, 
+		                        RelationshipDate, 
+		                        RelationshipType, 
+		                        HivStatus, 
+		                        HivCareStatus, 
+		                        RegistrationNo, 
+		                        FileNo, 
+		                        ReferenceId, 
+		                        UserId, 
+		                        DeleteFlag, 
+		                        CreateDate, 
+		                        UpdateDate
+                            FROM            
+	                            dbo.dtl_FamilyInfo
+                                ')
+                    END
+            ");
+
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+            }
         }
     }
 }
