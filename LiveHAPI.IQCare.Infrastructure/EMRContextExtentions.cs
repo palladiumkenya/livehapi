@@ -106,11 +106,14 @@ namespace LiveHAPI.IQCare.Infrastructure
                 Log.Debug($"{e}");
             }
 
+
+           
+
             try
             {
                 context.Database.ExecuteSqlCommand(
                     @"
-                IF OBJECT_ID('dbo.mAfyaView') IS NULL
+                IF OBJECT_ID('dbo.mAfyaFamilyView') IS NULL
                     BEGIN
                         EXECUTE('
 	                        create view [dbo].[mAfyaFamilyView]

@@ -16,6 +16,11 @@ namespace LiveHAPI.Shared.ValueObject
         public List<IdentifierInfo> Identifiers { get; set; }=new List<IdentifierInfo>();
         public List<RelationshipInfo> Relationship { get; set; } = new List<RelationshipInfo>();
 
+        public bool HasRelationships()
+        {
+            return Relationship.Count > 0;
+        }
+
         /*
          client.Person.FirstName,
                 client.Person.MiddleName,

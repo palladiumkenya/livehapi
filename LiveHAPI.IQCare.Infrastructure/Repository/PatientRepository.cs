@@ -34,6 +34,13 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             return patient;
         }
 
+        public IEnumerable<Patient> GetAll(List<Guid> ids)
+        {
+            var db = Context.Database.GetDbConnection();
+            var patient = db.Query<Patient>($"{GetSqlDecrptyion()} SELECT * FROM mAfyaView WHERE mAfyaId='{id}'");
+            return patient;
+        }
+
         public void CreateOrUpdate(Patient patient, SubscriberSystem subscriberSystem, Location location)
         {
             var sql = GenerateSqlActions(patient, subscriberSystem, location);
@@ -50,6 +57,29 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                     }
                     catch (Exception e)
                     {                        
+                        Log.Error($"{e}");
+                    }
+                }
+            }
+        }
+
+        public void CreateOrUpdateRelations(Guid patientId, List<RelationshipInfo> relatedPatients, SubscriberSystem subscriberSystem,
+            Location location)
+        {
+            var sql = GenerateSqlActionsRelations(patientId, relatedPatients,subscriberSystem, location);
+
+
+            using (SqlConnection conn = new SqlConnection(Context.Database.GetDbConnection().ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    try
+                    {
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {
                         Log.Error($"{e}");
                     }
                 }
@@ -76,7 +106,21 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             }
             return sqlBuilder.ToString();
         }
+        private string GenerateSqlActionsRelations(Guid patientId, List<RelationshipInfo> relatedPatients, SubscriberSystem subscriberSystem, Location location)
+        {
+            decimal rank = 0;
+            _sqlActions = new List<SqlAction>();
+            _sqlActions.Add(new SqlAction(rank, GetSqlDecrptyion())); rank++;
 
+            _sqlActions.AddRange(InsertPatientRelations(rank, patientId, relatedPatients, subscriberSystem, location)); rank++;
+
+            StringBuilder sqlBuilder = new StringBuilder(" ");
+            foreach (var action in _sqlActions.OrderBy(x => x.Rank))
+            {
+                sqlBuilder.AppendLine(action.Action);
+            }
+            return sqlBuilder.ToString();
+        }
         private SqlAction InsertPatient(decimal rank, Patient patient, SubscriberSystem subscriberSystem, Location location)
         {
             //TODO: ALTER TABLE [dbo].[mst_Patient] ADD [mAfyaId] [uniqueidentifier] NULL
@@ -423,6 +467,97 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
             var action = new SqlAction(rank, sql);
             return action;
+        }
+        private List<SqlAction> InsertPatientRelations(decimal rank, Guid patientId, List<RelationshipInfo> relatedPatients, SubscriberSystem subscriberSystem, Location location)
+        {
+            //RelationshipType, HivStatus,  HivCareStatus
+
+            var list = new List<SqlAction>();
+
+            var indexPatient = Get(patientId);
+
+            if (null == indexPatient)
+            {
+                list.Add(new SqlAction(rank, string.Empty));
+                return list;
+            }
+
+            foreach (var relatedPatient in relatedPatients)
+            {
+                var p = Get(relatedPatient.RelatedClientId);
+
+                if (null != p)
+                {
+                    // add or update relationship.
+
+                    string sql = $@"
+                DECLARE @ptnpk int
+                DECLARE @visitipk int
+
+                UPDATE 
+	                [dtl_FamilyInfo] 
+                SET 
+                    [RFirstName]=encryptbykey(key_guid('Key_CTC'), '{p.FirstName}'),
+                    [RLastName]=encryptbykey(key_guid('Key_CTC'), '{p.LastName}'),    
+                    [Sex]= '{p.Sex}', 
+                    [AgeYear]=  'datediff(yy, '{p.Dob:yyyy MMMM dd}', getdate())',
+                    [AgeMonth]= 'datediff(yy, '{p.Dob:yyyy MMMM dd}', getdate()) % 12',
+                    [RelationshipType]= '{GetTranslation("RelationshipType", relatedPatient.RelationshipTypeId, subscriberSystem)}', 
+                    [ReferenceId]='{p.Id}' 
+                    [UpdateDate]=GETDATE()
+                WHERE 
+	                Ptn_pk='{indexPatient.Id}' AND ReferenceId='{p.Id}'
+
+                IF @@ROWCOUNT=0
+
+                    INSERT INTO 
+                        dtl_FamilyInfo(
+                         Ptn_pk,
+                         RFirstName, 
+                         RLastName, 
+						 Sex, 
+                         AgeYear, 
+                         AgeMonth, 
+						 RelationshipDate, 
+                         RelationshipType, 
+						 HivStatus, 
+                         HivCareStatus,
+                         ReferenceId, 
+						 UserId,
+                         CreateDate)
+                    VALUES(
+                        '{indexPatient.Id}', 
+                        encryptbykey(key_guid('Key_CTC'), '{p.FirstName}'), 
+                        encryptbykey(key_guid('Key_CTC'), '{p.LastName}'), 
+                        '{indexPatient.Sex}',
+                        datediff(yy, '{p.Dob:yyyy MMMM dd}', getdate()),
+                        datediff(yy, '{p.Dob:yyyy MMMM dd}', getdate()) % 12,
+                        GETDATE(),
+                        '{GetTranslation("RelationshipType", relatedPatient.RelationshipTypeId, subscriberSystem)}',
+                         '{GetTranslation("HivStatus", string.Empty, subscriberSystem)}',
+                         '{GetTranslation("HivCareStatus", string.Empty, subscriberSystem)}',
+                         '{p.Id}',
+                          1,
+                          GETDATE());";
+
+
+                    var action = new SqlAction(rank, sql);
+                    list.Add(action);
+
+                }
+            }
+
+               
+            return list;
+
+        }
+        public static string GetTranslation(string tref, string tval, SubscriberSystem subscriberSystem, int group = 0)
+        {
+            var translatio = subscriberSystem.Translations.FirstOrDefault(x => x.Ref.ToLower() == tref.ToLower() && x.Code.ToLower() == tval.ToLower() && x.HasSub() && x.Group == group);
+            if (null == translatio)
+                return tval;
+
+            return translatio.SubCode;
         }
     }
 }

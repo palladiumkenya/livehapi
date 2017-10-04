@@ -30,7 +30,12 @@ namespace LiveHAPI.IQCare.Core.Handlers
             var patient = Patient.Create(args.Client, location.FacilityID, subscriberSystem);
             
             _patientRepository.CreateOrUpdate(patient, subscriberSystem, location);
-        
+
+            if (args.Client.HasRelationships())
+                _patientRepository.CreateOrUpdateRelations(args.Client.Id, args.Client.Relationship, subscriberSystem,
+                    location);
+
+
         }
     }
 }
