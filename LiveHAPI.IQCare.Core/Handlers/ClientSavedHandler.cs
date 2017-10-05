@@ -32,7 +32,7 @@ namespace LiveHAPI.IQCare.Core.Handlers
             _patientRepository.CreateOrUpdate(patient, subscriberSystem, location);
 
             if (args.Client.HasRelationships())
-                _patientRepository.CreateOrUpdateRelations(args.Client.Id, args.Client.Relationship, subscriberSystem,
+                _patientRepository.CreateOrUpdateRelations(args.Client.Id, args.Client.Relationships, subscriberSystem,
                     location);
 
 

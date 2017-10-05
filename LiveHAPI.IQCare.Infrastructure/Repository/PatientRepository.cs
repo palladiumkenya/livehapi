@@ -36,8 +36,13 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
         public IEnumerable<Patient> GetAll(List<Guid> ids)
         {
+            if(ids.Count==0)
+                return new List<Patient>();
+
+            var idIn = string.Join(',', ids);
+
             var db = Context.Database.GetDbConnection();
-            var patient = db.Query<Patient>($"{GetSqlDecrptyion()} SELECT * FROM mAfyaView WHERE mAfyaId='{id}'");
+            var patient = db.Query<Patient>($"{GetSqlDecrptyion()} SELECT * FROM mAfyaView WHERE mAfyaId in ({idIn})");
             return patient;
         }
 
@@ -484,66 +489,63 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
             foreach (var relatedPatient in relatedPatients)
             {
-                var p = Get(relatedPatient.RelatedClientId);
+                var partner = Get(relatedPatient.RelatedClientId);
 
-                if (null != p)
+                if (null != partner)
                 {
-                    // add or update relationship.
+                    // add Partner
 
-                    string sql = $@"
-                DECLARE @ptnpk int
-                DECLARE @visitipk int
-
+                    string sqlPartner = $@"
                 UPDATE 
 	                [dtl_FamilyInfo] 
                 SET 
-                    [RFirstName]=encryptbykey(key_guid('Key_CTC'), '{p.FirstName}'),
-                    [RLastName]=encryptbykey(key_guid('Key_CTC'), '{p.LastName}'),    
-                    [Sex]= '{p.Sex}', 
-                    [AgeYear]=  'datediff(yy, '{p.Dob:yyyy MMMM dd}', getdate())',
-                    [AgeMonth]= 'datediff(yy, '{p.Dob:yyyy MMMM dd}', getdate()) % 12',
-                    [RelationshipType]= '{GetTranslation("RelationshipType", relatedPatient.RelationshipTypeId, subscriberSystem)}', 
-                    [ReferenceId]='{p.Id}' 
+                    [RFirstName]=encryptbykey(key_guid('Key_CTC'), '{partner.FirstName}'),
+                    [RLastName]=encryptbykey(key_guid('Key_CTC'), '{partner.LastName}'),    
+                    [Sex]='{partner.Sex}', 
+                    [AgeYear]=datediff(yy, '{partner.Dob:yyyy MMMM dd}', getdate()),
+                    [AgeMonth]=datediff(yy, '{partner.Dob:yyyy MMMM dd}', getdate()) % 12,
+                    [RelationshipType]='{GetTranslation("RelationshipType", relatedPatient.RelationshipTypeId, subscriberSystem)}', 
+                    [ReferenceId]='{partner.Id}',
                     [UpdateDate]=GETDATE()
                 WHERE 
-	                Ptn_pk='{indexPatient.Id}' AND ReferenceId='{p.Id}'
+	                Ptn_pk='{indexPatient.Id}' AND ReferenceId='{partner.Id}'
 
                 IF @@ROWCOUNT=0
 
                     INSERT INTO 
-                        dtl_FamilyInfo(
-                         Ptn_pk,
-                         RFirstName, 
-                         RLastName, 
-						 Sex, 
-                         AgeYear, 
-                         AgeMonth, 
-						 RelationshipDate, 
-                         RelationshipType, 
-						 HivStatus, 
-                         HivCareStatus,
-                         ReferenceId, 
-						 UserId,
-                         CreateDate)
+                        dtl_FamilyInfo(Ptn_pk,RFirstName,RLastName,Sex, AgeYear, AgeMonth, RelationshipDate,RelationshipType,HivStatus, HivCareStatus,ReferenceId, UserId,CreateDate)
                     VALUES(
-                        '{indexPatient.Id}', 
-                        encryptbykey(key_guid('Key_CTC'), '{p.FirstName}'), 
-                        encryptbykey(key_guid('Key_CTC'), '{p.LastName}'), 
-                        '{indexPatient.Sex}',
-                        datediff(yy, '{p.Dob:yyyy MMMM dd}', getdate()),
-                        datediff(yy, '{p.Dob:yyyy MMMM dd}', getdate()) % 12,
-                        GETDATE(),
-                        '{GetTranslation("RelationshipType", relatedPatient.RelationshipTypeId, subscriberSystem)}',
-                         '{GetTranslation("HivStatus", string.Empty, subscriberSystem)}',
-                         '{GetTranslation("HivCareStatus", string.Empty, subscriberSystem)}',
-                         '{p.Id}',
-                          1,
-                          GETDATE());";
+                        '{indexPatient.Id}',encryptbykey(key_guid('Key_CTC'), '{partner.FirstName}'), encryptbykey(key_guid('Key_CTC'), '{partner.LastName}'), '{partner.Sex}',datediff(yy, '{partner.Dob:yyyy MMMM dd}', getdate()),datediff(yy, '{partner.Dob:yyyy MMMM dd}', getdate()) % 12,
+                        GETDATE(),'{GetTranslation("RelationshipType", relatedPatient.RelationshipTypeId, subscriberSystem)}','{GetTranslation("HivStatus", string.Empty, subscriberSystem)}','{GetTranslation("HivCareStatus", string.Empty, subscriberSystem)}','{partner.Id}',1,GETDATE());";
 
 
-                    var action = new SqlAction(rank, sql);
-                    list.Add(action);
+                    // add Index for Partner
 
+                    string sqlIndex = $@"
+                   UPDATE 
+	                [dtl_FamilyInfo] 
+                SET 
+                    [RFirstName]=encryptbykey(key_guid('Key_CTC'), '{indexPatient.FirstName}'),
+                    [RLastName]=encryptbykey(key_guid('Key_CTC'), '{indexPatient.LastName}'),    
+                    [Sex]='{indexPatient.Sex}', 
+                    [AgeYear]=datediff(yy, '{indexPatient.Dob:yyyy MMMM dd}', getdate()),
+                    [AgeMonth]=datediff(yy, '{indexPatient.Dob:yyyy MMMM dd}', getdate()) % 12,
+                    [RelationshipType]='{GetTranslation("RelationshipType", relatedPatient.RelationshipTypeId, subscriberSystem)}', 
+                    [ReferenceId]='{indexPatient.Id}',
+                    [UpdateDate]=GETDATE()
+                WHERE 
+	                Ptn_pk='{indexPatient.Id}' AND ReferenceId='{indexPatient.Id}'
+
+                IF @@ROWCOUNT=0
+
+                    INSERT INTO 
+                        dtl_FamilyInfo(Ptn_pk,RFirstName,RLastName,Sex, AgeYear, AgeMonth, RelationshipDate,RelationshipType,HivStatus, HivCareStatus,ReferenceId, UserId,CreateDate)
+                    VALUES(
+                        '{indexPatient.Id}',encryptbykey(key_guid('Key_CTC'), '{indexPatient.FirstName}'), encryptbykey(key_guid('Key_CTC'), '{indexPatient.LastName}'), '{indexPatient.Sex}',datediff(yy, '{indexPatient.Dob:yyyy MMMM dd}', getdate()),datediff(yy, '{indexPatient.Dob:yyyy MMMM dd}', getdate()) % 12,
+                        GETDATE(),'{GetTranslation("RelationshipType", relatedPatient.RelationshipTypeId, subscriberSystem)}','{GetTranslation("HivStatus", string.Empty, subscriberSystem)}','{GetTranslation("HivCareStatus", string.Empty, subscriberSystem)}','{indexPatient.Id}',1,GETDATE());";
+
+                    list.Add(new SqlAction(rank, sqlPartner));
+                    list.Add(new SqlAction(rank, sqlIndex));
                 }
             }
 

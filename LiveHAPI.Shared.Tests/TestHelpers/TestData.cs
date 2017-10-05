@@ -685,7 +685,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             clientInfos[3].PracticeCode = "13023";
             clientInfos[3].Person = TestPersonInfos()[3];
             clientInfos[3].Identifiers = new List<IdentifierInfo> { TestIdentifierInfos()[3] };
-            clientInfos[3].Relationship = new List<RelationshipInfo> { TestRelationshipInfos()[0] };
+            clientInfos[3].Relationships = new List<RelationshipInfo> { TestRelationshipInfos()[0] };
 
             return clientInfos;
         }
@@ -885,6 +885,72 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
 }
 ".Replace("^", "'"); 
 return JsonConvert.DeserializeObject<ClientInfo>(json);
+        }
+
+        public static ClientInfo TestClientInfo2()
+        {
+            var json = @"
+{
+  ^Id^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df001^,
+  ^MaritalStatus^: ^MM^,
+  ^KeyPop^: ^NA^,
+  ^OtherKeyPop^: ^^,
+  ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
+  ^PracticeCode^: null,
+  ^Person^: {
+    ^FirstName^: ^Salsa^,
+    ^MiddleName^: ^^,
+    ^LastName^: ^Swagger^,
+    ^Gender^: ^F^,
+    ^BirthDate^: ^\/Date(389048400000+0300)\/^,
+    ^BirthDateEstimated^: false,
+    ^Email^: ^sswagger@gmail.com^,
+    ^Addresses^: [
+      {
+        ^Landmark^: ^Kibera School^,
+        ^CountyId^: 47,
+        ^Preferred^: true,
+        ^PersonId^: ^82dfdc68-6c3c-4a39-8f1f-a7b7016df22f^,
+        ^Id^: ^a2127fa6-7776-11e7-b5a5-be2e44b06b35^,
+        ^Voided^: false
+      }
+    ],
+    ^Contacts^: [
+      {
+        ^Phone^: 0721400200,
+        ^Preferred^: true,
+        ^PersonId^: ^82dfdc68-6c3c-4a39-8f1f-a7b7016df22f^,
+        ^Id^: ^a21271a8-7776-11e7-b5a5-be2e44b06b35^,
+        ^Voided^: false
+      }
+    ],
+    ^Id^: ^82dfdc68-6c3c-4a39-8f1f-a7b7016df22f^,
+    ^Voided^: false
+  },
+  ^Identifiers^: [
+    {
+      ^IdentifierTypeId^: ^Serial^,
+      ^Identifier^: ^201707001^,
+      ^RegistrationDate^: ^2017SEP01^,
+      ^Preferred^: true,
+      ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df001^,
+      ^Id^: ^7e61629e-6b99-11e7-907b-a6006ad4dba1^,
+      ^Voided^: false
+    }
+  ],
+  ^Relationships^: [
+    {
+      ^RelationshipTypeId^: ^Partner^,
+      ^RelatedClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
+      ^Preferred^: true,
+      ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df001^,
+      ^Id^: ^7e51629e-6b99-11e7-907b-a6006ad4dba1^,
+      ^Voided^: false
+    }
+  ]
+}
+".Replace("^", "'");
+            return JsonConvert.DeserializeObject<ClientInfo>(json);
         }
 
         public static List<EncounterInfo> TestEncounterInfoData()

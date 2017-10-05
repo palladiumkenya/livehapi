@@ -23,12 +23,13 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
     {
         private EMRContext  _context;
         private IPatientRepository _patientRepository;
+        private IPatientFamilyRepository _patientFamilyRepository;
         private IConfigRepository _configRepository;
         private ISubscriberSystemRepository _subscriberSystemRepository;
-        private Patient _patient;
-        private SubscriberSystem subscriberSystem;
-        private Location location;
-        private ClientInfo _client;
+        private Patient _patient, _patientPartner;
+        private SubscriberSystem _subscriberSystem;
+        private Location _location;
+        private ClientInfo _client, _clientPartner;
         private DbConnection _db;
 
         [SetUp]
@@ -50,28 +51,31 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             _context = new EMRContext(options);
             _context.ApplyMigrations();
             _subscriberSystemRepository = new SubscriberSystemRepository(new LiveHAPIContext(options2));
-            subscriberSystem = _subscriberSystemRepository.GetDefault();
+            _subscriberSystem = _subscriberSystemRepository.GetDefault();
           _configRepository = new ConfigRepository(_context);
-            location = _configRepository.GetLocations().FirstOrDefault();
+            _location = _configRepository.GetLocations().FirstOrDefault();
             _patientRepository=new PatientRepository(_context);
+            _patientFamilyRepository=new PatientFamilyRepository(_context);
             _client = TestData.TestClientInfo();
-             _patient = Patient.Create(_client, location.FacilityID, subscriberSystem);
+            _clientPartner = TestData.TestClientInfo2();
+            _patient = Patient.Create(_client, _location.FacilityID, _subscriberSystem);
+            _patientPartner = Patient.Create(_clientPartner, _location.FacilityID, _subscriberSystem);
             _db = _context.Database.GetDbConnection();
         }
         
         [Test]
         public void should_CreateOrUpdate_New()
         {
-            _patientRepository.CreateOrUpdate(_patient,subscriberSystem,location);
+            _patientRepository.CreateOrUpdate(_patient,_subscriberSystem,_location);
             var savePatient = _patientRepository.Get(_patient.mAfyaId.Value);
             Assert.IsNotNull(savePatient);
             Assert.AreEqual("201707001", savePatient.HTSID);
             Assert.True(savePatient.Id > -1);
             Console.WriteLine($"Patient: {savePatient}");
 
-            var regVisitTypeId = subscriberSystem.Configs.First(x => x.Area == "Registration" && x.Name == "VisitTypeId").Value;
-            var htsVisitTypeId = subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "Enrollment.VisitTypeId").Value;
-            var moduleId = subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "ModuleId").Value;
+            var regVisitTypeId = _subscriberSystem.Configs.First(x => x.Area == "Registration" && x.Name == "VisitTypeId").Value;
+            var htsVisitTypeId = _subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "Enrollment.VisitTypeId").Value;
+            var moduleId = _subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "ModuleId").Value;
 
             Assert.AreEqual(1,_db.ExecuteScalar($"select count(Ptn_Pk)  from  [mst_Patient] where Ptn_Pk in ({savePatient.Id})"));
             Assert.True(_db.ExecuteScalar($"SELECT IQNumber FROM mst_Patient WHERE Ptn_Pk = {savePatient.Id}").ToString().Contains("IQ-"));
@@ -81,9 +85,40 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
         }
 
         [Test]
+        public void should_CreateOrUpdate_New_With_Relations()
+        {
+            //Create index
+
+            _patientRepository.CreateOrUpdate(_patient, _subscriberSystem, _location);
+            var savePatient = _patientRepository.Get(_patient.mAfyaId.Value);
+            Assert.IsNotNull(savePatient);
+            _patientRepository.CreateOrUpdateRelations(_client.Id, _client.Relationships, _subscriberSystem, _location);
+            var relations = _patientFamilyRepository.GetMembers(savePatient.Id).ToList();
+            Assert.True(relations.Count==0);
+            _patientRepository.CreateOrUpdate(_patientPartner, _subscriberSystem, _location);
+            var savePatientPartner = _patientRepository.Get(_patientPartner.mAfyaId.Value);
+            Assert.IsNotNull(savePatientPartner);
+
+            //Create Partner
+
+
+            _patientRepository.CreateOrUpdateRelations(_clientPartner.Id,_clientPartner.Relationships, _subscriberSystem,_location);
+
+            relations = _patientFamilyRepository.GetMembers(savePatient.Id).ToList();
+            Assert.True(relations.Count>0);
+            Assert.AreEqual(savePatientPartner.Id,relations.First().ReferenceId);
+
+            Console.WriteLine($"Index:{savePatient}");
+            foreach (var r in relations)
+            {
+                Console.WriteLine($"{r}");
+            }
+        }
+
+        [Test]
         public void should_CreateOrUpdate_Update()
         {
-            _patientRepository.CreateOrUpdate(_patient, subscriberSystem, location);
+            _patientRepository.CreateOrUpdate(_patient, _subscriberSystem, _location);
             var savePatient = _patientRepository.Get(_patient.mAfyaId.Value);
             Assert.IsNotNull(savePatient);
 
@@ -92,7 +127,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             _patient.LastName = "Maun";
             _patient.HTSID = "XXX";
 
-            _patientRepository.CreateOrUpdate(_patient, subscriberSystem, location);
+            _patientRepository.CreateOrUpdate(_patient, _subscriberSystem, _location);
             _patientRepository=new PatientRepository(_context);
             var updatedPatient = _patientRepository.Get(_patient.mAfyaId.Value);
 
@@ -109,7 +144,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
         [TearDown]
         public void TearDown()
         {
-            //  4700b0e0-00c0-0c0f-0d0a-a0b0000df000
+            //  4700b0e0-00c0-0c0f-0d0a-a0b0000df000 dtl_FamilyInfo
 
             _context.Database.ExecuteSqlCommand(@"
             delete from  dtl_PatientContacts where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
@@ -120,6 +155,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             delete from  ord_Visit where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             delete from  mst_Patient where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             delete from  lnk_patientprogramstart where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
+            delete from  dtl_FamilyInfo where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             ");
         }
     }

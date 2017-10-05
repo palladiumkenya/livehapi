@@ -14,11 +14,11 @@ namespace LiveHAPI.Shared.ValueObject
         public string PracticeCode { get; set; }
         public PersonInfo Person { get; set; }
         public List<IdentifierInfo> Identifiers { get; set; }=new List<IdentifierInfo>();
-        public List<RelationshipInfo> Relationship { get; set; } = new List<RelationshipInfo>();
+        public List<RelationshipInfo> Relationships { get; set; } = new List<RelationshipInfo>();
 
         public bool HasRelationships()
         {
-            return Relationship.Count > 0;
+            return Relationships.Count > 0;
         }
 
         /*
