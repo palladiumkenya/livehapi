@@ -1,12 +1,16 @@
-﻿using System.IO;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-
+using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 
-namespace LiveHAPI
+namespace LiveHAPIWeb
 {
     public class Program
     {
@@ -29,10 +33,10 @@ namespace LiveHAPI
                 .AddCommandLine(args)
                 .Build();
 
-            var host= WebHost.CreateDefaultBuilder(args)
+            var host = WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
                 .UseConfiguration(config)
-                .UseContentRoot(Directory.GetCurrentDirectory())                
+                .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
                 .UseSerilog()
                 .UseUrls("http://0.0.0.0:4747")
