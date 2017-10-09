@@ -572,7 +572,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                          GETDATE());";
 
                     list.Add(new SqlAction(rank, sqlPartner));
-                    list.Add(new SqlAction(rank, sqlIndex));
+                   // list.Add(new SqlAction(rank, sqlIndex));
                 }
             }
 
