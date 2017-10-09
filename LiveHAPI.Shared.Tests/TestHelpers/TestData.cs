@@ -875,7 +875,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
   ^Relationships^: [
     {
       ^RelationshipTypeId^: ^Partner^,
-      ^RelatedClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
+      ^RelatedClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df001^,
       ^Preferred^: true,
       ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
       ^Id^: ^7e51629e-6b99-11e7-907b-a6006ad4dba0^,

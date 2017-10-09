@@ -85,31 +85,29 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
         }
 
         [Test]
-        public void should_CreateOrUpdate_New_With_Relations()
+        public void should_CreateOrUpdate_New_With_Index_Relations()
         {
-            //Create index
-
             _patientRepository.CreateOrUpdate(_patient, _subscriberSystem, _location);
             var savePatient = _patientRepository.Get(_patient.mAfyaId.Value);
             Assert.IsNotNull(savePatient);
             _patientRepository.CreateOrUpdateRelations(_client.Id, _client.Relationships, _subscriberSystem, _location);
-            var relations = _patientFamilyRepository.GetMembers(savePatient.Id).ToList();
-            Assert.True(relations.Count==0);
+
+
             _patientRepository.CreateOrUpdate(_patientPartner, _subscriberSystem, _location);
             var savePatientPartner = _patientRepository.Get(_patientPartner.mAfyaId.Value);
             Assert.IsNotNull(savePatientPartner);
+            _patientRepository.CreateOrUpdateRelations(_clientPartner.Id, _clientPartner.Relationships, _subscriberSystem, _location);
 
-            //Create Partner
+            var indexRelations = _patientFamilyRepository.GetMembers(savePatient.Id).ToList();
+            Assert.True(indexRelations.Count > 0);
+            Assert.AreEqual(savePatientPartner.Id, indexRelations.First().ReferenceId);
 
-
-            _patientRepository.CreateOrUpdateRelations(_clientPartner.Id,_clientPartner.Relationships, _subscriberSystem,_location);
-
-            relations = _patientFamilyRepository.GetMembers(savePatient.Id).ToList();
-            Assert.True(relations.Count>0);
-            Assert.AreEqual(savePatientPartner.Id,relations.First().ReferenceId);
+            var partnerRelations = _patientFamilyRepository.GetMembers(savePatientPartner.Id).ToList();
+            Assert.True(partnerRelations.Count > 0);
+            Assert.AreEqual(savePatient.Id, partnerRelations.First().ReferenceId);
 
             Console.WriteLine($"Index:{savePatient}");
-            foreach (var r in relations)
+            foreach (var r in indexRelations)
             {
                 Console.WriteLine($"{r}");
             }
@@ -152,10 +150,12 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             delete from  [DTL_RURALRESIDENCE] where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
             delete from  [DTL_URBANRESIDENCE]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
             delete from  [DTL_PATIENTHIVPREVCAREENROLLMENT]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');			
+            delete from  lnk_patientprogramstart where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');            
             delete from  ord_Visit where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
-            delete from  mst_Patient where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
-            delete from  lnk_patientprogramstart where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             delete from  dtl_FamilyInfo where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
+            delete from  mst_Patient where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
+            
+            
             ");
         }
     }
