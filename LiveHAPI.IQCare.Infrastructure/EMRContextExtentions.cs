@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Data.SqlClient;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Management.Common;
+using Microsoft.SqlServer.Management.Smo;
 using Serilog;
 
 namespace LiveHAPI.IQCare.Infrastructure
@@ -105,10 +109,7 @@ namespace LiveHAPI.IQCare.Infrastructure
             {
                 Log.Debug($"{e}");
             }
-
-
-           
-
+            
             try
             {
                 context.Database.ExecuteSqlCommand(
@@ -148,6 +149,30 @@ namespace LiveHAPI.IQCare.Infrastructure
             {
                 Log.Debug($"{e}");
             }
+
+        }
+        public static void UpdateTranslations(this EMRContext context)
+        {
+           
+            try
+            {
+                string sqlConnectionString = context.Database.GetDbConnection().ConnectionString;
+
+                string script = File.ReadAllText(@"htchapi001.sql");
+
+                SqlConnection conn = new SqlConnection(sqlConnectionString);
+
+                Server server = new Server(new ServerConnection(conn));
+
+                server.ConnectionContext.ExecuteNonQuery(script);
+
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+            }
+
+
         }
     }
 }

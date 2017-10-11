@@ -15,6 +15,23 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
         private EMRContext  _context;
         private IConfigRepository _configRepository;
 
+        [OneTimeSetUp]
+        public void Init()
+        {
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            var connectionString = config["connectionStrings:EMRConnection"];
+
+            var options = new DbContextOptionsBuilder<EMRContext>()
+                .UseSqlServer(connectionString)
+                .Options;
+
+            _context = new EMRContext(options);
+            _context.ApplyMigrations();
+            _context.UpdateTranslations();
+        }
+
         [SetUp]
         public void SetUp()
         {
@@ -28,9 +45,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
                 .Options;
 
             _context = new EMRContext(options);
-            _context.ApplyMigrations();
-
-            _configRepository = new ConfigRepository(_context);
+            _configRepository=new ConfigRepository(_context);
         }
 
         
