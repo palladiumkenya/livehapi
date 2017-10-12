@@ -155,6 +155,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                     [UpdateDate]=GETDATE(),    
                     [MaritalStatus]='{patient.MaritalStatus}',
                     [Phone]= encryptbykey(key_guid('Key_CTC'), '{patient.Phone}'),
+                    [Landmark]='{patient.Landmark}',
                     [HTSID]= '{patient.HTSID}'
 
                 WHERE 
@@ -167,13 +168,13 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                             Status, FirstName, MiddleName, LastName, 
                             LocationID, RegistrationDate, Sex, DOB, DobPrecision,
                             CountryId, PosId, SatelliteId, UserID, CreateDate,
-                            Phone,HTSID,mAfyaId,
+                            Phone,Landmark,HTSID,mAfyaId,
                             MaritalStatus)
                     VALUES(
                         '0', encryptbykey(key_guid('Key_CTC'), '{patient.FirstName}'), encryptbykey(key_guid('Key_CTC'), '{patient.MiddleName}'), encryptbykey(key_guid('Key_CTC'), '{patient.LastName}'), 
                         '{location.FacilityID}', '{patient.RegistrationDate:yyyy MMMM dd}', '{patient.Sex}', '{patient.Dob:yyyy MMMM dd}', '{patient.DobPrecision}', 
                         '{location.CountryID}', '{location.PosID}', '{location.SatelliteID}', '{patient.UserId}', GETDATE(),
-                        encryptbykey(key_guid('Key_CTC'), '{patient.Phone}'),'{patient.HTSID}','{patient.mAfyaId}','{patient.MaritalStatus}');
+                        encryptbykey(key_guid('Key_CTC'), '{patient.Phone}'),'{patient.Landmark}','{patient.HTSID}','{patient.mAfyaId}','{patient.MaritalStatus}');
                 
                 SET @ptnpk=(SELECT Ptn_Pk  FROM mst_Patient WHERE mAfyaId ='{patient.mAfyaId}');";
 
