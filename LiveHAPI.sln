@@ -35,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.IQCare.Infrastructure.Tests", "LiveHAPI.IQCare.Infrastructure.Tests\LiveHAPI.IQCare.Infrastructure.Tests.csproj", "{5026ABBB-B2E8-4E87-8281-BF0D3D7E64F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveHAPIWeb", "LiveHAPIWeb\LiveHAPIWeb.csproj", "{9DB14616-2364-4EDF-814B-378C77E614CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPIWeb", "LiveHAPIWeb\LiveHAPIWeb.csproj", "{9DB14616-2364-4EDF-814B-378C77E614CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
