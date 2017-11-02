@@ -116,7 +116,9 @@ namespace LiveHAPI
                         
 
             context.EnsureSeeded();
+
             emrContext.ApplyMigrations();
+            emrContext.UpdateTranslations();
             
             app.UseMvc();
 

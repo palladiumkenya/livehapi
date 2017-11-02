@@ -36,7 +36,7 @@ namespace LiveHAPI.Core.Model.People
         {
             var list = new List<ClientRelationship>();
 
-            foreach (var address in clientInfo.Relationship)
+            foreach (var address in clientInfo.Relationships)
             {
                 list.Add(Create(address));
             }

@@ -1,2 +1,10 @@
 Id|Name|Description|Voided
-Partner|Partner||0
+Partner|Partner|Partner|0
+Spouse|Spouse|Family|0
+Cowife|Cowife|Family|0
+Daugther|Daugther|Family|0
+Son|Son|Family|0
+Brother|Brother|Family|0
+Sister|Sister|Family|0
+Father|Father|Family|0
+Mother|Mother|Family|0

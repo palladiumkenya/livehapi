@@ -16,6 +16,7 @@ namespace LiveHAPI.IQCare.Infrastructure
         public DbSet<Feature> Features { get; set; }
         public DbSet<VisitType> VisitTypes { get; set; }
         public DbSet<Patient> Patients { get; set; }
+        public DbSet<PatientFamily> Families { get; set; }
 
     }
 }

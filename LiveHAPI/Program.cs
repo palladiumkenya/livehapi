@@ -30,8 +30,8 @@ namespace LiveHAPI
                 .Build();
 
             var host= WebHost.CreateDefaultBuilder(args)
-                .UseConfiguration(config)
                 .UseKestrel()
+                .UseConfiguration(config)
                 .UseContentRoot(Directory.GetCurrentDirectory())                
                 .UseStartup<Startup>()
                 .UseSerilog()

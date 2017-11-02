@@ -2,3 +2,7 @@ Id|Name|Display|Description|Rank|ModuleId|Voided
 b25ebcda-852f-11e7-bb31-be2e44b06b34|HTS Lab Form|HTS Lab Form|HTS Lab Form|1|b260c688-852f-11e7-bb31-be2e44b06b34|0
 b25ec568-852f-11e7-bb31-be2e44b06b34|HTS Linkage Form|HIV Test Form|HIV Test Form|2|b260c688-852f-11e7-bb31-be2e44b06b34|0
 b25ec112-852f-11e7-bb31-be2e44b06b34|HTS Linkage Form|HTS Linkage Form|HTS Linkage Form|3|b260c688-852f-11e7-bb31-be2e44b06b34|0
+b25ec112-852f-11e7-bb31-be2e45b06b35|Member Screening|Member Screening|Member Screening|4|b260c688-852f-11e7-bb31-be2e45b06b55|0
+b25ec112-852f-11e7-bb31-be2e45b06b36|Member Tracing|Member Tracing|Member Tracing|5|b260c688-852f-11e7-bb31-be2e45b06b55|0
+b25ec112-852f-11e7-bb31-be2e46b06b37|Partner Screening|Partner Screening|Partner Screening|6|b260c688-852f-11e7-bb31-be2e46b06b66|0
+b25ec112-852f-11e7-bb31-be2e46b06b38|Partner Tracing|Partner Tracing|Partner Tracing|7|b260c688-852f-11e7-bb31-be2e46b06b66|0

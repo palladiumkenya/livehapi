@@ -928,6 +928,10 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
         }
         public static string GetTranslation(string tref, string tval, SubscriberSystem subscriberSystem,int group=0)
         {
+            if (tref.ToLower() == "B2603772-852F-11E7-BB31-BE2E44B06B34".ToLower())
+            {
+                int x = 200;
+            }
             var translatio = subscriberSystem.Translations.FirstOrDefault(x => x.Ref.ToLower() == tref.ToLower() && x.Code.ToLower() == tval.ToLower()&&x.HasSub()&&x.Group==group);
             if (null == translatio)
                 return tval;

@@ -28,4 +28,10 @@
     <ProjectReference Include="..\LiveHAPI.Shared.Tests\LiveHAPI.Shared.Tests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="htchapi001.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
