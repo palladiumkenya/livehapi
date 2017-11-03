@@ -71,8 +71,23 @@ namespace LiveHAPI.Controllers
             }
         }
 
+        [Route("{id}/encounters")]
+        [HttpGet]
+        public IActionResult FindClientEncounters(string id)
+        {
+            try
+            {
+                var personMatches = _clientService.SearchById(id).ToList();
+                return Ok(personMatches);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"Error searching clients: {e}");
+                return StatusCode(500, "Error loading clients");
+            }
+        }
 
-       
+
 
         [HttpPost("demographics")]
         public IActionResult CreateClients([FromBody] ClientInfo client)

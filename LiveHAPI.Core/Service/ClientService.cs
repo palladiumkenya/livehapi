@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
+using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Shared.ValueObject;
 
@@ -35,6 +36,11 @@ namespace LiveHAPI.Core.Service
                 return _personRepository.Search(searchItem).ToList();
 
             return new List<PersonMatch>();
+        }
+
+        public IEnumerable<Encounter> LoadEncounters(Guid id)
+        {
+            throw new NotImplementedException();
         }
 
         public void Sync(Guid practiceId, ClientInfo client)
