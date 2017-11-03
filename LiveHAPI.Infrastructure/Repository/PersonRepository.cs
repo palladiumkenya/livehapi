@@ -58,20 +58,22 @@ namespace LiveHAPI.Infrastructure.Repository
 
             var searchHits = new List<SearchHit>();
 
+            //Names
             foreach (var item in searchItems)
             {
-                var names = Context
+                var personIds = Context
                     .PersonNames
                     .Where(x => x.FirstName.ToLower().Contains(item.Trim().ToLower())||
                                  x.MiddleName.ToLower().Contains(item.Trim().ToLower())||
                                  x.LastName.ToLower().Contains(item.Trim().ToLower()))
+                    .Select(x=>x.PersonId)                                 
                     .ToList();
 
-                if (names.Count > 0)
+                if (personIds.Count > 0)
                 {
-                    foreach (var personName in names)
+                    foreach (var id in personIds)
                     {
-                        searchHits.Add(new SearchHit(personName.PersonId));
+                        searchHits.Add(new SearchHit(id));
                     }
                 }
             }
@@ -84,8 +86,13 @@ namespace LiveHAPI.Infrastructure.Repository
                     .ToList();
 
                 var personIds = searchHits.Select(x => x.ItemId).ToList();
-
-                var persons = Context.Persons.Where(x => personIds.Contains(x.Id)).ToList();
+                
+                var persons = Context.Persons.Where(x => personIds.Contains(x.Id))
+                    .Include(x=>x.Clients).ThenInclude(c=>c.Identifiers)
+                    .Include(x => x.Addresses)
+                    .Include(x => x.Contacts)
+                    .Include(x => x.Names)
+                    .ToList();
 
 
                 foreach (var person in persons)

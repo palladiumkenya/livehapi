@@ -1,4 +1,6 @@
-﻿namespace LiveHAPI.Core.Model.People
+﻿using System.Collections.Generic;
+
+namespace LiveHAPI.Core.Model.People
 {
     public class PersonMatch
     {
@@ -10,7 +12,6 @@
             Person = person;
             Rank = rank;
         }
-
         public override string ToString()
         {
             return $"{Person} <{Rank}>";

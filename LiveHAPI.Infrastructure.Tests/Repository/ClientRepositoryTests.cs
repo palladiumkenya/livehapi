@@ -10,10 +10,10 @@ using NUnit.Framework;
 namespace LiveHAPI.Infrastructure.Tests.Repository
 {
     [TestFixture]
-    public class PersonRepositoryTests
+    public class ClientRepositoryTests
     {
         private LiveHAPIContext _context;
-        private IPersonRepository _personRepository;
+        private IClientRepository _clientRepository;
 
         [SetUp]
         public void SetUp()
@@ -31,30 +31,20 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
             TestData.Init();
             TestDataCreator.Init(_context);
 
-            _personRepository = new PersonRepository(_context);
+            _clientRepository = new ClientRepository(_context);
         }
 
+       
         [Test]
-        public void should_Get_Staff()
+        public void should_Search_Client()
         {
-            var persons = _personRepository.GetStaff().ToList();
-            Assert.IsTrue(persons.Count>0);
-            foreach (var person in persons)
+            var personMatches = _clientRepository.Search("H0002").ToList();
+            Assert.True(personMatches.Count > 0);
+            foreach (var personMatch in personMatches.OrderByDescending(x=>x.Rank))
             {
-                Console.WriteLine(person);
-            }
-        }
-
-        [Test]
-        public void should_Search_Person()
-        {
-            var persons = _personRepository.Search("joh     kan      ").ToList();
-            Assert.True(persons.Count > 0);
-            foreach (var person in persons.OrderByDescending(x=>x.Rank))
-            {
-                Console.WriteLine(person);
-                Assert.IsTrue(person.Person.Clients.Count>0);
-                Console.WriteLine(person.Person.Clients.First());
+                Console.WriteLine(personMatch);
+                Assert.IsTrue(personMatch.Person.Clients.Count>0);
+                Console.WriteLine(personMatch.Person.Clients.First());
             }
         }
     }

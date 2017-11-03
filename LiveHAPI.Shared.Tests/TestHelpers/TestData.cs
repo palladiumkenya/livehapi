@@ -29,9 +29,11 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
         private static List<Practice> _pracs = new List<Practice>();
         private static List<Practice> _pracWithActivation = new List<Practice>();
         private static List<Person> _persons = new List<Person>();
+        private static List<Person> _rPersons = new List<Person>();
         private static List<User> _users = new List<User>();
         private static List<Provider> _providers=new List<Provider>();
         private static List<Client> _clients = new List<Client>();
+        private static List<Client> _rClients = new List<Client>();
         private static List<Encounter> _encounters = new List<Encounter>();
 
 
@@ -74,10 +76,10 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _relationshipTypes = new List<RelationshipType>();
              _pracs = new List<Practice>();
              _pracWithActivation = new List<Practice>();
-            _persons = new List<Person>();
+            _persons = _rPersons=new List<Person>();
              _users = new List<User>();
              _providers = new List<Provider>();
-             _clients = new List<Client>();
+             _clients = _rClients=new List<Client>();
 
 
 
@@ -123,9 +125,10 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _pracActvs = TestPracticeActivations();
             _pracWithActivation = TestPracticeWithActivation();
             _persons = TestPersons();
+            _rPersons = TestRealPersons();
             _users = TestUsers();
             _clients = TestClients();
-
+            _rClients = TestRealClients();
             _providers = TestProviders();
 
             _personNameInfos = TestPersonNameInfos();
@@ -333,6 +336,49 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             if (_persons.Count > 0) return _persons;
 
             var personNames = Builder<PersonName>.CreateListOfSize(4).Build().ToList();
+            personNames[0].Source = "14080";
+            personNames[0].SourceRef = "1";
+            personNames[0].SourceSys = "KenyaEMR";
+
+            personNames[1].Source = "13023";
+            personNames[1].SourceRef = "1";
+            personNames[1].SourceSys = "IQCare";
+
+            personNames[2].Source = "14080";
+            personNames[2].SourceRef = "2";
+            personNames[2].SourceSys = "KenyaEMR";
+
+            personNames[3].Source = "13023";
+            personNames[3].SourceRef = "2";
+            personNames[3].SourceSys = "IQCare";
+
+            var personAddresses = Builder<PersonAddress>.CreateListOfSize(2).All().With(x => x.CountyId = TestCounties()[0].Id).Build().ToList();
+            var personContacts = Builder<PersonContact>.CreateListOfSize(2).Build().ToList();
+
+            var list = Builder<Person>.CreateListOfSize(4)
+                .All()
+                .With(x => x.Voided = false)
+                .Build()
+                .ToList();
+
+            list[0].AssignName(personNames[0]);
+            list[1].AssignName(personNames[1]);
+
+            list[2].AssignName(personNames[2]);
+            list[2].AssignAddress(personAddresses[0]);
+            list[2].AssignContact(personContacts[0]);
+
+            list[3].AssignName(personNames[3]);
+            list[3].AssignAddress(personAddresses[1]);
+            list[3].AssignContact(personContacts[1]);
+
+            return list;
+        }
+
+        public static List<Person> TestRealPersons()
+        {
+            if (_rPersons.Count > 0) return _rPersons;
+            var personNames = Builder<PersonName>.CreateListOfSize(4).Build().ToList(); 
 
             personNames[0].FirstName = "John";
             personNames[0].MiddleName = "M";
@@ -364,7 +410,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             personNames[3].SourceRef = "2";
             personNames[3].SourceSys = "IQCare";
 
-            var personAddresses = Builder<PersonAddress>.CreateListOfSize(2).All().With(x=>x.CountyId=TestCounties()[0].Id).Build().ToList();
+            var personAddresses = Builder<PersonAddress>.CreateListOfSize(2).All().With(x => x.CountyId = TestCounties()[0].Id).Build().ToList();
             var personContacts = Builder<PersonContact>.CreateListOfSize(2).Build().ToList();
 
             var list = Builder<Person>.CreateListOfSize(4)
@@ -372,18 +418,12 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
                 .With(x => x.Voided = false)
                 .Build()
                 .ToList();
-            
+
             list[0].AssignName(personNames[0]);
             list[1].AssignName(personNames[1]);
-
             list[2].AssignName(personNames[2]);
-            list[2].AssignAddress(personAddresses[0]);
-            list[2].AssignContact(personContacts[0]);
-
             list[3].AssignName(personNames[3]);
-            list[3].AssignAddress(personAddresses[1]);
-            list[3].AssignContact(personContacts[1]);
-
+          
             return list;
         }
         public static List<User> TestUsers()
@@ -469,6 +509,40 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             list[1].PracticeId = TestPracticeWithActivation()[1].Id;
             list[1].AddIdentifier(identifiers[1]);
             list[1].AddRelationship(relationships[0]);
+
+            return list;
+
+        }
+
+        public static List<Client> TestRealClients()
+        {
+
+            if (_rClients.Count > 0) return _rClients;
+
+            var identifiers = Builder<ClientIdentifier>.CreateListOfSize(4).All()
+                .With(x => x.IdentifierTypeId = TestIdentifierTypes()[0].Id)
+                .Build().ToList();
+
+            int n = 1;
+            foreach (var clientIdentifier in identifiers)
+            {
+                
+                clientIdentifier.Identifier = $"H000{n}";
+                n++;
+            }
+
+            var list = Builder<Client>.CreateListOfSize(4)
+                .All()
+                .With(x => x.Voided = false)
+                .Build()
+                .ToList();
+
+            for (int i = 0; i < 4; i++)
+            {
+                list[i].PersonId = TestRealPersons()[i].Id;
+                list[i].PracticeId = TestPracticeWithActivation()[0].Id;
+                list[i].AddIdentifier(identifiers[i]);
+            }
 
             return list;
 

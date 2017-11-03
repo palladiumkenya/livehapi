@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
@@ -19,6 +20,23 @@ namespace LiveHAPI.Core.Service
             _personRepository = personRepository;
             _clientRepository = clientRepository;
         }
+
+        public IEnumerable<PersonMatch> SearchById(string searchItem)
+        {
+            if (!string.IsNullOrWhiteSpace(searchItem))
+                return _clientRepository.Search(searchItem).ToList();
+
+            return new List<PersonMatch>();
+        }
+
+        public IEnumerable<PersonMatch> SearchByName(string searchItem)
+        {
+            if (!string.IsNullOrWhiteSpace(searchItem))
+                return _personRepository.Search(searchItem).ToList();
+
+            return new List<PersonMatch>();
+        }
+
         public void Sync(Guid practiceId, ClientInfo client)
         {
             var practice = _practiceRepository.Get(practiceId);

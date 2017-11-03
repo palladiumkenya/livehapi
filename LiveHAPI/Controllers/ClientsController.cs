@@ -39,19 +39,54 @@ namespace LiveHAPI.Controllers
             _subscriberSystem = _subscriberSystemRepository.GetDefault();
         }
 
+        [Route("name/{name}")]
+        [HttpGet]
+        public IActionResult FindClientNames(string name)
+        {
+            try
+            {
+                var personMatches = _clientService.SearchByName(name).ToList();
+                return Ok(personMatches);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"Error searching clients: {e}");
+                return StatusCode(500, "Error loading clients");
+            }
+        }
+
+        [Route("id/{id}")]
+        [HttpGet]
+        public IActionResult FindClientIds(string id)
+        {
+            try
+            {
+                var personMatches = _clientService.SearchById(id).ToList();
+                return Ok(personMatches);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"Error searching clients: {e}");
+                return StatusCode(500, "Error loading clients");
+            }
+        }
+
+
+       
+
         [HttpPost("demographics")]
         public IActionResult CreateClients([FromBody] ClientInfo client)
         {
             if (null == client)
                 return BadRequest();
-            
+
 
 
             try
             {
                 _clientService.SyncClient(client);
-                
-                SyncEventDispatcher.Raise(new ClientSaved(client),_clientSavedHandler, _subscriberSystem);
+
+                SyncEventDispatcher.Raise(new ClientSaved(client), _clientSavedHandler, _subscriberSystem);
 
                 return Ok();
             }
@@ -61,6 +96,7 @@ namespace LiveHAPI.Controllers
                 return StatusCode(500, $"{e.Message}");
             }
         }
+
 
         [HttpPost("encounters")]
         public IActionResult CreateEncounters( [FromBody] List<EncounterInfo> encounters)
