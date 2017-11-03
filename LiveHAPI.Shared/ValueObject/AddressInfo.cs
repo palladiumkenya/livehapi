@@ -5,7 +5,10 @@ namespace LiveHAPI.Shared.ValueObject
 {
     public class AddressInfo:IAddress
     {
-        
+        public AddressInfo()
+        {
+        }
+
         public AddressInfo(Guid id, string landmark, int? countyId, decimal? lat, decimal? lng,Guid personId)
         {
             Id = id;

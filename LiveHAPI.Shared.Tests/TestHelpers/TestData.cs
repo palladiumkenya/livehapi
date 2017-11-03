@@ -333,18 +333,33 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             if (_persons.Count > 0) return _persons;
 
             var personNames = Builder<PersonName>.CreateListOfSize(4).Build().ToList();
+
+            personNames[0].FirstName = "John";
+            personNames[0].MiddleName = "M";
+            personNames[0].LastName = "Doe";
+
             personNames[0].Source = "14080";
             personNames[0].SourceRef = "1";
             personNames[0].SourceSys = "KenyaEMR";
+
+            personNames[1].FirstName = "Mary";
+            personNames[1].LastName = "Doe";
 
             personNames[1].Source = "13023";
             personNames[1].SourceRef = "1";
             personNames[1].SourceSys = "IQCare";
 
+            personNames[2].FirstName = "Mary";
+            personNames[2].LastName = "Kimani";
+
             personNames[2].Source = "14080";
             personNames[2].SourceRef = "2";
             personNames[2].SourceSys = "KenyaEMR";
-           
+
+            personNames[3].FirstName = "Sally";
+            personNames[3].MiddleName = "John";
+            personNames[3].LastName = "Kangethe";
+
             personNames[3].Source = "13023";
             personNames[3].SourceRef = "2";
             personNames[3].SourceSys = "IQCare";

@@ -14,5 +14,9 @@ namespace LiveHAPI.Shared.ValueObject
             Phone = phone;
             PersonId = personId;
         }
+
+        public ContactInfo()
+        {
+        }
     }
 }

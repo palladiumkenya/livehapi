@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Compile Include="Model\Lookup\MasterFacility.cs" />
+    <Compile Include="Model\People\PersonMatch.cs" />
     <Compile Include="Model\People\PersonName.cs" />
     <Compile Include="Model\QModel\Action.cs" />
     <Compile Include="Model\Lookup\Category.cs" />

@@ -8,5 +8,6 @@ namespace LiveHAPI.Core.Interfaces.Repository
     {
         Model.People.Person GetDemographics(Guid id);
         IEnumerable<Person> GetStaff();
+        IEnumerable<PersonMatch> Search(string searchItem);
     }
 }
