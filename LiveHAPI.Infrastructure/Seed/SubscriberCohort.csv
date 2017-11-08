@@ -1,0 +1,3 @@
+Id|Name|Display|View|Rank|SubscriberSystemId|Voided
+26e50b9a-9d69-11e7-abc4-cec278b6b50a|Booked|Contacts Booked for Testing|vBookedContacts|1|16e23866-9d69-11e7-abc4-cec278b6b50a|0
+26e51b9a-9d69-11e7-abc4-cec278b6b50a|NotLinked|Clients Referred and Not linked|vReferredContacts|2|16e23866-9d69-11e7-abc4-cec278b6b50a|0

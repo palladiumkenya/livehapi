@@ -104,5 +104,6 @@ namespace LiveHAPI.Infrastructure
         public DbSet<SubscriberMessage> SubscriberMessagess { get; set; }
         public DbSet<SubscriberMap> SubscriberMaps { get; set; }
         public DbSet<SubscriberTranslation> SubscriberTranslations { get; set; }
+        public DbSet<SubscriberCohort> SubscriberCohorts { get; set; }
     }
 }

@@ -22,6 +22,7 @@ namespace LiveHAPI.Infrastructure.Repository
                 .Include(x => x.Messages)
                 .Include(x => x.Maps)
                 .Include(x=>x.Translations)
+                .Include(x => x.Cohorts)
                 .FirstOrDefault(x=>x.IsDefault);
         }
     }
