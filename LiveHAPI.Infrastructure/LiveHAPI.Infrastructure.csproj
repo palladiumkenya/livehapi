@@ -31,6 +31,7 @@
     <None Remove="Seed\QuestionValidation.csv" />
     <None Remove="Seed\RelationshipType.csv" />
     <None Remove="Seed\SubCounty.csv" />
+    <None Remove="Seed\SubscriberCohort.csv" />
     <None Remove="Seed\SubscriberMap.csv" />
     <None Remove="Seed\SubscriberTranslation.csv" />
     <None Remove="Seed\User.csv" />
@@ -39,6 +40,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Seed\PersonName.csv" />
+    <EmbeddedResource Include="Seed\SubscriberCohort.csv" />
     <EmbeddedResource Include="Seed\SubscriberMap.csv" />
     <EmbeddedResource Include="Seed\SubscriberTranslation.csv" />
     <EmbeddedResource Include="Seed\Validator.csv" />

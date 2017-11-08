@@ -5,6 +5,7 @@ using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
+using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Core.Service;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
@@ -149,6 +150,8 @@ namespace LiveHAPI
                 cfg.CreateMap<ConceptType, ConceptTypeInfo>();
                 cfg.CreateMap<Validator, ValidatorInfo>();
                 cfg.CreateMap<EncounterType, EncounterTypeInfo>();
+
+                cfg.CreateMap<SubscriberCohort, CohortInfo>();
 
             });
 
