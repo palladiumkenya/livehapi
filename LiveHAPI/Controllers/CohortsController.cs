@@ -50,5 +50,38 @@ namespace LiveHAPI.Controllers
                 return StatusCode(500, $"{e.Message}");
             }
         }
+
+        [Route("id/{id}")]
+        [HttpGet]
+        public IActionResult GetCohort(string id)
+        {
+            Guid cohortId=Guid.Empty;
+
+            if (string.IsNullOrWhiteSpace(id))
+                return BadRequest();
+            try
+            {
+                cohortId=new Guid(id);
+            }
+            catch 
+            {
+            }
+
+
+            try
+            {
+                var cohort = _subscriberSystem.Cohorts.FirstOrDefault(x => x.Id == cohortId);
+
+                if (null == cohort)
+                    return NotFound();
+
+                return Ok($"processing view {cohort.View}...");
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"Error loading cohort: {e}");
+                return StatusCode(500, "Error loading cohort");
+            }
+        }
     }
 }
