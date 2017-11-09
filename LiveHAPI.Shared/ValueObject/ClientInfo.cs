@@ -22,6 +22,11 @@ namespace LiveHAPI.Shared.ValueObject
             return Relationships.Count > 0;
         }
 
+        public ClientInfo()
+        {
+            IsFamilyMember = IsPartner = false;
+        }
+
         /*
          client.Person.FirstName,
                 client.Person.MiddleName,

@@ -8,5 +8,10 @@ namespace LiveHAPI.Shared.ValueObject
     {
         public ClientInfo Client { get; set; }
         public List<EncounterInfo> Encounters { get; set; }=new List<EncounterInfo>();
+
+        public RemoteClientInfo()
+        {
+            Client=new ClientInfo();
+        }
     }
 }
