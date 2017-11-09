@@ -5,6 +5,7 @@ using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.People;
+using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Service
@@ -36,6 +37,11 @@ namespace LiveHAPI.Core.Service
                 return _personRepository.Search(searchItem).ToList();
 
             return new List<PersonMatch>();
+        }
+
+        public IEnumerable<PersonMatch> LoadByCohort(SubscriberCohort cohort)
+        {
+            return _personRepository.GetByCohort(cohort);
         }
 
         public IEnumerable<Encounter> LoadEncounters(Guid id)

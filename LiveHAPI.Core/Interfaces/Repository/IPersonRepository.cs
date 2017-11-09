@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LiveHAPI.Core.Model.People;
+using LiveHAPI.Core.Model.Subscriber;
 
 namespace LiveHAPI.Core.Interfaces.Repository
 {
@@ -9,5 +10,6 @@ namespace LiveHAPI.Core.Interfaces.Repository
         Model.People.Person GetDemographics(Guid id);
         IEnumerable<Person> GetStaff();
         IEnumerable<PersonMatch> Search(string searchItem);
+        IEnumerable<PersonMatch> GetByCohort(SubscriberCohort cohort);
     }
 }

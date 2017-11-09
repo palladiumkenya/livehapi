@@ -19,16 +19,18 @@ using Serilog;
 
 namespace LiveHAPI.Controllers
 {
-    
+
     [Route("api/cohorts")]
     public class CohortsController : Controller
     {
         private readonly ISubscriberSystemRepository _subscriberSystemRepository;
         private readonly SubscriberSystem _subscriberSystem;
+        private readonly IClientService _clientService;
 
-        public CohortsController(IClientService clientService, IEncounterService encounterService, IClientSavedHandler clientSavedHandler, IEncounterSavedHandler encounterSavedHandler, ISubscriberSystemRepository subscriberSystemRepository)
+        public CohortsController(ISubscriberSystemRepository subscriberSystemRepository,IClientService clientService)
         {
             _subscriberSystemRepository = subscriberSystemRepository;
+            _clientService = clientService;
             _subscriberSystem = _subscriberSystemRepository.GetDefault();
         }
 
@@ -38,10 +40,10 @@ namespace LiveHAPI.Controllers
         {
             try
             {
-                if(null==_subscriberSystem)
+                if (null == _subscriberSystem)
                     throw new Exception("Server Systems not configured");
 
-                var cohorts=  Mapper.Map<List<CohortInfo>>(_subscriberSystem.Cohorts.ToList());
+                var cohorts = Mapper.Map<List<CohortInfo>>(_subscriberSystem.Cohorts.ToList());
                 return Ok(cohorts);
             }
             catch (Exception e)
@@ -55,15 +57,15 @@ namespace LiveHAPI.Controllers
         [HttpGet]
         public IActionResult GetCohort(string id)
         {
-            Guid cohortId=Guid.Empty;
+            Guid cohortId = Guid.Empty;
 
             if (string.IsNullOrWhiteSpace(id))
                 return BadRequest();
             try
             {
-                cohortId=new Guid(id);
+                cohortId = new Guid(id);
             }
-            catch 
+            catch
             {
             }
 
@@ -75,7 +77,11 @@ namespace LiveHAPI.Controllers
                 if (null == cohort)
                     return NotFound();
 
-                return Ok($"processing view {cohort.View}...");
+                var personMatches = _clientService.LoadByCohort(cohort).ToList();
+                return Ok(personMatches);
+
+
+               
             }
             catch (Exception e)
             {
@@ -83,5 +89,6 @@ namespace LiveHAPI.Controllers
                 return StatusCode(500, "Error loading cohort");
             }
         }
+
     }
 }

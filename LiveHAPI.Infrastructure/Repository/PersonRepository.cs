@@ -7,9 +7,11 @@ using LiveHAPI.Core.Model.People;
 using Microsoft.EntityFrameworkCore.Extensions.Internal;
 using System.Linq;
 using System.Text.RegularExpressions;
+using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.ExpressionVisitors.Internal;
+using Dapper;
 
 namespace LiveHAPI.Infrastructure.Repository
 {
@@ -100,6 +102,31 @@ namespace LiveHAPI.Infrastructure.Repository
                     personMatches.Add(new PersonMatch(person,GetHit(person.Id,searchHits)));
                 }
             }
+            return personMatches;
+        }
+
+        public IEnumerable<PersonMatch> GetByCohort(SubscriberCohort cohort)
+        {
+            var personMatches = new List<PersonMatch>();
+     
+            string sql = $"SELECT PersonId FROM dbo.Clients WHERE ID In(SELECT ClientId FROM {cohort.View})";
+            var personIds = Context.Database.GetDbConnection().Query<Guid>($"{sql}").ToList();
+
+
+            var persons = Context.Persons.Where(x => personIds.Contains(x.Id))
+                .Include(x => x.Clients).ThenInclude(c => c.Identifiers)
+                .Include(x => x.Addresses)
+                .Include(x => x.Contacts)
+                .Include(x => x.Names)
+                .ToList();
+
+
+
+            foreach (var person in persons)
+            {
+                personMatches.Add(new PersonMatch(person, 1));
+            }
+
             return personMatches;
         }
 
