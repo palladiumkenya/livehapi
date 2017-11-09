@@ -20,7 +20,8 @@ namespace LiveHAPI.Core.Model.People
 
         [MaxLength(100)]
         public string OtherKeyPop { get; set; }
-
+        public bool? IsFamilyMember { get; set; }
+        public bool? IsPartner { get; set; }
         public Guid PracticeId { get; set; }
         public Guid PersonId { get; set; }
         public ICollection<ClientIdentifier> Identifiers { get; set; } = new List<ClientIdentifier>();

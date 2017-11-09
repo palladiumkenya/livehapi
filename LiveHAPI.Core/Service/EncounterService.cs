@@ -18,9 +18,14 @@ namespace LiveHAPI.Core.Service
         private readonly IObsLinkageRepository _obsLinkageRepository;
         private readonly IObsTestResultRepository _obsTestResultRepository;
         private readonly IObsTraceResultRepository _obsTraceResultRepository;
+
+        private readonly IObsMemberScreeningRepository _obsMemberScreeningRepository;
+        private readonly IObsFamilyTraceResultRepository _obsFamilyTraceResultRepository;
+        private readonly IObsPartnerScreeningRepository _obsPartnerScreeningRepository;
+        private readonly IObsPartnerTraceResultRepository _obsPartnerTraceResultRepository;
         
 
-        public EncounterService(IClientRepository clientRepository, IPracticeRepository practiceRepository, IEncounterRepository encounterRepository, IObsRepository obsRepository, IObsFinalTestResultRepository obsFinalTestResultRepository, IObsLinkageRepository obsLinkageRepository, IObsTestResultRepository obsTestResultRepository, IObsTraceResultRepository obsTraceResultRepository)
+        public EncounterService(IClientRepository clientRepository, IPracticeRepository practiceRepository, IEncounterRepository encounterRepository, IObsRepository obsRepository, IObsFinalTestResultRepository obsFinalTestResultRepository, IObsLinkageRepository obsLinkageRepository, IObsTestResultRepository obsTestResultRepository, IObsTraceResultRepository obsTraceResultRepository, IObsMemberScreeningRepository obsMemberScreeningRepository, IObsFamilyTraceResultRepository obsFamilyTraceResultRepository, IObsPartnerScreeningRepository obsPartnerScreeningRepository, IObsPartnerTraceResultRepository obsPartnerTraceResultRepository)
         {
             _clientRepository = clientRepository;
             _practiceRepository = practiceRepository;
@@ -30,6 +35,10 @@ namespace LiveHAPI.Core.Service
             _obsLinkageRepository = obsLinkageRepository;
             _obsTestResultRepository = obsTestResultRepository;
             _obsTraceResultRepository = obsTraceResultRepository;
+            _obsMemberScreeningRepository = obsMemberScreeningRepository;
+            _obsFamilyTraceResultRepository = obsFamilyTraceResultRepository;
+            _obsPartnerScreeningRepository = obsPartnerScreeningRepository;
+            _obsPartnerTraceResultRepository = obsPartnerTraceResultRepository;
         }
 
         public void Sync(List<EncounterInfo> encounterInfos)
@@ -68,7 +77,23 @@ namespace LiveHAPI.Core.Service
                         _obsTraceResultRepository.Insert(obsTraceResults);
                         _obsTraceResultRepository.Save();
 
-                     
+                        var obsMemberScreening = ObsMemberScreening.Create(encounterInfo);
+                        _obsMemberScreeningRepository.Insert(obsMemberScreening);
+                        _obsMemberScreeningRepository.Save();
+
+                        var obsFamilyTraceResults = ObsFamilyTraceResult.Create(encounterInfo);
+                        _obsFamilyTraceResultRepository.Insert(obsFamilyTraceResults);
+                        _obsFamilyTraceResultRepository.Save();
+
+                        var obsPartnerScreenings = ObsPartnerScreening.Create(encounterInfo);
+                        _obsPartnerScreeningRepository.Insert(obsPartnerScreenings);
+                        _obsPartnerScreeningRepository.Save();
+
+                        var obsPartnerTraceResults = ObsPartnerTraceResult.Create(encounterInfo);
+                        _obsPartnerTraceResultRepository.Insert(obsPartnerTraceResults);
+                        _obsPartnerTraceResultRepository.Save();
+
+
                     }
                     else
                     {
@@ -96,8 +121,21 @@ namespace LiveHAPI.Core.Service
                         _obsTraceResultRepository.ReplaceAll(encounter.Id, obsTraceResults);
                         _obsTraceResultRepository.Save();
 
-                 
+                        var obsMemberScreening = ObsMemberScreening.Create(encounterInfo);
+                        _obsMemberScreeningRepository.ReplaceAll(encounter.Id, obsMemberScreening);
+                        _obsMemberScreeningRepository.Save();
 
+                        var obsFamilyTraceResults = ObsFamilyTraceResult.Create(encounterInfo);
+                        _obsFamilyTraceResultRepository.ReplaceAll(encounter.Id,obsFamilyTraceResults);
+                        _obsFamilyTraceResultRepository.Save();
+
+                        var obsPartnerScreenings = ObsPartnerScreening.Create(encounterInfo);
+                        _obsPartnerScreeningRepository.ReplaceAll(encounter.Id, obsPartnerScreenings);
+                        _obsPartnerScreeningRepository.Save();
+
+                        var obsPartnerTraceResults = ObsPartnerTraceResult.Create(encounterInfo);
+                        _obsPartnerTraceResultRepository.ReplaceAll(encounter.Id, obsPartnerTraceResults);
+                        _obsPartnerTraceResultRepository.Save();
                     }
                 }
             }

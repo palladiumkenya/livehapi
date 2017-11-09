@@ -34,5 +34,10 @@ namespace LiveHAPI.Shared.ValueObject
         public List<ObsTraceResultInfo> ObsTraceResults { get; set; } = new List<ObsTraceResultInfo>();
         public List<ObsLinkageInfo> ObsLinkages { get; set; } = new List<ObsLinkageInfo>();
 
+        public ICollection<ObsMemberScreeningInfo> ObsMemberScreenings { get; set; } = new List<ObsMemberScreeningInfo>();
+        public ICollection<ObsPartnerScreeningInfo> ObsPartnerScreenings { get; set; } = new List<ObsPartnerScreeningInfo>();
+        public ICollection<ObsFamilyTraceResultInfo> ObsFamilyTraceResults { get; set; } = new List<ObsFamilyTraceResultInfo>();
+        public ICollection<ObsPartnerTraceResultInfo> ObsPartnerTraceResults { get; set; } = new List<ObsPartnerTraceResultInfo>();
+
     }
 }

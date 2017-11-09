@@ -1283,6 +1283,20 @@ return JsonConvert.DeserializeObject<ClientInfo>(json);
     ^ObsLinkages^: [
       
     ],
+
+ ^ObsMemberScreenings^: [
+      
+    ],
+ ^ObsPartnerScreenings^: [
+      
+    ],
+ ^ObsFamilyTraceResults^: [
+      
+    ],
+ ^ObsPartnerTraceResults^: [
+      
+    ],
+
     ^UserId^: ^61a9e04c-2ed0-414a-9387-a7b7016df233^,
     ^IsComplete^: false,
     ^Status^: ^Started^,

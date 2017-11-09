@@ -65,6 +65,10 @@ namespace LiveHAPI
             services.AddScoped<IObsTestResultRepository, ObsTestResultRepository>();
             services.AddScoped<IObsFinalTestResultRepository, ObsFinalTestResultRepository>();
             services.AddScoped<IObsLinkageRepository, ObsLinkageRepository>();
+            services.AddScoped<IObsMemberScreeningRepository, ObsMemberScreeningRepository>();
+            services.AddScoped<IObsFamilyTraceResultRepository, ObsFamilyTraceResultRepository>();
+            services.AddScoped<IObsPartnerScreeningRepository, ObsPartnerScreeningRepository>();
+            services.AddScoped<IObsPartnerTraceResultRepository, ObsPartnerTraceResultRepository>();
 
             services.AddScoped<IPersonNameRepository, PersonNameRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
@@ -119,7 +123,7 @@ namespace LiveHAPI
                         
 
             context.EnsureSeeded();
-
+            context.CreateViews();
             emrContext.ApplyMigrations();
             emrContext.UpdateTranslations();
             

@@ -10,6 +10,8 @@ namespace LiveHAPI.Shared.ValueObject
         public string MaritalStatus { get; set; }
         public string KeyPop { get; set; }
         public string OtherKeyPop { get; set; }
+        public bool? IsFamilyMember { get; set; }
+        public bool? IsPartner { get; set; }
         public Guid? PracticeId { get; set; }
         public string PracticeCode { get; set; }
         public PersonInfo Person { get; set; }

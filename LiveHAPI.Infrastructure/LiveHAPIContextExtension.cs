@@ -21,6 +21,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 
 namespace LiveHAPI.Infrastructure
 {
@@ -97,6 +98,71 @@ namespace LiveHAPI.Infrastructure
                 context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberCohort>());
                 transaction.Commit();
             }
+        }
+
+        public static void CreateViews(this LiveHAPIContext context)
+        {
+            try
+            {
+                context.Database.ExecuteSqlCommand(
+                    @"
+               
+                IF OBJECT_ID('dbo.vBookedContacts') IS NULL
+                    BEGIN
+                        EXECUTE('
+	                        create view vBookedContacts
+	                        as
+                            SELECT        
+	                            ObsMemberScreenings.Id, Encounters.ClientId, 
+	                            ObsMemberScreenings.BookingDate, ObsMemberScreenings.Eligibility, 
+	                            Encounters.PracticeId, Encounters.ProviderId, 
+	                            Encounters.EncounterTypeId, EncounterTypes.Name
+                            FROM            
+	                            ObsMemberScreenings INNER JOIN 
+	                            Encounters ON 	ObsMemberScreenings.EncounterId = Encounters.Id INNER JOIN
+                                EncounterTypes ON Encounters.EncounterTypeId = EncounterTypes.Id
+                            WHERE        
+	                            (ObsMemberScreenings.Eligibility = 'B25ECCD4-852F-11E7-BB31-BE2E44B06B34')
+                                ')
+                    END
+            ");
+
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+            }
+
+//            try
+//            {
+//                context.Database.ExecuteSqlCommand(
+//                    @"
+//               
+//                IF OBJECT_ID('dbo.vReferredContacts') IS NULL
+//                    BEGIN
+//                        EXECUTE('
+//	                        create view vReferredContacts
+//	                        as
+//                            SELECT        
+//	                            ObsMemberScreenings.Id, Encounters.ClientId, 
+//	                            ObsMemberScreenings.BookingDate, ObsMemberScreenings.Eligibility, 
+//	                            Encounters.PracticeId, Encounters.ProviderId, 
+//	                            Encounters.EncounterTypeId, EncounterTypes.Name
+//                            FROM            
+//	                            ObsMemberScreenings INNER JOIN 
+//	                            Encounters ON 	ObsMemberScreenings.EncounterId = Encounters.Id INNER JOIN
+//                                EncounterTypes ON Encounters.EncounterTypeId = EncounterTypes.Id
+//                            WHERE        
+//	                            (ObsMemberScreenings.Eligibility = 'B25ECCD4-852F-11E7-BB31-BE2E44B06B34')
+//                                ')
+//                    END
+//            ");
+//
+//            }
+//            catch (Exception e)
+//            {
+//                Log.Debug($"{e}");
+//            }
         }
     }
 }
