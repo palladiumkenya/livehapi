@@ -7,5 +7,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
     public interface IObsPartnerTraceResultRepository : IRepository<ObsPartnerTraceResult, Guid>
     {
         void ReplaceAll(Guid encounterId,IEnumerable<ObsPartnerTraceResult> obses);
+        void UpdateBooking(Encounter encounter, ObsPartnerTraceResult familyTraceResult);
+
     }
 }

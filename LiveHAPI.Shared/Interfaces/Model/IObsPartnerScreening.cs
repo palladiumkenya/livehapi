@@ -14,5 +14,8 @@ namespace LiveHAPI.Shared.Interfaces.Model
         DateTime ScreeningDate { get; set; }
         Guid SexuallyUncomfortable { get; set; }
         Guid Threatened { get; set; }
+        bool BookingMet { get; set; }
+        DateTime? DateBookingMet { get; set; }
+        Guid? TraceId { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Encounters;
@@ -84,6 +86,14 @@ namespace LiveHAPI.Core.Service
                         var obsFamilyTraceResults = ObsFamilyTraceResult.Create(encounterInfo);
                         _obsFamilyTraceResultRepository.Insert(obsFamilyTraceResults);
                         _obsFamilyTraceResultRepository.Save();
+                        if (obsFamilyTraceResults.Count > 0)
+                        {
+                            var met = obsFamilyTraceResults.FirstOrDefault(x => null != x.Outcome && x.Outcome == new Guid("b25f9a81-852f-11e7-bb31-be2e44b06b34"));
+                            if (null != met)
+                            {
+                                _obsFamilyTraceResultRepository.UpdateBooking(encounter, met);
+                            }
+                        }
 
                         var obsPartnerScreenings = ObsPartnerScreening.Create(encounterInfo);
                         _obsPartnerScreeningRepository.Insert(obsPartnerScreenings);
@@ -92,7 +102,14 @@ namespace LiveHAPI.Core.Service
                         var obsPartnerTraceResults = ObsPartnerTraceResult.Create(encounterInfo);
                         _obsPartnerTraceResultRepository.Insert(obsPartnerTraceResults);
                         _obsPartnerTraceResultRepository.Save();
-
+                        if (obsPartnerTraceResults.Count > 0)
+                        {
+                            var met = obsPartnerTraceResults.FirstOrDefault(x => null != x.Outcome && x.Outcome == new Guid("b25f9a81-852f-11e7-bb31-be2e44b06b34"));
+                            if (null != met)
+                            {
+                                _obsPartnerTraceResultRepository.UpdateBooking(encounter, met);
+                            }
+                        }
 
                     }
                     else
@@ -128,6 +145,14 @@ namespace LiveHAPI.Core.Service
                         var obsFamilyTraceResults = ObsFamilyTraceResult.Create(encounterInfo);
                         _obsFamilyTraceResultRepository.ReplaceAll(encounter.Id,obsFamilyTraceResults);
                         _obsFamilyTraceResultRepository.Save();
+                        if (obsFamilyTraceResults.Count > 0)
+                        {
+                            var met = obsFamilyTraceResults.FirstOrDefault(x =>null != x.Outcome && x.Outcome == new Guid("b25f9a81-852f-11e7-bb31-be2e44b06b34"));
+                            if (null != met)
+                            {
+                                _obsFamilyTraceResultRepository.UpdateBooking(encounter, met);
+                            }
+                        }
 
                         var obsPartnerScreenings = ObsPartnerScreening.Create(encounterInfo);
                         _obsPartnerScreeningRepository.ReplaceAll(encounter.Id, obsPartnerScreenings);
@@ -136,6 +161,14 @@ namespace LiveHAPI.Core.Service
                         var obsPartnerTraceResults = ObsPartnerTraceResult.Create(encounterInfo);
                         _obsPartnerTraceResultRepository.ReplaceAll(encounter.Id, obsPartnerTraceResults);
                         _obsPartnerTraceResultRepository.Save();
+                        if (obsPartnerTraceResults.Count > 0)
+                        {
+                            var met = obsPartnerTraceResults.FirstOrDefault(x => null != x.Outcome && x.Outcome == new Guid("b25f9a81-852f-11e7-bb31-be2e44b06b34"));
+                            if (null != met)
+                            {
+                                _obsPartnerTraceResultRepository.UpdateBooking(encounter, met);
+                            }
+                        }
                     }
                 }
             }

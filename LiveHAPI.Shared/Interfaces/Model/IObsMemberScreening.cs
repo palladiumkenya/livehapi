@@ -10,5 +10,8 @@ namespace LiveHAPI.Shared.Interfaces.Model
         Guid HivStatus { get; set; }
         string Remarks { get; set; }
         DateTime ScreeningDate { get; set; }
+        bool BookingMet { get; set; }
+        DateTime? DateBookingMet { get; set; }
+        Guid? TraceId { get; set; }
     }
 }

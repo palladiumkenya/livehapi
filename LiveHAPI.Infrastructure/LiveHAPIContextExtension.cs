@@ -107,22 +107,45 @@ namespace LiveHAPI.Infrastructure
                 context.Database.ExecuteSqlCommand(
                     @"
                
-                IF OBJECT_ID('dbo.vBookedContacts') IS NULL
+                IF OBJECT_ID('dbo.vBookedFamilyContacts') IS NULL
                     BEGIN
                         EXECUTE('
-	                        create view vBookedContacts
+	                        create view vBookedFamilyContacts
 	                        as
                             SELECT        
 	                            ObsMemberScreenings.Id, Encounters.ClientId, 
 	                            ObsMemberScreenings.BookingDate, ObsMemberScreenings.Eligibility, 
 	                            Encounters.PracticeId, Encounters.ProviderId, 
-	                            Encounters.EncounterTypeId, EncounterTypes.Name
+	                            Encounters.EncounterTypeId, EncounterTypes.Name,
+                                ObsMemberScreenings.BookingMet, ObsMemberScreenings.DateBookingMet, ObsMemberScreenings.TraceId
                             FROM            
 	                            ObsMemberScreenings INNER JOIN 
 	                            Encounters ON 	ObsMemberScreenings.EncounterId = Encounters.Id INNER JOIN
                                 EncounterTypes ON Encounters.EncounterTypeId = EncounterTypes.Id
                             WHERE        
-	                            (ObsMemberScreenings.Eligibility = 'B25ECCD4-852F-11E7-BB31-BE2E44B06B34')
+	                            (ObsMemberScreenings.Eligibility = ''B25ECCD4-852F-11E7-BB31-BE2E44B06B34'') AND 
+                                ((ObsMemberScreenings.BookingMet IS NULL) OR (ObsMemberScreenings.BookingMet = 0))
+                                ')
+                    END
+
+                IF OBJECT_ID('dbo.vBookedPartnerContacts') IS NULL
+                    BEGIN
+                        EXECUTE('
+	                        create view vBookedPartnerContacts
+	                        as
+                            SELECT        
+	                            ObsPartnerScreenings.Id, Encounters.ClientId, 
+	                            ObsPartnerScreenings.BookingDate, ObsPartnerScreenings.Eligibility, 
+	                            Encounters.PracticeId, Encounters.ProviderId, 
+	                            Encounters.EncounterTypeId, EncounterTypes.Name,
+                                ObsPartnerScreenings.BookingMet, ObsPartnerScreenings.DateBookingMet, ObsPartnerScreenings.TraceId
+                            FROM            
+	                            ObsPartnerScreenings INNER JOIN 
+	                            Encounters ON 	ObsPartnerScreenings.EncounterId = Encounters.Id INNER JOIN
+                                EncounterTypes ON Encounters.EncounterTypeId = EncounterTypes.Id
+                            WHERE        
+	                            (ObsPartnerScreenings.Eligibility = ''B25ECCD4-852F-11E7-BB31-BE2E44B06B34'') AND 
+                                ((ObsPartnerScreenings.BookingMet IS NULL) OR (ObsPartnerScreenings.BookingMet = 0))
                                 ')
                     END
             ");
