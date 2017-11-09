@@ -86,16 +86,12 @@ namespace LiveHAPI.Controllers
                 return StatusCode(500, "Error loading clients");
             }
         }
-
-
-
+        
         [HttpPost("demographics")]
         public IActionResult CreateClients([FromBody] ClientInfo client)
         {
             if (null == client)
                 return BadRequest();
-
-
 
             try
             {
@@ -122,7 +118,6 @@ namespace LiveHAPI.Controllers
             try
             {
                 _encounterService.Sync(encounters);
-
 
                 SyncEventDispatcher.Raise(new EncounterSaved(encounters),  _encounterSavedHandler, _subscriberSystem);
 

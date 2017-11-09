@@ -42,5 +42,21 @@ namespace LiveHAPI.Core.Model.People
             }
             return list;
         }
+
+        public static List<RelationshipInfo> GetClientRelationshipInfos(List<ClientRelationship> clientRelationships)
+        {
+            var list = new List<RelationshipInfo>();
+            foreach (var clientClientRelationship in clientRelationships)
+            {
+                list.Add(clientClientRelationship.GetClientRelationshipInfo());
+            }
+
+            return list;
+        }
+
+        public RelationshipInfo GetClientRelationshipInfo()
+        {
+            return new RelationshipInfo(RelatedClientId, RelationshipTypeId,ClientId);
+        }
     }
 }

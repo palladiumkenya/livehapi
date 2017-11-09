@@ -100,6 +100,8 @@ namespace LiveHAPI.Core.Model.People
             }
         }
 
+       
+
         public override string ToString()
         {
             var info = $"{Id}({PersonId}) {MaritalStatus}|{KeyPop}";

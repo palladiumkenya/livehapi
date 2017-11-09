@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
@@ -254,6 +255,27 @@ namespace LiveHAPI.Core.Model.People
             p.Addresses = PersonAddress.GetAddressInfos(Addresses.ToList());
             p.Contacts = PersonContact.GetContactInfos(Contacts.ToList());
             return p;
+        }
+
+        public ClientInfo GetClientInfo()
+        {
+            var c=new ClientInfo();
+            var cl = Clients.FirstOrDefault();
+            if (null != cl)
+            {
+                c.Id = cl.Id;
+                c.MaritalStatus = cl.MaritalStatus;
+                c.KeyPop = cl.KeyPop;
+                c.OtherKeyPop = cl.OtherKeyPop;
+                c.IsFamilyMember = cl.IsFamilyMember;
+                c.IsPartner = cl.IsPartner;
+                c.PracticeId = cl.PracticeId;
+                c.Person = GetPersonInfo();
+                c.Identifiers = ClientIdentifier.GetIdentifierInfos(cl.Identifiers.ToList());
+                c.Relationships= ClientRelationship.GetClientRelationshipInfos(cl.Relationships.ToList());
+            }
+
+            return c;
         }
         public override string ToString()
         {

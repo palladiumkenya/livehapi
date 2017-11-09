@@ -1,8 +1,9 @@
-﻿using LiveHAPI.Core.Interfaces.Handler;
+﻿ using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Repository.Subscriber;
 using LiveHAPI.Core.Interfaces.Services;
-using LiveHAPI.Core.Model.Lookup;
+ using LiveHAPI.Core.Model.Encounters;
+ using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Core.Model.Subscriber;
@@ -157,6 +158,16 @@ namespace LiveHAPI
 
                 cfg.CreateMap<SubscriberCohort, CohortInfo>();
 
+                cfg.CreateMap<Encounter, EncounterInfo>();
+                cfg.CreateMap<Obs, ObsInfo>();
+                cfg.CreateMap<ObsTestResult, ObsTestResultInfo>();
+                cfg.CreateMap<ObsFinalTestResult, ObsFinalTestResultInfo>();
+                cfg.CreateMap<ObsTraceResult, ObsTraceResultInfo>();
+                cfg.CreateMap<ObsLinkage, ObsLinkageInfo>();
+                cfg.CreateMap<ObsMemberScreening, ObsMemberScreeningInfo>();
+                cfg.CreateMap<ObsPartnerScreening, ObsPartnerScreeningInfo>();
+                cfg.CreateMap<ObsFamilyTraceResult, ObsFamilyTraceResultInfo>();
+                cfg.CreateMap<ObsPartnerTraceResult, ObsPartnerTraceResultInfo>();
             });
 
 

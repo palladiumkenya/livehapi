@@ -9,5 +9,16 @@ namespace LiveHAPI.Shared.ValueObject
         public Guid RelatedClientId { get; set; }
         public string RelationshipTypeId { get; set; }
         public Guid ClientId { get; set; }
+
+        public RelationshipInfo()
+        {
+        }
+
+        public RelationshipInfo(Guid relatedClientId, string relationshipTypeId, Guid clientId)
+        {
+            RelatedClientId = relatedClientId;
+            RelationshipTypeId = relationshipTypeId;
+            ClientId = clientId;
+        }
     }
 }
