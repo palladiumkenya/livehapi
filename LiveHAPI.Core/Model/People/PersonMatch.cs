@@ -6,6 +6,7 @@ namespace LiveHAPI.Core.Model.People
     {
         public Person Person { get; set; }
         public decimal Rank { get; set; }
+   
 
         public PersonMatch(Person person, decimal rank)
         {

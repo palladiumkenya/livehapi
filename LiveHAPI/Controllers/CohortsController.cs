@@ -27,7 +27,7 @@ namespace LiveHAPI.Controllers
         private readonly SubscriberSystem _subscriberSystem;
         private readonly IClientService _clientService;
 
-        public CohortsController(ISubscriberSystemRepository subscriberSystemRepository,IClientService clientService)
+        public CohortsController(ISubscriberSystemRepository subscriberSystemRepository, IClientService clientService)
         {
             _subscriberSystemRepository = subscriberSystemRepository;
             _clientService = clientService;
@@ -69,7 +69,6 @@ namespace LiveHAPI.Controllers
             {
             }
 
-
             try
             {
                 var cohort = _subscriberSystem.Cohorts.FirstOrDefault(x => x.Id == cohortId);
@@ -79,9 +78,6 @@ namespace LiveHAPI.Controllers
 
                 var personMatches = _clientService.LoadByCohort(cohort).ToList();
                 return Ok(personMatches);
-
-
-               
             }
             catch (Exception e)
             {
@@ -89,6 +85,5 @@ namespace LiveHAPI.Controllers
                 return StatusCode(500, "Error loading cohort");
             }
         }
-
     }
 }

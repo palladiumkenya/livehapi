@@ -99,6 +99,24 @@ namespace LiveHAPI.Infrastructure.Repository
 
                 foreach (var person in persons)
                 {
+                    foreach (var personClient in person.Clients)
+                    {
+                        personClient.Encounters = Context.Encounters
+                            .Where(x => x.ClientId == personClient.Id)
+                            .Include(x => x.Obses)
+                            .Include(x => x.ObsTestResults)
+                            .Include(x => x.ObsFinalTestResults)
+                            .Include(x => x.ObsTraceResults)
+                            .Include(x => x.ObsLinkages)
+
+
+                            .Include(x => x.ObsMemberScreenings)
+                            .Include(x => x.ObsPartnerScreenings)
+                            .Include(x => x.ObsFamilyTraceResults)
+                            .Include(x => x.ObsPartnerTraceResults)
+
+                            .ToList();
+                    }
                     personMatches.Add(new PersonMatch(person,GetHit(person.Id,searchHits)));
                 }
             }
@@ -111,19 +129,34 @@ namespace LiveHAPI.Infrastructure.Repository
      
             string sql = $"SELECT PersonId FROM dbo.Clients WHERE ID In(SELECT ClientId FROM {cohort.View})";
             var personIds = Context.Database.GetDbConnection().Query<Guid>($"{sql}").ToList();
-
-
+            
             var persons = Context.Persons.Where(x => personIds.Contains(x.Id))
                 .Include(x => x.Clients).ThenInclude(c => c.Identifiers)
                 .Include(x => x.Addresses)
                 .Include(x => x.Contacts)
                 .Include(x => x.Names)
                 .ToList();
-
-
-
+            
             foreach (var person in persons)
             {
+                foreach (var personClient in person.Clients)
+                {
+                   personClient.Encounters = Context.Encounters
+                        .Where(x => x.ClientId == personClient.Id)
+                        .Include(x => x.Obses)
+                       .Include(x => x.ObsTestResults)
+                       .Include(x => x.ObsFinalTestResults)
+                       .Include(x => x.ObsTraceResults)
+                        .Include(x => x.ObsLinkages)
+                       
+                  
+                        .Include(x => x.ObsMemberScreenings)
+                        .Include(x => x.ObsPartnerScreenings)
+                        .Include(x => x.ObsFamilyTraceResults)
+                        .Include(x => x.ObsPartnerTraceResults)
+
+                        .ToList();
+                }
                 personMatches.Add(new PersonMatch(person, 1));
             }
 
