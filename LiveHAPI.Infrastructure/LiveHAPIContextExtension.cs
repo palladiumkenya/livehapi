@@ -148,6 +148,27 @@ namespace LiveHAPI.Infrastructure
                                 ((ObsPartnerScreenings.BookingMet IS NULL) OR (ObsPartnerScreenings.BookingMet = 0))
                                 ')
                     END
+
+
+                IF OBJECT_ID('dbo.vReferredContacts') IS NULL
+                    BEGIN
+                        EXECUTE('
+	                        create view vReferredContacts
+	                        as
+                            SELECT        
+	                            ObsLinkages.Id, ObsLinkages.DateEnrolled, ObsLinkages.DatePromised, Encounters.ClientId, Encounters.PracticeId,Encounters.ProviderId,
+                                Encounters.EncounterTypeId, EncounterTypes.Name
+                            FROM            
+	                            ObsLinkages INNER JOIN
+	                            Encounters ON ObsLinkages.EncounterId = Encounters.Id INNER JOIN
+                                EncounterTypes ON Encounters.EncounterTypeId = EncounterTypes.Id
+                            WHERE       
+	                            (NOT (ObsLinkages.DatePromised IS NULL)) AND (ObsLinkages.DateEnrolled IS NULL)
+                                ')
+                    END
+
+
+
             ");
 
             }
