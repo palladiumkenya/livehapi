@@ -35,21 +35,24 @@ namespace LiveHAPI.Core.Model.People
         }
 
       
-        private Client(Guid id, string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId):base(id)
+        private Client(Guid id, string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId, bool? isFamilyMember, bool? isPartner):base(id)
         {
             MaritalStatus = maritalStatus;
             KeyPop = keyPop;
             OtherKeyPop = otherKeyPop;
             PracticeId = practiceId;
             PersonId = personId;
+            IsFamilyMember = isFamilyMember;
+            IsPartner = isPartner;
         }
-        private Client(string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId):this(LiveGuid.NewGuid(),maritalStatus,keyPop,otherKeyPop,practiceId, personId)
+
+        private Client(string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId, bool? isFamilyMember, bool? isPartner) :this(LiveGuid.NewGuid(),maritalStatus,keyPop,otherKeyPop,practiceId, personId, isFamilyMember, isPartner)
         {
         }
         public static Client Create(ClientInfo clientInfo, Guid practiceId, Guid personId)
         {
             var client = new Client(clientInfo.Id, clientInfo.MaritalStatus, clientInfo.KeyPop, clientInfo.OtherKeyPop, practiceId,
-                personId);
+                personId, clientInfo.IsFamilyMember, clientInfo.IsPartner);
 
             var identifiers = ClientIdentifier.Create(clientInfo);
             client.AddIdentifiers(identifiers);
@@ -61,6 +64,8 @@ namespace LiveHAPI.Core.Model.People
         }
         public void Update(ClientInfo clientInfo)
         {
+            IsFamilyMember = clientInfo.IsFamilyMember;
+            IsPartner = clientInfo.IsPartner;
             MaritalStatus = clientInfo.MaritalStatus;
             KeyPop = clientInfo.KeyPop;
             OtherKeyPop = clientInfo.OtherKeyPop;
