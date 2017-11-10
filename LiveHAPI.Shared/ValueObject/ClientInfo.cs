@@ -14,6 +14,7 @@ namespace LiveHAPI.Shared.ValueObject
         public bool? IsPartner { get; set; }
         public Guid? PracticeId { get; set; }
         public string PracticeCode { get; set; }
+        public Guid PersonId { get; set; }
         public PersonInfo Person { get; set; }
         public List<IdentifierInfo> Identifiers { get; set; }=new List<IdentifierInfo>();
         public List<RelationshipInfo> Relationships { get; set; } = new List<RelationshipInfo>();

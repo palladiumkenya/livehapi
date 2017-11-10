@@ -271,6 +271,10 @@ namespace LiveHAPI.Core.Model.People
                 c.IsPartner = cl.IsPartner;
                 c.PracticeId = cl.PracticeId;
                 c.Person = GetPersonInfo();
+                if (null != c.Person)
+                {
+                    c.PersonId = c.Person.Id;
+                }
                 c.Identifiers = ClientIdentifier.GetIdentifierInfos(cl.Identifiers.ToList());
                 c.Relationships= ClientRelationship.GetClientRelationshipInfos(cl.Relationships.ToList());
             }
