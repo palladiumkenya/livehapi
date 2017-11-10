@@ -23,6 +23,11 @@ namespace LiveHAPI.Core.Service
             _clientRepository = clientRepository;
         }
 
+        public IEnumerable<PersonMatch> FindById(Guid id)
+        {
+            return _clientRepository.GetById(id);
+        }
+
         public IEnumerable<PersonMatch> SearchById(string searchItem)
         {
             if (!string.IsNullOrWhiteSpace(searchItem))

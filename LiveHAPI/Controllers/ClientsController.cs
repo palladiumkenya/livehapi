@@ -55,25 +55,25 @@ namespace LiveHAPI.Controllers
 
                     rc.Client = personMatch.RemoteClient.Client;
 
-                    foreach (var client in personMatch.Person.Clients)
-                    {
-                        var es = new List<EncounterInfo>();
-                        foreach (var clientEncounter in client.Encounters)
-                        {
-                            var e = Mapper.Map<EncounterInfo>(clientEncounter);
-                            e.Obses = Mapper.Map<List<ObsInfo>>(clientEncounter.Obses.ToList());
-                            e.ObsTestResults = Mapper.Map<List<ObsTestResultInfo>>(clientEncounter.ObsTestResults.ToList());
-                            e.ObsFinalTestResults = Mapper.Map<List<ObsFinalTestResultInfo>>(clientEncounter.ObsFinalTestResults.ToList());
-                            e.ObsTraceResults = Mapper.Map<List<ObsTraceResultInfo>>(clientEncounter.ObsTraceResults.ToList());
-                            e.ObsLinkages = Mapper.Map<List<ObsLinkageInfo>>(clientEncounter.ObsLinkages.ToList());
-                            e.ObsMemberScreenings = Mapper.Map<List<ObsMemberScreeningInfo>>(clientEncounter.ObsMemberScreenings.ToList());
-                            e.ObsPartnerScreenings = Mapper.Map<List<ObsPartnerScreeningInfo>>(clientEncounter.ObsPartnerScreenings.ToList());
-                            e.ObsFamilyTraceResults = Mapper.Map<List<ObsFamilyTraceResultInfo>>(clientEncounter.ObsFamilyTraceResults.ToList());
-                            e.ObsPartnerTraceResults = Mapper.Map<List<ObsPartnerTraceResultInfo>>(clientEncounter.ObsPartnerTraceResults.ToList());
-                            es.Add(e);
-                        }
-                        rc.Encounters = es;
-                    }
+//                    foreach (var client in personMatch.Person.Clients)
+//                    {
+//                        var es = new List<EncounterInfo>();
+//                        foreach (var clientEncounter in client.Encounters)
+//                        {
+//                            var e = Mapper.Map<EncounterInfo>(clientEncounter);
+//                            e.Obses = Mapper.Map<List<ObsInfo>>(clientEncounter.Obses.ToList());
+//                            e.ObsTestResults = Mapper.Map<List<ObsTestResultInfo>>(clientEncounter.ObsTestResults.ToList());
+//                            e.ObsFinalTestResults = Mapper.Map<List<ObsFinalTestResultInfo>>(clientEncounter.ObsFinalTestResults.ToList());
+//                            e.ObsTraceResults = Mapper.Map<List<ObsTraceResultInfo>>(clientEncounter.ObsTraceResults.ToList());
+//                            e.ObsLinkages = Mapper.Map<List<ObsLinkageInfo>>(clientEncounter.ObsLinkages.ToList());
+//                            e.ObsMemberScreenings = Mapper.Map<List<ObsMemberScreeningInfo>>(clientEncounter.ObsMemberScreenings.ToList());
+//                            e.ObsPartnerScreenings = Mapper.Map<List<ObsPartnerScreeningInfo>>(clientEncounter.ObsPartnerScreenings.ToList());
+//                            e.ObsFamilyTraceResults = Mapper.Map<List<ObsFamilyTraceResultInfo>>(clientEncounter.ObsFamilyTraceResults.ToList());
+//                            e.ObsPartnerTraceResults = Mapper.Map<List<ObsPartnerTraceResultInfo>>(clientEncounter.ObsPartnerTraceResults.ToList());
+//                            es.Add(e);
+//                        }
+//                        rc.Encounters = es;
+//                    }
                     personData.Add(rc);
                 }
 
@@ -95,6 +95,68 @@ namespace LiveHAPI.Controllers
             try
             {
                 var personMatches = _clientService.SearchById(id).ToList();
+                var personData = new List<RemoteClientInfo>();
+
+                foreach (var personMatch in personMatches)
+                {
+                    var rc = new RemoteClientInfo();
+
+                    rc.Client = personMatch.RemoteClient.Client;
+
+//                    foreach (var client in personMatch.Person.Clients)
+//                    {
+//                        var es = new List<EncounterInfo>();
+//                        foreach (var clientEncounter in client.Encounters)
+//                        {
+//                            var e = Mapper.Map<EncounterInfo>(clientEncounter);
+//                            e.Obses = Mapper.Map<List<ObsInfo>>(clientEncounter.Obses.ToList());
+//                            e.ObsTestResults = Mapper.Map<List<ObsTestResultInfo>>(clientEncounter.ObsTestResults.ToList());
+//                            e.ObsFinalTestResults = Mapper.Map<List<ObsFinalTestResultInfo>>(clientEncounter.ObsFinalTestResults.ToList());
+//                            e.ObsTraceResults = Mapper.Map<List<ObsTraceResultInfo>>(clientEncounter.ObsTraceResults.ToList());
+//                            e.ObsLinkages = Mapper.Map<List<ObsLinkageInfo>>(clientEncounter.ObsLinkages.ToList());
+//                            e.ObsMemberScreenings = Mapper.Map<List<ObsMemberScreeningInfo>>(clientEncounter.ObsMemberScreenings.ToList());
+//                            e.ObsPartnerScreenings = Mapper.Map<List<ObsPartnerScreeningInfo>>(clientEncounter.ObsPartnerScreenings.ToList());
+//                            e.ObsFamilyTraceResults = Mapper.Map<List<ObsFamilyTraceResultInfo>>(clientEncounter.ObsFamilyTraceResults.ToList());
+//                            e.ObsPartnerTraceResults = Mapper.Map<List<ObsPartnerTraceResultInfo>>(clientEncounter.ObsPartnerTraceResults.ToList());
+//                            es.Add(e);
+//                        }
+//                        rc.Encounters = es;
+//                    }
+                    personData.Add(rc);
+                }
+
+
+
+                return Ok(personData);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"Error searching clients: {e}");
+                return StatusCode(500, "Error loading clients");
+            }
+        }
+
+
+        [Route("download/{id}")]
+        [HttpGet]
+        public IActionResult DownloadClient(string id)
+        {
+            Guid clientId = Guid.Empty;
+
+            if (string.IsNullOrWhiteSpace(id))
+                return BadRequest();
+
+            try
+            {
+                clientId = new Guid(id);
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                var personMatches = _clientService.FindById(clientId).ToList();
                 var personData = new List<RemoteClientInfo>();
 
                 foreach (var personMatch in personMatches)
@@ -127,7 +189,7 @@ namespace LiveHAPI.Controllers
 
 
 
-                return Ok(personData);
+                return Ok(personData.FirstOrDefault());
             }
             catch (Exception e)
             {

@@ -9,6 +9,7 @@ namespace LiveHAPI.Core.Interfaces.Services
 {
     public interface IClientService
     {
+        IEnumerable<PersonMatch> FindById(Guid id);
         IEnumerable<PersonMatch> SearchById(string searchItem);
         IEnumerable<PersonMatch> SearchByName(string searchItem);
         IEnumerable<PersonMatch> LoadByCohort(SubscriberCohort cohort);

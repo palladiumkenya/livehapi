@@ -11,7 +11,13 @@ namespace LiveHAPI.Core.Model.People
         
         public RemoteClientInfo RemoteClient  { get; set; }
 
-    public PersonMatch(Person person, decimal rank)
+        public PersonMatch()
+        {
+            Person=new Person();
+            RemoteClient = new RemoteClientInfo();
+        }
+
+        public PersonMatch(Person person, decimal rank)
         {
             RemoteClient=new RemoteClientInfo();
             Person = person;

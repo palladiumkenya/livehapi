@@ -24,6 +24,46 @@ namespace LiveHAPI.Infrastructure.Repository
                 .FirstOrDefault(x => x.Id == id);
         }
 
+        public IEnumerable<PersonMatch> GetById(Guid id)
+        {
+            var personMatches = new List<PersonMatch>();
+
+            var personIds = Context.Clients.Where(x => x.Id == id).Select(x => x.PersonId).ToList();
+
+            var persons = Context.Persons.Where(x => personIds.Contains(x.Id))
+                .Include(x => x.Clients).ThenInclude(c => c.Identifiers)
+                .Include(x => x.Addresses)
+                .Include(x => x.Contacts)
+                .Include(x => x.Names)
+                .ToList();
+            
+            foreach (var person in persons)
+            {
+                foreach (var personClient in person.Clients)
+                {
+                    personClient.Encounters = Context.Encounters
+                        .Where(x => x.ClientId == personClient.Id)
+                        .Include(x => x.Obses)
+                        .Include(x => x.ObsTestResults)
+                        .Include(x => x.ObsFinalTestResults)
+                        .Include(x => x.ObsTraceResults)
+                        .Include(x => x.ObsLinkages)
+
+
+                        .Include(x => x.ObsMemberScreenings)
+                        .Include(x => x.ObsPartnerScreenings)
+                        .Include(x => x.ObsFamilyTraceResults)
+                        .Include(x => x.ObsPartnerTraceResults)
+
+                        .ToList();
+                }
+                personMatches.Add(new PersonMatch(person, 1));
+            }
+
+            return personMatches;
+        }
+
+
         public IEnumerable<PersonMatch> Search(string searchItem)
         {
             var personMatches = new List<PersonMatch>();
