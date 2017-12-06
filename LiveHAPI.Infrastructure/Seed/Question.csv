@@ -1,9 +1,11 @@
 Id|ConceptId|Ordinal|Display|Description|Rank|FormId|Voided
 b2603772-852f-11e7-bb31-be2e44b06b34|b25fb496-852f-11e7-bb31-be2e44b06b34|1|Ever Tested?|Ever Tested?|1|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
 b26039a2-852f-11e7-bb31-be2e44b06b34|b25fb5fe-852f-11e7-bb31-be2e44b06b34|2|Re-Testing (No. Months since last test)|Re-Testing (No. Months since last test)|2|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
-b2603c5e-852f-11e7-bb31-be2e44b06b34|b25fb86a-852f-11e7-bb31-be2e44b06b34|3|Disability|Disability|3|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
-b2603dc6-852f-11e7-bb31-be2e44b06b34|b25fbb30-852f-11e7-bb31-be2e44b06b34|4|Consent|Consent|4|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
-b260401e-852f-11e7-bb31-be2e44b06b34|b25fbcca-852f-11e7-bb31-be2e44b06b34|5|Client tested as|Client tested as|5|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
-b260417c-852f-11e7-bb31-be2e44b06b34|b25fbf5e-852f-11e7-bb31-be2e44b06b34|6|Strategy|Strategy|6|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
-b2605f54-852f-11e7-bb31-be2e44b06b34|b25fc0c6-852f-11e7-bb31-be2e44b06b34|20|TB Screening|TB Screening|20|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
-b260665c-852f-11e7-bb31-be2e44b06b34|b25fc864-852f-11e7-bb31-be2e44b06b34|24|Remarks|Remarks|24|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
+b2603773-852f-11e7-bb31-be2e44b06b34|b25fc698-852f-11e7-bb31-be2e44b06b34|3|HIV self-test in the past 12 months|HIV self-test in the past 12 months|2.1|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
+b260695c-852f-11e7-bb31-be2e44b06b34|b25fbb31-852f-11e7-bb31-be2e44b06b34|4|Has Any Disability|Has Any Disability|3|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
+b2603c5e-852f-11e7-bb31-be2e44b06b34|b25fb86a-852f-11e7-bb31-be2e44b06b34|5|Disability|Disability|3.4|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
+b2603dc6-852f-11e7-bb31-be2e44b06b34|b25fbb30-852f-11e7-bb31-be2e44b06b34|6|Consent|Consent|4|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
+b260401e-852f-11e7-bb31-be2e44b06b34|b25fbcca-852f-11e7-bb31-be2e44b06b34|7|Client tested as|Client tested as|5|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
+b260417c-852f-11e7-bb31-be2e44b06b34|b25fbf5e-852f-11e7-bb31-be2e44b06b34|8|Strategy|Strategy|6|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
+b2605f54-852f-11e7-bb31-be2e44b06b34|b25fc0c6-852f-11e7-bb31-be2e44b06b34|9|TB Screening|TB Screening|20|b25ebcda-852f-11e7-bb31-be2e44b06b34|0
+b260665c-852f-11e7-bb31-be2e44b06b34|b25fc864-852f-11e7-bb31-be2e44b06b34|10|Remarks|Remarks|24|b25ebcda-852f-11e7-bb31-be2e44b06b34|0

@@ -170,7 +170,19 @@ namespace LiveHAPI
                 cfg.CreateMap<ObsPartnerTraceResult, ObsPartnerTraceResultInfo>();
             });
 
-
+            Log.Debug(@"
+                            ╔═╗┌─┐┬ ┬┌─┐  ╔╦╗┌─┐┌┐ ┬┬  ┌─┐
+                            ╠═╣├┤ └┬┘├─┤  ║║║│ │├┴┐││  ├┤ 
+                            ╩ ╩└   ┴ ┴ ┴  ╩ ╩└─┘└─┘┴┴─┘└─┘
+                      ");
+            Log.Debug("");
+            Log.Debug(@"
+                                  _        _    ____ ___ 
+                                 | |__    / \  |  _ \_ _|
+                                 | '_ \  / _ \ | |_) | | 
+                                 | | | |/ ___ \|  __/| | 
+                                 |_| |_/_/   \_\_|  |___|
+                    ");
             Log.Debug($"im hAPI !!");
         }
     }

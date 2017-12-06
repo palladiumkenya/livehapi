@@ -13,6 +13,7 @@ using LiveHAPI.Shared;
 using LiveHAPI.Shared.ValueObject;
 using Microsoft.EntityFrameworkCore;
 using Dapper;
+using LiveHAPI.Shared.Custom;
 using Serilog;
 
 
@@ -138,9 +139,9 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 	                [mst_Patient] 
                 SET 
 	                [Status]='0',
-                    [FirstName]=encryptbykey(key_guid('Key_CTC'), '{patient.FirstName}'),
-                    [MiddleName]=encryptbykey(key_guid('Key_CTC'), '{patient.MiddleName}'),
-                    [LastName]=encryptbykey(key_guid('Key_CTC'), '{patient.LastName}'),    
+                    [FirstName]=encryptbykey(key_guid('Key_CTC'), '{patient.FirstName.Sanitize()}'),
+                    [MiddleName]=encryptbykey(key_guid('Key_CTC'), '{patient.MiddleName.Sanitize()}'),
+                    [LastName]=encryptbykey(key_guid('Key_CTC'), '{patient.LastName.Sanitize()}'),    
 
                     [LocationID]=  '{location.FacilityID}',
                     [RegistrationDate]= '{patient.RegistrationDate:yyyy MMMM dd}',
@@ -155,7 +156,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                     [UpdateDate]=GETDATE(),    
                     [MaritalStatus]='{patient.MaritalStatus}',
                     [Phone]= encryptbykey(key_guid('Key_CTC'), '{patient.Phone}'),
-                    [Landmark]='{patient.Landmark}',
+                    [Landmark]='{patient.Landmark.Sanitize()}',
                     [HTSID]= '{patient.HTSID}'
 
                 WHERE 
@@ -171,10 +172,10 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                             Phone,Landmark,HTSID,mAfyaId,
                             MaritalStatus)
                     VALUES(
-                        '0', encryptbykey(key_guid('Key_CTC'), '{patient.FirstName}'), encryptbykey(key_guid('Key_CTC'), '{patient.MiddleName}'), encryptbykey(key_guid('Key_CTC'), '{patient.LastName}'), 
+                        '0', encryptbykey(key_guid('Key_CTC'), '{patient.FirstName.Sanitize()}'), encryptbykey(key_guid('Key_CTC'), '{patient.MiddleName.Sanitize()}'), encryptbykey(key_guid('Key_CTC'), '{patient.LastName.Sanitize()}'), 
                         '{location.FacilityID}', '{patient.RegistrationDate:yyyy MMMM dd}', '{patient.Sex}', '{patient.Dob:yyyy MMMM dd}', '{patient.DobPrecision}', 
                         '{location.CountryID}', '{location.PosID}', '{location.SatelliteID}', '{patient.UserId}', GETDATE(),
-                        encryptbykey(key_guid('Key_CTC'), '{patient.Phone}'),'{patient.Landmark}','{patient.HTSID}','{patient.mAfyaId}','{patient.MaritalStatus}');
+                        encryptbykey(key_guid('Key_CTC'), '{patient.Phone}'),'{patient.Landmark.Sanitize()}','{patient.HTSID}','{patient.mAfyaId}','{patient.MaritalStatus}');
                 
                 SET @ptnpk=(SELECT Ptn_Pk  FROM mst_Patient WHERE mAfyaId ='{patient.mAfyaId}');";
 
@@ -502,8 +503,8 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                 UPDATE 
 	                [dtl_FamilyInfo] 
                 SET 
-                    [RFirstName]=encryptbykey(key_guid('Key_CTC'), '{partner.FirstName}'),
-                    [RLastName]=encryptbykey(key_guid('Key_CTC'), '{partner.LastName}'),    
+                    [RFirstName]=encryptbykey(key_guid('Key_CTC'), '{partner.FirstName.Sanitize()}'),
+                    [RLastName]=encryptbykey(key_guid('Key_CTC'), '{partner.LastName.Sanitize()}'),    
                     [Sex]='{partner.Sex}', 
                     [AgeYear]=datediff(yy, '{partner.Dob:yyyy MMMM dd}', getdate()),
                     [AgeMonth]=datediff(yy, '{partner.Dob:yyyy MMMM dd}', getdate()) % 12,
@@ -519,9 +520,9 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         dtl_FamilyInfo(Ptn_pk,RFirstName,RLastName,Sex,AgeYear,AgeMonth,RelationshipDate,RelationshipType,HivStatus,HivCareStatus,ReferenceId,UserId,CreateDate)
                     VALUES(
                         '{indexPatient.Id}',encryptbykey(key_guid('Key_CTC'), 
-                        '{partner.FirstName}'), 
+                        '{partner.FirstName.Sanitize()}'), 
                         encryptbykey(key_guid('Key_CTC'), 
-                        '{partner.LastName}'), 
+                        '{partner.LastName.Sanitize()}'), 
                         '{partner.Sex}',
                         datediff(yy, '{partner.Dob:yyyy MMMM dd}', 
                         getdate()),
@@ -541,8 +542,8 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                 UPDATE 
 	                [dtl_FamilyInfo] 
                 SET 
-                    [RFirstName]=encryptbykey(key_guid('Key_CTC'), '{indexPatient.FirstName}'),
-                    [RLastName]=encryptbykey(key_guid('Key_CTC'), '{indexPatient.LastName}'),    
+                    [RFirstName]=encryptbykey(key_guid('Key_CTC'), '{indexPatient.FirstName.Sanitize()}'),
+                    [RLastName]=encryptbykey(key_guid('Key_CTC'), '{indexPatient.LastName.Sanitize()}'),    
                     [Sex]='{indexPatient.Sex}', 
                     [AgeYear]=datediff(yy, '{indexPatient.Dob:yyyy MMMM dd}', getdate()),
                     [AgeMonth]=datediff(yy, '{indexPatient.Dob:yyyy MMMM dd}', getdate()) % 12,
@@ -558,8 +559,8 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         dtl_FamilyInfo(Ptn_pk,RFirstName,RLastName,Sex,AgeYear,AgeMonth,RelationshipDate,RelationshipType,HivStatus,HivCareStatus,ReferenceId,UserId,CreateDate)
                     VALUES(
                         '{partner.Id}',
-                        encryptbykey(key_guid('Key_CTC'), '{indexPatient.FirstName}'), 
-                        encryptbykey(key_guid('Key_CTC'), '{indexPatient.LastName}'), 
+                        encryptbykey(key_guid('Key_CTC'), '{indexPatient.FirstName.Sanitize()}'), 
+                        encryptbykey(key_guid('Key_CTC'), '{indexPatient.LastName.Sanitize()}'), 
                         '{indexPatient.Sex}',
                         datediff(yy, '{indexPatient.Dob:yyyy MMMM dd}', 
                         getdate()),datediff(yy, '{indexPatient.Dob:yyyy MMMM dd}', 
