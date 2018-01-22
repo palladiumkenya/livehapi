@@ -7,3 +7,12 @@ Id|Area|Name|Value|SubscriberSystemId|Voided
 16e28b9a-9d69-11e7-abc4-cec278b6b50a|HTS|Linkage.VisitTypeId|117|16e23866-9d69-11e7-abc4-cec278b6b50a|0
 16e29b9a-9d69-11e7-abc4-cec278b6b50a|HTS|Lab.FeatureId|1012|16e23866-9d69-11e7-abc4-cec278b6b50a|0
 16e30b9a-9d69-11e7-abc4-cec278b6b50a|HTS|Linkage.FeatureId|1013|16e23866-9d69-11e7-abc4-cec278b6b50a|0
+
+0e08aab0-ff64-11e7-8be5-0ed5f89f718b|HTS|Family.FeatureId|1012|16e23866-9d69-11e7-abc4-cec278b6b50a|0
+0e08ac22-ff64-11e7-8be5-0ed5f89f718b|HTS|FamilyTracing.FeatureId|1013|16e23866-9d69-11e7-abc4-cec278b6b50a|0
+0e08ad4e-ff64-11e7-8be5-0ed5f89f718b|HTS|PNS.FeatureId|1016|16e23866-9d69-11e7-abc4-cec278b6b50a|0
+0e08af38-ff64-11e7-8be5-0ed5f89f718b|HTS|PNSTracing.FeatureId|1017|16e23866-9d69-11e7-abc4-cec278b6b50a|0
+0e08b0a0-ff64-11e7-8be5-0ed5f89f718b|HTS|Family.VisitTypeId|116|16e23866-9d69-11e7-abc4-cec278b6b50a|0
+0e08b30c-ff64-11e7-8be5-0ed5f89f718b|HTS|FamilyTracing.VisitTypeId|117|16e23866-9d69-11e7-abc4-cec278b6b50a|0
+0e08b438-ff64-11e7-8be5-0ed5f89f718b|HTS|PNS.VisitTypeId|120|16e23866-9d69-11e7-abc4-cec278b6b50a|0
+0e08b5e6-ff64-11e7-8be5-0ed5f89f718b|HTS|PNSTracing.VisitTypeId|121|16e23866-9d69-11e7-abc4-cec278b6b50a|0

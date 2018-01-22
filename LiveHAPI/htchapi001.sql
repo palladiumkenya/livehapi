@@ -189,7 +189,14 @@ Go
 
 create view htchapiall
 as
-select distinct * from vw_DetailsOfAllFields where (form like '%htc%' or form like '%link%' )
+select distinct * from vw_DetailsOfAllFields where (
+form like '%FamilyTestingForm%' or 
+form like '%FamilyTracingForm%' or
+form like '%HTC Lab MOH 362%' or
+form like '%LinkageAndTracking%' or
+form like '%PNSFORM%' or
+form like '%PNSTRACING%'
+)
 
 Go
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -201,7 +208,14 @@ Go
 
 create view htchapi
 as
-select distinct * from vw_DetailsOfAllFields where (form like '%htc%' or form like '%link%' )and bindtable='Mst_ModDecode'
+select distinct * from vw_DetailsOfAllFields where (
+form like '%FamilyTestingForm%' or 
+form like '%FamilyTracingForm%' or
+form like '%HTC Lab MOH 362%' or
+form like '%LinkageAndTracking%' or
+form like '%PNSFORM%' or
+form like '%PNSTRACING%'
+)and bindtable='Mst_ModDecode'
 
 Go
 
