@@ -23,7 +23,7 @@ namespace LiveHAPI.Core.Model.Encounters
         public Guid? CoupleDiscordant { get; set; }
         
         public Guid? SelfTestOption { get; set; }
-        
+        public string Remarks { get; set; }
         public Guid EncounterId { get; set; }
 
 
@@ -32,7 +32,7 @@ namespace LiveHAPI.Core.Model.Encounters
             Id = LiveGuid.NewGuid();
         }
 
-        private ObsFinalTestResult(Guid id,Guid? firstTestResult, string firstTestResultCode, Guid? secondTestResult, string secondTestResultCode, Guid? finalResult, string finalResultCode, Guid? resultGiven, Guid? coupleDiscordant, Guid? selfTestOption, Guid encounterId)
+        private ObsFinalTestResult(Guid id,Guid? firstTestResult, string firstTestResultCode, Guid? secondTestResult, string secondTestResultCode, Guid? finalResult, string finalResultCode, Guid? resultGiven, Guid? coupleDiscordant, Guid? selfTestOption, string remarks,Guid encounterId)
         {
             Id = id;
             FirstTestResult = firstTestResult;
@@ -44,13 +44,14 @@ namespace LiveHAPI.Core.Model.Encounters
             ResultGiven = resultGiven;
             CoupleDiscordant = coupleDiscordant;
             SelfTestOption = selfTestOption;
+            Remarks = remarks;
             EncounterId = encounterId;
         }
 
         public static ObsFinalTestResult Create(ObsFinalTestResultInfo obsInfo)
         {
             return new ObsFinalTestResult(obsInfo.Id,obsInfo.FirstTestResult, obsInfo.FirstTestResultCode, obsInfo.SecondTestResult, obsInfo.SecondTestResultCode, obsInfo.FinalResult, obsInfo.FinalResultCode, obsInfo.ResultGiven,
-                obsInfo.CoupleDiscordant, obsInfo.SelfTestOption, obsInfo.EncounterId);
+                obsInfo.CoupleDiscordant, obsInfo.SelfTestOption,obsInfo.Remarks, obsInfo.EncounterId);
         }
 
         public static List<ObsFinalTestResult> Create(EncounterInfo encounterInfo)
