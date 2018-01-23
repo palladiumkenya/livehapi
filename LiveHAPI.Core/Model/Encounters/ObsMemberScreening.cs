@@ -10,7 +10,7 @@ namespace LiveHAPI.Core.Model.Encounters
     public class ObsMemberScreening : Entity<Guid>, IObsMemberScreening
     {
         public DateTime ScreeningDate { get; set; }
-  
+        
         public Guid HivStatus { get; set; }
         public Guid Eligibility { get; set; }
         public DateTime BookingDate { get; set; }
