@@ -12,6 +12,7 @@ namespace LiveHAPI.Shared.ValueObject
         public string ModeDisplay { get; set; }
         public Guid Outcome { get; set; }
         public string OutcomeDisplay { get; set; }
+        public Guid? Consent { get; set; }
         public Guid EncounterId { get; set; }
         
     }

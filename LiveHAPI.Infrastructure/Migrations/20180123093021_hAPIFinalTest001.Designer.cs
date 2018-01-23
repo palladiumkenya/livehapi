@@ -11,9 +11,10 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    partial class LiveHAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20180123093021_hAPIFinalTest001")]
+    partial class hAPIFinalTest001
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,8 +136,7 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<string>("FirstTestResultCode");
 
-                    b.Property<string>("Remarks")
-                        .HasMaxLength(100);
+                    b.Property<string>("Remarks");
 
                     b.Property<Guid?>("ResultGiven");
 

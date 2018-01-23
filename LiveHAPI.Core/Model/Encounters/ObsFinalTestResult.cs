@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
@@ -23,6 +24,7 @@ namespace LiveHAPI.Core.Model.Encounters
         public Guid? CoupleDiscordant { get; set; }
         
         public Guid? SelfTestOption { get; set; }
+        [MaxLength(100)]
         public string Remarks { get; set; }
         public Guid EncounterId { get; set; }
 

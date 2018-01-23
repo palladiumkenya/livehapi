@@ -15,30 +15,32 @@ namespace LiveHAPI.Core.Model.Encounters
         public string ModeDisplay { get; set; }
         public Guid Outcome { get; set; }
         public string OutcomeDisplay { get; set; }
+        public Guid? Consent { get; set; }
         public Guid EncounterId { get; set; }
-
+      
         public ObsPartnerTraceResult()
         {
             Id = LiveGuid.NewGuid();
         }
 
-        public ObsPartnerTraceResult(Guid id,DateTime date, Guid mode, Guid outcome, Guid encounterId ) : this()
+        public ObsPartnerTraceResult(Guid id, DateTime date, Guid mode, Guid outcome, Guid encounterId, Guid? consent) : this()
         {
             Id = id;
             Date = date;
             Mode = mode;
             Outcome = outcome;
+            Consent = consent;
             EncounterId = encounterId;
         }
 
-        public static ObsPartnerTraceResult Create(Guid id, DateTime date, Guid mode, Guid outcome, Guid encounterId)
+        public static ObsPartnerTraceResult Create(Guid id, DateTime date, Guid mode, Guid outcome, Guid encounterId, Guid? consent)
         {
-            var obs = new ObsPartnerTraceResult(id,date, mode, outcome, encounterId);
+            var obs = new ObsPartnerTraceResult(id,date, mode, outcome, encounterId, consent);
             return obs;
         }
         public static ObsPartnerTraceResult Create(ObsPartnerTraceResultInfo obsInfo)
         {
-            return new ObsPartnerTraceResult(obsInfo.Id, obsInfo.Date, obsInfo.Mode, obsInfo.Outcome, obsInfo.EncounterId);
+            return new ObsPartnerTraceResult(obsInfo.Id, obsInfo.Date, obsInfo.Mode, obsInfo.Outcome, obsInfo.EncounterId, obsInfo.Consent);
         }
 
         public static List<ObsPartnerTraceResult> Create(EncounterInfo encounterInfo)

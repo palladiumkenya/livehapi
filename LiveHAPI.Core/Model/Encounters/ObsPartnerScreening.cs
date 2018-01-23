@@ -11,14 +11,21 @@ namespace LiveHAPI.Core.Model.Encounters
     public class ObsPartnerScreening : Entity<Guid>, IObsPartnerScreening
     {
         public DateTime ScreeningDate { get; set; }
+        public Guid? PnsAccepted { get; set; }
         public Guid IPVScreening { get; set; }
         public Guid PhysicalAssult { get; set; }
         public Guid Threatened { get; set; }
-       
         public Guid SexuallyUncomfortable { get; set; }
+        public Guid? IPVOutcome { get; set; }
+        public string Occupation { get; set; }
+        public Guid? PNSRealtionship { get; set; }
+
+        public Guid? LivingWithClient { get; set; }
+      
         public Guid HivStatus { get; set; }
+        public Guid? PNSApproach { get; set; }
         public Guid Eligibility { get; set; }
-        public DateTime BookingDate { get; set; }
+        public DateTime? BookingDate { get; set; }
         public string Remarks { get; set; }
         public Guid EncounterId { get; set; }
 
@@ -31,15 +38,28 @@ namespace LiveHAPI.Core.Model.Encounters
             Id = LiveGuid.NewGuid();
         }
 
-        public ObsPartnerScreening(DateTime screeningDate, Guid ipvScreening, Guid physicalAssult, Guid threatened, Guid sexuallyUncomfortable, Guid hivStatus, Guid eligibility, DateTime bookingDate, string remarks, Guid encounterId)
+        public ObsPartnerScreening(DateTime screeningDate, Guid ipvScreening, Guid physicalAssult, Guid threatened,
+            Guid sexuallyUncomfortable, Guid hivStatus, Guid eligibility, DateTime? bookingDate, string remarks,
+            Guid encounterId, Guid? pnsAccepted, Guid? iPVOutcome, string occupation, Guid? pNSRealtionship,
+            Guid? livingWithClient, Guid? pNSApproach)
         {
             ScreeningDate = screeningDate;
-
+            PnsAccepted = pnsAccepted;
             IPVScreening = ipvScreening;
             PhysicalAssult = physicalAssult;
             Threatened = threatened;
             SexuallyUncomfortable = sexuallyUncomfortable;
-            HivStatus = hivStatus;
+            IPVOutcome = iPVOutcome;
+            Occupation = occupation;
+            PNSRealtionship = pNSRealtionship;
+
+            LivingWithClient = livingWithClient;
+
+
+
+            PNSApproach = pNSApproach;
+
+        HivStatus = hivStatus;
 
             Eligibility = eligibility;
             BookingDate = bookingDate;
@@ -47,15 +67,20 @@ namespace LiveHAPI.Core.Model.Encounters
             EncounterId = encounterId;
         }
 
-        public ObsPartnerScreening(Guid id, DateTime screeningDate, Guid ipvScreening, Guid physicalAssult, Guid threatened, Guid sexuallyUncomfortable, Guid hivStatus, Guid eligibility, DateTime bookingDate, string remarks, Guid encounterId)
-            : this(screeningDate, ipvScreening, physicalAssult, threatened, sexuallyUncomfortable, hivStatus, eligibility, bookingDate, remarks, encounterId)
+        public ObsPartnerScreening(Guid id, DateTime screeningDate, Guid ipvScreening, Guid physicalAssult, Guid threatened, Guid sexuallyUncomfortable, Guid hivStatus, Guid eligibility, DateTime? bookingDate, string remarks, Guid encounterId,
+        Guid? pnsAccepted, Guid? iPVOutcome, string occupation, Guid? pNSRealtionship,
+        Guid? livingWithClient, Guid? pNSApproach
+        )
+            : this(screeningDate, ipvScreening, physicalAssult, threatened, sexuallyUncomfortable, hivStatus, eligibility, bookingDate, remarks, encounterId, pnsAccepted, iPVOutcome, occupation, pNSRealtionship, livingWithClient, pNSApproach)
         {
             Id = id;
         }
 
         public static ObsPartnerScreening Create(ObsPartnerScreeningInfo obsInfo)
         {
-            return new ObsPartnerScreening(obsInfo.Id, obsInfo.ScreeningDate, obsInfo.IPVScreening, obsInfo.PhysicalAssult, obsInfo.Threatened, obsInfo.SexuallyUncomfortable, obsInfo.HivStatus, obsInfo.Eligibility, obsInfo.BookingDate, obsInfo.Remarks, obsInfo.EncounterId);
+            return new ObsPartnerScreening(obsInfo.Id, obsInfo.ScreeningDate, obsInfo.IPVScreening, obsInfo.PhysicalAssult, obsInfo.Threatened, obsInfo.SexuallyUncomfortable, obsInfo.HivStatus, obsInfo.Eligibility, obsInfo.BookingDate, obsInfo.Remarks, obsInfo.EncounterId,
+            obsInfo.PnsAccepted, obsInfo.IPVOutcome, obsInfo.Occupation, obsInfo.PNSRealtionship, obsInfo.LivingWithClient, obsInfo.PNSApproach
+            );
         }
 
         public static List<ObsPartnerScreening> Create(EncounterInfo encounterInfo)

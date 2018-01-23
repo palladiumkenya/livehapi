@@ -4,7 +4,13 @@ namespace LiveHAPI.Shared.Interfaces.Model
 {
     public interface IObsPartnerScreening
     {
-        DateTime BookingDate { get; set; }
+        Guid? PNSApproach { get; set; }
+        Guid? LivingWithClient { get; set; }
+        Guid? PNSRealtionship { get; set; }
+        string Occupation { get; set; }
+        Guid? IPVOutcome { get; set; }
+        Guid? PnsAccepted { get; set; }
+        DateTime? BookingDate { get; set; }
         Guid Eligibility { get; set; }
         Guid EncounterId { get; set; }
         Guid HivStatus { get; set; }
