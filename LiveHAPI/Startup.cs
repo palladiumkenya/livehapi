@@ -183,7 +183,7 @@ namespace LiveHAPI
                                  | | | |/ ___ \|  __/| | 
                                  |_| |_/_/   \_\_|  |___|
                     ");
-            Log.Debug($"im hAPI !!");
+            Log.Debug($"im hAPI !!!");
         }
     }
 }
