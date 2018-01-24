@@ -1,4 +1,5 @@
-﻿ using LiveHAPI.Core.Interfaces.Handler;
+﻿ using System;
+ using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Repository.Subscriber;
 using LiveHAPI.Core.Interfaces.Services;
@@ -24,6 +25,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
+ using Action = LiveHAPI.Core.Model.QModel.Action;
 
 namespace LiveHAPI
 {
@@ -116,18 +118,61 @@ namespace LiveHAPI
                 app.UseDeveloperExceptionPage();
             }
 
-//                                    if (!context.AllMigrationsApplied())
-//                                    {
-//                                        context.Database.Migrate();
-//                                        context.EnsureSeeded();
-//                                    }
-                        
+            //                                    if (!context.AllMigrationsApplied())
+            //                                    {
+            //                                        context.Database.Migrate();
+            //                                        context.EnsureSeeded();
+            //                                    }
 
-            context.EnsureSeeded();
-            context.CreateViews();
-            emrContext.ApplyMigrations();
-            emrContext.UpdateTranslations();
+            Log.Debug($"database initializing...");
+
+            bool imHapi = true;
+            try
+            {
+                context.EnsureSeeded();
+            }
+            catch (Exception e)
+            {
+                imHapi = false;
+                Log.Debug(new string('<', 30));
+                Log.Debug($"{e}");
+                Log.Debug(new string('>', 30));
+            }
+
+            Log.Debug($"database initializing... [Views]");
+            try
+            {
+                context.CreateViews();
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+            }
+
+            Log.Debug($"database initializing... [EMR Migrations]");
+            try
+            {
             
+                emrContext.ApplyMigrations();
+             
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+            }
+
+            Log.Debug($"database initializing... [EMR Mappings]");
+            try
+            {
+              
+                emrContext.UpdateTranslations();
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+            }
+
+
             app.UseMvc();
 
             app.UseDefaultFiles();
@@ -183,7 +228,16 @@ namespace LiveHAPI
                                  | | | |/ ___ \|  __/| | 
                                  |_| |_/_/   \_\_|  |___|
                     ");
-            Log.Debug($"im hAPI !!!");
+
+            if (imHapi)
+            {
+                Log.Debug($"im hAPI !!!");
+            }
+            else
+            {
+                Log.Debug($"im NOT hAPI    >*|*< ");
+            }
+           
         }
     }
 }

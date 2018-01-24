@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using CsvHelper;
+using Serilog;
 
 namespace LiveHAPI.Infrastructure.Seeder
 {
@@ -12,13 +13,15 @@ namespace LiveHAPI.Infrastructure.Seeder
     {
         public static List<T> ReadCsv<T>() where T : class
         {
+         
             var name = typeof(T).Name;
+            Log.Debug($"seeding {name} ...");
             var namespce = "LiveHAPI.Infrastructure.Seed";
 
             var resourceName =  $"{namespce}.{name}.csv";
             var assembly = Assembly.GetExecutingAssembly();
             var stream = assembly.GetManifestResourceStream(resourceName);
-            List<T> records;
+            List<T> records = new List<T>();
             using (StreamReader reader = new StreamReader(stream))
             {
                 var csv = new CsvReader(reader);
@@ -26,7 +29,16 @@ namespace LiveHAPI.Infrastructure.Seeder
                 csv.Configuration.TrimFields = true;
                 csv.Configuration.TrimHeaders = true;
                 csv.Configuration.WillThrowOnMissingField = false;
-                records = csv.GetRecords<T>().ToList();
+                try
+                {
+                    records = csv.GetRecords<T>().ToList();
+                }
+                catch (Exception e)
+                {
+                    Log.Debug(new string('V',30));
+                    Log.Error($"{e}");
+                    Log.Debug(new string('V', 30));
+                }
             }
             return records;
         }
