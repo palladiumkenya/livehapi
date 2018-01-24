@@ -59,6 +59,7 @@ namespace LiveHAPI.IQCare.Infrastructure
             catch (Exception e)
             {
                 Log.Debug($"{e}");
+                throw;
             }
 
             try
@@ -108,6 +109,7 @@ namespace LiveHAPI.IQCare.Infrastructure
             catch (Exception e)
             {
                 Log.Debug($"{e}");
+                throw;
             }
             
             try
@@ -148,6 +150,7 @@ namespace LiveHAPI.IQCare.Infrastructure
             catch (Exception e)
             {
                 Log.Debug($"{e}");
+                throw;
             }
 
         }
@@ -170,6 +173,7 @@ namespace LiveHAPI.IQCare.Infrastructure
             catch (Exception e)
             {
                 Log.Debug($"{e}");
+                throw;
             }
 
 

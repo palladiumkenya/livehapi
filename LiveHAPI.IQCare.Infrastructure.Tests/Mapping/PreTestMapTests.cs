@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Subscriber;
 using Microsoft.Extensions.Configuration;
+using Microsoft.SqlServer.Management.Common;
+using Microsoft.SqlServer.Management.Smo;
 using NUnit.Framework;
 
 namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
@@ -23,18 +26,32 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
         private List<Question> _allQuestions;
         private List<PreTestMap> _preTestMaps;
         private List<PreTestBindMap> _preTestBindMaps;
+        private IConfigurationRoot _config;
+
+        [OneTimeSetUp]
+        public void Init()
+        {
+            _config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            _hapiConnection = new SqlConnection(_config["connectionStrings:hAPIConnection"]);
+            _emrConnection = new SqlConnection(_config["connectionStrings:EMRConnection"]);
+            string script = File.ReadAllText(@"htchapi001.sql");
+
+            SqlConnection conn = new SqlConnection(_emrConnection.ConnectionString);
+            Server server = new Server(new ServerConnection(conn));
+            server.ConnectionContext.ExecuteNonQuery(script);
+
+            _allQuestions = _hapiConnection.GetAll<Question>().Where(x => !x.Fact.Equals("alien")).ToList();
+            _preTestMaps = _hapiConnection.Query<PreTestMap>(_sqlPretestMap).ToList();
+            _preTestBindMaps = _hapiConnection.Query<PreTestBindMap>(_sqlPretestBindMap).ToList();
+        }
 
         [SetUp]
         public void SetUp()
         {
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-            _hapiConnection = new SqlConnection(config["connectionStrings:hAPIConnection"]);
-            _emrConnection = new SqlConnection(config["connectionStrings:EMRConnection"]);
-            _allQuestions = _hapiConnection.GetAll<Question>().Where(x => !x.Fact.Equals("alien")).ToList();
-            _preTestMaps = _hapiConnection.Query<PreTestMap>(_sqlPretestMap).ToList();
-            _preTestBindMaps = _hapiConnection.Query<PreTestBindMap>(_sqlPretestBindMap).ToList();
+            _hapiConnection = new SqlConnection(_config["connectionStrings:hAPIConnection"]);
+            _emrConnection = new SqlConnection(_config["connectionStrings:EMRConnection"]);
         }
 
         [Test]
@@ -100,27 +117,36 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
                 Assert.True(mappedLookups.Count > 0);
 
                 var lookups = _emrConnection.Query<Lookup>(p.GetLookups()).ToList();
-                Assert.True(lookups.Count>0);
-
+                Assert.True(lookups.Count > 0);
 
                 foreach (var mappedLookup in mappedLookups)
                 {
+                    Console.WriteLine($"{mappedLookup.SubDisplay}");
+
                     var correctMap = lookups.Where(
                         x => x.DeleteFlag.HasValue &&
                              x.DeleteFlag.Value == 0 &&
                              x.Name.ToLower().Trim() == mappedLookup.SubDisplay.ToLower().Trim()).ToList();
 
-                    Assert.NotNull(correctMap.Count == 1);
+                    Assert.True(correctMap.Count == 1);
 
-                    if (p.IsYesNo()&&mappedLookup.SubCode=="1")
+                    if (p.IsYesNo())
                     {
-                        Assert.AreEqual(mappedLookup.SubCode.ToLower().Trim(),correctMap.First().Id.ToString().ToLower().Trim());
+                        if (mappedLookup.SubCode == "1")
+                        {
+                            Assert.AreEqual(
+                                mappedLookup.SubCode.ToLower().Trim(),
+                                correctMap.First().Id.ToString().ToLower().Trim());
+                        }
                     }
-                    
-                    if (!p.IsYesNo())
-                        Assert.AreEqual(mappedLookup.SubCode.ToLower().Trim(),correctMap.First().Id.ToString().ToLower().Trim());
-                    Console.WriteLine($"{mappedLookup.Display} >> {mappedLookup.SubDisplay}");
+                    else
+                    {
+                        Assert.AreEqual(
+                            mappedLookup.SubCode.ToLower().Trim(),
+                            correctMap.First().Id.ToString().ToLower().Trim());
+                    }
 
+                    Console.WriteLine($"{mappedLookup.Display} >> {mappedLookup.SubDisplay}");
                 }
 
                 Console.WriteLine(new string('_', 30));

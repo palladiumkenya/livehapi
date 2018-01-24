@@ -1,4 +1,4 @@
-﻿ using System;
+﻿  using System;
  using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Repository.Subscriber;
@@ -127,16 +127,18 @@ namespace LiveHAPI
             Log.Debug($"database initializing...");
 
             bool imHapi = true;
+            string herror = "";
             try
             {
                 context.EnsureSeeded();
             }
             catch (Exception e)
             {
+                herror = "Seeding";
                 imHapi = false;
-                Log.Debug(new string('<', 30));
-                Log.Debug($"{e}");
-                Log.Debug(new string('>', 30));
+                Log.Error(new string('<', 30));
+                Log.Error($"{e}");
+                Log.Error(new string('>', 30));
             }
 
             Log.Debug($"database initializing... [Views]");
@@ -146,7 +148,9 @@ namespace LiveHAPI
             }
             catch (Exception e)
             {
-                Log.Debug($"{e}");
+                herror = "Views";
+                imHapi = false;
+                Log.Error($"{e}");
             }
 
             Log.Debug($"database initializing... [EMR Migrations]");
@@ -158,7 +162,9 @@ namespace LiveHAPI
             }
             catch (Exception e)
             {
-                Log.Debug($"{e}");
+                herror = "Migrations";
+                imHapi = false;
+                Log.Error($"{e}");
             }
 
             Log.Debug($"database initializing... [EMR Mappings]");
@@ -169,7 +175,9 @@ namespace LiveHAPI
             }
             catch (Exception e)
             {
-                Log.Debug($"{e}");
+                herror = "Translation";
+                imHapi = false;
+                Log.Error($"{e}");
             }
 
 
@@ -235,7 +243,8 @@ namespace LiveHAPI
             }
             else
             {
-                Log.Debug($"im NOT hAPI    >*|*< ");
+                Log.Error($"im NOT hAPI    >*|*< ");
+                Log.Error($"cause: {herror}");
             }
            
         }

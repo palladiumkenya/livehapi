@@ -7,9 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="htchapi001.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="htchapi001.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
@@ -28,12 +35,6 @@
     <ProjectReference Include="..\LiveHAPI.Infrastructure\LiveHAPI.Infrastructure.csproj" />
     <ProjectReference Include="..\LiveHAPI.IQCare.Infrastructure\LiveHAPI.IQCare.Infrastructure.csproj" />
     <ProjectReference Include="..\LiveHAPI.Shared.Tests\LiveHAPI.Shared.Tests.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="htchapi001.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

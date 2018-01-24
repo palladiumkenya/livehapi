@@ -175,6 +175,7 @@ namespace LiveHAPI.Infrastructure
             catch (Exception e)
             {
                 Log.Debug($"{e}");
+                throw;
             }
 
 //            try

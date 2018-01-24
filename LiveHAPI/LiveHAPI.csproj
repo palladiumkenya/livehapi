@@ -26,6 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="htchapi001.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="htchapi001.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
