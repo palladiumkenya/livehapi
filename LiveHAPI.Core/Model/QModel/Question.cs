@@ -16,6 +16,7 @@ namespace LiveHAPI.Core.Model.QModel
         [MaxLength(50)]
         public string Description { get; set; }
         public Decimal Rank { get; set; }
+        public string Fact { get; set; }
         public Guid FormId { get; set; }
 
         public ICollection<QuestionValidation> Validations { get; set; } = new List<QuestionValidation>();

@@ -11,9 +11,10 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    partial class LiveHAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20180124111353_hAPIQs001")]
+    partial class hAPIQs001
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
