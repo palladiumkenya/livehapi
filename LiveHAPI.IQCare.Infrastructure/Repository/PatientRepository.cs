@@ -129,6 +129,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
         }
         private SqlAction InsertPatient(decimal rank, Patient patient, SubscriberSystem subscriberSystem, Location location)
         {
+            //TODO: ***USE ACTUAL Users
             //TODO: ALTER TABLE [dbo].[mst_Patient] ADD [mAfyaId] [uniqueidentifier] NULL
 
             string sql = $@"
