@@ -25,5 +25,16 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
         {
             return $"{Display} > {SubName}.{SubField}";
         }
+
+        public static string GetQuery()
+        {
+            return  $@"
+            SELECT        Questions.Id, SubscriberMaps.Field, Questions.Display, SubscriberMaps.Name, SubscriberMaps.SubName, SubscriberMaps.SubField, SubscriberMaps.Mode
+            FROM            Questions INNER JOIN
+                                     SubscriberMaps ON CAST(Questions.Id AS varchar(50)) = SubscriberMaps.Field
+            WHERE        (Questions.Fact <> N'alien') 
+            ";
+
+        }
     }
 }

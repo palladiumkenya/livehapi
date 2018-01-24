@@ -5,6 +5,7 @@ using System.Linq;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using LiveHAPI.Core.Model.QModel;
+using LiveHAPI.Core.Model.Subscriber;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 
@@ -16,14 +17,12 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
         private SqlConnection _hapiConnection;
         private SqlConnection _emrConnection;
 
-        private readonly string _sqlPretestMap = $@"
-            SELECT        Questions.Id, SubscriberMaps.Field, Questions.Display, SubscriberMaps.Name, SubscriberMaps.SubName, SubscriberMaps.SubField, SubscriberMaps.Mode
-            FROM            Questions INNER JOIN
-                                     SubscriberMaps ON CAST(Questions.Id AS varchar(50)) = SubscriberMaps.Field
-            WHERE        (Questions.Fact <> N'alien') ";
+        private readonly string _sqlPretestMap =PreTestMap.GetQuery();
+        private readonly string _sqlPretestBindMap = PreTestBindMap.GetQuery();
 
         private List<Question> _allQuestions;
         private List<PreTestMap> _preTestMaps;
+        private List<PreTestBindMap> _preTestBindMaps;
 
         [SetUp]
         public void SetUp()
@@ -35,6 +34,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
             _emrConnection = new SqlConnection(config["connectionStrings:EMRConnection"]);
             _allQuestions = _hapiConnection.GetAll<Question>().Where(x => !x.Fact.Equals("alien")).ToList();
             _preTestMaps = _hapiConnection.Query<PreTestMap>(_sqlPretestMap).ToList();
+            _preTestBindMaps = _hapiConnection.Query<PreTestBindMap>(_sqlPretestBindMap).ToList();
         }
 
         [Test]
@@ -62,6 +62,69 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
             foreach (var preTestMap in _preTestMaps)
             {
                 Console.WriteLine(preTestMap.Info());
+            }
+        }
+
+        [Test]
+        public void should_have_mapped_lookups()
+        {
+            Assert.True(_preTestBindMaps.Count > 0);
+
+            foreach (var p in _preTestBindMaps)
+            {
+                var subs = _hapiConnection.GetAll<SubscriberTranslation>()
+                    .Where(x => x.Ref.Trim().ToLower() == p.Field.Trim().ToLower()).ToList();
+                Assert.AreEqual(p.SubField.Trim().ToLower(),p.Iqfield.Trim().ToLower());
+                Assert.True(subs.Count>0);
+                Console.WriteLine($"        {p.Display}");
+                foreach (var subscriberTranslation in subs)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"   {subscriberTranslation.Code} | {subscriberTranslation.Display} >> {subscriberTranslation.SubCode} | {subscriberTranslation.SubDisplay}");
+                }
+
+                Console.WriteLine(new string('_',30));
+            }
+        }
+
+        [Test]
+        public void should_have_valid_lookups()
+        {
+            Assert.True(_preTestBindMaps.Count > 0);
+
+            foreach (var p in _preTestBindMaps)
+            {
+                Console.WriteLine($"Lookups   |   {p.Display}");
+                var mappedLookups = _hapiConnection.GetAll<SubscriberTranslation>()
+                    .Where(x => x.Ref.Trim().ToLower() == p.Field.Trim().ToLower()).ToList();
+                Assert.True(mappedLookups.Count > 0);
+
+                var lookups = _emrConnection.Query<Lookup>(p.GetLookups()).ToList();
+                Assert.True(lookups.Count>0);
+
+
+                foreach (var mappedLookup in mappedLookups)
+                {
+                    var correctMap = lookups.Where(
+                        x => x.DeleteFlag.HasValue &&
+                             x.DeleteFlag.Value == 0 &&
+                             x.Name.ToLower().Trim() == mappedLookup.SubDisplay.ToLower().Trim()).ToList();
+
+                    Assert.NotNull(correctMap.Count == 1);
+
+                    if (p.IsYesNo()&&mappedLookup.SubCode=="1")
+                    {
+                        Assert.AreEqual(mappedLookup.SubCode.ToLower().Trim(),correctMap.First().Id.ToString().ToLower().Trim());
+                    }
+                    
+                    if (!p.IsYesNo())
+                        Assert.AreEqual(mappedLookup.SubCode.ToLower().Trim(),correctMap.First().Id.ToString().ToLower().Trim());
+                    Console.WriteLine($"{mappedLookup.Display} >> {mappedLookup.SubDisplay}");
+
+                }
+
+                Console.WriteLine(new string('_', 30));
+                Console.WriteLine();
             }
         }
 
