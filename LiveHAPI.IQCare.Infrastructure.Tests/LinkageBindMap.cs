@@ -2,7 +2,7 @@
 
 namespace LiveHAPI.IQCare.Infrastructure.Tests
 {
-    public class PreTestBindMap
+    public class LinkageBindMap
     {
       
         public Guid Id { get; set; }
@@ -14,9 +14,11 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public string Mode { get; set; }
         public string Fact { get; set; }
         public string BindTable { get; set; }
+
+        public string TranslationField => $"{Name}.{Field}";
         public int? BindId { get; set; }
         public string Iqfield;
-        public PreTestBindMap()
+        public LinkageBindMap()
         {
         }
 
@@ -28,11 +30,15 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public static string GetQuery()
         {
             return $@"
-           SELECT        Questions.Id, SubscriberMaps.Field, Questions.Display, SubscriberMaps.Name, SubscriberMaps.SubName, SubscriberMaps.SubField, SubscriberMaps.Mode,i.BindTable,i.BindID,i.Field as 'Iqfield'
-            FROM            Questions INNER JOIN
-                                     SubscriberMaps ON CAST(Questions.Id AS varchar(50)) = SubscriberMaps.Field inner join 
+           SELECT        Id, SubscriberMaps.Field, SubscriberMaps.Field as Display, SubscriberMaps.Name, SubscriberMaps.SubName, SubscriberMaps.SubField, SubscriberMaps.Mode,i.BindTable,i.BindID,i.Field as 'Iqfield'
+            FROM            
+			SubscriberMaps 
+			inner join 
 									 IQCare.dbo.htchapiall as i on SubscriberMaps.SubField=i.Field and  SubscriberMaps.SubName=i.[Table]
-            WHERE        (Questions.Fact <> N'alien') and i.BindTable in ('Mst_ModDecode','Mst_YesNo')
+
+            WHERE        (Name = N'ObsLinkage') and (SubName = N'DTL_FBCUSTOMFIELD_LinkageAndTracking')
+			and i.BindTable in ('Mst_ModDecode','Mst_YesNo')
+
             ";
         }
 

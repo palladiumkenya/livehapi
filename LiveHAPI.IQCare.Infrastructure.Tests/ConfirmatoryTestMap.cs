@@ -2,7 +2,7 @@
 
 namespace LiveHAPI.IQCare.Infrastructure.Tests
 {
-    public class PreTestMap
+    public class ConfirmatoryTestMap
     {
         public Guid Id { get; set; }
         public string Field { get; set; }
@@ -11,9 +11,8 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public string SubName { get; set; }
         public string SubField { get; set; }
         public string Mode { get; set; }
-        public string Fact { get; set; }
 
-        public PreTestMap()
+        public ConfirmatoryTestMap()
         {
         }
 
@@ -29,10 +28,10 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public static string GetQuery()
         {
             return  $@"
-            SELECT        Questions.Id, SubscriberMaps.Field, Questions.Display, SubscriberMaps.Name, SubscriberMaps.SubName, SubscriberMaps.SubField, SubscriberMaps.Mode
-            FROM            Questions INNER JOIN
-                                     SubscriberMaps ON CAST(Questions.Id AS varchar(50)) = SubscriberMaps.Field
-            WHERE        (Questions.Fact <> N'alien') 
+            SELECT        Id, SubscriberMaps.Field, SubscriberMaps.Field as Display, SubscriberMaps.Name, SubscriberMaps.SubName, SubscriberMaps.SubField, SubscriberMaps.Mode
+            FROM            
+			SubscriberMaps 
+            WHERE        (Name = N'ObsTestResult') and (SubName = N'DTL_CUSTOMFORM_HIV-Test 2_HTC_Lab_MOH_362') 
             ";
 
         }

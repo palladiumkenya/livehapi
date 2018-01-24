@@ -1,4 +1,4 @@
-﻿namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
+﻿namespace LiveHAPI.IQCare.Infrastructure.Tests
 {
     public class Lookup
     {
