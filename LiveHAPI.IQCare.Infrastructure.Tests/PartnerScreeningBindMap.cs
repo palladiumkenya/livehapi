@@ -2,7 +2,7 @@
 
 namespace LiveHAPI.IQCare.Infrastructure.Tests
 {
-    public class MemberScreeningBindMap
+    public class PartnerScreeningBindMap
     {
       
         public Guid Id { get; set; }
@@ -18,7 +18,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public string TranslationField => $"{Name}.{Field}";
         public int? BindId { get; set; }
         public string Iqfield;
-        public MemberScreeningBindMap()
+        public PartnerScreeningBindMap()
         {
         }
 
@@ -36,7 +36,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
 			inner join 
 									 IQCare.dbo.htchapiall as i on SubscriberMaps.SubField=i.Field and  SubscriberMaps.SubName=i.[Table]
 
-            WHERE        (Name = N'ObsMemberScreening') and (SubName = N'DTL_CUSTOMFORM_Family Testing Form_FamilyTestingForm')
+            WHERE        (Name = N'ObsPartnerScreening') and (SubName = N'DTL_FBCUSTOMFIELD_PNSFORM')
 			and i.BindTable in ('Mst_ModDecode','Mst_YesNo')
 
             ";

@@ -2,7 +2,7 @@
 
 namespace LiveHAPI.IQCare.Infrastructure.Tests
 {
-    public class MemberScreeningMap
+    public class PartnerScreeningMap
     {
         public Guid Id { get; set; }
         public string Field { get; set; }
@@ -12,7 +12,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public string SubField { get; set; }
         public string Mode { get; set; }
 
-        public MemberScreeningMap()
+        public PartnerScreeningMap()
         {
         }
 
@@ -31,7 +31,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
             SELECT        Id, SubscriberMaps.Field, SubscriberMaps.Field as Display, SubscriberMaps.Name, SubscriberMaps.SubName, SubscriberMaps.SubField, SubscriberMaps.Mode
             FROM            
 			SubscriberMaps 
-            WHERE        (Name = N'ObsMemberScreening') and (SubName = N'DTL_CUSTOMFORM_Family Testing Form_FamilyTestingForm') 
+            WHERE        (Name = N'ObsPartnerScreening') and (SubName = N'DTL_FBCUSTOMFIELD_PNSFORM') 
             ";
 
         }

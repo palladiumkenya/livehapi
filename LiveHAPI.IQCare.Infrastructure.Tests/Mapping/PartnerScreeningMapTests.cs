@@ -15,17 +15,17 @@ using NUnit.Framework;
 namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
 {
     [TestFixture]
-    public class MemberScreeningMapTests
+    public class PartnerScreeningMapTests
     {
         private SqlConnection _hapiConnection;
         private SqlConnection _emrConnection;
 
-        private readonly string _sqlMemberScreeningMap = MemberScreeningMap.GetQuery();
-        private readonly string _sqlMemberScreeningBindMap = MemberScreeningBindMap.GetQuery();
+        private readonly string _sqlPartnerScreeningMap = PartnerScreeningMap.GetQuery();
+        private readonly string _sqlPartnerScreeningBindMap = PartnerScreeningBindMap.GetQuery();
 
-        private List<SubscriberMap> _allMemberScreeningQuestions;
-        private List<MemberScreeningMap> _memberScreeningMaps;
-        private List<MemberScreeningBindMap> _memberScreeningBindMaps;
+        private List<SubscriberMap> _allPartnerScreeningQuestions;
+        private List<PartnerScreeningMap> _partnerScreeningMaps;
+        private List<PartnerScreeningBindMap> _partnerScreeningBindMaps;
         private IConfigurationRoot _config;
 
         [OneTimeSetUp]
@@ -42,11 +42,11 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
             Server server = new Server(new ServerConnection(conn));
             server.ConnectionContext.ExecuteNonQuery(script);
 
-            _allMemberScreeningQuestions = _hapiConnection.GetAll<SubscriberMap>().Where(
-                x => x.Name.ToLower().Trim() == "ObsMemberScreening".ToLower().Trim()).ToList();
+            _allPartnerScreeningQuestions = _hapiConnection.GetAll<SubscriberMap>().Where(
+                x => x.Name.ToLower().Trim() == "ObsPartnerScreening".ToLower().Trim()).ToList();
 
-            _memberScreeningMaps = _hapiConnection.Query<MemberScreeningMap>(_sqlMemberScreeningMap).ToList();
-            _memberScreeningBindMaps = _hapiConnection.Query<MemberScreeningBindMap>(_sqlMemberScreeningBindMap).ToList();
+            _partnerScreeningMaps = _hapiConnection.Query<PartnerScreeningMap>(_sqlPartnerScreeningMap).ToList();
+            _partnerScreeningBindMaps = _hapiConnection.Query<PartnerScreeningBindMap>(_sqlPartnerScreeningBindMap).ToList();
         }
 
         [SetUp]
@@ -57,41 +57,41 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
         }
 
         [Test]
-        public void should_map_memberScreening_non_alien()
+        public void should_map_partnerScreening_non_alien()
         {
-            Assert.True(_allMemberScreeningQuestions.Count > 0);
-            Assert.True(_memberScreeningMaps.Count > 0);
-            Assert.AreEqual(_allMemberScreeningQuestions.Count, _memberScreeningMaps.Count);
+            Assert.True(_allPartnerScreeningQuestions.Count > 0);
+            Assert.True(_partnerScreeningMaps.Count > 0);
+            Assert.AreEqual(_allPartnerScreeningQuestions.Count, _partnerScreeningMaps.Count);
             Console.WriteLine(
-                $"LiveHTS MemberScreening:{_allMemberScreeningQuestions.Count}:EMR:{_memberScreeningMaps.Count}");
+                $"LiveHTS PartnerScreening:{_allPartnerScreeningQuestions.Count}:EMR:{_partnerScreeningMaps.Count}");
         }
 
         [Test]
-        public void should_map_memberScreening_to_valid_destination()
+        public void should_map_partnerScreening_to_valid_destination()
         {
-            Assert.True(_memberScreeningMaps.Count > 0);
+            Assert.True(_partnerScreeningMaps.Count > 0);
 
-            foreach (var memberScreeningMap in _memberScreeningMaps)
+            foreach (var partnerScreeningMap in _partnerScreeningMaps)
             {
                 Assert.DoesNotThrow(() =>
                 {
-                    var count = _emrConnection.ExecuteScalar<int>(memberScreeningMap.SqlColumn());
+                    var count = _emrConnection.ExecuteScalar<int>(partnerScreeningMap.SqlColumn());
 
                 });
             }
 
-            foreach (var memberScreeningMap in _memberScreeningMaps)
+            foreach (var partnerScreeningMap in _partnerScreeningMaps)
             {
-                Console.WriteLine(memberScreeningMap.Info());
+                Console.WriteLine(partnerScreeningMap.Info());
             }
         }
 
         [Test]
-        public void should_have_mapped_memberScreening_lookups()
+        public void should_have_mapped_partnerScreening_lookups()
         {
-            Assert.True(_memberScreeningBindMaps.Count > 0);
+            Assert.True(_partnerScreeningBindMaps.Count > 0);
 
-            foreach (var p in _memberScreeningBindMaps)
+            foreach (var p in _partnerScreeningBindMaps)
             {
                 var subs = _hapiConnection.GetAll<SubscriberTranslation>()
                     .Where(x => x.Ref.Trim().ToLower() == p.TranslationField.Trim().ToLower()).ToList();
@@ -110,11 +110,11 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
         }
 
         [Test]
-        public void should_have_valid_memberScreening_lookups()
+        public void should_have_valid_partnerScreening_lookups()
         {
-            Assert.True(_memberScreeningBindMaps.Count > 0);
+            Assert.True(_partnerScreeningBindMaps.Count > 0);
 
-            foreach (var p in _memberScreeningBindMaps)
+            foreach (var p in _partnerScreeningBindMaps)
             {
                 Console.WriteLine($"Lookups   |   {p.Display}");
                 var mappedLookups = _hapiConnection.GetAll<SubscriberTranslation>()
