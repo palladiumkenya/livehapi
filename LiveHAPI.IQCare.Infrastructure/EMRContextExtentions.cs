@@ -179,31 +179,5 @@ namespace LiveHAPI.IQCare.Infrastructure
 
         }
 
-        public static void UpdateConfiguration(this EMRContext context)
-        {
-
-            //Feature
-
-            try
-            {
-                string sqlConnectionString = context.Database.GetDbConnection().ConnectionString;
-
-                string script = File.ReadAllText(@"htchapi001.sql");
-
-                SqlConnection conn = new SqlConnection(sqlConnectionString);
-
-                Server server = new Server(new ServerConnection(conn));
-
-                server.ConnectionContext.ExecuteNonQuery(script);
-
-            }
-            catch (Exception e)
-            {
-                Log.Debug($"{e}");
-                throw;
-            }
-
-
-        }
     }
 }
