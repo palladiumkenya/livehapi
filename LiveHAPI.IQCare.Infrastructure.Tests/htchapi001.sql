@@ -182,7 +182,35 @@ INNER JOIN dbo.mst_control c ON a.ControlId = c.ControlID
 go
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+update   [LiveHAPI].[dbo].[SubscriberConfigs]
+set [Value]=m.[ModuleID]
+FROM            
+	[LiveHAPI].[dbo].[SubscriberConfigs] AS h INNER JOIN
+    [mst_module] AS m ON h.[Code] = m.[ModuleName]
+where h.[name] like '%ModuleId%'
+go
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+UPDATE   [LiveHAPI].[dbo].[SubscriberConfigs]
+set [Value]=m.[FeatureID]
+FROM            
+	[LiveHAPI].[dbo].[SubscriberConfigs] AS h INNER JOIN
+    [mst_Feature] AS m ON h.[Code] = m.[FeatureName]
+where h.[name] like '%.FeatureId%'
+
+GO
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+update   [LiveHAPI].[dbo].[SubscriberConfigs]
+set [Value]=m.[VisitTypeID]
+FROM            
+	[LiveHAPI].[dbo].[SubscriberConfigs] AS h INNER JOIN
+    [mst_VisitType] AS m ON h.[Code] = m.[VisitName]
+where h.[name] like '%.VisitTypeId%'
+GO
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 IF EXISTS(SELECT * FROM sysobjects WHERE name='htchapiall' AND type='v')
 	DROP VIEW htchapiall
 Go
@@ -190,7 +218,7 @@ Go
 create view htchapiall
 as
 select distinct * from vw_DetailsOfAllFields where (
-form like '%FamilyTestingForm%' or 
+form like '%FamilyMemberTesting%' or 
 form like '%FamilyTracingForm%' or
 form like '%HTC Lab MOH 362%' or
 form like '%LinkageAndTracking%' or
@@ -209,7 +237,7 @@ Go
 create view htchapi
 as
 select distinct * from vw_DetailsOfAllFields where (
-form like '%FamilyTestingForm%' or 
+form like '%FamilyMemberTesting%' or 
 form like '%FamilyTracingForm%' or
 form like '%HTC Lab MOH 362%' or
 form like '%LinkageAndTracking%' or

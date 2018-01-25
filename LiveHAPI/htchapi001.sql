@@ -218,7 +218,7 @@ Go
 create view htchapiall
 as
 select distinct * from vw_DetailsOfAllFields where (
-form like '%FamilyTestingForm%' or 
+form like '%FamilyMemberTesting%' or 
 form like '%FamilyTracingForm%' or
 form like '%HTC Lab MOH 362%' or
 form like '%LinkageAndTracking%' or
@@ -237,7 +237,7 @@ Go
 create view htchapi
 as
 select distinct * from vw_DetailsOfAllFields where (
-form like '%FamilyTestingForm%' or 
+form like '%FamilyMemberTesting%' or 
 form like '%FamilyTracingForm%' or
 form like '%HTC Lab MOH 362%' or
 form like '%LinkageAndTracking%' or
