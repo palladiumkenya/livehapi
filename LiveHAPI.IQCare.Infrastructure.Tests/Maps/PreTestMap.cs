@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace LiveHAPI.IQCare.Infrastructure.Tests
+namespace LiveHAPI.IQCare.Infrastructure.Tests.Maps
 {
-    public class LinkageMap
+    public class PreTestMap
     {
         public Guid Id { get; set; }
         public string Field { get; set; }
@@ -11,8 +11,9 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public string SubName { get; set; }
         public string SubField { get; set; }
         public string Mode { get; set; }
+        public string Fact { get; set; }
 
-        public LinkageMap()
+        public PreTestMap()
         {
         }
 
@@ -28,10 +29,10 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public static string GetQuery()
         {
             return  $@"
-            SELECT        Id, SubscriberMaps.Field, SubscriberMaps.Field as Display, SubscriberMaps.Name, SubscriberMaps.SubName, SubscriberMaps.SubField, SubscriberMaps.Mode
-            FROM            
-			SubscriberMaps 
-            WHERE        (Name = N'ObsLinkage') and (SubName = N'DTL_FBCUSTOMFIELD_LinkageAndTracking') 
+            SELECT        Questions.Id, SubscriberMaps.Field, Questions.Display, SubscriberMaps.Name, SubscriberMaps.SubName, SubscriberMaps.SubField, SubscriberMaps.Mode
+            FROM            Questions INNER JOIN
+                                     SubscriberMaps ON CAST(Questions.Id AS varchar(50)) = SubscriberMaps.Field
+            WHERE        (Questions.Fact <> N'alien') 
             ";
 
         }

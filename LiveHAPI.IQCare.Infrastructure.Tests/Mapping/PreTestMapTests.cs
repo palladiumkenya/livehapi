@@ -7,6 +7,7 @@ using Dapper;
 using Dapper.Contrib.Extensions;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Subscriber;
+using LiveHAPI.IQCare.Infrastructure.Tests.Maps;
 using Microsoft.Extensions.Configuration;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
@@ -116,7 +117,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
                     .Where(x => x.Ref.Trim().ToLower() == p.Field.Trim().ToLower()).ToList();
                 Assert.True(mappedLookups.Count > 0);
 
-                var lookups = _emrConnection.Query<Lookup>(p.GetLookups()).ToList();
+                var lookups = _emrConnection.Query<LookupMap>(p.GetLookups()).ToList();
                 Assert.True(lookups.Count > 0);
 
                 foreach (var mappedLookup in mappedLookups)

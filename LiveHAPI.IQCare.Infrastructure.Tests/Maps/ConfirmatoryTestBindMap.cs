@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace LiveHAPI.IQCare.Infrastructure.Tests
+namespace LiveHAPI.IQCare.Infrastructure.Tests.Maps
 {
-    public class FamilyTraceBindMap
+    public class ConfirmatoryTestBindMap
     {
       
         public Guid Id { get; set; }
@@ -18,7 +18,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public string TranslationField => $"{Name}.{Field}";
         public int? BindId { get; set; }
         public string Iqfield;
-        public FamilyTraceBindMap()
+        public ConfirmatoryTestBindMap()
         {
         }
 
@@ -36,7 +36,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
 			inner join 
 									 IQCare.dbo.htchapiall as i on SubscriberMaps.SubField=i.Field and  SubscriberMaps.SubName=i.[Table]
 
-            WHERE        (Name = N'ObsFamilyTraceResult') and (SubName = N'DTL_CUSTOMFORM_Family Member Tracing Form_FamilyTracingForm')
+            WHERE        (Name = N'ObsTestResult') and (SubName = N'DTL_CUSTOMFORM_HIV-Test 2_HTC_Lab_MOH_362')
 			and i.BindTable in ('Mst_ModDecode','Mst_YesNo')
 
             ";

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace LiveHAPI.IQCare.Infrastructure.Tests
+namespace LiveHAPI.IQCare.Infrastructure.Tests.Maps
 {
-    public class LinkageBindMap
+    public class MemberScreeningBindMap
     {
       
         public Guid Id { get; set; }
@@ -18,7 +18,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public string TranslationField => $"{Name}.{Field}";
         public int? BindId { get; set; }
         public string Iqfield;
-        public LinkageBindMap()
+        public MemberScreeningBindMap()
         {
         }
 
@@ -36,7 +36,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
 			inner join 
 									 IQCare.dbo.htchapiall as i on SubscriberMaps.SubField=i.Field and  SubscriberMaps.SubName=i.[Table]
 
-            WHERE        (Name = N'ObsLinkage') and (SubName = N'DTL_FBCUSTOMFIELD_LinkageAndTracking')
+            WHERE        (Name = N'ObsMemberScreening') and (SubName = N'DTL_FBCUSTOMFIELD_FamilyMemberTesting')
 			and i.BindTable in ('Mst_ModDecode','Mst_YesNo')
 
             ";

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace LiveHAPI.IQCare.Infrastructure.Tests
+namespace LiveHAPI.IQCare.Infrastructure.Tests.Maps
 {
-    public class ConfirmatoryTestMap
+    public class FamilyTraceMap
     {
         public Guid Id { get; set; }
         public string Field { get; set; }
@@ -12,7 +12,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public string SubField { get; set; }
         public string Mode { get; set; }
 
-        public ConfirmatoryTestMap()
+        public FamilyTraceMap()
         {
         }
 
@@ -31,7 +31,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
             SELECT        Id, SubscriberMaps.Field, SubscriberMaps.Field as Display, SubscriberMaps.Name, SubscriberMaps.SubName, SubscriberMaps.SubField, SubscriberMaps.Mode
             FROM            
 			SubscriberMaps 
-            WHERE        (Name = N'ObsTestResult') and (SubName = N'DTL_CUSTOMFORM_HIV-Test 2_HTC_Lab_MOH_362') 
+            WHERE        (Name = N'ObsFamilyTraceResult') and (SubName = N'DTL_CUSTOMFORM_Family Member Tracing Form_FamilyTracingForm') 
             ";
 
         }

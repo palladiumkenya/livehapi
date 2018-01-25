@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace LiveHAPI.IQCare.Infrastructure.Tests
+namespace LiveHAPI.IQCare.Infrastructure.Tests.Maps
 {
-    public class PartnerTraceMap
+    public class MemberScreeningMap
     {
         public Guid Id { get; set; }
         public string Field { get; set; }
@@ -12,7 +12,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public string SubField { get; set; }
         public string Mode { get; set; }
 
-        public PartnerTraceMap()
+        public MemberScreeningMap()
         {
         }
 
@@ -31,7 +31,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
             SELECT        Id, SubscriberMaps.Field, SubscriberMaps.Field as Display, SubscriberMaps.Name, SubscriberMaps.SubName, SubscriberMaps.SubField, SubscriberMaps.Mode
             FROM            
 			SubscriberMaps 
-            WHERE        (Name = N'ObsPartnerTraceResult') and (SubName = N'DTL_CUSTOMFORM_Contact Tracing and Outcomes_PNSTRACING') 
+            WHERE        (Name = N'ObsMemberScreening') and (SubName = N'DTL_FBCUSTOMFIELD_FamilyMemberTesting') 
             ";
 
         }

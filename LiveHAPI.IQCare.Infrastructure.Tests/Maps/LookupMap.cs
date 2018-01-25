@@ -1,6 +1,6 @@
-﻿namespace LiveHAPI.IQCare.Infrastructure.Tests
+﻿namespace LiveHAPI.IQCare.Infrastructure.Tests.Maps
 {
-    public class Lookup
+    public class LookupMap
     {
         public int Id{ get; set; }
         public string Name { get; set; }

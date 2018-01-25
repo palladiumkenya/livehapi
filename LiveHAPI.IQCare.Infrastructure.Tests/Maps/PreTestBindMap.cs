@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace LiveHAPI.IQCare.Infrastructure.Tests
+namespace LiveHAPI.IQCare.Infrastructure.Tests.Maps
 {
-    public class PartnerTraceBindMap
+    public class PreTestBindMap
     {
       
         public Guid Id { get; set; }
@@ -14,11 +14,9 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public string Mode { get; set; }
         public string Fact { get; set; }
         public string BindTable { get; set; }
-
-        public string TranslationField => $"{Name}.{Field}";
         public int? BindId { get; set; }
         public string Iqfield;
-        public PartnerTraceBindMap()
+        public PreTestBindMap()
         {
         }
 
@@ -30,15 +28,11 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests
         public static string GetQuery()
         {
             return $@"
-           SELECT        Id, SubscriberMaps.Field, SubscriberMaps.Field as Display, SubscriberMaps.Name, SubscriberMaps.SubName, SubscriberMaps.SubField, SubscriberMaps.Mode,i.BindTable,i.BindID,i.Field as 'Iqfield'
-            FROM            
-			SubscriberMaps 
-			inner join 
+           SELECT        Questions.Id, SubscriberMaps.Field, Questions.Display, SubscriberMaps.Name, SubscriberMaps.SubName, SubscriberMaps.SubField, SubscriberMaps.Mode,i.BindTable,i.BindID,i.Field as 'Iqfield'
+            FROM            Questions INNER JOIN
+                                     SubscriberMaps ON CAST(Questions.Id AS varchar(50)) = SubscriberMaps.Field inner join 
 									 IQCare.dbo.htchapiall as i on SubscriberMaps.SubField=i.Field and  SubscriberMaps.SubName=i.[Table]
-
-            WHERE        (Name = N'ObsPartnerTraceResult') and (SubName = N'DTL_CUSTOMFORM_Contact Tracing and Outcomes_PNSTRACING')
-			and i.BindTable in ('Mst_ModDecode','Mst_YesNo')
-
+            WHERE        (Questions.Fact <> N'alien') and i.BindTable in ('Mst_ModDecode','Mst_YesNo')
             ";
         }
 
