@@ -22,6 +22,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
         private SqlConnection _emrConnection;
 
         private List<SubscriberMap> _allMultis;
+        private List<FormSectionMap> _allFormsMaps;
         private List<FormSectionMap> _allSectionMaps;
         private IConfigurationRoot _config;
 
@@ -44,7 +45,8 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
                 x => x.Mode.ToLower().Trim() == "Multi".ToLower().Trim()
             ).ToList();
 
-            _allSectionMaps = _emrConnection.Query<FormSectionMap>(FormSectionMap.GetQuery()).ToList();
+            _allSectionMaps = _emrConnection.Query<FormSectionMap>(FormSectionMap.GetQuerySection()).ToList();
+            _allFormsMaps = _emrConnection.Query<FormSectionMap>(FormSectionMap.GetQuery()).ToList();
         }
 
         [SetUp]
@@ -61,9 +63,10 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
 
             foreach (var subscriberMap in _allMultis)
             {
-                Assert.NotNull(string.IsNullOrWhiteSpace(subscriberMap.SectionId));
+                Assert.False(string.IsNullOrWhiteSpace(subscriberMap.SectionId));
                 Assert.False(string.IsNullOrWhiteSpace(subscriberMap.FormId));
-                Assert.NotNull(_allSectionMaps.FirstOrDefault(x=>x.FeatureId==Convert.ToInt32(subscriberMap.FormId) && x.SectionId== Convert.ToInt32(subscriberMap.SectionId)));
+                Assert.NotNull(_allFormsMaps.FirstOrDefault(x=>x.FeatureId==Convert.ToInt32(subscriberMap.FormId)));
+                Assert.NotNull(_allSectionMaps.FirstOrDefault(x => x.SectionId == Convert.ToInt32(subscriberMap.SectionId)));
             }
         }
         [Test]
@@ -75,7 +78,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Mapping
             foreach (var subscriberMap in _allMultis)
             {
               
-                Assert.DoesNotThrow(() => { _emrConnection.Execute($"{sql} {subscriberMap.SubName}");});
+                Assert.DoesNotThrow(() => { _emrConnection.Execute($"{sql} [{subscriberMap.SubName}]");});
             }
         }
         
