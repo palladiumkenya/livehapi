@@ -17,7 +17,9 @@ using LiveHAPI.IQCare.Core.Interfaces.Repository;
   using LiveHAPI.IQCare.Core.Model;
   using LiveHAPI.IQCare.Infrastructure;
 using LiveHAPI.IQCare.Infrastructure.Repository;
-using LiveHAPI.Shared.ValueObject;
+  using LiveHAPI.Shared.Custom;
+  using LiveHAPI.Shared.Interfaces;
+  using LiveHAPI.Shared.ValueObject;
 using LiveHAPI.Shared.ValueObject.Meta;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -104,6 +106,7 @@ namespace LiveHAPI
             services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IPatientEncounterRepository, PatientEncounterRepository>();
 
+            services.AddScoped<ISetupService, SetupService>();
             services.AddScoped<ISetupFacilty, SetupFacilty>();
         }
 
@@ -220,9 +223,16 @@ namespace LiveHAPI
                 cfg.CreateMap<ObsFamilyTraceResult, ObsFamilyTraceResultInfo>();
                 cfg.CreateMap<ObsPartnerTraceResult, ObsPartnerTraceResultInfo>();
 
+              
                 cfg.CreateMap<Location, Practice>()
                     .ForMember(x => x.Code, o => o.MapFrom(s => s.PosID))
+                    .ForMember(x => x.IsDefault, o => o.MapFrom(s => s.Preferred.HasValue && s.Preferred==1))
                     .ForMember(x => x.Name, o => o.MapFrom(s => s.FacilityName));
+
+                cfg.CreateMap<User, Core.Model.People.User>()
+                    .ForMember(x => x.Source, o => o.MapFrom(s => s.UserFirstName))
+                    .ForMember(x => x.SourceSys, o => o.MapFrom(s => s.UserLastName))
+                    .ForMember(x => x.SourceRef, o => o.MapFrom(s => s.UserId));
 
             });
 
@@ -232,6 +242,8 @@ namespace LiveHAPI
             {
                 Log.Debug($"{msg} [Facility] ...");
                 setupFacilty.SyncFacilities();
+                Log.Debug($"{msg} [User] ...");
+                setupFacilty.SyncUsers();
             }
             catch (Exception e)
             {

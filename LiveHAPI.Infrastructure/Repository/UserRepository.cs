@@ -28,8 +28,36 @@ namespace LiveHAPI.Infrastructure.Repository
             }
             else
             {
+                //set PracticeId
+                var practiceId = GetPracticeId();
+
+                //Person
+                var person = new Person();
+                var personName = new PersonName();
+                personName.FirstName = user.Source;
+                personName.LastName = user.SourceSys;
+                person.AddName(personName);
+                
+                var provider = new Provider();
+                provider.ProviderTypeId = "HW";
+                provider.PracticeId = practiceId;
+
+                Context.Persons.Add(person);
+                Context.PersonNames.AddRange(person.Names);
+                Context.Providers.Add(provider);
+
+                user.PersonId = person.Id;
+                user.PracticeId = practiceId;
+
+                //Provider
                 Insert(user);
             }
+        }
+
+        private Guid? GetPracticeId()
+        {
+            var prac = Context.Practices.FirstOrDefault(x => x.IsDefault && x.PracticeTypeId == "Facility");
+            return prac?.Id;
         }
     }
 }

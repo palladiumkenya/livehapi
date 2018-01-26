@@ -14,6 +14,11 @@ namespace LiveHAPI.Infrastructure.Repository
         {
         }
 
+        public Practice GetDefault()
+        {
+            return Context.Practices.FirstOrDefault(x => x.IsDefault && x.PracticeTypeId == "Facility");
+        }
+
         public Practice GetByCode(string code)
         {
             return Context.Practices.FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
@@ -26,17 +31,34 @@ namespace LiveHAPI.Infrastructure.Repository
             {
                 exisitngPractice.UpdateTo(practice);
                 Update(exisitngPractice);
+                Save();
+                if (practice.IsDefault)
+                {
+                    ResetDefault(exisitngPractice.Id);
+                }
             }
             else
             {
                 practice.MakeFacility();
                 Insert(practice);
+                Save();
+                if (practice.IsDefault)
+                {
+                    ResetDefault(practice.Id);
+                }
             }
         }
 
-        public void MakeDefault(Practice practice)
+        public void ResetDefault(Guid practiceId)
         {
-            
+            var pracs = Context.Practices.ToList();
+            foreach (var practice in pracs)
+            {
+                practice.IsDefault = practice.Id == practiceId;
+            }
+
+            Context.UpdateRange(pracs);
+            Context.SaveChanges();
         }
     }
 }

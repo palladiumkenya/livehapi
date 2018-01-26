@@ -6,8 +6,9 @@ namespace LiveHAPI.Core.Interfaces.Repository
 {
     public interface IPracticeRepository : IRepository<Practice,Guid>
     {
+        Practice GetDefault();
         Practice GetByCode(string code);
         void Sync(Practice practice);
-        void MakeDefault(Practice practice);
+        void ResetDefault(Guid practiceId);
     }
 }

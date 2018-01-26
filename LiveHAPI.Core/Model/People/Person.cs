@@ -204,11 +204,18 @@ namespace LiveHAPI.Core.Model.People
                 AddName(personName);
             }
         }
-        private void AddName(PersonName name)
+        public void AddName(PersonName name)
         {
             name.PersonId = Id;
             Names.Add(name);
         }
+
+        public void AddProvider(Provider name)
+        {
+            name.PersonId = Id;
+            Providers.Add(name);
+        }
+
 
         private void AddAddresss(List<PersonAddress> addresses)
         {
