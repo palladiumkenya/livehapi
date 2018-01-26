@@ -3,8 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LiveHAPI.IQCare.Core.Model
 {
-    
-
     [Table("mst_Facility")]
   public  class Location
     {

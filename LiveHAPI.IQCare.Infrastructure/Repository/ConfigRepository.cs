@@ -10,6 +10,12 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
         public ConfigRepository(EMRContext context) : base(context)
         {
         }
+
+        public IEnumerable<User> GetUsers()
+        {
+            return Context.Users.Where(x => null == x.DeleteFlag || (null != x.DeleteFlag && x.DeleteFlag == 0));
+        }
+
         public IEnumerable<Location> GetLocations()
         {
             return Context.Locations.Where(x => x.DeleteFlag == 0);

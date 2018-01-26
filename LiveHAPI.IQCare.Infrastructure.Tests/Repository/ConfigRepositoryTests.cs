@@ -48,7 +48,18 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             _configRepository=new ConfigRepository(_context);
         }
 
-        
+
+        [Test]
+        public void should_Get_Users()
+        {
+            var users = _configRepository.GetUsers().ToList();
+            Assert.IsTrue(users.Count > 0);
+            foreach (var user in users)
+            {
+                Console.WriteLine($"{user}");
+            }
+        }
+
         [Test]
         public void should_Get_Facilities()
         {

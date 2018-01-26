@@ -11,6 +11,7 @@ namespace LiveHAPI.IQCare.Infrastructure
             
         }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<Feature> Features { get; set; }

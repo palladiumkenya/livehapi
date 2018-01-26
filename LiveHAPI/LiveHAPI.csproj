@@ -53,6 +53,7 @@
     <ProjectReference Include="..\LiveHAPI.Infrastructure\LiveHAPI.Infrastructure.csproj" />
     <ProjectReference Include="..\LiveHAPI.IQCare.Core\LiveHAPI.IQCare.Core.csproj" />
     <ProjectReference Include="..\LiveHAPI.IQCare.Infrastructure\LiveHAPI.IQCare.Infrastructure.csproj" />
+    <ProjectReference Include="..\LiveHAPI.Shared\LiveHAPI.Shared.csproj" />
   </ItemGroup>
 
 </Project>
