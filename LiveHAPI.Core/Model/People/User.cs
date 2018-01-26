@@ -57,6 +57,12 @@ namespace LiveHAPI.Core.Model.People
             Email = name.Email;
         }
 
+        public void UpdateTo(User name)
+        {
+            UserName = name.UserName;
+            Password = name.Password;
+        }
+
         public override string ToString()
         {
             return $"{UserName} ({SourceSys})";

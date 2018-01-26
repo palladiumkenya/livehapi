@@ -93,5 +93,16 @@ namespace LiveHAPI.Core.Model.Network
         {
             return $"{Code} - {Name} [{PracticeTypeId}]";
         }
+
+        public void UpdateTo(Practice practice)
+        {
+            Name = practice.Name;
+            CountyId = practice.CountyId;
+        }
+
+        public void MakeFacility()
+        {
+            PracticeTypeId = "Facility";
+        }
     }
 }

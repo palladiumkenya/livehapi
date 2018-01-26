@@ -5,7 +5,8 @@ using LiveHAPI.Core.Interfaces.Repository.Subscriber;
 using LiveHAPI.Core.Interfaces.Services;
  using LiveHAPI.Core.Model.Encounters;
  using LiveHAPI.Core.Model.Lookup;
-using LiveHAPI.Core.Model.QModel;
+  using LiveHAPI.Core.Model.Network;
+  using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Core.Service;
@@ -13,7 +14,8 @@ using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
 using LiveHAPI.IQCare.Core.Handlers;
 using LiveHAPI.IQCare.Core.Interfaces.Repository;
-using LiveHAPI.IQCare.Infrastructure;
+  using LiveHAPI.IQCare.Core.Model;
+  using LiveHAPI.IQCare.Infrastructure;
 using LiveHAPI.IQCare.Infrastructure.Repository;
 using LiveHAPI.Shared.ValueObject;
 using LiveHAPI.Shared.ValueObject.Meta;
@@ -26,6 +28,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
  using Action = LiveHAPI.Core.Model.QModel.Action;
+  using Encounter = LiveHAPI.Core.Model.Encounters.Encounter;
 
 namespace LiveHAPI
 {
@@ -100,19 +103,14 @@ namespace LiveHAPI
             services.AddScoped<IConfigRepository, ConfigRepository>();
             services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IPatientEncounterRepository, PatientEncounterRepository>();
+
+            services.AddScoped<ISetupFacilty, SetupFacilty>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, LiveHAPIContext context,EMRContext emrContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, LiveHAPIContext context,EMRContext emrContext,ISetupFacilty setupFacilty)
         {
             
-            
-            
-
-
-
-            
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -221,7 +219,25 @@ namespace LiveHAPI
                 cfg.CreateMap<ObsPartnerScreening, ObsPartnerScreeningInfo>();
                 cfg.CreateMap<ObsFamilyTraceResult, ObsFamilyTraceResultInfo>();
                 cfg.CreateMap<ObsPartnerTraceResult, ObsPartnerTraceResultInfo>();
+
+                cfg.CreateMap<Location, Practice>()
+                    .ForMember(x => x.Code, o => o.MapFrom(s => s.PosID))
+                    .ForMember(x => x.Name, o => o.MapFrom(s => s.FacilityName));
+
             });
+
+            var msg = "syncing from EMR";
+            Log.Debug($"{msg}...");
+            try
+            {
+                Log.Debug($"{msg} [Facility] ...");
+                setupFacilty.SyncFacilities();
+            }
+            catch (Exception e)
+            {
+                Log.Error($"{e}");
+            }
+
 
             Log.Debug(@"
                             ╔═╗┌─┐┬ ┬┌─┐  ╔╦╗┌─┐┌┐ ┬┬  ┌─┐
