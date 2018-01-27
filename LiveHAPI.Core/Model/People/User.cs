@@ -62,6 +62,8 @@ namespace LiveHAPI.Core.Model.People
             UserName = name.UserName;
             Password = name.Password;
             SourceRef = name.SourceRef;
+            Source = name.Source;
+            SourceSys = name.SourceSys;
         }
 
         public override string ToString()

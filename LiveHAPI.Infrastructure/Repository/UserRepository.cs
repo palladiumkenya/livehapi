@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model;
@@ -24,6 +25,13 @@ namespace LiveHAPI.Infrastructure.Repository
             if (null != existingUser)
             {
                 existingUser.UpdateTo(user);
+                var personName= Context.PersonNames.FirstOrDefault(x => x.PersonId == existingUser.PersonId);
+                if (null != personName)
+                {
+                    personName.UpdateTo(existingUser.Source, existingUser.SourceSys);
+                    Context.PersonNames.Update(personName);
+                }
+
                 Update(existingUser);
             }
             else
@@ -41,10 +49,10 @@ namespace LiveHAPI.Infrastructure.Repository
                 var provider = new Provider();
                 provider.ProviderTypeId = "HW";
                 provider.PracticeId = practiceId;
+                person.AddProvider(provider);
 
                 Context.Persons.Add(person);
-                Context.PersonNames.AddRange(person.Names);
-                Context.Providers.Add(provider);
+                Context.SaveChanges();
 
                 user.PersonId = person.Id;
                 user.PracticeId = practiceId;
