@@ -82,21 +82,30 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
         [Test]
         public void should_Sync_New_Default_Facility()
         {
-            var practice = Builder<Practice>.CreateNew()
+            var practices = Builder<Practice>.CreateListOfSize(2).All()
                 .With(x => x.Code = DateTime.Now.Ticks.ToString())
                 .With(x => x.CountyId = 47)
                 .With(x => x.PracticeTypeId = string.Empty)
-                .With(x=>x.IsDefault=true)
-                .Build();
+                .With(x=>x.IsDefault=false)
+                .Build().ToList();
 
-            _practiceRepository.Sync(practice);
-            _practiceRepository.Save();
+            practices[1].IsDefault = true;
+
+            foreach (var practice in practices)
+            {
+                _practiceRepository.Sync(practice);
+                _practiceRepository.Save();
+            }
+
 
             var facs = _practiceRepository.GetAll().ToList();
+            Assert.That(facs.Where(x => x.IsDefault).ToList().Count==1);
+
             var facility = facs.FirstOrDefault(x => x.IsDefault);
             
             Assert.IsNotNull(facility);
             Assert.AreEqual("Facility", facility.PracticeTypeId);
+            Assert.AreEqual(practices[1].Code, facility.Code);
             Console.WriteLine(facility);
         }
 
@@ -112,6 +121,7 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
             _practiceRepository.Save();
 
             var facs = _practiceRepository.GetAll().ToList();
+            Assert.That(facs.Where(x => x.IsDefault).ToList().Count == 1);
             var facility = facs.FirstOrDefault(x => x.IsDefault);
 
             Assert.IsNotNull(facility);

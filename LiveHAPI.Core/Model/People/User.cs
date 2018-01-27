@@ -16,10 +16,20 @@ namespace LiveHAPI.Core.Model.People
         public int? Phone { get; set; }
         [MaxLength(100)]
         public string Email { get; set; }
+
+        /// <summary>
+        /// First Name temp-holder
+        /// </summary>
         [MaxLength(50)]
         public string Source { get; set; }
+        /// <summary>
+        /// UserID temp-holder
+        /// </summary>
         [MaxLength(50)]
         public string SourceRef { get; set; }
+        /// <summary>
+        /// Last Name temp-holder
+        /// </summary>
         [MaxLength(50)]
         public string SourceSys { get; set; }
         public Guid? PracticeId { get; set; }        
