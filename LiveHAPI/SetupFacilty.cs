@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Network;
 using LiveHAPI.IQCare.Core.Interfaces.Repository;
-using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces;
 
 namespace LiveHAPI

@@ -78,5 +78,46 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
             Assert.AreEqual("Maun", facility.Name);
             Console.WriteLine(facility);
         }
+
+        [Test]
+        public void should_Sync_New_Default_Facility()
+        {
+            var practice = Builder<Practice>.CreateNew()
+                .With(x => x.Code = DateTime.Now.Ticks.ToString())
+                .With(x => x.CountyId = 47)
+                .With(x => x.PracticeTypeId = string.Empty)
+                .With(x=>x.IsDefault=true)
+                .Build();
+
+            _practiceRepository.Sync(practice);
+            _practiceRepository.Save();
+
+            var facs = _practiceRepository.GetAll().ToList();
+            var facility = facs.FirstOrDefault(x => x.IsDefault);
+            
+            Assert.IsNotNull(facility);
+            Assert.AreEqual("Facility", facility.PracticeTypeId);
+            Console.WriteLine(facility);
+        }
+
+        [Test]
+        public void should_Sync_Updated_Default_Facility()
+        {
+            var practice = TestData.TestPractices().First();
+            practice.Code = "14080";
+            practice.Name = "Maun";
+            practice.IsDefault = true;
+
+            _practiceRepository.Sync(practice);
+            _practiceRepository.Save();
+
+            var facs = _practiceRepository.GetAll().ToList();
+            var facility = facs.FirstOrDefault(x => x.IsDefault);
+
+            Assert.IsNotNull(facility);
+            Assert.AreEqual("Maun", facility.Name);
+            Console.WriteLine(facility);
+        }
+
     }
 }

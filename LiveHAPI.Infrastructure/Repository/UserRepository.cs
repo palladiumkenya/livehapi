@@ -45,7 +45,8 @@ namespace LiveHAPI.Infrastructure.Repository
                 personName.FirstName = user.Source;
                 personName.LastName = user.SourceSys;
                 person.AddName(personName);
-                
+
+                //Provider
                 var provider = new Provider();
                 provider.ProviderTypeId = "HW";
                 provider.PracticeId = practiceId;
@@ -57,7 +58,7 @@ namespace LiveHAPI.Infrastructure.Repository
                 user.PersonId = person.Id;
                 user.PracticeId = practiceId;
 
-                //Provider
+         
                 Insert(user);
             }
         }
