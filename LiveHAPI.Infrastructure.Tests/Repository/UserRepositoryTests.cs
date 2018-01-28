@@ -58,6 +58,8 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
                 .With(x => x.PracticeId = practice.Id)
                 .With(x => x.Source ="Jim")
                 .With(x => x.SourceSys = "Jam")
+
+
                 .Build();
 
             _userRepository.Sync(user);
