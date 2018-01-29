@@ -60,5 +60,10 @@
     <ProjectReference Include="..\LiveHAPI.IQCare.Infrastructure\LiveHAPI.IQCare.Infrastructure.csproj" />
     <ProjectReference Include="..\LiveHAPI.Shared\LiveHAPI.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="IQCare.Security">
+      <HintPath>..\libs\IQCare.Security.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>
