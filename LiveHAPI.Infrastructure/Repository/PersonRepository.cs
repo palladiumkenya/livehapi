@@ -21,6 +21,14 @@ namespace LiveHAPI.Infrastructure.Repository
         {
         }
 
+        public Person GetProvider(Guid id)
+        {
+            return Context.Persons
+                .Include(x => x.Names)
+                .Include(x=>x.Providers)
+                .FirstOrDefault(x => x.Id == id);
+        }
+
         public Person GetDemographics(Guid id)
         {
             return Context.Persons
