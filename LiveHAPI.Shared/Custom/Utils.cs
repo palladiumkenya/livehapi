@@ -1,7 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Text;
+using IQCare.Security;
 
 namespace LiveHAPI.Shared.Custom
 {
@@ -14,19 +12,14 @@ namespace LiveHAPI.Shared.Custom
 
         public static string Decrypt(string parameter)
         {
-            return string.Empty;
             if (string.IsNullOrWhiteSpace(parameter))
                 return string.Empty;
 
-            //            Decryptor decry = new Decryptor(EncryptionAlgorithm.TripleDes)
-            //            {
-            //                IV = Encoding.ASCII.GetBytes("t3ilc0m3")
-            //            };
-            //
-            //            return decry.Decrypt(parameter, "3wmotherwdrtybnio12ewq23");
-
-            
+            Decryptor decry = new Decryptor(EncryptionAlgorithm.TripleDes)
+            {
+                IV = Encoding.ASCII.GetBytes("t3ilc0m3")
+            };
+            return decry.Decrypt(parameter, "3wmotherwdrtybnio12ewq23");
         }
-
     }
 }
