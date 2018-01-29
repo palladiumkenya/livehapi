@@ -52,7 +52,7 @@ namespace LiveHAPI.Controllers
                 foreach (var user in users)
                 {
                    var userdto=  Mapper.Map<UserDTO>(user);
-                    var person = _personRepository.Get(userdto.PersonId);
+                    var person = _personRepository.GetProvider(userdto.PersonId);
                     userdto.Person = Mapper.Map<PersonDTO>(person);
                     userdto.Provider = Mapper.Map<ProviderDTO>(person.Providers.FirstOrDefault());
                     dtos.Add(userdto);
