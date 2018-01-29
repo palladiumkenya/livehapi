@@ -28,7 +28,7 @@ namespace LiveHAPI.Infrastructure.Repository
                 var personName= Context.PersonNames.FirstOrDefault(x => x.PersonId == existingUser.PersonId);
                 if (null != personName)
                 {
-                    personName.UpdateTo(existingUser.Source, existingUser.SourceSys);
+                    personName.UpdateTo(user.Source, user.SourceSys);
                     Context.PersonNames.Update(personName);
                 }
 

@@ -1,11 +1,13 @@
 ﻿  using System;
- using LiveHAPI.Core.Interfaces.Handler;
+  using System.Linq;
+  using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Repository.Subscriber;
 using LiveHAPI.Core.Interfaces.Services;
  using LiveHAPI.Core.Model.Encounters;
  using LiveHAPI.Core.Model.Lookup;
   using LiveHAPI.Core.Model.Network;
+  using LiveHAPI.Core.Model.People;
   using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Core.Model.Subscriber;
@@ -31,6 +33,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
  using Action = LiveHAPI.Core.Model.QModel.Action;
   using Encounter = LiveHAPI.Core.Model.Encounters.Encounter;
+  using User = LiveHAPI.IQCare.Core.Model.User;
 
 namespace LiveHAPI
 {
@@ -233,6 +236,14 @@ namespace LiveHAPI
                     .ForMember(x => x.Source, o => o.MapFrom(s => s.UserFirstName))
                     .ForMember(x => x.SourceSys, o => o.MapFrom(s => s.UserLastName))
                     .ForMember(x => x.SourceRef, o => o.MapFrom(s => s.UserId));
+
+                cfg.CreateMap<Core.Model.People.User, UserDTO>()
+                    .ForMember(x => x.UserId, o => o.MapFrom(s => string.IsNullOrWhiteSpace(s.SourceRef)));
+                cfg.CreateMap<Person, PersonDTO>()
+                    .ForMember(x => x.FirstName, o => o.MapFrom(s =>null != s.Names.FirstOrDefault()?s.Names.FirstOrDefault().FirstName:""))
+                    .ForMember(x => x.MiddleName, o => o.MapFrom(s => null != s.Names.FirstOrDefault() ? s.Names.FirstOrDefault().MiddleName : ""))
+                    .ForMember(x => x.LastName, o => o.MapFrom(s => null != s.Names.FirstOrDefault() ? s.Names.FirstOrDefault().LastName : ""));
+                cfg.CreateMap<Provider, ProviderDTO>();
 
             });
 

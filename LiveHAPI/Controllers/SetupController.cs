@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.IQCare.Core.Interfaces.Repository;
+using LiveHAPI.Shared.ValueObject;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -15,19 +18,46 @@ namespace LiveHAPI.Controllers
     public class SetupController : Controller
     {
         private readonly IPracticeRepository _configRepository;
-
-        public SetupController(IPracticeRepository configRepository)
+        private readonly IUserRepository _userRepository;
+        private readonly IPersonRepository _personRepository;
+        public SetupController(IPracticeRepository configRepository, IUserRepository userRepository, IPersonRepository personRepository)
         {
             _configRepository = configRepository;
+            _userRepository = userRepository;
+            _personRepository = personRepository;
         }
 
-        [HttpGet]
+        [HttpGet("fac")]
         public IActionResult GetFacility()
         {
             try
             {
                 var practice = _configRepository.GetDefault();
                 return Ok(practice);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet("user")]
+        public IActionResult GetUsers()
+        {
+            try
+            {
+                var dtos=new List<UserDTO>();
+                var users = _userRepository.GetAll().ToList();
+                foreach (var user in users)
+                {
+                   var userdto=  Mapper.Map<UserDTO>(user);
+                    var person = _personRepository.Get(userdto.PersonId);
+                    userdto.Person = Mapper.Map<PersonDTO>(person);
+                    userdto.Provider = Mapper.Map<ProviderDTO>(person.Providers.FirstOrDefault());
+                    dtos.Add(userdto);
+                }
+                return Ok(dtos);
             }
             catch (Exception e)
             {
