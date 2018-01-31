@@ -288,6 +288,23 @@ namespace LiveHAPI.Core.Model.People
 
             return c;
         }
+
+        public bool HasGender()
+        {
+            return !string.IsNullOrWhiteSpace(Gender);
+        }
+        public bool HasDOB()
+        {
+            return null != BirthDate && BirthDate.HasValue;
+        }
+        public bool HasDOBEstimate()
+        {
+            return null != BirthDateEstimated && BirthDateEstimated.HasValue;
+        }
+        public bool ProfileNeedsUpdate()
+        {
+            return !HasGender() || !HasDOB()||!HasDOBEstimate();
+        }
         public override string ToString()
         {
             var info = $" {Gender}|{BirthDate:yyyy MMMM dd}";

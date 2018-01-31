@@ -35,6 +35,8 @@ namespace LiveHAPI.Controllers
                 m.PracticeTypes = Mapper.Map<List<PracticeTypeInfo>>(_metaService.ReadPracticeTypes().ToList());
                 m.IdentifierTypes = Mapper.Map<List<IdentifierTypeInfo>>(_metaService.ReadIdentifierTypes().ToList());
                 m.RelationshipTypes = Mapper.Map<List<RelationshipTypeInfo>>(_metaService.ReadRelationshipTypes().ToList());
+
+                var kps = _metaService.ReadKeyPops().ToList();
                 m.KeyPops = Mapper.Map<List<KeyPopInfo>>(_metaService.ReadKeyPops().ToList());
                 m.MaritalStatuses = Mapper.Map<List<MaritalStatusInfo>>(_metaService.ReadMaritalStatuses().ToList());
                 m.ProviderTypes = Mapper.Map<List<ProviderTypeInfo>>(_metaService.ReadProviderTypes().ToList());

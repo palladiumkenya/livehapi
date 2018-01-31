@@ -32,6 +32,19 @@ namespace LiveHAPI.Infrastructure.Repository
                     Context.PersonNames.Update(personName);
                 }
 
+                var person = Context.Persons.FirstOrDefault(x => x.Id == existingUser.PersonId);
+
+                if (null != person)
+                {
+                    if (person.ProfileNeedsUpdate())
+                    {
+                        person.Gender = person.HasGender() ? person.Gender : "M";
+                        person.BirthDate = person.HasDOB() ? person.BirthDate : new DateTime(1983, 7, 4);
+                        person.BirthDateEstimated = person.HasDOBEstimate() ? person.BirthDateEstimated : false;
+                        Context.Persons.Update(person);
+                    }
+                }
+
                 Update(existingUser);
             }
             else
@@ -41,6 +54,9 @@ namespace LiveHAPI.Infrastructure.Repository
 
                 //Person
                 var person = new Person();
+                person.BirthDate=new DateTime(1983,7,4);
+                person.Gender = "M";
+                person.BirthDateEstimated = false;
                 var personName = new PersonName();
                 personName.FirstName = user.Source;
                 personName.LastName = user.SourceSys;

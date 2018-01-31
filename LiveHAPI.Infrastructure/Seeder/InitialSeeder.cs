@@ -35,9 +35,11 @@ namespace LiveHAPI.Infrastructure.Seeder
                 }
                 catch (Exception e)
                 {
-                    Log.Debug(new string('V',30));
+                    Log.Error(new string('-',30));
+                    Log.Error($"{name} Seed Error");
+                    Log.Error(new string('-', 30));
                     Log.Error($"{e}");
-                    Log.Debug(new string('V', 30));
+                    Log.Error(new string('^', 30));
                 }
             }
             return records;

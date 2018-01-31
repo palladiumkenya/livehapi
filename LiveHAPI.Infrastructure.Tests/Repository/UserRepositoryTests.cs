@@ -61,7 +61,7 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
 
 
                 .Build();
-
+            
             _userRepository.Sync(user);
             _userRepository.Save();
 
@@ -74,6 +74,9 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
             Assert.NotNull(p);
             Assert.AreEqual("Jim", p.Names.First().FirstName);
             Assert.AreEqual("Jam", p.Names.First().LastName);
+            Assert.True(p.HasDOB());
+            Assert.True(p.HasGender());
+            Assert.True(p.HasDOBEstimate());
             Assert.True(p.Providers.Count > 0);
             Assert.True(p.Users.Count > 0);
             Console.WriteLine(newUser);
@@ -99,6 +102,9 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
             Assert.NotNull(p);
             Assert.AreEqual("Jikuna", p.Names.First().FirstName);
             Assert.AreEqual("Nikune", p.Names.First().LastName);
+            Assert.True(p.HasDOB());
+            Assert.True(p.HasGender());
+            Assert.True(p.HasDOBEstimate());
             Console.WriteLine(updatedUser);
         }
     }
