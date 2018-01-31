@@ -93,7 +93,8 @@ namespace LiveHAPI
             services.AddScoped<IEncounterRepository, EncounterRepository>();
             services.AddScoped<ILookupRepository, LookupRepository>();
             services.AddScoped<ISubscriberSystemRepository, SubscriberSystemRepository>();
-            
+            services.AddScoped<ISubscriberConfigRepository, SubscriberConfigRepository>();
+
 
             services.AddScoped<IMetaService, MetaService>();
             services.AddScoped<IStaffService, StaffService>();
@@ -256,6 +257,17 @@ namespace LiveHAPI
                 setupFacilty.SyncFacilities();
                 Log.Debug($"{msg} [User] ...");
                 setupFacilty.SyncUsers();
+            }
+            catch (Exception e)
+            {
+                Log.Error($"{e}");
+            }
+
+
+            try
+            {
+                Log.Debug($"updating [Feature Rights] ...");
+                setupFacilty.CreateFeatureRights();
             }
             catch (Exception e)
             {

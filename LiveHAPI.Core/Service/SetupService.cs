@@ -5,6 +5,7 @@ using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
+using LiveHAPI.Core.Model.Subscriber;
 
 namespace LiveHAPI.Core.Service
 {
@@ -12,11 +13,13 @@ namespace LiveHAPI.Core.Service
     {
         private readonly IPracticeRepository _practiceRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ISubscriberConfigRepository _subscriberConfigRepository;
 
-        public SetupService(IPracticeRepository practiceRepository, IUserRepository userRepository)
+        public SetupService(IPracticeRepository practiceRepository, IUserRepository userRepository, ISubscriberConfigRepository subscriberConfigRepository)
         {
             _practiceRepository = practiceRepository;
             _userRepository = userRepository;
+            _subscriberConfigRepository = subscriberConfigRepository;
         }
 
         public void SyncFacilities(IEnumerable<Practice> practices)
@@ -67,6 +70,12 @@ namespace LiveHAPI.Core.Service
             }
             _userRepository.Save();
 
+        }
+
+        public List<SubscriberConfig> GetFeatureIds()
+        {
+
+            return _subscriberConfigRepository.GetFeatures().ToList();
         }
     }
 }

@@ -4,6 +4,7 @@ using AutoMapper;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Network;
 using LiveHAPI.IQCare.Core.Interfaces.Repository;
+using LiveHAPI.IQCare.Core.Model;
 using LiveHAPI.Shared.Interfaces;
 
 namespace LiveHAPI
@@ -31,6 +32,19 @@ namespace LiveHAPI
             var users = _configRepository.GetUsers().ToList();
             var practiceUsers = Mapper.Map<List<Core.Model.People.User>>(users);
             _setupService.SyncUsers(practiceUsers);
+        }
+
+        public void CreateFeatureRights()
+        {
+            var users = _configRepository.GetUsers().ToList();
+            var userIds = users.Select(x => x.UserId).ToList();
+            var features = _setupService.GetFeatureIds().ToList().Select(x => x.Value);
+            var featureIds = features.Select(int.Parse).ToList();
+
+            _configRepository.CreateOrUpdateGroup(new Group("Afya Mobile"));
+            _configRepository.CreateGroupFeature("Afya Mobile", featureIds);
+            _configRepository.AssignUsersToGroup(userIds, "Afya Mobile");
+
         }
     }
 }

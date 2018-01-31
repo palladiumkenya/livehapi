@@ -4,5 +4,6 @@
     {
         void SyncFacilities();
         void SyncUsers();
+        void CreateFeatureRights();
     }
 }
