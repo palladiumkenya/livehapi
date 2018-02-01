@@ -46,11 +46,13 @@ dad39498-0058-11e8-ba89-0ed5f89f718b|ObsFamilyTraceResult|Date|Date|DTL_CUSTOMFO
 dad396dc-0058-11e8-ba89-0ed5f89f718b|ObsFamilyTraceResult|Mode|Text|DTL_CUSTOMFORM_Family Member Tracing Form_FamilyTracingForm|FT_TracingType|Text|10|Multi|63|1013|16E23866-9D69-11E7-ABC4-CEC278B6B50A
 dad398da-0058-11e8-ba89-0ed5f89f718b|ObsFamilyTraceResult|Reminder|Date|DTL_CUSTOMFORM_Family Member Tracing Form_FamilyTracingForm|FT_DateIndexClientReminded|Date|10|Multi|63|1013|16E23866-9D69-11E7-ABC4-CEC278B6B50A
 dad39aa6-0058-11e8-ba89-0ed5f89f718b|ObsFamilyTraceResult|Consent|Text|DTL_CUSTOMFORM_Family Member Tracing Form_FamilyTracingForm|FT_ConsentedTesting|Text|10|Multi|63|1013|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+dad39499-0058-11e8-ba89-0ed5f89f718b|ObsFamilyTraceResult|BookingDate|Date|DTL_CUSTOMFORM_Family Member Tracing Form_FamilyTracingForm|BookingDate|Date|10|Multi|63|1013|16E23866-9D69-11E7-ABC4-CEC278B6B50A
 dad39cae-0058-11e8-ba89-0ed5f89f718b|ObsFamilyTraceResult|Outcome|Text|DTL_CUSTOMFORM_Family Member Tracing Form_FamilyTracingForm|FT_Outcome|Text|10|Multi|63|1013|16E23866-9D69-11E7-ABC4-CEC278B6B50A
 a7d757d4-0033-11e8-ba89-0ed5f89f718b|ObsPartnerTraceResult|Mode|Text|DTL_CUSTOMFORM_Contact Tracing and Outcomes_PNSTRACING|PNSMode|Text|8|Multi|72|1013|16E23866-9D69-11E7-ABC4-CEC278B6B50A
 a7d75a2c-0033-11e8-ba89-0ed5f89f718b|ObsPartnerTraceResult|Date|Date|DTL_CUSTOMFORM_Contact Tracing and Outcomes_PNSTRACING|tracingDate|Date|8|Multi|72|1013|16E23866-9D69-11E7-ABC4-CEC278B6B50A
 a7d75bee-0033-11e8-ba89-0ed5f89f718b|ObsPartnerTraceResult|Outcome|Text|DTL_CUSTOMFORM_Contact Tracing and Outcomes_PNSTRACING|FT_Outcome|Text|8|Multi|72|1013|16E23866-9D69-11E7-ABC4-CEC278B6B50A
 2d5e1b6e-0038-11e8-ba89-0ed5f89f718b|ObsPartnerTraceResult|Consent|Text|DTL_CUSTOMFORM_Contact Tracing and Outcomes_PNSTRACING|PNSConsent|Text|8|Multi|72|1013|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+2d5e2b6e-0038-11e8-ba89-0ed5f89f718b|ObsPartnerTraceResult|BookingDate|Text|DTL_CUSTOMFORM_Contact Tracing and Outcomes_PNSTRACING|BookingDate|Date|8|Multi|72|1013|16E23866-9D69-11E7-ABC4-CEC278B6B50A
 284cded0-0033-11e8-ba89-0ed5f89f718b|ObsPartnerScreening|ScreeningDate|Date|DTL_FBCUSTOMFIELD_PNSFORM|PnsScreeningDate|Date|7|Single|76|1016|16E23866-9D69-11E7-ABC4-CEC278B6B50A
 284ce132-0033-11e8-ba89-0ed5f89f718b|ObsPartnerScreening|PnsAccepted|Text|DTL_FBCUSTOMFIELD_PNSFORM|PnsAccepted|Single|7|Single|76|1016|16E23866-9D69-11E7-ABC4-CEC278B6B50A
 284ce4de-0033-11e8-ba89-0ed5f89f718b|ObsPartnerScreening|IPVScreening|Text|DTL_FBCUSTOMFIELD_PNSFORM|ScreenedIPV|Single|7|Single|76|1016|16E23866-9D69-11E7-ABC4-CEC278B6B50A
@@ -63,3 +65,4 @@ a7d75bee-0033-11e8-ba89-0ed5f89f718b|ObsPartnerTraceResult|Outcome|Text|DTL_CUST
 284cf154-0033-11e8-ba89-0ed5f89f718b|ObsPartnerScreening|LivingWithClient|Text|DTL_FBCUSTOMFIELD_PNSFORM|PNSCurrentlyLivingWithClient|Single|7|Single|77|1016|16E23866-9D69-11E7-ABC4-CEC278B6B50A
 284cf294-0033-11e8-ba89-0ed5f89f718b|ObsPartnerScreening|HivStatus|Text|DTL_FBCUSTOMFIELD_PNSFORM|PNSKnowledgeHIVStatus|Single|7|Single|77|1016|16E23866-9D69-11E7-ABC4-CEC278B6B50A
 284cf3b6-0033-11e8-ba89-0ed5f89f718b|ObsPartnerScreening|PNSApproach|Text|DTL_FBCUSTOMFIELD_PNSFORM|PNSApproach|Single|7|Single|77|1016|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+284cf3b7-1033-11e8-ba89-0ed5f89f718b|ObsPartnerScreening|PhoneNumber|Text|DTL_FBCUSTOMFIELD_PNSFORM|phoneNumber|Single|7|Single|77|1016|16E23866-9D69-11E7-ABC4-CEC278B6B50A

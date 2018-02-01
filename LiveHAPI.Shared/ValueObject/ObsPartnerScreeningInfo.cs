@@ -23,6 +23,7 @@ namespace LiveHAPI.Shared.ValueObject
         public Guid? PnsAccepted { get; set; }
         public DateTime? BookingDate { get; set; }
         public string Remarks { get; set; }
+        public string PhoneNumber { get; set; }
         public Guid EncounterId { get; set; }
         public bool BookingMet { get; set; }
         public DateTime? DateBookingMet { get; set; }

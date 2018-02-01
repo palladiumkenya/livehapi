@@ -16,6 +16,7 @@ namespace LiveHAPI.Core.Model.Encounters
         public Guid Outcome { get; set; }
         public string OutcomeDisplay { get; set; }
         public Guid? Consent { get; set; }
+        public DateTime? BookingDate { get; set; }
         public Guid EncounterId { get; set; }
       
         public ObsPartnerTraceResult()
@@ -23,7 +24,7 @@ namespace LiveHAPI.Core.Model.Encounters
             Id = LiveGuid.NewGuid();
         }
 
-        public ObsPartnerTraceResult(Guid id, DateTime date, Guid mode, Guid outcome, Guid encounterId, Guid? consent) : this()
+        public ObsPartnerTraceResult(Guid id, DateTime date, Guid mode, Guid outcome, Guid encounterId, Guid? consent, DateTime? bookingDate) : this()
         {
             Id = id;
             Date = date;
@@ -31,16 +32,17 @@ namespace LiveHAPI.Core.Model.Encounters
             Outcome = outcome;
             Consent = consent;
             EncounterId = encounterId;
+            BookingDate = bookingDate;
         }
 
-        public static ObsPartnerTraceResult Create(Guid id, DateTime date, Guid mode, Guid outcome, Guid encounterId, Guid? consent)
+        public static ObsPartnerTraceResult Create(Guid id, DateTime date, Guid mode, Guid outcome, Guid encounterId, Guid? consent, DateTime? bookingDate)
         {
-            var obs = new ObsPartnerTraceResult(id,date, mode, outcome, encounterId, consent);
+            var obs = new ObsPartnerTraceResult(id,date, mode, outcome, encounterId, consent,bookingDate);
             return obs;
         }
         public static ObsPartnerTraceResult Create(ObsPartnerTraceResultInfo obsInfo)
         {
-            return new ObsPartnerTraceResult(obsInfo.Id, obsInfo.Date, obsInfo.Mode, obsInfo.Outcome, obsInfo.EncounterId, obsInfo.Consent);
+            return new ObsPartnerTraceResult(obsInfo.Id, obsInfo.Date, obsInfo.Mode, obsInfo.Outcome, obsInfo.EncounterId, obsInfo.Consent, obsInfo.BookingDate);
         }
 
         public static List<ObsPartnerTraceResult> Create(EncounterInfo encounterInfo)

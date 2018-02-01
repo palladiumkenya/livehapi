@@ -17,6 +17,7 @@ namespace LiveHAPI.Core.Model.Encounters
         public string OutcomeDisplay { get; set; }
         public Guid? Consent { get; set; }
         public DateTime? Reminder { get; set; }
+        public DateTime? BookingDate { get; set; }
         public Guid EncounterId { get; set; }
 
         public ObsFamilyTraceResult()
@@ -24,18 +25,21 @@ namespace LiveHAPI.Core.Model.Encounters
             Id = LiveGuid.NewGuid();
         }
 
-        public ObsFamilyTraceResult(Guid Id,DateTime date, Guid mode, Guid outcome, Guid encounterId) : this()
+        public ObsFamilyTraceResult(Guid id,DateTime date, Guid mode, Guid outcome, Guid? consent, DateTime? reminder, DateTime? bookingDate,Guid encounterId) : this()
         {
-            Id = Id;
+            Id = id;
             Date = date;
             Mode = mode;
             Outcome = outcome;
+            Consent = consent;
+            Reminder = reminder;
+            BookingDate = bookingDate;
             EncounterId = encounterId;
         }
 
         public static ObsFamilyTraceResult Create(ObsFamilyTraceResultInfo obsInfo)
         {
-            return new ObsFamilyTraceResult(obsInfo.Id, obsInfo.Date, obsInfo.Mode, obsInfo.Outcome, obsInfo.EncounterId);
+            return new ObsFamilyTraceResult(obsInfo.Id, obsInfo.Date, obsInfo.Mode, obsInfo.Outcome, obsInfo.Consent, obsInfo.Reminder, obsInfo.BookingDate,obsInfo.EncounterId);
         }
 
         public static List<ObsFamilyTraceResult> Create(EncounterInfo encounterInfo)

@@ -13,6 +13,7 @@ namespace LiveHAPI.Shared.ValueObject
         public Guid Outcome { get; set; }
         public string OutcomeDisplay { get; set; }
         public Guid? Consent { get; set; }
+        public DateTime? BookingDate { get; set; }
         public Guid EncounterId { get; set; }
         
     }

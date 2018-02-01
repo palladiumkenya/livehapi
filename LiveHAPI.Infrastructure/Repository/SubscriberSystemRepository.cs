@@ -16,7 +16,7 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public SubscriberSystem GetDefault()
         {
-            return Context.SubscriberSystems
+            var sub=Context.SubscriberSystems
                 .Include(x => x.Configs)
                 .Include(x => x.Actions)
                 .Include(x => x.Messages)
@@ -24,6 +24,11 @@ namespace LiveHAPI.Infrastructure.Repository
                 .Include(x=>x.Translations)
                 .Include(x => x.Cohorts)
                 .FirstOrDefault(x=>x.IsDefault);
+
+            if (null != sub)
+                sub.Users = Context.Users.ToList();
+
+            return sub;
         }
     }
 }
