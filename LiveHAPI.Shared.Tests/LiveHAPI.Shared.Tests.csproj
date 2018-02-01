@@ -26,4 +26,8 @@
     <ProjectReference Include="..\LiveHAPI.Core\LiveHAPI.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestJson\" />
+  </ItemGroup>
+
 </Project>

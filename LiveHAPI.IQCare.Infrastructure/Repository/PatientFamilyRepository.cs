@@ -24,10 +24,11 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
         public PatientFamilyRepository(EMRContext context) : base(context)
         {
         }
+        //TODO: Confirm who is the index client
         public IEnumerable<PatientFamily> GetMembers(int patientPk)
         {
             var db = Context.Database.GetDbConnection();
-            var patient =db.Query<PatientFamily>($"{GetSqlDecrptyion()} SELECT * FROM mAfyaFamilyView WHERE Ptn_Pk='{patientPk}'");
+            var patient =db.Query<PatientFamily>($"{GetSqlDecrptyion()} SELECT * FROM mAfyaFamilyView WHERE Ptn_Pk='{patientPk}' or ReferenceId='{patientPk}'");
             return patient;
         }
     }
