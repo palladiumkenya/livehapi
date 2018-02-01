@@ -8,6 +8,7 @@ namespace LiveHAPI.Shared.ValueObject
     {
         public Guid RelatedClientId { get; set; }
         public string RelationshipTypeId { get; set; }
+        public bool? IsIndex { get; set; }
         public Guid ClientId { get; set; }
 
         public RelationshipInfo()
