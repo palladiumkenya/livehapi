@@ -18,8 +18,7 @@ namespace LiveHAPI.IQCare.Core.Model
         public string Password { get; set; }
         public int? EmployeeId { get; set; }
         public int? DeleteFlag { get; set; }
-        [NotMapped]
-        public string DecryptedPassword => Utils.Decrypt(Password);
+       
 
         public User()
         {

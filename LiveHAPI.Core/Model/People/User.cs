@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
@@ -34,6 +35,8 @@ namespace LiveHAPI.Core.Model.People
         public string SourceSys { get; set; }
         public Guid? PracticeId { get; set; }        
         public Guid PersonId { get; set; }
+        [NotMapped]
+        public string DecryptedPassword => Utils.Decrypt(Password);
 
         public User()
         {
