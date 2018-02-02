@@ -494,7 +494,13 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
             foreach (var relatedPatient in relatedPatients)
             {
+                if (relatedPatient.HasIndexClient())
+                {
+                    //check if index exists
 
+                    var index = Get(relatedPatient.RelatedClientId);
+
+                }
                 var partner = Get(relatedPatient.RelatedClientId);
 
                 if (null != partner)

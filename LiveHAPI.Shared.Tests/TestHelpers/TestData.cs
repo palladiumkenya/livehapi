@@ -971,6 +971,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
       ^Preferred^: true,
       ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
       ^Id^: ^7e51629e-6b99-11e7-907b-a6006ad4dba0^,
+      ^IsIndex^: false,
       ^Voided^: false
     }
   ]
@@ -1039,6 +1040,7 @@ return JsonConvert.DeserializeObject<ClientInfo>(json);
       ^Preferred^: true,
       ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df001^,
       ^Id^: ^7e51629e-6b99-11e7-907b-a6006ad4dba1^,
+      ^IsIndex^: true,
       ^Voided^: false
     }
   ]
