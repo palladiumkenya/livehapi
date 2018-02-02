@@ -1048,7 +1048,74 @@ return JsonConvert.DeserializeObject<ClientInfo>(json);
 ".Replace("^", "'");
             return JsonConvert.DeserializeObject<ClientInfo>(json);
         }
-
+        public static ClientInfo TestClientInfo3()
+        {
+            var json = @"
+{
+  ^Id^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df002^,
+  ^MaritalStatus^: ^MM^,
+  ^KeyPop^: ^FSW^,
+  ^OtherKeyPop^: ^^,
+  ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
+  ^PracticeCode^: null,
+  ^Person^: {
+    ^FirstName^: ^Best^,
+    ^MiddleName^: ^^,
+    ^LastName^: ^Swagger^,
+    ^Gender^: ^M^,
+    ^BirthDate^: ^\/Date(389048400000+0300)\/^,
+    ^BirthDateEstimated^: false,
+    ^Email^: ^bstswagger@gmail.com^,
+    ^Addresses^: [
+      {
+        ^Landmark^: ^Kibera School^,
+        ^CountyId^: 47,
+        ^Preferred^: true,
+        ^PersonId^: ^82dfdc68-6c3c-4a39-8f1f-a7b7016df44f^,
+        ^Id^: ^a2127fa6-7777-11e7-b5a5-be2e44b06b35^,
+        ^Voided^: false
+      }
+    ],
+    ^Contacts^: [
+      {
+        ^Phone^: 0721400200,
+        ^Preferred^: true,
+        ^PersonId^: ^82dfdc68-6c3c-4a39-8f1f-a7b7016df44f^,
+        ^Id^: ^a21271a8-7777-11e7-b5a5-be2e44b06b35^,
+        ^Voided^: false
+      }
+    ],
+    ^Id^: ^82dfdc68-6c3c-4a39-8f1f-a7b7016df44f^,
+    ^Voided^: false
+  },
+  ^IsFamilyMember^: false,
+  ^IsPartner^: true,
+  ^Identifiers^: [
+    {
+      ^IdentifierTypeId^: ^Serial^,
+      ^Identifier^: ^201707008^,
+      ^RegistrationDate^: ^2017SEP01^,
+      ^Preferred^: true,
+      ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df001^,
+      ^Id^: ^7e61629e-6b99-11e7-907b-a6006ad8dba1^,
+      ^Voided^: false
+    }
+  ],
+  ^Relationships^: [
+    {
+      ^RelationshipTypeId^: ^Son^,
+      ^RelatedClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
+      ^Preferred^: true,
+      ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df002^,
+      ^Id^: ^7e51629e-6b99-11e7-907b-a6666ad4dba1^,
+      ^IsIndex^: true,
+      ^Voided^: false
+    }
+  ]
+}
+".Replace("^", "'");
+            return JsonConvert.DeserializeObject<ClientInfo>(json);
+        }
         public static List<EncounterInfo> TestEncounterInfoData()
         {
             var json = @"
