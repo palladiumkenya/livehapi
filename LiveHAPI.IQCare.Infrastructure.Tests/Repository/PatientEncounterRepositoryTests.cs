@@ -33,26 +33,37 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
         private DbConnection _db;
         private ClientInfo _client;
         private IPatientRepository _patientRepository;
+        private DbContextOptions<EMRContext> _options;
+        private DbContextOptions<LiveHAPIContext> _options2;
 
-        [SetUp]
-        public void SetUp()
+
+        [OneTimeSetUp]
+        public void Init()
         {
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
             var connectionString = config["connectionStrings:EMRConnection"];
-            var options = new DbContextOptionsBuilder<EMRContext>()
+            _options = new DbContextOptionsBuilder<EMRContext>()
                 .UseSqlServer(connectionString)
                 .Options;
 
             var connectionString2 = config["connectionStrings:hAPIConnection"];
-            var options2 = new DbContextOptionsBuilder<LiveHAPIContext>()
+            _options2 = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString2)
                 .Options;
 
-            _context = new EMRContext(options);
-            _context.ApplyMigrations();
-            _subscriberSystemRepository = new SubscriberSystemRepository(new LiveHAPIContext(options2));
+            var context = new EMRContext(_options);
+            context.ApplyMigrations();
+            context.UpdateTranslations();
+
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            _context = new EMRContext(_options);
+            _subscriberSystemRepository = new SubscriberSystemRepository(new LiveHAPIContext(_options2));
             subscriberSystem = _subscriberSystemRepository.GetDefault();
           _configRepository = new ConfigRepository(_context);
             location = _configRepository.GetLocations().FirstOrDefault();

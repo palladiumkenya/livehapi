@@ -322,11 +322,8 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
         }
         private SqlAction InsertLabDetailVisit(decimal rank, EncounterInfo encounterInfo, SubscriberSystem subscriberSystem, Location location)
         {
-            //Lab.VisitTypeId | 116
-            //Linkage.VisitTypeId | 117
-
-              //Registration|VisitTypeId
-              var visitType = subscriberSystem.Configs.FirstOrDefault(x => x.Area == "HTS" && x.Name == "Lab.VisitTypeId");
+   
+            var visitType = subscriberSystem.Configs.FirstOrDefault(x => x.Area == "HTS" && x.Name == "Lab.VisitTypeId");
 
             string sql = $@"
 

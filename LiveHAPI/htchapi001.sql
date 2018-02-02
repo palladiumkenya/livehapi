@@ -211,10 +211,6 @@ where h.[name] like '%.VisitTypeId%'
 GO
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-exec Pr_Admin_SaveUserGroup_Detail_Constella @GID=N'0',@Flag=N'0',@GroupName=N'Afya Mobile',@UserID=N'1',@PerEnrollment=N'0',@PerCareEnd=N'1',@EditIdentifiers=N'1'
-GO
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 IF EXISTS(SELECT * FROM sysobjects WHERE name='htchapiall' AND type='v')
 	DROP VIEW htchapiall
@@ -302,5 +298,5 @@ set
 	SectionId= m.SectionId
 FROM            
 	LiveHAPI.dbo.SubscriberMaps AS h INNER JOIN
-    (select distinct FeatureId,SectionId,Field,[Table] from htchapicodes) AS m ON h.SubField = m.Field and h.SubName = m.[Table]
+    (select distinct FeatureId,SectionId,Field,[Table] from htchapiall) AS m ON h.SubField = m.Field and h.SubName = m.[Table]
 Go
