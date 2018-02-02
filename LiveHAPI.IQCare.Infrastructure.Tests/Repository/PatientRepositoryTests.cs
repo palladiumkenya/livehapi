@@ -111,21 +111,15 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             _patientRepository.CreateOrUpdateRelations(_clientPartner.Id, _clientPartner.Relationships, _subscriberSystem, _location);
 
             var indexRelations = _patientFamilyRepository.GetMembers(savePatient.Id).ToList();
-            Assert.True(indexRelations.Count > 0);
-
-            /*
+            Assert.True(indexRelations.Count ==1);
             Assert.AreEqual(savePatientPartner.Id, indexRelations.First().ReferenceId);
-
-//            var partnerRelations = _patientFamilyRepository.GetMembers(savePatientPartner.Id).ToList();
-//            Assert.True(partnerRelations.Count > 0);
-//            Assert.AreEqual(savePatient.Id, partnerRelations.First().ReferenceId);
 
             Console.WriteLine($"Index:{savePatient}");
             foreach (var r in indexRelations)
             {
                 Console.WriteLine($"{r}");
             }
-            */
+
         }
 
         [Test]
