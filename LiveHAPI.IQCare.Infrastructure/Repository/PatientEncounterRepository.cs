@@ -165,6 +165,25 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         }
                     }
                 }
+
+                var sql4 = GenerateSqlActionsMemberScreening(encounterInfo, subscriberSystem, location);
+
+                using (SqlConnection conn = new SqlConnection(Context.Database.GetDbConnection().ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql4, conn))
+                    {
+                        try
+                        {
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error($"{e}");
+                            throw;
+                        }
+                    }
+                }
             }
         }
 
@@ -199,22 +218,22 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
             if (encounterInfo.ObsMemberScreenings.Count > 0)
             {
-                _sqlActions.Add(InsertTracingVisit(rank, encounterInfo, subscriberSystem, location)); rank++;
+                _sqlActions.Add(InsertMemberScreeningVisit(rank, encounterInfo, subscriberSystem, location)); rank++;
             }
 
             if (encounterInfo.ObsFamilyTraceResults.Count > 0)
             {
-                _sqlActions.Add(InsertTracingVisit(rank, encounterInfo, subscriberSystem, location)); rank++;
+                _sqlActions.Add(InsertMemberTracingVisit(rank, encounterInfo, subscriberSystem, location)); rank++;
             }
 
             if (encounterInfo.ObsPartnerScreenings.Count > 0)
             {
-                _sqlActions.Add(InsertTracingVisit(rank, encounterInfo, subscriberSystem, location)); rank++;
+                _sqlActions.Add(InsertPartnerScreeningVisit(rank, encounterInfo, subscriberSystem, location)); rank++;
             }
 
             if (encounterInfo.ObsPartnerTraceResults.Count > 0)
             {
-                _sqlActions.Add(InsertTracingVisit(rank, encounterInfo, subscriberSystem, location)); rank++;
+                _sqlActions.Add(InsertPartnerTracingVisit(rank, encounterInfo, subscriberSystem, location)); rank++;
             }
 
             StringBuilder sqlBuilder = new StringBuilder(" ");
@@ -296,6 +315,24 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
             if (encounterInfo.ObsFinalTestResults.Count > 0)
                 _sqlActions.AddRange(InsertFinalTest(rank, encounterInfo, subscriberSystem, location)); rank++;
+
+
+            StringBuilder sqlBuilder = new StringBuilder(" ");
+            foreach (var action in _sqlActions.OrderBy(x => x.Rank))
+            {
+                sqlBuilder.AppendLine(action.Action);
+            }
+            return sqlBuilder.ToString();
+        }
+
+        private string GenerateSqlActionsMemberScreening(EncounterInfo encounterInfo, SubscriberSystem subscriberSystem, Location location)
+        {
+            decimal rank = 0;
+            _sqlActions = new List<SqlAction>();
+            _sqlActions.Add(new SqlAction(rank, GetSqlDecrptyion())); rank++;
+
+            if (encounterInfo.ObsMemberScreenings.Count > 0)
+                _sqlActions.AddRange(InsertMemberScreening(rank, encounterInfo, subscriberSystem, location)); rank++;
 
 
             StringBuilder sqlBuilder = new StringBuilder(" ");
@@ -1033,7 +1070,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             //GET MAP
             var actions = new List<SqlAction>();
 
-            var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsLinkage)).ToList();
+            var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsMemberScreening)).ToList();
 
             if (maps.Count > 0)
             {
@@ -1074,11 +1111,11 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                 actions.Add(new SqlAction(rank, sql22));
                 rank++;
 
-                var obsLinkage = encounter.ObsMemberScreenings.FirstOrDefault();
+                var obsMemberScreening = encounter.ObsMemberScreenings.FirstOrDefault();
 
 
 
-                if (null != obsLinkage)
+                if (null != obsMemberScreening)
                 {
                     foreach (var subscriberMap in maps)
                     {
@@ -1087,7 +1124,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         UPDATE 
 	                        [{mapTbl}] 
                         SET 
-	                        [{subscriberMap.SubField}]= {GetValue(obsLinkage, subscriberMap)}
+	                        [{subscriberMap.SubField}]= {GetValue(obsMemberScreening, subscriberMap, subscriberSystem)}
                         WHERE 
 	                        mAfyaId='{mAfyId}';
                     ";

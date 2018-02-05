@@ -1546,209 +1546,61 @@ return JsonConvert.DeserializeObject<ClientInfo>(json);
         public static List<EncounterInfo> TestFamilyEncounterInfoData()
         {
             var json = @"
-[
-{
-  ^Id^: ^006a1dee-1c36-475d-a44b-a87a00a8ae87^,
-  ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
-  ^FormId^: ^b25ebcda-852f-11e7-bb31-be2e44b06b34^,
-  ^EncounterTypeId^: ^7e5164a6-6b99-11e7-907b-a6006ad3dba0^,
-  ^EncounterDate^: ^\/Date(1517480049088+0300)\/^,
-  ^ProviderId^: ^158790da-a5c7-4a11-9d49-a7b7016df234^,
-  ^DeviceId^: ^60531e20-5ec5-46c8-be4e-a87a00919f2a^,
-  ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
-  ^Started^: ^\/Date(1517480049088+0300)\/^,
-  ^Stopped^: null,
-  ^KeyPop^: ^FFx^,
-  ^OtherKeyPop^: null,
-  ^Phone^: ^755123123^,
-  ^Obses^: [
-  ],
-  ^ObsTestResults^: [
-    
-  ],
-  ^ObsFinalTestResults^: [
-    
-  ],
-  ^ObsTraceResults^: [
-    
-  ],
-  ^ObsLinkages^: [
-    
-  ],
-  ^ObsMemberScreenings^: [
-    
-  ],
-  ^ObsFamilyTraceResults^: [
-    
-  ],
-  ^ObsPartnerScreenings^: [
-    
-  ],
-  ^ObsPartnerTraceResults^: [
-    
-  ],
-  ^UserId^: ^61a9e04c-2ed0-414a-9387-a7b7016df233^,
-  ^IsComplete^: true
-},
-{
-  ^Id^: ^2a7bd6d3-5209-4416-bd51-a87a00a8fb7b^,
-  ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
-  ^FormId^: ^b25ec568-852f-11e7-bb31-be2e44b06b34^,
-  ^EncounterTypeId^: ^b262f4ee-852f-11e7-bb31-be2e44b06b34^,
-  ^EncounterDate^: ^\/Date(1517480114756+0300)\/^,
-  ^ProviderId^: ^158790da-a5c7-4a11-9d49-a7b7016df234^,
-  ^DeviceId^: ^60531e20-5ec5-46c8-be4e-a87a00919f2a^,
-  ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
-  ^Started^: ^\/Date(1517480114756+0300)\/^,
-  ^Stopped^: null,
-  ^KeyPop^: ^FFx^,
-  ^OtherKeyPop^: null,
-  ^Phone^: ^755123123^,
-  ^Obses^: [
-    
-  ],
-  ^ObsTestResults^: [
-    {
-      ^TestName^: ^HIV Test 1^,
-      ^Attempt^: 0,
-      ^Kit^: ^b25f0456-852f-11e7-bb31-be2e44b06b34^,
-      ^KitDisplay^: null,
-      ^KitOther^: ^^,
-      ^LotNumber^: ^4444444^,
-      ^Expiry^: ^\/Date(1548968400000+0300)\/^,
-      ^Result^: ^b25efd8a-852f-11e7-bb31-be2e44b06b34^,
-      ^ResultCode^: ^P^,
-      ^ResultDisplay^: null,
-      ^IsValid^: true,
-      ^EncounterId^: ^2a7bd6d3-5209-4416-bd51-a87a00a8fb7b^,
-      ^Id^: ^3209fb5e-d7ff-4ce4-bf19-a87a00a91074^,
-      ^Voided^: false
-    },
-    {
-      ^TestName^: ^HIV Test 2^,
-      ^Attempt^: 0,
-      ^Kit^: ^b25f05aa-852f-11e7-bb31-be2e44b06b34^,
-      ^KitDisplay^: null,
-      ^KitOther^: ^^,
-      ^LotNumber^: ^6777^,
-      ^Expiry^: ^\/Date(1548968400000+0300)\/^,
-      ^Result^: ^b25f001e-852f-11e7-bb31-be2e44b06b34^,
-      ^ResultCode^: ^I^,
-      ^ResultDisplay^: null,
-      ^IsValid^: false,
-      ^EncounterId^: ^2a7bd6d3-5209-4416-bd51-a87a00a8fb7b^,
-      ^Id^: ^bc94f738-9d77-4e01-8c84-a87a00a92535^,
-      ^Voided^: false
-    },
-    {
-      ^TestName^: ^HIV Test 2^,
-      ^Attempt^: 0,
-      ^Kit^: ^b25f0776-852f-11e7-bb31-be2e44b06b34^,
-      ^KitDisplay^: null,
-      ^KitOther^: ^Kit xyz^,
-      ^LotNumber^: ^566777^,
-      ^Expiry^: ^\/Date(1548968400000+0300)\/^,
-      ^Result^: ^b25efd8a-852f-11e7-bb31-be2e44b06b34^,
-      ^ResultCode^: ^P^,
-      ^ResultDisplay^: null,
-      ^IsValid^: true,
-      ^EncounterId^: ^2a7bd6d3-5209-4416-bd51-a87a00a8fb7b^,
-      ^Id^: ^b641f4bd-d2c1-4aa7-8861-a87a00a94603^,
-      ^Voided^: false
-    }
-  ],
-  ^ObsFinalTestResults^: [
-    {
-      ^FirstTestResult^: ^b25efd8a-852f-11e7-bb31-be2e44b06b34^,
-      ^FirstTestResultCode^: null,
-      ^SecondTestResult^: ^b25efd8a-852f-11e7-bb31-be2e44b06b34^,
-      ^SecondTestResultCode^: null,
-      ^FinalResult^: ^b25efd8a-852f-11e7-bb31-be2e44b06b34^,
-      ^FinalResultCode^: null,
-      ^ResultGiven^: ^b25eccd4-852f-11e7-bb31-be2e44b06b34^,
-      ^CoupleDiscordant^: ^b25ed1c0-852f-11e7-bb31-be2e44b06b34^,
-      ^SelfTestOption^: ^00000000-0000-0000-0000-000000000000^,
-      ^Remarks^: ^Maun Maun^,
-      ^EncounterId^: ^2a7bd6d3-5209-4416-bd51-a87a00a8fb7b^,
-      ^Id^: ^6407a40f-70e3-42cf-a55c-a87a00a91081^,
-      ^Voided^: false
-    }
-  ],
-  ^ObsTraceResults^: [
-    
-  ],
-  ^ObsLinkages^: [
-    
-  ],
-  ^ObsMemberScreenings^: [
-    
-  ],
-  ^ObsFamilyTraceResults^: [
-    
-  ],
-  ^ObsPartnerScreenings^: [
-    
-  ],
-  ^ObsPartnerTraceResults^: [
-    
-  ],
-  ^UserId^: ^61a9e04c-2ed0-414a-9387-a7b7016df233^,
-  ^IsComplete^: false
-},
-{
-  ^Id^: ^dac37677-54b2-4271-b6fb-a87a00a962b7^,
-  ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df000^,
-  ^FormId^: ^b25ec112-852f-11e7-bb31-be2e44b06b34^,
-  ^EncounterTypeId^: ^b262fc32-852f-11e7-bb31-be2e44b06b34^,
-  ^EncounterDate^: ^\/Date(1517480202847+0300)\/^,
-  ^ProviderId^: ^158790da-a5c7-4a11-9d49-a7b7016df234^,
-  ^DeviceId^: ^60531e20-5ec5-46c8-be4e-a87a00919f2a^,
-  ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
-  ^Started^: ^\/Date(1517480202847+0300)\/^,
-  ^Stopped^: null,
-  ^KeyPop^: ^FFx^,
-  ^OtherKeyPop^: null,
-  ^Phone^: ^755123123^,
-  ^Obses^: [
-    
-  ],
-  ^ObsTestResults^: [
-    
-  ],
-  ^ObsFinalTestResults^: [
-    
-  ],
-  ^ObsTraceResults^: [
-    {
-      ^Date^: ^\/Date(1517432400000+0300)\/^,
-      ^Mode^: ^b25f159a-852f-11e7-bb31-be2e44b06b34^,
-      ^ModeDisplay^: null,
-      ^Outcome^: ^b25f0a51-852f-11e7-bb31-be2e44b06b34^,
-      ^OutcomeDisplay^: null,
-      ^EncounterId^: ^dac37677-54b2-4271-b6fb-a87a00a962b7^,
-      ^Id^: ^4a30a12b-e1fb-4fe4-82e4-a87a00a988d5^,
-      ^Voided^: false
-    }
-  ],
-  ^ObsLinkages^: [
-    
-  ],
-  ^ObsMemberScreenings^: [
-    
-  ],
-  ^ObsFamilyTraceResults^: [
-    
-  ],
-  ^ObsPartnerScreenings^: [
-    
-  ],
-  ^ObsPartnerTraceResults^: [
-    
-  ],
-  ^UserId^: ^61a9e04c-2ed0-414a-9387-a7b7016df233^,
-  ^IsComplete^: false
-}
-]
+                [
+                  {
+                    ^Id^: ^006a1dee-1c36-475d-a44b-a87a00a8ae87^,
+                    ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df002^,
+                    ^FormId^: ^b25ec112-852f-11e7-bb31-be2e45b06b35^,
+                    ^EncounterTypeId^: ^b262fda4-877f-11e7-bb31-be2e44b66b34^,
+                    ^EncounterDate^: ^\/Date(1517480049088+0300)\/^,
+                    ^ProviderId^: ^158790da-a5c7-4a11-9d49-a7b7016df234^,
+                    ^DeviceId^: ^60531e20-5ec5-46c8-be4e-a87a00919f2a^,
+                    ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
+                    ^Started^: ^\/Date(1517480049088+0300)\/^,
+                    ^Stopped^: null,
+                    ^KeyPop^: ^FFx^,
+                    ^OtherKeyPop^: null,
+                    ^Phone^: ^755123123^,
+                    ^Obses^: [
+      
+                    ],
+                    ^ObsTestResults^: [
+      
+                    ],
+                    ^ObsFinalTestResults^: [
+      
+                    ],
+                    ^ObsTraceResults^: [
+      
+                    ],
+                    ^ObsLinkages^: [
+      
+                    ],
+                    ^ObsMemberScreenings^: [
+                      {
+                        ^ScreeningDate^: ^\/Date(1517518800000+0300)\/^,
+                        ^HivStatus^: ^b25efb78-852f-11e7-bb31-be2e44b06b34^,
+                        ^Eligibility^: ^b25eccd4-852f-11e7-bb31-be2e44b06b34^,
+                        ^BookingDate^: ^\/Date(1517518800000+0300)\/^,
+                        ^Remarks^: ^etdgdfg^,
+                        ^EncounterId^: ^006a1dee-1c36-475d-a44b-a87a00a8ae87^,
+                        ^Id^: ^ccaf524a-4830-4ee9-9b06-a87b00a215ff^,
+                        ^Voided^: false
+                      }
+                    ],
+                    ^ObsFamilyTraceResults^: [
+      
+                    ],
+                    ^ObsPartnerScreenings^: [
+      
+                    ],
+                    ^ObsPartnerTraceResults^: [
+      
+                    ],
+                    ^UserId^: ^61a9e04c-2ed0-414a-9387-a7b7016df233^,
+                    ^IsComplete^: true
+                  }
+                ]
 
 ".Replace("^", "'");
             return JsonConvert.DeserializeObject<List<EncounterInfo>>(json);

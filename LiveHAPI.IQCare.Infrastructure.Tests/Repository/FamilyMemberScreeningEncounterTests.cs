@@ -73,7 +73,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             _clientSon = TestData.TestClientInfo4();
             _patient = Patient.Create(_client, _location.FacilityID, _subscriberSystem);
             _patientSon = Patient.Create(_clientSon, _location.FacilityID, _subscriberSystem);
-            _encounterInfo = TestData.TestEncounterInfoData();             
+            _encounterInfo = TestData.TestFamilyEncounterInfoData();             
             _db = _context.Database.GetDbConnection();
 
             _patientRepository.CreateOrUpdate(_patient, _subscriberSystem, _location);
@@ -90,21 +90,11 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
 
             _patientEncounterRepository.CreateOrUpdate(_encounterInfo,_subscriberSystem,_location);
 
-            var labVisitTypeId = _subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "Lab.VisitTypeId").Value;
-            var linkVisitTypeId = _subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "Linkage.VisitTypeId").Value;
-
-            Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={labVisitTypeId}"));
-            Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={linkVisitTypeId}"));
-            Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_FBCUSTOMFIELD_HTC_Lab_MOH_362] where Ptn_Pk in ({savePatient.Id})"));
-
-            var traces =_db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_CUSTOMFORM_HTS Tracing_LinkageAndTracking] where Ptn_Pk in ({savePatient.Id})");
-            Assert.True(Convert.ToInt32(traces) > 0);
-
-            var tests1 = _db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_CUSTOMFORM_HIV-Test 1_HTC_Lab_MOH_362] where Ptn_Pk in ({savePatient.Id})");
-            Assert.True(Convert.ToInt32(tests1) > 0);
-
-            var tests2 = _db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_CUSTOMFORM_HIV-Test 2_HTC_Lab_MOH_362] where Ptn_Pk in ({savePatient.Id})");
-            Assert.True(Convert.ToInt32(tests2) > 0);
+            var familyScreeningVisitTypeId = _subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "Family.VisitTypeId").Value;
+            Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={familyScreeningVisitTypeId}"));
+        
+            var screeings =_db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_FBCUSTOMFIELD_FamilyMemberTesting] where Ptn_Pk in ({savePatient.Id})");
+            Assert.True(Convert.ToInt32(screeings) > 0);
         }
        
         [TearDown]
@@ -123,6 +113,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             delete from  [DTL_CUSTOMFORM_HTS Tracing_LinkageAndTracking]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
 	        delete from  [DTL_CUSTOMFORM_HIV-Test 1_HTC_Lab_MOH_362]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
 			delete from  [DTL_CUSTOMFORM_HIV-Test 2_HTC_Lab_MOH_362]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');	
+	        delete from  [DTL_FBCUSTOMFIELD_FamilyMemberTesting]  where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             delete from  ord_Visit where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             delete from  mst_Patient where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
             delete from  lnk_patientprogramstart where Ptn_Pk in (SELECT Ptn_Pk FROM IQCare.dbo.mst_Patient WHERE mAfyaId like '4700b0e0%');
