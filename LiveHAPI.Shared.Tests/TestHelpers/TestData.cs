@@ -1599,6 +1599,200 @@ return JsonConvert.DeserializeObject<ClientInfo>(json);
                     ],
                     ^UserId^: ^61a9e04c-2ed0-414a-9387-a7b7016df233^,
                     ^IsComplete^: true
+                  },
+                  {
+                    ^Id^: ^884785c0-23e5-45e0-a4d6-a87b00a2187c^,
+                    ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df002^,
+                    ^FormId^: ^b25ec112-852f-11e7-bb31-be2e45b06b36^,
+                    ^EncounterTypeId^: ^b262fda4-877f-11e7-bb31-be2e44b67b34^,
+                    ^EncounterDate^: ^\/Date(1517480049088+0300)\/^,
+                    ^ProviderId^: ^158790da-a5c7-4a11-9d49-a7b7016df234^,
+                    ^DeviceId^: ^60531e20-5ec5-46c8-be4e-a87a00919f2a^,
+                    ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
+                    ^Started^: ^\/Date(1517480049088+0300)\/^,
+                    ^Stopped^: null,
+                    ^KeyPop^: ^FFx^,
+                    ^OtherKeyPop^: null,
+                    ^Phone^: ^755123123^,
+                    ^Obses^: [
+      
+                    ],
+                    ^ObsTestResults^: [
+      
+                    ],
+                    ^ObsFinalTestResults^: [
+      
+                    ],
+                    ^ObsTraceResults^: [
+      
+                    ],
+                    ^ObsLinkages^: [
+      
+                    ],
+                    ^ObsMemberScreenings^: [
+                      
+                    ],
+                    ^ObsFamilyTraceResults^: [
+                     {
+                        ^Date^: ^\/Date(1517518800000+0300)\/^,
+                        ^Mode^: ^b25f136a-852f-11e7-bb31-be2e44b06b34^,
+                        ^ModeDisplay^: null,
+                        ^Outcome^: ^b25f9a81-852f-11e7-bb31-be2e44b06b34^,
+                        ^OutcomeDisplay^: null,
+                        ^EncounterId^: ^884785c0-23e5-45e0-a4d6-a87b00a2187c^,
+                        ^Id^: ^a2fe7e4f-fc58-42d4-bfce-a87b00a222f2^,
+                        ^Voided^: false
+                      },
+                      {
+                        ^Date^: ^\/Date(1517432400000+0300)\/^,
+                        ^Mode^: ^b25f136a-852f-11e7-bb31-be2e44b06b34^,
+                        ^ModeDisplay^: null,
+                        ^Outcome^: ^b25f0a50-852f-11e7-bb31-be2e44b06b34^,
+                        ^OutcomeDisplay^: null,
+                        ^EncounterId^: ^884785c0-23e5-45e0-a4d6-a87b00a2187c^,
+                        ^Id^: ^097ec1c8-a391-475c-86ea-a87b00a22f0e^,
+                        ^Voided^: false
+                      }
+                    ],
+                    ^ObsPartnerScreenings^: [
+      
+                    ],
+                    ^ObsPartnerTraceResults^: [
+      
+                    ],
+                    ^UserId^: ^61a9e04c-2ed0-414a-9387-a7b7016df233^,
+                    ^IsComplete^: true
+                  }
+                ]
+
+".Replace("^", "'");
+            return JsonConvert.DeserializeObject<List<EncounterInfo>>(json);
+        }
+
+        public static List<EncounterInfo> TestPartnerEncounterInfoData()
+        {
+            var json = @"
+                [
+                  {
+                    ^Id^: ^6d53f1a8-944b-4972-99a9-a87b00a17319^,
+                    ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df001^,
+                    ^FormId^: ^b25ec112-852f-11e7-bb31-be2e46b06b37^,
+                    ^EncounterTypeId^: ^b262fda4-877f-11e7-bb31-be2e44b68b34^,
+                    ^EncounterDate^: ^\/Date(1517480049088+0300)\/^,
+                    ^ProviderId^: ^158790da-a5c7-4a11-9d49-a7b7016df234^,
+                    ^DeviceId^: ^60531e20-5ec5-46c8-be4e-a87a00919f2a^,
+                    ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
+                    ^Started^: ^\/Date(1517480049088+0300)\/^,
+                    ^Stopped^: null,
+                    ^KeyPop^: ^FFx^,
+                    ^OtherKeyPop^: null,
+                    ^Phone^: ^755123123^,
+                    ^Obses^: [
+      
+                    ],
+                    ^ObsTestResults^: [
+      
+                    ],
+                    ^ObsFinalTestResults^: [
+      
+                    ],
+                    ^ObsTraceResults^: [
+      
+                    ],
+                    ^ObsLinkages^: [
+      
+                    ],
+                    ^ObsMemberScreenings^: [
+                      {
+                        ^ScreeningDate^: ^\/Date(1517518800000+0300)\/^,
+                        ^PnsAccepted^: null,
+                        ^IPVScreening^: ^b25eccd4-852f-11e7-bb31-be2e44b06b34^,
+                        ^PhysicalAssult^: ^b25eccd4-852f-11e7-bb31-be2e44b06b34^,
+                        ^Threatened^: ^b25eccd4-852f-11e7-bb31-be2e44b06b34^,
+                        ^SexuallyUncomfortable^: ^b25eccd4-852f-11e7-bb31-be2e44b06b34^,
+                        ^HivStatus^: ^b25efb78-852f-11e7-bb31-be2e44b06b34^,
+                        ^Eligibility^: ^b25eccd4-852f-11e7-bb31-be2e44b06b34^,
+                        ^BookingDate^: ^\/Date(1517518800000+0300)\/^,
+                        ^Remarks^: null,
+                        ^EncounterId^: ^6d53f1a8-944b-4972-99a9-a87b00a17319^,
+                        ^Id^: ^edc04cf5-f1d5-441e-94c9-a87b00a19169^,
+                        ^Voided^: false
+                      }
+                    ],
+                    ^ObsFamilyTraceResults^: [
+      
+                    ],
+                    ^ObsPartnerScreenings^: [
+      
+                    ],
+                    ^ObsPartnerTraceResults^: [
+      
+                    ],
+                    ^UserId^: ^61a9e04c-2ed0-414a-9387-a7b7016df233^,
+                    ^IsComplete^: true
+                  },
+                  {
+                    ^Id^: ^a26dd6b4-20c3-45db-905f-a87b00a1972a^,
+                    ^ClientId^: ^4700b0e0-00c0-0c0f-0d0a-a0b0000df002^,
+                    ^FormId^: ^b25ec112-852f-11e7-bb31-be2e45b06b36^,
+                    ^EncounterTypeId^: ^b262fda4-877f-11e7-bb31-be2e44b69b34^,
+                    ^EncounterDate^: ^\/Date(1517480049088+0300)\/^,
+                    ^ProviderId^: ^158790da-a5c7-4a11-9d49-a7b7016df234^,
+                    ^DeviceId^: ^60531e20-5ec5-46c8-be4e-a87a00919f2a^,
+                    ^PracticeId^: ^ab054358-98b9-11e7-abc4-cec278b6b50a^,
+                    ^Started^: ^\/Date(1517480049088+0300)\/^,
+                    ^Stopped^: null,
+                    ^KeyPop^: ^FFx^,
+                    ^OtherKeyPop^: null,
+                    ^Phone^: ^755123123^,
+                    ^Obses^: [
+      
+                    ],
+                    ^ObsTestResults^: [
+      
+                    ],
+                    ^ObsFinalTestResults^: [
+      
+                    ],
+                    ^ObsTraceResults^: [
+      
+                    ],
+                    ^ObsLinkages^: [
+      
+                    ],
+                    ^ObsMemberScreenings^: [
+                      
+                    ],
+                    ^ObsFamilyTraceResults^: [
+                      {
+                        ^Date^: ^\/Date(1517518800000+0300)\/^,
+                        ^Mode^: ^b25f136a-852f-11e7-bb31-be2e44b06b34^,
+                        ^ModeDisplay^: null,
+                        ^Outcome^: ^b25f102c-852f-11e7-bb31-be2e44b06b34^,
+                        ^OutcomeDisplay^: null,
+                        ^EncounterId^: ^a26dd6b4-20c3-45db-905f-a87b00a1972a^,
+                        ^Id^: ^383c414b-e1ed-4ea1-99ab-a87b00a1a6f2^,
+                        ^Voided^: false
+                      },
+                      {
+                        ^Date^: ^\/Date(1517518800000+0300)\/^,
+                        ^Mode^: ^b25f159a-852f-11e7-bb31-be2e44b06b34^,
+                        ^ModeDisplay^: null,
+                        ^Outcome^: ^b25f0a50-852f-11e7-bb31-be2e44b06b34^,
+                        ^OutcomeDisplay^: null,
+                        ^EncounterId^: ^a26dd6b4-20c3-45db-905f-a87b00a1972a^,
+                        ^Id^: ^60930a08-b1d5-492d-ab09-a87b00a1afb3^,
+                        ^Voided^: false
+                      }
+                    ],
+                    ^ObsPartnerScreenings^: [
+      
+                    ],
+                    ^ObsPartnerTraceResults^: [
+      
+                    ],
+                    ^UserId^: ^61a9e04c-2ed0-414a-9387-a7b7016df233^,
+                    ^IsComplete^: true
                   }
                 ]
 

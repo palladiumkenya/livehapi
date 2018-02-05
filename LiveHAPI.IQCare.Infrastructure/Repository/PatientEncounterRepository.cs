@@ -184,6 +184,26 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         }
                     }
                 }
+
+                var sql40 = GenerateSqlActionsMemberTracing(encounterInfo, subscriberSystem, location);
+
+                using (SqlConnection conn = new SqlConnection(Context.Database.GetDbConnection().ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql40, conn))
+                    {
+                        try
+                        {
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error($"{e}");
+                            throw;
+                        }
+                    }
+                }
+
             }
         }
 
@@ -334,6 +354,22 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             if (encounterInfo.ObsMemberScreenings.Count > 0)
                 _sqlActions.AddRange(InsertMemberScreening(rank, encounterInfo, subscriberSystem, location)); rank++;
 
+
+            StringBuilder sqlBuilder = new StringBuilder(" ");
+            foreach (var action in _sqlActions.OrderBy(x => x.Rank))
+            {
+                sqlBuilder.AppendLine(action.Action);
+            }
+            return sqlBuilder.ToString();
+        }
+
+        private string GenerateSqlActionsMemberTracing(EncounterInfo encounterInfo, SubscriberSystem subscriberSystem, Location location)
+        {
+            decimal rank = 0;
+            _sqlActions = new List<SqlAction>();
+            _sqlActions.Add(new SqlAction(rank, GetSqlDecrptyion())); rank++;
+            if (encounterInfo.ObsFamilyTraceResults.Count > 0)
+                _sqlActions.AddRange(InsertMemberTracing(rank, encounterInfo, subscriberSystem, location)); rank++;
 
             StringBuilder sqlBuilder = new StringBuilder(" ");
             foreach (var action in _sqlActions.OrderBy(x => x.Rank))
@@ -1222,7 +1258,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             //Linkage.VisitTypeId | 117
             var actions = new List<SqlAction>();
             var visitType = subscriberSystem.Configs.FirstOrDefault(x => x.Area == "HTS" && x.Name == "FamilyTracing.VisitTypeId");
-            var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsTraceResult) && x.HasSubName()).ToList();
+            var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsFamilyTraceResult) && x.HasSubName()).ToList();
             if (maps.Count > 0)
             {
                 //MULTII

@@ -20,7 +20,7 @@ using Dapper;
 namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
 {
     [TestFixture]
-    public class FamilyMemberScreeningEncounterTests
+    public class FamilyMemberEncounterTests
     {
         private EMRContext  _context;
         private IPatientEncounterRepository _patientEncounterRepository;
@@ -96,7 +96,23 @@ namespace LiveHAPI.IQCare.Infrastructure.Tests.Repository
             var screeings =_db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_FBCUSTOMFIELD_FamilyMemberTesting] where Ptn_Pk in ({savePatient.Id})");
             Assert.True(Convert.ToInt32(screeings) > 0);
         }
-       
+
+
+        [Test]
+        public void should_CreateOrUpdate_FamilyMemberTracing_New_()
+        {
+            var savePatient = _patientRepository.Get(_patientSon.mAfyaId.Value);
+            Assert.IsNotNull(savePatient);
+
+            _patientEncounterRepository.CreateOrUpdate(_encounterInfo, _subscriberSystem, _location);
+
+            var familyTracingVisitTypeId = _subscriberSystem.Configs.First(x => x.Area == "HTS" && x.Name == "FamilyTracing.VisitTypeId").Value;
+            Assert.AreEqual(1, _db.ExecuteScalar($"select count(Ptn_Pk)  from  [ord_Visit] where Ptn_Pk in ({savePatient.Id}) AND VisitType={familyTracingVisitTypeId}"));
+
+            var tracings = _db.ExecuteScalar($"select count(Ptn_Pk)  from  [DTL_CUSTOMFORM_Family Member Tracing Form_FamilyTracingForm] where Ptn_Pk in ({savePatient.Id})");
+            Assert.True(Convert.ToInt32(tracings) > 0);
+        }
+
         [TearDown]
         public void TearDown()
         {
