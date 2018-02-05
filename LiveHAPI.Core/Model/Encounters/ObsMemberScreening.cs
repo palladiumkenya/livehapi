@@ -14,6 +14,7 @@ namespace LiveHAPI.Core.Model.Encounters
         public Guid HivStatus { get; set; }
         public Guid Eligibility { get; set; }
         public DateTime BookingDate { get; set; }
+
         //TODO: NII Remarks
         public string Remarks { get; set; }
         public Guid EncounterId { get; set; }
