@@ -204,6 +204,44 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                     }
                 }
 
+                var sql5 = GenerateSqlActionsPartnerScreening(encounterInfo, subscriberSystem, location);
+
+                using (SqlConnection conn = new SqlConnection(Context.Database.GetDbConnection().ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql5, conn))
+                    {
+                        try
+                        {
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error($"{e}");
+                            throw;
+                        }
+                    }
+                }
+
+                var sql50 = GenerateSqlActionsPartnerTracing(encounterInfo, subscriberSystem, location);
+
+                using (SqlConnection conn = new SqlConnection(Context.Database.GetDbConnection().ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql50, conn))
+                    {
+                        try
+                        {
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error($"{e}");
+                            throw;
+                        }
+                    }
+                }
+
             }
         }
 
@@ -362,7 +400,23 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             }
             return sqlBuilder.ToString();
         }
+        private string GenerateSqlActionsPartnerScreening(EncounterInfo encounterInfo, SubscriberSystem subscriberSystem, Location location)
+        {
+            decimal rank = 0;
+            _sqlActions = new List<SqlAction>();
+            _sqlActions.Add(new SqlAction(rank, GetSqlDecrptyion())); rank++;
 
+            if (encounterInfo.ObsPartnerScreenings.Count > 0)
+                _sqlActions.AddRange(InsertPartnerScreening(rank, encounterInfo, subscriberSystem, location)); rank++;
+
+
+            StringBuilder sqlBuilder = new StringBuilder(" ");
+            foreach (var action in _sqlActions.OrderBy(x => x.Rank))
+            {
+                sqlBuilder.AppendLine(action.Action);
+            }
+            return sqlBuilder.ToString();
+        }
         private string GenerateSqlActionsMemberTracing(EncounterInfo encounterInfo, SubscriberSystem subscriberSystem, Location location)
         {
             decimal rank = 0;
@@ -370,6 +424,21 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             _sqlActions.Add(new SqlAction(rank, GetSqlDecrptyion())); rank++;
             if (encounterInfo.ObsFamilyTraceResults.Count > 0)
                 _sqlActions.AddRange(InsertMemberTracing(rank, encounterInfo, subscriberSystem, location)); rank++;
+
+            StringBuilder sqlBuilder = new StringBuilder(" ");
+            foreach (var action in _sqlActions.OrderBy(x => x.Rank))
+            {
+                sqlBuilder.AppendLine(action.Action);
+            }
+            return sqlBuilder.ToString();
+        }
+        private string GenerateSqlActionsPartnerTracing(EncounterInfo encounterInfo, SubscriberSystem subscriberSystem, Location location)
+        {
+            decimal rank = 0;
+            _sqlActions = new List<SqlAction>();
+            _sqlActions.Add(new SqlAction(rank, GetSqlDecrptyion())); rank++;
+            if (encounterInfo.ObsPartnerTraceResults.Count > 0)
+                _sqlActions.AddRange(InsertPartnerTracing(rank, encounterInfo, subscriberSystem, location)); rank++;
 
             StringBuilder sqlBuilder = new StringBuilder(" ");
             foreach (var action in _sqlActions.OrderBy(x => x.Rank))
@@ -1184,7 +1253,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             //GET MAP
             var actions = new List<SqlAction>();
 
-            var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsLinkage)).ToList();
+            var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsPartnerScreening)).ToList();
 
             if (maps.Count > 0)
             {
@@ -1238,7 +1307,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         UPDATE 
 	                        [{mapTbl}] 
                         SET 
-	                        [{subscriberMap.SubField}]= {GetValue(obsLinkage, subscriberMap)}
+	                        [{subscriberMap.SubField}]= {GetValue(obsLinkage, subscriberMap, subscriberSystem)}
                         WHERE 
 	                        mAfyaId='{mAfyId}';
                     ";
@@ -1330,7 +1399,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
             //Linkage.VisitTypeId | 117
             var actions = new List<SqlAction>();
             var visitType = subscriberSystem.Configs.FirstOrDefault(x => x.Area == "HTS" && x.Name == "PNSTracing.VisitTypeId");
-            var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsTraceResult) && x.HasSubName()).ToList();
+            var maps = subscriberSystem.Maps.Where(x => x.Name == nameof(ObsPartnerTraceResult) && x.HasSubName()).ToList();
             if (maps.Count > 0)
             {
                 //MULTII
