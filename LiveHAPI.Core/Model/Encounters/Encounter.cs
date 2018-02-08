@@ -47,7 +47,7 @@ namespace LiveHAPI.Core.Model.Encounters
         }
 
         private Encounter(Guid id, 
-            Guid clientId, Guid formId, Guid encounterTypeId, DateTime encounterDate, Guid providerId, Guid deviceId, Guid practiceId, DateTime? started, DateTime? stopped, Guid userId) 
+            Guid clientId, Guid formId, Guid encounterTypeId, DateTime encounterDate, Guid providerId, Guid deviceId, Guid practiceId, DateTime? started, DateTime? stopped, Guid userId,bool isComplete) 
             : base(id)
         {
             ClientId = clientId;
@@ -60,16 +60,17 @@ namespace LiveHAPI.Core.Model.Encounters
             Started = started;
             Stopped = stopped;
             UserId = userId;
+            IsComplete = isComplete;
         }
 
-        private Encounter(Guid clientId, Guid formId, Guid encounterTypeId, DateTime encounterDate, Guid providerId, Guid deviceId, Guid practiceId, DateTime? started, DateTime? stopped, Guid userId)
-            :this(LiveGuid.NewGuid(), clientId,formId,encounterTypeId,encounterDate,providerId,deviceId,practiceId,started,stopped,userId)
+        private Encounter(Guid clientId, Guid formId, Guid encounterTypeId, DateTime encounterDate, Guid providerId, Guid deviceId, Guid practiceId, DateTime? started, DateTime? stopped, Guid userId, bool isComplete)
+            :this(LiveGuid.NewGuid(), clientId,formId,encounterTypeId,encounterDate,providerId,deviceId,practiceId,started,stopped,userId,  isComplete)
         {           
         }
     
         public static Encounter Create(EncounterInfo encounterInfo)
         {
-            return new Encounter(encounterInfo.Id, encounterInfo.ClientId,encounterInfo.FormId,encounterInfo.EncounterTypeId,encounterInfo.EncounterDate, encounterInfo.ProviderId, encounterInfo.DeviceId, encounterInfo.PracticeId, encounterInfo.Started, encounterInfo.Stopped,encounterInfo.UserId);
+            return new Encounter(encounterInfo.Id, encounterInfo.ClientId,encounterInfo.FormId,encounterInfo.EncounterTypeId,encounterInfo.EncounterDate, encounterInfo.ProviderId, encounterInfo.DeviceId, encounterInfo.PracticeId, encounterInfo.Started, encounterInfo.Stopped,encounterInfo.UserId,encounterInfo.IsComplete);
         }
 
         public void Update(EncounterInfo encounterInfo)
@@ -83,6 +84,7 @@ namespace LiveHAPI.Core.Model.Encounters
             PracticeId = encounterInfo.PracticeId;
             Started = encounterInfo.Started;
             Stopped = encounterInfo.Stopped;
+            IsComplete = encounterInfo.IsComplete;
             UserId = encounterInfo.UserId;
         }
 

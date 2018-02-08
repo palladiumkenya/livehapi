@@ -24,6 +24,7 @@ namespace LiveHAPI.Shared.ValueObject
         public DateTime? Started { get; set; }
         public DateTime? Stopped { get; set; }
         public Guid UserId { get; set; }
+        public bool IsComplete { get; set; }
 
         public string KeyPop { get; set; }
         public string Phone { get; set; }
