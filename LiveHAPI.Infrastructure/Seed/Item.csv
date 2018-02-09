@@ -36,3 +36,39 @@ b25f136a-852f-11e7-bb31-be2e44b06b34|PHN|Phone|0
 b25f159a-852f-11e7-bb31-be2e44b06b34|PHY|Physical|0
 b25f859a-852f-11e7-bb31-be2e44b06b34|UK|Unknown|0
 b25f860a-852f-11e7-bb31-be2e44b06b34|HEI|HIV Exposed infant|0
+0e054d84-ff64-11e7-8be5-0ed5f89f718b|ANC|Maternity|0
+0e0552a2-ff64-11e7-8be5-0ed5f89f718b|MCH|MCH|0
+0e055428-ff64-11e7-8be5-0ed5f89f718b|PITC|PITC|0
+0e0555c2-ff64-11e7-8be5-0ed5f89f718b|OTR|Outreach|0
+0e055798-ff64-11e7-8be5-0ed5f89f718b|VCT|VCT|0
+0e055b76-ff64-11e7-8be5-0ed5f89f718b|ANC|ANC|0
+0e055d4c-ff64-11e7-8be5-0ed5f89f718b|IPD|IPD|0
+0e055e82-ff64-11e7-8be5-0ed5f89f718b|CCC|CCC|0
+0e055fa4-ff64-11e7-8be5-0ed5f89f718b|OPD|OPD|0
+0e05630a-ff64-11e7-8be5-0ed5f89f718b|HBTC|HBTC|0
+0e056454-ff64-11e7-8be5-0ed5f89f718b|PeD|PeD|0
+0e056576-ff64-11e7-8be5-0ed5f89f718b|MO|Mobile Outreach|0
+0e05672e-ff64-11e7-8be5-0ed5f89f718b|PMTCT|PMTCT|0
+0e05699a-ff64-11e7-8be5-0ed5f89f718b|VMMC|VMMC|0
+0e056d1e-ff64-11e7-8be5-0ed5f89f718b|TB|TB|0
+0e056e68-ff64-11e7-8be5-0ed5f89f718b|NP|NP|0
+0e056f8a-ff64-11e7-8be5-0ed5f89f718b|VI|VI|0
+0e0570a2-ff64-11e7-8be5-0ed5f89f718b|HB|HB|0
+0e0571c4-ff64-11e7-8be5-0ed5f89f718b|HTS|HTS|0
+a577c40a-0052-11e8-aa69-0ed5f89f718b|P|Physical|0
+a577c694-0052-11e8-aa69-0ed5f89f718b|E|Emotional|0
+a577c7de-0052-11e8-aa69-0ed5f89f718b|S|Sexual|0
+a577c914-0052-11e8-aa69-0ed5f89f718b|No|No IPV|0
+a577cda6-0052-11e8-aa69-0ed5f89f718b|C|NA-CHILD|0
+749076e2-0053-11e8-ba89-0ed5f89f718b|S|S|0
+74907a98-0053-11e8-ba89-0ed5f89f718b|P|P|0
+74907dae-0053-11e8-ba89-0ed5f89f718b|SP|Sexual Partner(SP)|0
+749080ce-0053-11e8-ba89-0ed5f89f718b|I|Injectable Drug User (IDU)|0
+7490840c-0053-11e8-ba89-0ed5f89f718b|C|Child - C|0
+c22946ae-0053-11e8-ba89-0ed5f89f718b|D|Declined|0
+
+cdeaec70-0055-11e8-ba89-0ed5f89f718b|Con|Con:Contract Referral|0
+cdeaed92-0055-11e8-ba89-0ed5f89f718b|D|D:Dual Referral|0
+cdeaef90-0055-11e8-ba89-0ed5f89f718b|Cr|Cr:Passive Referral|0
+cdeaf184-0055-11e8-ba89-0ed5f89f718b|Pr|Pr: Provider Referral|0
+

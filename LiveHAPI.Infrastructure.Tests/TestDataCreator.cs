@@ -31,11 +31,18 @@ namespace LiveHAPI.Infrastructure.Tests
             var personAddresses = persons.SelectMany(x => x.Addresses).ToList();
             var personContacts = persons.SelectMany(x => x.Contacts).ToList();
 
+            var rPersons = TestData.TestRealPersons();
+            var rPersonNames = rPersons.SelectMany(x => x.Names).ToList();
+          
+
             var users = TestData.TestUsers();
             var providers = TestData.TestProviders();
             var clients = TestData.TestClients();
             var clientIdentifiers = clients.SelectMany(x => x.Identifiers).ToList();
             var clientRelationships = clients.SelectMany(x => x.Relationships).ToList();
+
+            var rClients = TestData.TestRealClients();
+            var rClientIdentifiers = rClients.SelectMany(x => x.Identifiers).ToList();
 
             var encounters = TestData.TestEncounters();
             var obses = encounters.SelectMany(x => x.Obses).ToList();
@@ -49,7 +56,7 @@ namespace LiveHAPI.Infrastructure.Tests
                 persons, personNames, personAddresses, personContacts,
                 users,
                 providers,
-                clients, clientIdentifiers, clientRelationships,encounters,obses);
+                clients, clientIdentifiers, clientRelationships,rPersons,rPersonNames,rClients,rClientIdentifiers,encounters,obses);
         }
 
         public static void Create(LiveHAPIContext context, params IEnumerable<object>[] entities)

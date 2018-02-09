@@ -79,6 +79,11 @@ namespace LiveHAPI.Infrastructure
         public DbSet<ObsLinkage> ObsLinkages { get; set; }
         public DbSet<ObsTestResult> ObsTestResults { get; set; }
         public DbSet<ObsTraceResult> ObsTraceResults { get; set; }
+
+        public DbSet<ObsFamilyTraceResult> ObsFamilyTraceResults { get; set; }
+        public DbSet<ObsMemberScreening> ObsMemberScreenings { get; set; }
+        public DbSet<ObsPartnerScreening> ObsPartnerScreenings { get; set; }
+        public DbSet<ObsPartnerTraceResult> ObsPartnerTraceResults { get; set; }
         #endregion
 
         public DbSet<Category> Categories { get; set; }
@@ -104,5 +109,8 @@ namespace LiveHAPI.Infrastructure
         public DbSet<SubscriberMessage> SubscriberMessagess { get; set; }
         public DbSet<SubscriberMap> SubscriberMaps { get; set; }
         public DbSet<SubscriberTranslation> SubscriberTranslations { get; set; }
+        public DbSet<SubscriberCohort> SubscriberCohorts { get; set; }
+
+      
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Infrastructure.Repository;
+using LiveHAPI.Shared.Tests.TestHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
@@ -28,6 +29,7 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
                 .Options;
 
             _context = new LiveHAPIContext(options);
+            TestData.Init();
             TestDataCreator.Init(_context);
 
             _lookupRepository = new LookupRepository(_context);

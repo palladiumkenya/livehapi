@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
+using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.People;
+using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Service
@@ -19,6 +22,38 @@ namespace LiveHAPI.Core.Service
             _personRepository = personRepository;
             _clientRepository = clientRepository;
         }
+
+        public IEnumerable<PersonMatch> FindById(Guid id)
+        {
+            return _clientRepository.GetById(id);
+        }
+
+        public IEnumerable<PersonMatch> SearchById(string searchItem)
+        {
+            if (!string.IsNullOrWhiteSpace(searchItem))
+                return _clientRepository.Search(searchItem).ToList();
+
+            return new List<PersonMatch>();
+        }
+
+        public IEnumerable<PersonMatch> SearchByName(string searchItem)
+        {
+            if (!string.IsNullOrWhiteSpace(searchItem))
+                return _personRepository.Search(searchItem).ToList();
+
+            return new List<PersonMatch>();
+        }
+
+        public IEnumerable<PersonMatch> LoadByCohort(SubscriberCohort cohort)
+        {
+            return _personRepository.GetByCohort(cohort);
+        }
+
+        public IEnumerable<Encounter> LoadEncounters(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Sync(Guid practiceId, ClientInfo client)
         {
             var practice = _practiceRepository.Get(practiceId);

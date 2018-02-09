@@ -8,5 +8,7 @@ namespace LiveHAPI.Shared.Interfaces.Model
         string MaritalStatus { get; set; }
         string KeyPop { get; set; }
         string OtherKeyPop { get; set; }
+        bool? IsFamilyMember { get; set; }
+        bool? IsPartner { get; set; }
     }
 }

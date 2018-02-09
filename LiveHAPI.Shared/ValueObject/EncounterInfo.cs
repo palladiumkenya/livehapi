@@ -24,6 +24,7 @@ namespace LiveHAPI.Shared.ValueObject
         public DateTime? Started { get; set; }
         public DateTime? Stopped { get; set; }
         public Guid UserId { get; set; }
+        public bool IsComplete { get; set; }
 
         public string KeyPop { get; set; }
         public string Phone { get; set; }
@@ -33,6 +34,11 @@ namespace LiveHAPI.Shared.ValueObject
         public List<ObsFinalTestResultInfo> ObsFinalTestResults { get; set; } = new List<ObsFinalTestResultInfo>();
         public List<ObsTraceResultInfo> ObsTraceResults { get; set; } = new List<ObsTraceResultInfo>();
         public List<ObsLinkageInfo> ObsLinkages { get; set; } = new List<ObsLinkageInfo>();
+
+        public ICollection<ObsMemberScreeningInfo> ObsMemberScreenings { get; set; } = new List<ObsMemberScreeningInfo>();
+        public ICollection<ObsPartnerScreeningInfo> ObsPartnerScreenings { get; set; } = new List<ObsPartnerScreeningInfo>();
+        public ICollection<ObsFamilyTraceResultInfo> ObsFamilyTraceResults { get; set; } = new List<ObsFamilyTraceResultInfo>();
+        public ICollection<ObsPartnerTraceResultInfo> ObsPartnerTraceResults { get; set; } = new List<ObsPartnerTraceResultInfo>();
 
     }
 }

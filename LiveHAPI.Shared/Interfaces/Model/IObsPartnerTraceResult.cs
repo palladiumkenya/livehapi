@@ -1,0 +1,14 @@
+﻿using System;
+
+namespace LiveHAPI.Shared.Interfaces.Model
+{
+    public interface IObsPartnerTraceResult
+    {
+        DateTime Date { get; set; }
+        Guid EncounterId { get; set; }
+        Guid Mode { get; set; }
+        string ModeDisplay { get; set; }
+        Guid Outcome { get; set; }
+        string OutcomeDisplay { get; set; }
+    }
+}

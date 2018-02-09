@@ -15,21 +15,23 @@ namespace LiveHAPI.Core.Model.People
         public string RelationshipTypeId { get; set; }
         public bool Preferred { get; set; }
         public Guid ClientId { get; set; }
-        
+        public bool? IsIndex { get; set; }
+
         public ClientRelationship()
         {
             Id = LiveGuid.NewGuid();
         }
 
-        public ClientRelationship(Guid relatedClientId, string relationshipTypeId)
+        public ClientRelationship(Guid relatedClientId, string relationshipTypeId, bool? isIndex)
         {
             RelatedClientId = relatedClientId;
             RelationshipTypeId = relationshipTypeId;
+            IsIndex = isIndex;
         }
 
         public static ClientRelationship Create(RelationshipInfo address)
         {
-            return new ClientRelationship(address.RelatedClientId, address.RelationshipTypeId);
+            return new ClientRelationship(address.RelatedClientId, address.RelationshipTypeId,address.IsIndex);
         }
 
         public static List<ClientRelationship> Create(ClientInfo clientInfo)
@@ -41,6 +43,22 @@ namespace LiveHAPI.Core.Model.People
                 list.Add(Create(address));
             }
             return list;
+        }
+
+        public static List<RelationshipInfo> GetClientRelationshipInfos(List<ClientRelationship> clientRelationships)
+        {
+            var list = new List<RelationshipInfo>();
+            foreach (var clientClientRelationship in clientRelationships)
+            {
+                list.Add(clientClientRelationship.GetClientRelationshipInfo());
+            }
+
+            return list;
+        }
+
+        public RelationshipInfo GetClientRelationshipInfo()
+        {
+            return new RelationshipInfo(RelatedClientId, RelationshipTypeId,ClientId);
         }
     }
 }

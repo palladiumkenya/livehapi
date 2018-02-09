@@ -50,5 +50,21 @@ namespace LiveHAPI.Core.Model.People
             }
             return list;
         }
+
+        public static List<IdentifierInfo> GetIdentifierInfos(List<ClientIdentifier> identifiers)
+        {
+            var list = new List<IdentifierInfo>();
+            foreach (var clientIdentifier in identifiers)
+            {
+                list.Add(clientIdentifier.GetIdentifierInfo());
+            }
+
+            return list;
+        }
+
+        public IdentifierInfo GetIdentifierInfo()
+        {
+            return new IdentifierInfo(Id, IdentifierTypeId,Identifier, RegistrationDate, ClientId);
+        }
     }
 }

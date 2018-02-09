@@ -7,6 +7,7 @@ namespace LiveHAPI.Core.Model.Subscriber
     public class SubscriberConfig:Entity<Guid>
     {
         public string Area { get; set; }
+        public string Code { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }
         public Guid SubscriberSystemId { get; set; }

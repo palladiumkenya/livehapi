@@ -75,5 +75,11 @@ namespace LiveHAPI.Core.Model.People
         {
             return $"{FullName}";
         }
+
+        public void UpdateTo(string existingUserSource, string existingUserSourceSys)
+        {
+            FirstName = existingUserSource;
+            LastName = existingUserSourceSys;
+        }
     }
 }

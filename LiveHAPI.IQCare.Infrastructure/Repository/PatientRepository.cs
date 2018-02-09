@@ -13,6 +13,7 @@ using LiveHAPI.Shared;
 using LiveHAPI.Shared.ValueObject;
 using Microsoft.EntityFrameworkCore;
 using Dapper;
+using LiveHAPI.Shared.Custom;
 using Serilog;
 
 
@@ -128,6 +129,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
         }
         private SqlAction InsertPatient(decimal rank, Patient patient, SubscriberSystem subscriberSystem, Location location)
         {
+            //TODO: ***USE ACTUAL Users
             //TODO: ALTER TABLE [dbo].[mst_Patient] ADD [mAfyaId] [uniqueidentifier] NULL
 
             string sql = $@"
@@ -138,9 +140,9 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 	                [mst_Patient] 
                 SET 
 	                [Status]='0',
-                    [FirstName]=encryptbykey(key_guid('Key_CTC'), '{patient.FirstName}'),
-                    [MiddleName]=encryptbykey(key_guid('Key_CTC'), '{patient.MiddleName}'),
-                    [LastName]=encryptbykey(key_guid('Key_CTC'), '{patient.LastName}'),    
+                    [FirstName]=encryptbykey(key_guid('Key_CTC'), '{patient.FirstName.Sanitize()}'),
+                    [MiddleName]=encryptbykey(key_guid('Key_CTC'), '{patient.MiddleName.Sanitize()}'),
+                    [LastName]=encryptbykey(key_guid('Key_CTC'), '{patient.LastName.Sanitize()}'),    
 
                     [LocationID]=  '{location.FacilityID}',
                     [RegistrationDate]= '{patient.RegistrationDate:yyyy MMMM dd}',
@@ -155,7 +157,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                     [UpdateDate]=GETDATE(),    
                     [MaritalStatus]='{patient.MaritalStatus}',
                     [Phone]= encryptbykey(key_guid('Key_CTC'), '{patient.Phone}'),
-                    [Landmark]='{patient.Landmark}',
+                    [Landmark]='{patient.Landmark.Sanitize()}',
                     [HTSID]= '{patient.HTSID}'
 
                 WHERE 
@@ -171,10 +173,10 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                             Phone,Landmark,HTSID,mAfyaId,
                             MaritalStatus)
                     VALUES(
-                        '0', encryptbykey(key_guid('Key_CTC'), '{patient.FirstName}'), encryptbykey(key_guid('Key_CTC'), '{patient.MiddleName}'), encryptbykey(key_guid('Key_CTC'), '{patient.LastName}'), 
+                        '0', encryptbykey(key_guid('Key_CTC'), '{patient.FirstName.Sanitize()}'), encryptbykey(key_guid('Key_CTC'), '{patient.MiddleName.Sanitize()}'), encryptbykey(key_guid('Key_CTC'), '{patient.LastName.Sanitize()}'), 
                         '{location.FacilityID}', '{patient.RegistrationDate:yyyy MMMM dd}', '{patient.Sex}', '{patient.Dob:yyyy MMMM dd}', '{patient.DobPrecision}', 
                         '{location.CountryID}', '{location.PosID}', '{location.SatelliteID}', '{patient.UserId}', GETDATE(),
-                        encryptbykey(key_guid('Key_CTC'), '{patient.Phone}'),'{patient.Landmark}','{patient.HTSID}','{patient.mAfyaId}','{patient.MaritalStatus}');
+                        encryptbykey(key_guid('Key_CTC'), '{patient.Phone}'),'{patient.Landmark.Sanitize()}','{patient.HTSID}','{patient.mAfyaId}','{patient.MaritalStatus}');
                 
                 SET @ptnpk=(SELECT Ptn_Pk  FROM mst_Patient WHERE mAfyaId ='{patient.mAfyaId}');";
 
@@ -492,94 +494,57 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
 
             foreach (var relatedPatient in relatedPatients)
             {
-                var partner = Get(relatedPatient.RelatedClientId);
-
-                if (null != partner)
+                if (relatedPatient.HasIndexClient())
                 {
-                    // add Partner
+                    //check if index exists
 
-                    string sqlPartner = $@"
+                    var index = Get(relatedPatient.RelatedClientId);
+                    var secondary = Get(relatedPatient.ClientId);
+
+                    if (null != index && secondary != null)
+                    {
+                        //add index with secondary to relations
+                        string sqlIndex = $@"
                 UPDATE 
 	                [dtl_FamilyInfo] 
                 SET 
-                    [RFirstName]=encryptbykey(key_guid('Key_CTC'), '{partner.FirstName}'),
-                    [RLastName]=encryptbykey(key_guid('Key_CTC'), '{partner.LastName}'),    
-                    [Sex]='{partner.Sex}', 
-                    [AgeYear]=datediff(yy, '{partner.Dob:yyyy MMMM dd}', getdate()),
-                    [AgeMonth]=datediff(yy, '{partner.Dob:yyyy MMMM dd}', getdate()) % 12,
-                    [RelationshipType]='{GetTranslation("RelationshipType", relatedPatient.RelationshipTypeId, subscriberSystem)}', 
-                    [ReferenceId]='{partner.Id}',
+                    [RFirstName]=encryptbykey(key_guid('Key_CTC'), '{secondary.FirstName.Sanitize()}'),
+                    [RLastName]=encryptbykey(key_guid('Key_CTC'), '{secondary.LastName.Sanitize()}'),    
+                    [Sex]='{secondary.Sex}', 
+                    [AgeYear]=datediff(yy, '{secondary.Dob:yyyy MMMM dd}', getdate()),
+                    [AgeMonth]=datediff(yy, '{secondary.Dob:yyyy MMMM dd}', getdate()) % 12,
+                    [RelationshipType]='{
+                                GetTranslation("RelationshipType", relatedPatient.RelationshipTypeId, subscriberSystem)
+                            }', 
+                    [ReferenceId]='{secondary.Id}',
                     [UpdateDate]=GETDATE()
                 WHERE 
-	                Ptn_pk='{indexPatient.Id}' AND ReferenceId='{partner.Id}'
+	                Ptn_pk='{index.Id}' AND ReferenceId='{secondary.Id}'
 
                 IF @@ROWCOUNT=0
 
                     INSERT INTO 
                         dtl_FamilyInfo(Ptn_pk,RFirstName,RLastName,Sex,AgeYear,AgeMonth,RelationshipDate,RelationshipType,HivStatus,HivCareStatus,ReferenceId,UserId,CreateDate)
                     VALUES(
-                        '{indexPatient.Id}',encryptbykey(key_guid('Key_CTC'), 
-                        '{partner.FirstName}'), 
-                        encryptbykey(key_guid('Key_CTC'), 
-                        '{partner.LastName}'), 
-                        '{partner.Sex}',
-                        datediff(yy, '{partner.Dob:yyyy MMMM dd}', 
-                        getdate()),
-                        datediff(yy, '{partner.Dob:yyyy MMMM dd}', getdate()) % 12,
-                        GETDATE(),
-                        '{GetTranslation("RelationshipType", relatedPatient.RelationshipTypeId, subscriberSystem)}',
-                        '{GetTranslation("HivStatus", string.Empty, subscriberSystem)}',
-                        '{GetTranslation("HivCareStatus", string.Empty, subscriberSystem)}',
-                        '{partner.Id}',
-                        1,
-                        GETDATE());";
-
-
-                    // add Index for Partner
-
-                    string sqlIndex = $@"
-                UPDATE 
-	                [dtl_FamilyInfo] 
-                SET 
-                    [RFirstName]=encryptbykey(key_guid('Key_CTC'), '{indexPatient.FirstName}'),
-                    [RLastName]=encryptbykey(key_guid('Key_CTC'), '{indexPatient.LastName}'),    
-                    [Sex]='{indexPatient.Sex}', 
-                    [AgeYear]=datediff(yy, '{indexPatient.Dob:yyyy MMMM dd}', getdate()),
-                    [AgeMonth]=datediff(yy, '{indexPatient.Dob:yyyy MMMM dd}', getdate()) % 12,
-                    [RelationshipType]='{GetTranslation("RelationshipType", relatedPatient.RelationshipTypeId, subscriberSystem)}', 
-                    [ReferenceId]='{indexPatient.Id}',
-                    [UpdateDate]=GETDATE()
-                WHERE 
-	                Ptn_pk='{partner.Id}' AND ReferenceId='{indexPatient.Id}'
-
-                IF @@ROWCOUNT=0
-
-                    INSERT INTO 
-                        dtl_FamilyInfo(Ptn_pk,RFirstName,RLastName,Sex,AgeYear,AgeMonth,RelationshipDate,RelationshipType,HivStatus,HivCareStatus,ReferenceId,UserId,CreateDate)
-                    VALUES(
-                        '{partner.Id}',
-                        encryptbykey(key_guid('Key_CTC'), '{indexPatient.FirstName}'), 
-                        encryptbykey(key_guid('Key_CTC'), '{indexPatient.LastName}'), 
-                        '{indexPatient.Sex}',
-                        datediff(yy, '{indexPatient.Dob:yyyy MMMM dd}', 
-                        getdate()),datediff(yy, '{indexPatient.Dob:yyyy MMMM dd}', 
+                        '{index.Id}',
+                        encryptbykey(key_guid('Key_CTC'), '{secondary.FirstName.Sanitize()}'), 
+                        encryptbykey(key_guid('Key_CTC'), '{secondary.LastName.Sanitize()}'), 
+                        '{secondary.Sex}',
+                        datediff(yy, '{secondary.Dob:yyyy MMMM dd}', 
+                        getdate()),datediff(yy, '{secondary.Dob:yyyy MMMM dd}', 
                         getdate()) % 12,
                         GETDATE(),
                         '{GetTranslation("RelationshipType", relatedPatient.RelationshipTypeId, subscriberSystem)}',
                         '{GetTranslation("HivStatus", string.Empty, subscriberSystem)}',
                         '{GetTranslation("HivCareStatus", string.Empty, subscriberSystem)}',
-                        '{indexPatient.Id}',
+                        '{secondary.Id}',
                          1,
                          GETDATE());";
-
-                    list.Add(new SqlAction(rank, sqlPartner));
-                   // list.Add(new SqlAction(rank, sqlIndex));
+                        list.Add(new SqlAction(rank, sqlIndex));
+                    }
                 }
             }
-
-
             return list;
-
         }
 
         public static string GetTranslation(string tref, string tval, SubscriberSystem subscriberSystem, int group = 0)

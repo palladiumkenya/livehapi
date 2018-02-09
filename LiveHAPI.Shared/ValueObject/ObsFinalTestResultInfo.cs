@@ -18,5 +18,6 @@ namespace LiveHAPI.Shared.ValueObject
         public Guid? SecondTestResult { get; set; }
         public string SecondTestResultCode { get; set; }
         public Guid? SelfTestOption { get; set; }
+        public string Remarks { get; set; }
     }
 }

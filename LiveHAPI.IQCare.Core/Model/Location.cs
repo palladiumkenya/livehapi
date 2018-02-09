@@ -3,8 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LiveHAPI.IQCare.Core.Model
 {
-    
-
     [Table("mst_Facility")]
   public  class Location
     {
@@ -15,7 +13,7 @@ namespace LiveHAPI.IQCare.Core.Model
         public string PosID { get; set; }
         public string SatelliteID { get; set; }
         public int DeleteFlag { get; set; }
-        
+        public int? Preferred { get; set; }
 
         public override string ToString()
       {

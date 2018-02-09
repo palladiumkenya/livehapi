@@ -17,7 +17,7 @@ namespace LiveHAPI.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.Encounter", b =>
@@ -92,6 +92,38 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.ToTable("Obses");
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.ObsFamilyTraceResult", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("BookingDate");
+
+                    b.Property<Guid?>("Consent");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<Guid>("EncounterId");
+
+                    b.Property<Guid>("Mode");
+
+                    b.Property<string>("ModeDisplay");
+
+                    b.Property<Guid>("Outcome");
+
+                    b.Property<string>("OutcomeDisplay");
+
+                    b.Property<DateTime?>("Reminder");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EncounterId");
+
+                    b.ToTable("ObsFamilyTraceResults");
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.ObsFinalTestResult", b =>
                 {
                     b.Property<Guid>("Id")
@@ -108,6 +140,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<Guid?>("FirstTestResult");
 
                     b.Property<string>("FirstTestResultCode");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(100);
 
                     b.Property<Guid?>("ResultGiven");
 
@@ -162,6 +197,122 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.HasIndex("EncounterId");
 
                     b.ToTable("ObsLinkages");
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.ObsMemberScreening", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("BookingDate");
+
+                    b.Property<bool>("BookingMet");
+
+                    b.Property<DateTime?>("DateBookingMet");
+
+                    b.Property<Guid>("Eligibility");
+
+                    b.Property<Guid>("EncounterId");
+
+                    b.Property<Guid>("HivStatus");
+
+                    b.Property<string>("Remarks");
+
+                    b.Property<DateTime>("ScreeningDate");
+
+                    b.Property<Guid?>("TraceId");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EncounterId");
+
+                    b.ToTable("ObsMemberScreenings");
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.ObsPartnerScreening", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("BookingDate");
+
+                    b.Property<bool>("BookingMet");
+
+                    b.Property<DateTime?>("DateBookingMet");
+
+                    b.Property<Guid>("Eligibility");
+
+                    b.Property<Guid>("EncounterId");
+
+                    b.Property<Guid>("HivStatus");
+
+                    b.Property<Guid?>("IPVOutcome");
+
+                    b.Property<Guid>("IPVScreening");
+
+                    b.Property<Guid?>("LivingWithClient");
+
+                    b.Property<string>("Occupation");
+
+                    b.Property<Guid?>("PNSApproach");
+
+                    b.Property<Guid?>("PNSRealtionship");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<Guid>("PhysicalAssult");
+
+                    b.Property<Guid?>("PnsAccepted");
+
+                    b.Property<string>("Remarks");
+
+                    b.Property<DateTime>("ScreeningDate");
+
+                    b.Property<Guid>("SexuallyUncomfortable");
+
+                    b.Property<Guid>("Threatened");
+
+                    b.Property<Guid?>("TraceId");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EncounterId");
+
+                    b.ToTable("ObsPartnerScreenings");
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.ObsPartnerTraceResult", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("BookingDate");
+
+                    b.Property<Guid?>("Consent");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<Guid>("EncounterId");
+
+                    b.Property<Guid>("Mode");
+
+                    b.Property<string>("ModeDisplay");
+
+                    b.Property<Guid>("Outcome");
+
+                    b.Property<string>("OutcomeDisplay");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EncounterId");
+
+                    b.ToTable("ObsPartnerTraceResults");
                 });
 
             modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.ObsTestResult", b =>
@@ -521,6 +672,10 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool?>("IsFamilyMember");
+
+                    b.Property<bool?>("IsPartner");
+
                     b.Property<string>("KeyPop")
                         .HasMaxLength(50);
 
@@ -599,6 +754,8 @@ namespace LiveHAPI.Infrastructure.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("ClientId");
+
+                    b.Property<bool?>("IsIndex");
 
                     b.Property<bool>("Preferred");
 
@@ -682,7 +839,7 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<Guid>("PersonId");
 
-                    b.Property<int>("Phone");
+                    b.Property<int?>("Phone");
 
                     b.Property<bool>("Preferred");
 
@@ -872,6 +1029,8 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<string>("Display")
                         .HasMaxLength(50);
+
+                    b.Property<string>("Fact");
 
                     b.Property<Guid>("FormId");
 
@@ -1295,12 +1454,38 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.ToTable("Modules");
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberCohort", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Display");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Rank");
+
+                    b.Property<Guid>("SubscriberSystemId");
+
+                    b.Property<string>("View");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubscriberSystemId");
+
+                    b.ToTable("SubscriberCohorts");
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberConfig", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Area");
+
+                    b.Property<string>("Code");
 
                     b.Property<string>("Name");
 
@@ -1481,6 +1666,14 @@ namespace LiveHAPI.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.ObsFamilyTraceResult", b =>
+                {
+                    b.HasOne("LiveHAPI.Core.Model.Encounters.Encounter")
+                        .WithMany("ObsFamilyTraceResults")
+                        .HasForeignKey("EncounterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.ObsFinalTestResult", b =>
                 {
                     b.HasOne("LiveHAPI.Core.Model.Encounters.Encounter")
@@ -1493,6 +1686,30 @@ namespace LiveHAPI.Infrastructure.Migrations
                 {
                     b.HasOne("LiveHAPI.Core.Model.Encounters.Encounter")
                         .WithMany("ObsLinkages")
+                        .HasForeignKey("EncounterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.ObsMemberScreening", b =>
+                {
+                    b.HasOne("LiveHAPI.Core.Model.Encounters.Encounter")
+                        .WithMany("ObsMemberScreenings")
+                        .HasForeignKey("EncounterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.ObsPartnerScreening", b =>
+                {
+                    b.HasOne("LiveHAPI.Core.Model.Encounters.Encounter")
+                        .WithMany("ObsPartnerScreenings")
+                        .HasForeignKey("EncounterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.ObsPartnerTraceResult", b =>
+                {
+                    b.HasOne("LiveHAPI.Core.Model.Encounters.Encounter")
+                        .WithMany("ObsPartnerTraceResults")
                         .HasForeignKey("EncounterId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -1785,6 +2002,14 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.HasOne("LiveHAPI.Core.Model.Studio.Form")
                         .WithMany("Programs")
                         .HasForeignKey("FormId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Subscriber.SubscriberCohort", b =>
+                {
+                    b.HasOne("LiveHAPI.Core.Model.Subscriber.SubscriberSystem")
+                        .WithMany("Cohorts")
+                        .HasForeignKey("SubscriberSystemId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

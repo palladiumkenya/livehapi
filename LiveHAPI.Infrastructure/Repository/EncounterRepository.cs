@@ -11,5 +11,10 @@ namespace LiveHAPI.Infrastructure.Repository
         public EncounterRepository(LiveHAPIContext context) : base(context)
         {
         }
+
+        public List<Encounter> LoadEncounters(Guid clientId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
@@ -203,11 +204,18 @@ namespace LiveHAPI.Core.Model.People
                 AddName(personName);
             }
         }
-        private void AddName(PersonName name)
+        public void AddName(PersonName name)
         {
             name.PersonId = Id;
             Names.Add(name);
         }
+
+        public void AddProvider(Provider name)
+        {
+            name.PersonId = Id;
+            Providers.Add(name);
+        }
+
 
         private void AddAddresss(List<PersonAddress> addresses)
         {
@@ -254,6 +262,48 @@ namespace LiveHAPI.Core.Model.People
             p.Addresses = PersonAddress.GetAddressInfos(Addresses.ToList());
             p.Contacts = PersonContact.GetContactInfos(Contacts.ToList());
             return p;
+        }
+
+        public ClientInfo GetClientInfo()
+        {
+            var c=new ClientInfo();
+            var cl = Clients.FirstOrDefault();
+            if (null != cl)
+            {
+                c.Id = cl.Id;
+                c.MaritalStatus = cl.MaritalStatus;
+                c.KeyPop = cl.KeyPop;
+                c.OtherKeyPop = cl.OtherKeyPop;
+                c.IsFamilyMember = cl.IsFamilyMember;
+                c.IsPartner = cl.IsPartner;
+                c.PracticeId = cl.PracticeId;
+                c.Person = GetPersonInfo();
+                if (null != c.Person)
+                {
+                    c.PersonId = c.Person.Id;
+                }
+                c.Identifiers = ClientIdentifier.GetIdentifierInfos(cl.Identifiers.ToList());
+                c.Relationships= ClientRelationship.GetClientRelationshipInfos(cl.Relationships.ToList());
+            }
+
+            return c;
+        }
+
+        public bool HasGender()
+        {
+            return !string.IsNullOrWhiteSpace(Gender);
+        }
+        public bool HasDOB()
+        {
+            return null != BirthDate && BirthDate.HasValue;
+        }
+        public bool HasDOBEstimate()
+        {
+            return null != BirthDateEstimated && BirthDateEstimated.HasValue;
+        }
+        public bool ProfileNeedsUpdate()
+        {
+            return !HasGender() || !HasDOB()||!HasDOBEstimate();
         }
         public override string ToString()
         {

@@ -37,11 +37,24 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
         [Test]
         public void should_Get_Staff()
         {
-            var practice = _personRepository.GetStaff().ToList();
-            Assert.IsTrue(practice.Count>0);
-            foreach (var person in practice)
+            var persons = _personRepository.GetStaff().ToList();
+            Assert.IsTrue(persons.Count>0);
+            foreach (var person in persons)
             {
                 Console.WriteLine(person);
+            }
+        }
+
+        [Test]
+        public void should_Search_Person()
+        {
+            var persons = _personRepository.Search("joh     kan      ").ToList();
+            Assert.True(persons.Count > 0);
+            foreach (var person in persons.OrderByDescending(x=>x.Rank))
+            {
+                Console.WriteLine(person);
+                Assert.IsTrue(person.Person.Clients.Count>0);
+                Console.WriteLine(person.Person.Clients.First());
             }
         }
     }

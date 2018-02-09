@@ -17,7 +17,7 @@ namespace LiveHAPI.Core.Model.Encounters
 
         private ObsTraceResult(Guid id,DateTime date, Guid mode, Guid outcome, Guid encounterId)
         {
-            Id = Id;
+            Id = id;
             Date = date;
             Mode = mode;
             Outcome = outcome;

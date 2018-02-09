@@ -10,15 +10,22 @@ namespace LiveHAPI.Shared.ValueObject
         public string MaritalStatus { get; set; }
         public string KeyPop { get; set; }
         public string OtherKeyPop { get; set; }
+        public bool? IsFamilyMember { get; set; }
+        public bool? IsPartner { get; set; }
         public Guid? PracticeId { get; set; }
         public string PracticeCode { get; set; }
+        public Guid PersonId { get; set; }
         public PersonInfo Person { get; set; }
         public List<IdentifierInfo> Identifiers { get; set; }=new List<IdentifierInfo>();
         public List<RelationshipInfo> Relationships { get; set; } = new List<RelationshipInfo>();
-
         public bool HasRelationships()
         {
             return Relationships.Count > 0;
+        }
+
+        public ClientInfo()
+        {
+            IsFamilyMember = IsPartner = false;
         }
 
         /*

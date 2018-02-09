@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
@@ -16,14 +17,26 @@ namespace LiveHAPI.Core.Model.People
         public int? Phone { get; set; }
         [MaxLength(100)]
         public string Email { get; set; }
+
+        /// <summary>
+        /// First Name temp-holder
+        /// </summary>
         [MaxLength(50)]
         public string Source { get; set; }
+        /// <summary>
+        /// UserID temp-holder
+        /// </summary>
         [MaxLength(50)]
         public string SourceRef { get; set; }
+        /// <summary>
+        /// Last Name temp-holder
+        /// </summary>
         [MaxLength(50)]
         public string SourceSys { get; set; }
         public Guid? PracticeId { get; set; }        
         public Guid PersonId { get; set; }
+        [NotMapped]
+        public string DecryptedPassword => Utils.Decrypt(Password);
 
         public User()
         {
@@ -55,6 +68,15 @@ namespace LiveHAPI.Core.Model.People
             Password = name.Password;
             Phone = name.Phone;
             Email = name.Email;
+        }
+
+        public void UpdateTo(User name)
+        {
+            UserName = name.UserName;
+            Password = name.Password;
+            SourceRef = name.SourceRef;
+            Source = name.Source;
+            SourceSys = name.SourceSys;
         }
 
         public override string ToString()

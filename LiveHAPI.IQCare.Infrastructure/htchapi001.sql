@@ -182,6 +182,35 @@ INNER JOIN dbo.mst_control c ON a.ControlId = c.ControlID
 go
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+update   [LiveHAPI].[dbo].[SubscriberConfigs]
+set [Value]=m.[ModuleID]
+FROM            
+	[LiveHAPI].[dbo].[SubscriberConfigs] AS h INNER JOIN
+    [mst_module] AS m ON h.[Code] = m.[ModuleName]
+where h.[name] like '%ModuleId%'
+go
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+UPDATE   [LiveHAPI].[dbo].[SubscriberConfigs]
+set [Value]=m.[FeatureID]
+FROM            
+	[LiveHAPI].[dbo].[SubscriberConfigs] AS h INNER JOIN
+    [mst_Feature] AS m ON h.[Code] = m.[FeatureName]
+where h.[name] like '%.FeatureId%'
+
+GO
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+update   [LiveHAPI].[dbo].[SubscriberConfigs]
+set [Value]=m.[VisitTypeID]
+FROM            
+	[LiveHAPI].[dbo].[SubscriberConfigs] AS h INNER JOIN
+    [mst_VisitType] AS m ON h.[Code] = m.[VisitName]
+where h.[name] like '%.VisitTypeId%'
+GO
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 IF EXISTS(SELECT * FROM sysobjects WHERE name='htchapiall' AND type='v')
 	DROP VIEW htchapiall
@@ -189,7 +218,14 @@ Go
 
 create view htchapiall
 as
-select distinct * from vw_DetailsOfAllFields where (form like '%htc%' or form like '%link%' )
+select distinct * from vw_DetailsOfAllFields where (
+form like '%FamilyMemberTesting%' or 
+form like '%FamilyTracingForm%' or
+form like '%HTC Lab MOH 362%' or
+form like '%LinkageAndTracking%' or
+form like '%PNSFORM%' or
+form like '%PNSTRACING%'
+)
 
 Go
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -201,7 +237,14 @@ Go
 
 create view htchapi
 as
-select distinct * from vw_DetailsOfAllFields where (form like '%htc%' or form like '%link%' )and bindtable='Mst_ModDecode'
+select distinct * from vw_DetailsOfAllFields where (
+form like '%FamilyMemberTesting%' or 
+form like '%FamilyTracingForm%' or
+form like '%HTC Lab MOH 362%' or
+form like '%LinkageAndTracking%' or
+form like '%PNSFORM%' or
+form like '%PNSTRACING%'
+)and bindtable='Mst_ModDecode'
 
 Go
 
@@ -218,7 +261,7 @@ as
 SELECT        htchapi.FeatureId, htchapi.Form, htchapi.SectionId, htchapi.Field, htchapi.[Table], htchapi.SectionName, htchapi.FieldLabel, htchapi.BindID, mst_ModDeCode.ID, mst_ModDeCode.Name
 FROM            htchapi INNER JOIN
                          mst_ModDeCode ON htchapi.BindID = mst_ModDeCode.CodeID
-
+						
 GO
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -248,10 +291,12 @@ Go
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-update  LiveHAPI.dbo.SubscriberMaps
-set FormId=m.featureid,
-SectionId= m.SectionId
-FROM            LiveHAPI.dbo.SubscriberMaps AS h INNER JOIN
-                         htchapicodes AS m ON h.SubField = m.Field 
-  where h.FormId<>'' and h.SectionId <>''
- Go
+update  
+	LiveHAPI.dbo.SubscriberMaps
+set 
+	FormId=m.featureid,
+	SectionId= m.SectionId
+FROM            
+	LiveHAPI.dbo.SubscriberMaps AS h INNER JOIN
+    (select distinct FeatureId,SectionId,Field,[Table] from htchapicodes) AS m ON h.SubField = m.Field and h.SubName = m.[Table]
+Go

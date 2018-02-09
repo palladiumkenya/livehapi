@@ -7,7 +7,7 @@ namespace LiveHAPI.Shared.ValueObject
     public class ObsTraceResultInfo : IObsTraceResult
     {
         public Guid Id { get; set; }
-
+        
 
         public DateTime Date { get; set; }
         public Guid EncounterId { get; set; }
