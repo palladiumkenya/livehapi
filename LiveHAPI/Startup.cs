@@ -292,7 +292,7 @@ namespace LiveHAPI
 
             if (imHapi)
             {
-                Log.Debug($"im hAPI !!!");
+                Log.Debug($"im hAPI !!! ");
             }
             else
             {
