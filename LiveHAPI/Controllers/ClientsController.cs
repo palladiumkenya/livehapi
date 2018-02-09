@@ -150,6 +150,7 @@ namespace LiveHAPI.Controllers
             {
                 clientId = new Guid(id);
             }
+
             catch
             {
             }
