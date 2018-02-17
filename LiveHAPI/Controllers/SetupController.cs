@@ -5,6 +5,7 @@ using AutoMapper;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.IQCare.Core.Interfaces.Repository;
+using LiveHAPI.Shared.Interfaces;
 using LiveHAPI.Shared.ValueObject;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -20,11 +21,13 @@ namespace LiveHAPI.Controllers
         private readonly IPracticeRepository _configRepository;
         private readonly IUserRepository _userRepository;
         private readonly IPersonRepository _personRepository;
-        public SetupController(IPracticeRepository configRepository, IUserRepository userRepository, IPersonRepository personRepository)
+        private readonly ISetupFacilty _setupFacilty;
+        public SetupController(IPracticeRepository configRepository, IUserRepository userRepository, IPersonRepository personRepository, ISetupFacilty setupFacilty)
         {
             _configRepository = configRepository;
             _userRepository = userRepository;
             _personRepository = personRepository;
+            _setupFacilty = setupFacilty;
         }
 
         [HttpGet("fac")]
@@ -45,6 +48,16 @@ namespace LiveHAPI.Controllers
         [HttpGet("user")]
         public IActionResult GetUsers()
         {
+            try
+            {
+                Log.Debug("loading users from emr");
+                _setupFacilty.SyncUsers();
+            }
+            catch (Exception e)
+            {
+                Log.Error($"{e}");
+            }
+
             try
             {
                 var dtos=new List<UserDTO>();
