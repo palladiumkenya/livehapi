@@ -60,6 +60,14 @@ namespace LiveHAPI.IQCare.Core.Model
 
         public static Patient Create(ClientInfo client, int locationId, SubscriberSystem subscriberSystem)
         {
+            var ids = null != client.Identifiers && client.Identifiers.Count > 0
+                ? client.Identifiers.First().Identifier
+                : "";
+
+            var regDate = string.IsNullOrWhiteSpace(ids)
+                ? DateTime.Now.Date
+                : client.Identifiers.First().RegistrationDate;
+
             return new Patient(
                 client.Person.FirstName,
                 client.Person.MiddleName,
@@ -67,9 +75,9 @@ namespace LiveHAPI.IQCare.Core.Model
                 Convert.ToInt32(GetTranslation("Sex",client.Person.Gender,subscriberSystem,"0")),
                 client.Person.BirthDate.Value,
                 GetDobPrecion(client.Person.BirthDateEstimated.Value),
-                client.Identifiers.First().Identifier,
+                ids,
                 locationId,
-                client.Identifiers.First().RegistrationDate,
+                regDate,
                 client.Id,
                 client.Person.Addresses.FirstOrDefault().Landmark,
                 client.Person.Contacts.FirstOrDefault().Phone.ToString(),

@@ -1,7 +1,7 @@
 Id|Name|Description|Voided
 Partner|Partner|Partner|0
-Spouse|Spouse|Family|0
-Cowife|Cowife|Family|0
+Spouse|Spouse|Partner|0
+Cowife|Cowife|Partner|0
 Daugther|Daugther|Family|0
 Son|Son|Family|0
 Brother|Brother|Family|0

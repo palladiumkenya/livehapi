@@ -2,7 +2,7 @@ Id|FormId|EncounterTypeId|Display|Description|Rank|Voided
 b262ff02-852f-11e7-bb31-be2e44b06b34|b25ebcda-852f-11e7-bb31-be2e44b06b34|7e5164a6-6b99-11e7-907b-a6006ad3dba0|Pre Test|Pre Test|1|0
 b263006a-852f-11e7-bb31-be2e44b06b34|b25ec568-852f-11e7-bb31-be2e44b06b34|b262f4ee-852f-11e7-bb31-be2e44b06b34|Testing|Testing|2|0
 b26301d2-852f-11e7-bb31-be2e44b06b34|b25ec568-852f-11e7-bb31-be2e44b06b34|b262faac-852f-11e7-bb31-be2e44b06b34|Repeat Test|Repeat Test|3|1
-b263063c-852f-11e7-bb31-be2e44b06b34|b25ec112-852f-11e7-bb31-be2e44b06b34|b262fc32-852f-11e7-bb31-be2e44b06b34|Linkage|Linkage|4|0
+b263063c-852f-11e7-bb31-be2e44b06b34|b25ec112-852f-11e7-bb31-be2e44b06b34|b262fc32-852f-11e7-bb31-be2e44b06b34|Linkage & Referral|Linkage & Referral|4|0
 b273064c-852f-11e7-bb31-be2e44b06b34|b25ec112-852f-11e7-bb31-be2e45b06b35|b262fda4-877f-11e7-bb31-be2e44b66b34|Family Screening|Family Screening|4|0
 b273065c-852f-11e7-bb31-be2e44b06b34|b25ec112-852f-11e7-bb31-be2e45b06b36|b262fda4-877f-11e7-bb31-be2e44b67b34|Family Member Tracing|Family Member Tracing|4|0
 b273066c-852f-11e7-bb31-be2e44b06b34|b25ec112-852f-11e7-bb31-be2e46b06b37|b262fda4-877f-11e7-bb31-be2e44b68b34|Partner Screening|Partner Screening|4|0
