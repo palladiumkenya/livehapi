@@ -7,6 +7,7 @@ using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
 using Encounter = LiveHAPI.Core.Model.Encounters.Encounter;
+using LiveHAPI.Core.Model.Encounters;
 
 namespace LiveHAPI.Core.Model.People
 {
@@ -105,7 +106,23 @@ namespace LiveHAPI.Core.Model.People
             }
         }
 
-       
+       public bool IsPos()
+        {
+            var finalResultEnocunters = Encounters.Where(x => x.EncounterTypeId == new Guid("b262f4ee-852f-11e7-bb31-be2e44b06b34")).ToList();
+            var obs = new List<ObsFinalTestResult>();
+            foreach (var f in finalResultEnocunters)
+            {
+                obs.AddRange(f.ObsFinalTestResults);
+            }
+
+            if (obs.Count > 0)
+            {
+                return obs.Any(x => x.FinalResult == new Guid("B25EFD8A-852F-11E7-BB31-BE2E44B06B34"));
+            }
+
+            return false;
+        }
+
 
         public override string ToString()
         {
