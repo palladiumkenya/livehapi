@@ -172,6 +172,10 @@ namespace LiveHAPI.Controllers
                         foreach (var clientEncounter in client.Encounters)
                         {
                             var e = Mapper.Map<EncounterInfo>(clientEncounter);
+
+                            //Pos Client  B25EFD8A-852F-11E7-BB31-BE2E44B06B34
+
+
                             e.Obses = Mapper.Map<List<ObsInfo>>(clientEncounter.Obses.ToList());
                             e.ObsTestResults = Mapper.Map<List<ObsTestResultInfo>>(clientEncounter.ObsTestResults.ToList());
                             e.ObsFinalTestResults = Mapper.Map<List<ObsFinalTestResultInfo>>(clientEncounter.ObsFinalTestResults.ToList());
