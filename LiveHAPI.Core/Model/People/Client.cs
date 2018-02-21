@@ -129,6 +129,30 @@ namespace LiveHAPI.Core.Model.People
             return false;
         }
 
+        public bool IsFamilyContact()
+        {
+            if (null != PreventEnroll && PreventEnroll.Value)
+            {
+                var famEncounters = Encounters
+                    .Where(x => x.EncounterTypeId == new Guid("B262FDA4-877F-11E7-BB31-BE2E44B66B34") ||
+                                x.EncounterTypeId == new Guid("B262FDA4-877F-11E7-BB31-BE2E44B67B34"))
+                    .ToList();
+                return famEncounters.Count > 0;
+            }
+            return false;
+        }
+        public bool IsPartnerContact()
+        {
+            if (null != PreventEnroll && PreventEnroll.Value)
+            {
+                var partnerEncounters = Encounters
+                    .Where(x => x.EncounterTypeId == new Guid("B262FDA4-877F-11E7-BB31-BE2E44B68B34") ||
+                                x.EncounterTypeId == new Guid("B262FDA4-877F-11E7-BB31-BE2E44B69B34"))
+                    .ToList();
+                return partnerEncounters.Count > 0;
+            }
+            return false;
+        }
 
         public override string ToString()
         {
