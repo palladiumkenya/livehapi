@@ -189,9 +189,10 @@ namespace LiveHAPI.Controllers
                             e.ObsFamilyTraceResults = Mapper.Map<List<ObsFamilyTraceResultInfo>>(clientEncounter.ObsFamilyTraceResults.ToList());
                             e.ObsPartnerTraceResults = Mapper.Map<List<ObsPartnerTraceResultInfo>>(clientEncounter.ObsPartnerTraceResults.ToList());
                             */
-
+                            rc.Client.AlreadyTestedPos = false;
                             if (isPos)
                             {
+                                rc.Client.AlreadyTestedPos = true;
                                 var e = Mapper.Map<EncounterInfo>(clientEncounter);
                                 e.Obses = new List<ObsInfo>();
                                 e.ObsTestResults = new List<ObsTestResultInfo>();

@@ -24,6 +24,7 @@ namespace LiveHAPI.Core.Model.People
         public bool? IsFamilyMember { get; set; }
         public bool? IsPartner { get; set; }
         public bool? PreventEnroll { get; set; }
+        public bool? AlreadyTestedPos { get; set; }
         public Guid PracticeId { get; set; }
         public Guid PersonId { get; set; }
         public ICollection<ClientIdentifier> Identifiers { get; set; } = new List<ClientIdentifier>();
@@ -37,7 +38,7 @@ namespace LiveHAPI.Core.Model.People
         }
 
       
-        private Client(Guid id, string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId, bool? isFamilyMember, bool? isPartner, bool? preventEnroll) :base(id)
+        private Client(Guid id, string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId, bool? isFamilyMember, bool? isPartner, bool? preventEnroll, bool? alreadyTestedPos) :base(id)
         {
             MaritalStatus = maritalStatus;
             KeyPop = keyPop;
@@ -47,15 +48,16 @@ namespace LiveHAPI.Core.Model.People
             IsFamilyMember = isFamilyMember;
             IsPartner = isPartner;
             PreventEnroll = preventEnroll;
+            AlreadyTestedPos = alreadyTestedPos;
         }
 
-        private Client(string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId, bool? isFamilyMember, bool? isPartner, bool? preventEnroll) :this(LiveGuid.NewGuid(),maritalStatus,keyPop,otherKeyPop,practiceId, personId, isFamilyMember, isPartner,preventEnroll)
+        private Client(string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId, bool? isFamilyMember, bool? isPartner, bool? preventEnroll, bool? alreadyTestedPos) :this(LiveGuid.NewGuid(),maritalStatus,keyPop,otherKeyPop,practiceId, personId, isFamilyMember, isPartner,preventEnroll, alreadyTestedPos)
         {
         }
         public static Client Create(ClientInfo clientInfo, Guid practiceId, Guid personId)
         {
             var client = new Client(clientInfo.Id, clientInfo.MaritalStatus, clientInfo.KeyPop, clientInfo.OtherKeyPop, practiceId,
-                personId, clientInfo.IsFamilyMember, clientInfo.IsPartner,clientInfo.PreventEnroll);
+                personId, clientInfo.IsFamilyMember, clientInfo.IsPartner,clientInfo.PreventEnroll,clientInfo.AlreadyTestedPos);
 
             var identifiers = ClientIdentifier.Create(clientInfo);
             client.AddIdentifiers(identifiers);
@@ -73,6 +75,7 @@ namespace LiveHAPI.Core.Model.People
             KeyPop = clientInfo.KeyPop;
             OtherKeyPop = clientInfo.OtherKeyPop;
             PreventEnroll = clientInfo.PreventEnroll;
+            AlreadyTestedPos = clientInfo.AlreadyTestedPos;
 
             Identifiers.Clear();
             var identifiers = ClientIdentifier.Create(clientInfo);
