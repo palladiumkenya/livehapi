@@ -18,6 +18,9 @@ namespace LiveHAPI.Shared.ValueObject
         public PersonInfo Person { get; set; }
         public List<IdentifierInfo> Identifiers { get; set; }=new List<IdentifierInfo>();
         public List<RelationshipInfo> Relationships { get; set; } = new List<RelationshipInfo>();
+        public bool? PreventEnroll { get; set; }
+        public bool? AlreadyTestedPos { get; set; }
+
         public bool HasRelationships()
         {
             return Relationships.Count > 0;

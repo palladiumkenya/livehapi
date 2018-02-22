@@ -276,6 +276,9 @@ namespace LiveHAPI.Core.Model.People
                 c.OtherKeyPop = cl.OtherKeyPop;
                 c.IsFamilyMember = cl.IsFamilyMember;
                 c.IsPartner = cl.IsPartner;
+                c.PreventEnroll = cl.PreventEnroll;
+                c.AlreadyTestedPos =cl.AlreadyTestedPos;
+
                 c.PracticeId = cl.PracticeId;
                 c.Person = GetPersonInfo();
                 if (null != c.Person)

@@ -11,9 +11,10 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    partial class LiveHAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20180220142744_AddedPnsDeclined")]
+    partial class AddedPnsDeclined
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -674,8 +675,6 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool?>("AlreadyTestedPos");
-
                     b.Property<bool?>("IsFamilyMember");
 
                     b.Property<bool?>("IsPartner");
@@ -692,8 +691,6 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<Guid>("PersonId");
 
                     b.Property<Guid>("PracticeId");
-
-                    b.Property<bool?>("PreventEnroll");
 
                     b.Property<bool>("Voided");
 

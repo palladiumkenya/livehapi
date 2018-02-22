@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Serilog;
+using LiveHAPI.Shared.Custom;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -55,26 +56,27 @@ namespace LiveHAPI.Controllers
 
                     rc.Client = personMatch.RemoteClient.Client;
 
-//                    foreach (var client in personMatch.Person.Clients)
-//                    {
-//                        var es = new List<EncounterInfo>();
-//                        foreach (var clientEncounter in client.Encounters)
-//                        {
-//                            var e = Mapper.Map<EncounterInfo>(clientEncounter);
-//                            e.Obses = Mapper.Map<List<ObsInfo>>(clientEncounter.Obses.ToList());
-//                            e.ObsTestResults = Mapper.Map<List<ObsTestResultInfo>>(clientEncounter.ObsTestResults.ToList());
-//                            e.ObsFinalTestResults = Mapper.Map<List<ObsFinalTestResultInfo>>(clientEncounter.ObsFinalTestResults.ToList());
-//                            e.ObsTraceResults = Mapper.Map<List<ObsTraceResultInfo>>(clientEncounter.ObsTraceResults.ToList());
-//                            e.ObsLinkages = Mapper.Map<List<ObsLinkageInfo>>(clientEncounter.ObsLinkages.ToList());
-//                            e.ObsMemberScreenings = Mapper.Map<List<ObsMemberScreeningInfo>>(clientEncounter.ObsMemberScreenings.ToList());
-//                            e.ObsPartnerScreenings = Mapper.Map<List<ObsPartnerScreeningInfo>>(clientEncounter.ObsPartnerScreenings.ToList());
-//                            e.ObsFamilyTraceResults = Mapper.Map<List<ObsFamilyTraceResultInfo>>(clientEncounter.ObsFamilyTraceResults.ToList());
-//                            e.ObsPartnerTraceResults = Mapper.Map<List<ObsPartnerTraceResultInfo>>(clientEncounter.ObsPartnerTraceResults.ToList());
-//                            es.Add(e);
-//                        }
-//                        rc.Encounters = es;
-//                    }
-                    personData.Add(rc);
+                    //                    foreach (var client in personMatch.Person.Clients)
+                    //                    {
+                    //                        var es = new List<EncounterInfo>();
+                    //                        foreach (var clientEncounter in client.Encounters)
+                    //                        {
+                    //                            var e = Mapper.Map<EncounterInfo>(clientEncounter);
+                    //                            e.Obses = Mapper.Map<List<ObsInfo>>(clientEncounter.Obses.ToList());
+                    //                            e.ObsTestResults = Mapper.Map<List<ObsTestResultInfo>>(clientEncounter.ObsTestResults.ToList());
+                    //                            e.ObsFinalTestResults = Mapper.Map<List<ObsFinalTestResultInfo>>(clientEncounter.ObsFinalTestResults.ToList());
+                    //                            e.ObsTraceResults = Mapper.Map<List<ObsTraceResultInfo>>(clientEncounter.ObsTraceResults.ToList());
+                    //                            e.ObsLinkages = Mapper.Map<List<ObsLinkageInfo>>(clientEncounter.ObsLinkages.ToList());
+                    //                            e.ObsMemberScreenings = Mapper.Map<List<ObsMemberScreeningInfo>>(clientEncounter.ObsMemberScreenings.ToList());
+                    //                            e.ObsPartnerScreenings = Mapper.Map<List<ObsPartnerScreeningInfo>>(clientEncounter.ObsPartnerScreenings.ToList());
+                    //                            e.ObsFamilyTraceResults = Mapper.Map<List<ObsFamilyTraceResultInfo>>(clientEncounter.ObsFamilyTraceResults.ToList());
+                    //                            e.ObsPartnerTraceResults = Mapper.Map<List<ObsPartnerTraceResultInfo>>(clientEncounter.ObsPartnerTraceResults.ToList());
+                    //                            es.Add(e);
+                    //                        }
+                    //                        rc.Encounters = es;
+                    //                    }
+                    if (null != rc.Client && !rc.Client.Id.IsNullOrEmpty())
+                        personData.Add(rc);
                 }
 
 
@@ -103,26 +105,27 @@ namespace LiveHAPI.Controllers
 
                     rc.Client = personMatch.RemoteClient.Client;
 
-//                    foreach (var client in personMatch.Person.Clients)
-//                    {
-//                        var es = new List<EncounterInfo>();
-//                        foreach (var clientEncounter in client.Encounters)
-//                        {
-//                            var e = Mapper.Map<EncounterInfo>(clientEncounter);
-//                            e.Obses = Mapper.Map<List<ObsInfo>>(clientEncounter.Obses.ToList());
-//                            e.ObsTestResults = Mapper.Map<List<ObsTestResultInfo>>(clientEncounter.ObsTestResults.ToList());
-//                            e.ObsFinalTestResults = Mapper.Map<List<ObsFinalTestResultInfo>>(clientEncounter.ObsFinalTestResults.ToList());
-//                            e.ObsTraceResults = Mapper.Map<List<ObsTraceResultInfo>>(clientEncounter.ObsTraceResults.ToList());
-//                            e.ObsLinkages = Mapper.Map<List<ObsLinkageInfo>>(clientEncounter.ObsLinkages.ToList());
-//                            e.ObsMemberScreenings = Mapper.Map<List<ObsMemberScreeningInfo>>(clientEncounter.ObsMemberScreenings.ToList());
-//                            e.ObsPartnerScreenings = Mapper.Map<List<ObsPartnerScreeningInfo>>(clientEncounter.ObsPartnerScreenings.ToList());
-//                            e.ObsFamilyTraceResults = Mapper.Map<List<ObsFamilyTraceResultInfo>>(clientEncounter.ObsFamilyTraceResults.ToList());
-//                            e.ObsPartnerTraceResults = Mapper.Map<List<ObsPartnerTraceResultInfo>>(clientEncounter.ObsPartnerTraceResults.ToList());
-//                            es.Add(e);
-//                        }
-//                        rc.Encounters = es;
-//                    }
-                    personData.Add(rc);
+                    //                    foreach (var client in personMatch.Person.Clients)
+                    //                    {
+                    //                        var es = new List<EncounterInfo>();
+                    //                        foreach (var clientEncounter in client.Encounters)
+                    //                        {
+                    //                            var e = Mapper.Map<EncounterInfo>(clientEncounter);
+                    //                            e.Obses = Mapper.Map<List<ObsInfo>>(clientEncounter.Obses.ToList());
+                    //                            e.ObsTestResults = Mapper.Map<List<ObsTestResultInfo>>(clientEncounter.ObsTestResults.ToList());
+                    //                            e.ObsFinalTestResults = Mapper.Map<List<ObsFinalTestResultInfo>>(clientEncounter.ObsFinalTestResults.ToList());
+                    //                            e.ObsTraceResults = Mapper.Map<List<ObsTraceResultInfo>>(clientEncounter.ObsTraceResults.ToList());
+                    //                            e.ObsLinkages = Mapper.Map<List<ObsLinkageInfo>>(clientEncounter.ObsLinkages.ToList());
+                    //                            e.ObsMemberScreenings = Mapper.Map<List<ObsMemberScreeningInfo>>(clientEncounter.ObsMemberScreenings.ToList());
+                    //                            e.ObsPartnerScreenings = Mapper.Map<List<ObsPartnerScreeningInfo>>(clientEncounter.ObsPartnerScreenings.ToList());
+                    //                            e.ObsFamilyTraceResults = Mapper.Map<List<ObsFamilyTraceResultInfo>>(clientEncounter.ObsFamilyTraceResults.ToList());
+                    //                            e.ObsPartnerTraceResults = Mapper.Map<List<ObsPartnerTraceResultInfo>>(clientEncounter.ObsPartnerTraceResults.ToList());
+                    //                            es.Add(e);
+                    //                        }
+                    //                        rc.Encounters = es;
+                    //                    }
+                    if (null != rc.Client && !rc.Client.Id.IsNullOrEmpty())
+                        personData.Add(rc);
                 }
 
 
@@ -165,13 +168,29 @@ namespace LiveHAPI.Controllers
                     var rc = new RemoteClientInfo();
 
                     rc.Client = personMatch.RemoteClient.Client;
-
+                    
                     foreach (var client in personMatch.Person.Clients)
                     {
+                        var isPos = client.IsPos();
+                        var isFam = client.IsFamilyContact();
+                        var isPat = client.IsPartnerContact();
+
                         var es = new List<EncounterInfo>();
                         foreach (var clientEncounter in client.Encounters)
                         {
+                            rc.Client.AlreadyTestedPos = false;
                             var e = Mapper.Map<EncounterInfo>(clientEncounter);
+                            e.Obses = new List<ObsInfo>();
+                            e.ObsTestResults = new List<ObsTestResultInfo>();
+                            e.ObsFinalTestResults = new List<ObsFinalTestResultInfo>();
+                            e.ObsTraceResults = new List<ObsTraceResultInfo>();
+                            e.ObsLinkages = new List<ObsLinkageInfo>();
+
+                            e.ObsMemberScreenings = new List<ObsMemberScreeningInfo>();
+                            e.ObsPartnerScreenings = new List<ObsPartnerScreeningInfo>();
+                            e.ObsFamilyTraceResults = new List<ObsFamilyTraceResultInfo>();
+                            e.ObsPartnerTraceResults = new List<ObsPartnerTraceResultInfo>();
+                            /*
                             e.Obses = Mapper.Map<List<ObsInfo>>(clientEncounter.Obses.ToList());
                             e.ObsTestResults = Mapper.Map<List<ObsTestResultInfo>>(clientEncounter.ObsTestResults.ToList());
                             e.ObsFinalTestResults = Mapper.Map<List<ObsFinalTestResultInfo>>(clientEncounter.ObsFinalTestResults.ToList());
@@ -181,11 +200,57 @@ namespace LiveHAPI.Controllers
                             e.ObsPartnerScreenings = Mapper.Map<List<ObsPartnerScreeningInfo>>(clientEncounter.ObsPartnerScreenings.ToList());
                             e.ObsFamilyTraceResults = Mapper.Map<List<ObsFamilyTraceResultInfo>>(clientEncounter.ObsFamilyTraceResults.ToList());
                             e.ObsPartnerTraceResults = Mapper.Map<List<ObsPartnerTraceResultInfo>>(clientEncounter.ObsPartnerTraceResults.ToList());
-                            es.Add(e);
+                            */
+
+                            if (isPos)
+                            {
+                                rc.Client.AlreadyTestedPos = true;
+                                e.ObsTraceResults =
+                                    Mapper.Map<List<ObsTraceResultInfo>>(clientEncounter.ObsTraceResults.ToList());
+                                e.ObsLinkages = Mapper.Map<List<ObsLinkageInfo>>(clientEncounter.ObsLinkages.ToList());
+                                if (e.EncounterTypeId == new Guid("b262fc32-852f-11e7-bb31-be2e44b06b34") ||
+                                    e.EncounterTypeId == new Guid("b262fda4-852f-11e7-bb31-be2e44b06b34"))
+                                    es.Add(e);
+                            }
+
+                            if (isFam)
+                            {
+                                rc.Client.IsFamilyMember = true;
+                                e.ObsMemberScreenings =
+                                    Mapper.Map<List<ObsMemberScreeningInfo>>(
+                                        clientEncounter.ObsMemberScreenings.ToList());
+                                e.ObsFamilyTraceResults =
+                                    Mapper.Map<List<ObsFamilyTraceResultInfo>>(clientEncounter.ObsFamilyTraceResults
+                                        .ToList());
+
+                                if (e.EncounterTypeId == new Guid("B262FDA4-877F-11E7-BB31-BE2E44B66B34") ||
+                                    e.EncounterTypeId == new Guid("B262FDA4-877F-11E7-BB31-BE2E44B67B34"))
+                                    es.Add(e);
+                            }
+
+                            if (isPat)
+                            {
+                                rc.Client.IsPartner = true;
+                                e.ObsPartnerScreenings =
+                                    Mapper.Map<List<ObsPartnerScreeningInfo>>(clientEncounter.ObsPartnerScreenings
+                                        .ToList());
+                                e.ObsPartnerTraceResults =
+                                    Mapper.Map<List<ObsPartnerTraceResultInfo>>(clientEncounter.ObsPartnerTraceResults
+                                        .ToList());
+
+                                if (e.EncounterTypeId == new Guid("B262FDA4-877F-11E7-BB31-BE2E44B68B34") ||
+                                    e.EncounterTypeId == new Guid("B262FDA4-877F-11E7-BB31-BE2E44B69B34"))
+                                    es.Add(e);
+                            }
+
+
+
                         }
+
                         rc.Encounters = es;
                     }
-                    personData.Add(rc);
+                    if (null != rc.Client && !rc.Client.Id.IsNullOrEmpty())
+                        personData.Add(rc);
                 }
 
 

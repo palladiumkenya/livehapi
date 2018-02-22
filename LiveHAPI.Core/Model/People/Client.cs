@@ -7,6 +7,7 @@ using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
 using Encounter = LiveHAPI.Core.Model.Encounters.Encounter;
+using LiveHAPI.Core.Model.Encounters;
 
 namespace LiveHAPI.Core.Model.People
 {
@@ -22,6 +23,8 @@ namespace LiveHAPI.Core.Model.People
         public string OtherKeyPop { get; set; }
         public bool? IsFamilyMember { get; set; }
         public bool? IsPartner { get; set; }
+        public bool? PreventEnroll { get; set; }
+        public bool? AlreadyTestedPos { get; set; }
         public Guid PracticeId { get; set; }
         public Guid PersonId { get; set; }
         public ICollection<ClientIdentifier> Identifiers { get; set; } = new List<ClientIdentifier>();
@@ -35,7 +38,7 @@ namespace LiveHAPI.Core.Model.People
         }
 
       
-        private Client(Guid id, string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId, bool? isFamilyMember, bool? isPartner):base(id)
+        private Client(Guid id, string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId, bool? isFamilyMember, bool? isPartner, bool? preventEnroll, bool? alreadyTestedPos) :base(id)
         {
             MaritalStatus = maritalStatus;
             KeyPop = keyPop;
@@ -44,15 +47,17 @@ namespace LiveHAPI.Core.Model.People
             PersonId = personId;
             IsFamilyMember = isFamilyMember;
             IsPartner = isPartner;
+            PreventEnroll = preventEnroll;
+            AlreadyTestedPos = alreadyTestedPos;
         }
 
-        private Client(string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId, bool? isFamilyMember, bool? isPartner) :this(LiveGuid.NewGuid(),maritalStatus,keyPop,otherKeyPop,practiceId, personId, isFamilyMember, isPartner)
+        private Client(string maritalStatus, string keyPop, string otherKeyPop, Guid practiceId, Guid personId, bool? isFamilyMember, bool? isPartner, bool? preventEnroll, bool? alreadyTestedPos) :this(LiveGuid.NewGuid(),maritalStatus,keyPop,otherKeyPop,practiceId, personId, isFamilyMember, isPartner,preventEnroll, alreadyTestedPos)
         {
         }
         public static Client Create(ClientInfo clientInfo, Guid practiceId, Guid personId)
         {
             var client = new Client(clientInfo.Id, clientInfo.MaritalStatus, clientInfo.KeyPop, clientInfo.OtherKeyPop, practiceId,
-                personId, clientInfo.IsFamilyMember, clientInfo.IsPartner);
+                personId, clientInfo.IsFamilyMember, clientInfo.IsPartner,clientInfo.PreventEnroll,clientInfo.AlreadyTestedPos);
 
             var identifiers = ClientIdentifier.Create(clientInfo);
             client.AddIdentifiers(identifiers);
@@ -69,6 +74,8 @@ namespace LiveHAPI.Core.Model.People
             MaritalStatus = clientInfo.MaritalStatus;
             KeyPop = clientInfo.KeyPop;
             OtherKeyPop = clientInfo.OtherKeyPop;
+            PreventEnroll = clientInfo.PreventEnroll;
+            AlreadyTestedPos = clientInfo.AlreadyTestedPos;
 
             Identifiers.Clear();
             var identifiers = ClientIdentifier.Create(clientInfo);
@@ -105,7 +112,47 @@ namespace LiveHAPI.Core.Model.People
             }
         }
 
-       
+       public bool IsPos()
+        {
+            var finalResultEnocunters = Encounters.Where(x => x.EncounterTypeId == new Guid("b262f4ee-852f-11e7-bb31-be2e44b06b34")).ToList();
+            var obs = new List<ObsFinalTestResult>();
+            foreach (var f in finalResultEnocunters)
+            {
+                obs.AddRange(f.ObsFinalTestResults);
+            }
+
+            if (obs.Count > 0)
+            {
+                return obs.Any(x => x.FinalResult == new Guid("B25EFD8A-852F-11E7-BB31-BE2E44B06B34"));
+            }
+
+            return false;
+        }
+
+        public bool IsFamilyContact()
+        {
+            if (null != PreventEnroll && PreventEnroll.Value)
+            {
+                var famEncounters = Encounters
+                    .Where(x => x.EncounterTypeId == new Guid("B262FDA4-877F-11E7-BB31-BE2E44B66B34") ||
+                                x.EncounterTypeId == new Guid("B262FDA4-877F-11E7-BB31-BE2E44B67B34"))
+                    .ToList();
+                return famEncounters.Count > 0;
+            }
+            return false;
+        }
+        public bool IsPartnerContact()
+        {
+            if (null != PreventEnroll && PreventEnroll.Value)
+            {
+                var partnerEncounters = Encounters
+                    .Where(x => x.EncounterTypeId == new Guid("B262FDA4-877F-11E7-BB31-BE2E44B68B34") ||
+                                x.EncounterTypeId == new Guid("B262FDA4-877F-11E7-BB31-BE2E44B69B34"))
+                    .ToList();
+                return partnerEncounters.Count > 0;
+            }
+            return false;
+        }
 
         public override string ToString()
         {
