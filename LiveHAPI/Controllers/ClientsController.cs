@@ -10,8 +10,6 @@ using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Shared.ValueObject;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Serilog;
 using LiveHAPI.Shared.Custom;
 

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using LiveHAPI.Core.Interfaces.Repository;
-using LiveHAPI.Core.Interfaces.Services;
-using LiveHAPI.IQCare.Core.Interfaces.Repository;
 using LiveHAPI.Shared.Interfaces;
 using LiveHAPI.Shared.ValueObject;
 using Microsoft.AspNetCore.Mvc; 
