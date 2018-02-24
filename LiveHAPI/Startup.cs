@@ -237,10 +237,10 @@ namespace LiveHAPI
                     .ForMember(x => x.Source, o => o.MapFrom(s => s.UserFirstName))
                     .ForMember(x => x.SourceSys, o => o.MapFrom(s => s.UserLastName))
                     .ForMember(x => x.SourceRef, o => o.MapFrom(s => s.UserId));
-                    
-            cfg.CreateMap<Core.Model.People.User, UserDTO>()
-                    .ForMember(x => x.Password, o => o.MapFrom(s =>s.DecryptedPassword))
-                    .ForMember(x => x.UserId, o => o.MapFrom(s => string.IsNullOrWhiteSpace(s.SourceRef)));
+                int userId;
+                cfg.CreateMap<Core.Model.People.User, UserDTO>()
+                    .ForMember(x => x.Password, o => o.MapFrom(s => s.DecryptedPassword))
+                    .ForMember(x => x.UserId, o => o.MapFrom(s => int.TryParse(s.SourceRef, out userId) ? userId : 0));
 
                 cfg.CreateMap<Person, PersonDTO>()
                     .ForMember(x => x.FirstName, o => o.MapFrom(s =>null != s.Names.FirstOrDefault()?s.Names.FirstOrDefault().FirstName:""))
