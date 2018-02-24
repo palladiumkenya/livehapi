@@ -253,8 +253,12 @@ namespace LiveHAPI.Controllers
                         personData.Add(rc);
                 }
 
+                foreach (var remoteClientInfo in personData)
+                {
+                    //
+                }
 
-
+                
                 return Ok(personData.FirstOrDefault());
             }
             catch (Exception e)
