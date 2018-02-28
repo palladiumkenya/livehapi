@@ -9,7 +9,7 @@ namespace LiveHAPI.Shared.ValueObject
         public string Password { get; set; }
         public Guid? PracticeId { get; set; }
         public Guid PersonId { get; set; }
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
         public ProviderDTO Provider { get; set; }
         public PersonDTO Person { get; set; }
     }

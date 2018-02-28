@@ -8,6 +8,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
     {
         Client GetClient(Guid id);
         IEnumerable<PersonMatch> GetById(Guid id);
+        IEnumerable<PersonMatch> GetRelationsById(Guid id);
         IEnumerable<PersonMatch> Search(string searchItem);
     }
 }

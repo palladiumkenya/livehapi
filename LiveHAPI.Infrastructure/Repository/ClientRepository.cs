@@ -32,9 +32,11 @@ namespace LiveHAPI.Infrastructure.Repository
 
             var persons = Context.Persons.Where(x => personIds.Contains(x.Id))
                 .Include(x => x.Clients).ThenInclude(c => c.Identifiers)
+                //.Include(x => x.Clients).ThenInclude(c => c.Relationships)
                 .Include(x => x.Addresses)
                 .Include(x => x.Contacts)
                 .Include(x => x.Names)
+                
                 .ToList();
             
             foreach (var person in persons)
@@ -60,6 +62,30 @@ namespace LiveHAPI.Infrastructure.Repository
                 personMatches.Add(new PersonMatch(person, 1));
             }
 
+            return personMatches;
+        }
+
+        public IEnumerable<PersonMatch> GetRelationsById(Guid id)
+        {
+            var personMatches = new List<PersonMatch>();
+
+            var clients = Context.Clients.Where(x => x.Id == id).Include(x=>x.Relationships);
+            var ids=new List<Guid>();
+            foreach (var client in clients)
+            {
+                foreach (var clientRelationship in client.Relationships)
+                {
+                    if (clientRelationship.RelatedClientId != id)
+                        ids.Add(clientRelationship.RelatedClientId);
+                }
+            }
+
+            foreach (var guid in ids)
+            {
+                var pm = GetById(guid);
+                if(null!=pm)
+                    personMatches.AddRange(pm);
+            }        
             return personMatches;
         }
 

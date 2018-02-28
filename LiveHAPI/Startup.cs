@@ -1,14 +1,13 @@
-﻿  using System;
-  using System.Linq;
-  using LiveHAPI.Core.Interfaces.Handler;
+﻿using System;
+using System.Linq;
+using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
-using LiveHAPI.Core.Interfaces.Repository.Subscriber;
 using LiveHAPI.Core.Interfaces.Services;
- using LiveHAPI.Core.Model.Encounters;
- using LiveHAPI.Core.Model.Lookup;
-  using LiveHAPI.Core.Model.Network;
-  using LiveHAPI.Core.Model.People;
-  using LiveHAPI.Core.Model.QModel;
+using LiveHAPI.Core.Model.Encounters;
+using LiveHAPI.Core.Model.Lookup;
+using LiveHAPI.Core.Model.Network;
+using LiveHAPI.Core.Model.People;
+using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Core.Service;
@@ -16,12 +15,11 @@ using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
 using LiveHAPI.IQCare.Core.Handlers;
 using LiveHAPI.IQCare.Core.Interfaces.Repository;
-  using LiveHAPI.IQCare.Core.Model;
-  using LiveHAPI.IQCare.Infrastructure;
+using LiveHAPI.IQCare.Core.Model;
+using LiveHAPI.IQCare.Infrastructure;
 using LiveHAPI.IQCare.Infrastructure.Repository;
-  using LiveHAPI.Shared.Custom;
-  using LiveHAPI.Shared.Interfaces;
-  using LiveHAPI.Shared.ValueObject;
+using LiveHAPI.Shared.Interfaces;
+using LiveHAPI.Shared.ValueObject;
 using LiveHAPI.Shared.ValueObject.Meta;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,11 +27,10 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Serilog;
- using Action = LiveHAPI.Core.Model.QModel.Action;
-  using Encounter = LiveHAPI.Core.Model.Encounters.Encounter;
-  using User = LiveHAPI.IQCare.Core.Model.User;
+using Action = LiveHAPI.Core.Model.QModel.Action;
+using Encounter = LiveHAPI.Core.Model.Encounters.Encounter;
+using User = LiveHAPI.IQCare.Core.Model.User;
 
 namespace LiveHAPI
 {
@@ -61,7 +58,8 @@ namespace LiveHAPI
         {
             services.AddMvc()
                 .AddMvcOptions(o => o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter()))
-                .AddJsonOptions(o =>o.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                .AddJsonOptions(o =>
+                    o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
             services.AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString));
@@ -85,7 +83,7 @@ namespace LiveHAPI
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IPracticeActivationRepository, PracticeActivationRepository>();
             services.AddScoped<IPracticeRepository, PracticeRepository>();
-            services.AddScoped<IProviderRepository, ProviderRepository>();            
+            services.AddScoped<IProviderRepository, ProviderRepository>();
             services.AddScoped<ISubCountyRepository, SubCountyRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
@@ -103,7 +101,7 @@ namespace LiveHAPI
             services.AddScoped<IEncounterService, EncounterService>();
             services.AddScoped<IFormsService, FormsService>();
 
-            services.AddScoped<IClientSavedHandler,ClientSavedHandler>();
+            services.AddScoped<IClientSavedHandler, ClientSavedHandler>();
             services.AddScoped<IEncounterSavedHandler, EncounterSavedHandler>();
 
             services.AddScoped<IConfigRepository, ConfigRepository>();
@@ -115,9 +113,10 @@ namespace LiveHAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, LiveHAPIContext context,EMRContext emrContext,ISetupFacilty setupFacilty)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, LiveHAPIContext context,
+            EMRContext emrContext, ISetupFacilty setupFacilty)
         {
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -161,9 +160,9 @@ namespace LiveHAPI
             Log.Debug($"database initializing... [EMR Migrations]");
             try
             {
-            
+
                 emrContext.ApplyMigrations();
-             
+
             }
             catch (Exception e)
             {
@@ -175,7 +174,7 @@ namespace LiveHAPI
             Log.Debug($"database initializing... [EMR Mappings]");
             try
             {
-              
+
                 emrContext.UpdateTranslations();
             }
             catch (Exception e)
@@ -193,7 +192,7 @@ namespace LiveHAPI
 
             AutoMapper.Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<County,CountyInfo>();
+                cfg.CreateMap<County, CountyInfo>();
                 cfg.CreateMap<SubCounty, SubCountyInfo>();
 
                 cfg.CreateMap<Category, CategoryInfo>();
@@ -227,25 +226,29 @@ namespace LiveHAPI
                 cfg.CreateMap<ObsFamilyTraceResult, ObsFamilyTraceResultInfo>();
                 cfg.CreateMap<ObsPartnerTraceResult, ObsPartnerTraceResultInfo>();
 
-              
+
                 cfg.CreateMap<Location, Practice>()
                     .ForMember(x => x.Code, o => o.MapFrom(s => s.PosID))
-                    .ForMember(x => x.IsDefault, o => o.MapFrom(s => s.Preferred.HasValue && s.Preferred==1))
+                    .ForMember(x => x.IsDefault, o => o.MapFrom(s => s.Preferred.HasValue && s.Preferred == 1))
                     .ForMember(x => x.Name, o => o.MapFrom(s => s.FacilityName));
 
                 cfg.CreateMap<User, Core.Model.People.User>()
                     .ForMember(x => x.Source, o => o.MapFrom(s => s.UserFirstName))
                     .ForMember(x => x.SourceSys, o => o.MapFrom(s => s.UserLastName))
                     .ForMember(x => x.SourceRef, o => o.MapFrom(s => s.UserId));
-                    
-            cfg.CreateMap<Core.Model.People.User, UserDTO>()
-                    .ForMember(x => x.Password, o => o.MapFrom(s =>s.DecryptedPassword))
-                    .ForMember(x => x.UserId, o => o.MapFrom(s => string.IsNullOrWhiteSpace(s.SourceRef)));
+                int userId;
+                cfg.CreateMap<Core.Model.People.User, UserDTO>()
+                    .ForMember(x => x.Password, o => o.MapFrom(s => s.DecryptedPassword))
+                    .ForMember(x => x.UserId, o => o.MapFrom(s => int.TryParse(s.SourceRef, out userId) ? userId : 0));
 
                 cfg.CreateMap<Person, PersonDTO>()
-                    .ForMember(x => x.FirstName, o => o.MapFrom(s =>null != s.Names.FirstOrDefault()?s.Names.FirstOrDefault().FirstName:""))
-                    .ForMember(x => x.MiddleName, o => o.MapFrom(s => null != s.Names.FirstOrDefault() ? s.Names.FirstOrDefault().MiddleName : ""))
-                    .ForMember(x => x.LastName, o => o.MapFrom(s => null != s.Names.FirstOrDefault() ? s.Names.FirstOrDefault().LastName : ""));
+                    .ForMember(x => x.FirstName,
+                        o => o.MapFrom(s => null != s.Names.FirstOrDefault() ? s.Names.FirstOrDefault().FirstName : ""))
+                    .ForMember(x => x.MiddleName,
+                        o => o.MapFrom(s =>
+                            null != s.Names.FirstOrDefault() ? s.Names.FirstOrDefault().MiddleName : ""))
+                    .ForMember(x => x.LastName,
+                        o => o.MapFrom(s => null != s.Names.FirstOrDefault() ? s.Names.FirstOrDefault().LastName : ""));
                 cfg.CreateMap<Provider, ProviderDTO>();
 
             });
@@ -299,7 +302,7 @@ namespace LiveHAPI
                 Log.Error($"im NOT hAPI    >*|*< ");
                 Log.Error($"cause: {herror}");
             }
-           
+
         }
     }
 }
