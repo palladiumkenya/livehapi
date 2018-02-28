@@ -16,7 +16,7 @@ namespace LiveHAPI.Core.Model.Encounters
         public Guid? ValueCoded { get; set; }
         public string ValueMultiCoded { get; set; }
         public DateTime? ValueDateTime { get; set; }
-        
+        public Guid ClientId { get; set; }
         public Guid EncounterId { get; set; }
         
         public bool IsNull { get; set; }
@@ -27,7 +27,7 @@ namespace LiveHAPI.Core.Model.Encounters
             ObsDate=DateTime.Now;
         }
 
-        private Obs(Guid id, Guid questionId, DateTime obsDate, string valueText, decimal? valueNumeric, Guid? valueCoded, string valueMultiCoded, DateTime? valueDateTime, Guid encounterId) : base(id)
+        private Obs(Guid id, Guid questionId, DateTime obsDate, string valueText, decimal? valueNumeric, Guid? valueCoded, string valueMultiCoded, DateTime? valueDateTime, Guid encounterId,Guid clientId) : base(id)
         {
             QuestionId = questionId;
             ObsDate = obsDate;
@@ -37,12 +37,13 @@ namespace LiveHAPI.Core.Model.Encounters
             ValueMultiCoded = valueMultiCoded;
             ValueDateTime = valueDateTime;
             EncounterId = encounterId;
+            ClientId = clientId;
         }
 
         private Obs(Guid questionId, DateTime obsDate, string valueText, decimal? valueNumeric, Guid? valueCoded,
-            string valueMultiCoded, DateTime? valueDateTime, Guid encounterId)
+            string valueMultiCoded, DateTime? valueDateTime, Guid encounterId, Guid clientId)
             : this(LiveGuid.NewGuid(), questionId, obsDate, valueText, valueNumeric, valueCoded, valueMultiCoded,
-                valueDateTime, encounterId)
+                valueDateTime, encounterId,clientId)
         {
 
         }
@@ -50,7 +51,7 @@ namespace LiveHAPI.Core.Model.Encounters
         public static Obs Create(ObsInfo obsInfo)
         {
             return new Obs(obsInfo.Id, obsInfo.QuestionId, obsInfo.ObsDate, obsInfo.ValueText, obsInfo.ValueNumeric, obsInfo.ValueCoded, obsInfo.ValueMultiCoded,
-                obsInfo.ValueDateTime, obsInfo.EncounterId);
+                obsInfo.ValueDateTime, obsInfo.EncounterId,obsInfo.ClientId);
         }
 
         public static List<Obs> Create(EncounterInfo encounterInfo)

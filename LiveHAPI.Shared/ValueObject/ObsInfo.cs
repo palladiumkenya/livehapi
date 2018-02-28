@@ -14,6 +14,8 @@ namespace LiveHAPI.Shared.ValueObject
         public string ValueMultiCoded { get; set; }
         public DateTime? ValueDateTime { get; set; }
 
+        public Guid ClientId { get; set; }
+
         public Guid EncounterId { get; set; }
 
     }

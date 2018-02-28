@@ -5,6 +5,7 @@ namespace LiveHAPI.Shared.Interfaces.Model
     public interface IObsPartnerTraceResult
     {
         DateTime Date { get; set; }
+        Guid IndexClientId { get; set; }
         Guid EncounterId { get; set; }
         Guid Mode { get; set; }
         string ModeDisplay { get; set; }

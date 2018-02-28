@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
 
@@ -27,6 +28,7 @@ namespace LiveHAPI.Core.Model.Encounters
         public Guid? PnsDeclined { get; set; }
         [MaxLength(100)]
         public string Remarks { get; set; }
+        public Guid ClientId { get; set; }
         public Guid EncounterId { get; set; }
 
 
@@ -35,7 +37,7 @@ namespace LiveHAPI.Core.Model.Encounters
             Id = LiveGuid.NewGuid();
         }
 
-        private ObsFinalTestResult(Guid id,Guid? firstTestResult, string firstTestResultCode, Guid? secondTestResult, string secondTestResultCode, Guid? finalResult, string finalResultCode, Guid? resultGiven, Guid? coupleDiscordant, Guid? selfTestOption, string remarks, Guid? pnsDeclined,Guid encounterId)
+        private ObsFinalTestResult(Guid id,Guid? firstTestResult, string firstTestResultCode, Guid? secondTestResult, string secondTestResultCode, Guid? finalResult, string finalResultCode, Guid? resultGiven, Guid? coupleDiscordant, Guid? selfTestOption, string remarks, Guid? pnsDeclined,Guid encounterId,Guid clientId)
         {
             Id = id;
             FirstTestResult = firstTestResult;
@@ -50,12 +52,13 @@ namespace LiveHAPI.Core.Model.Encounters
             Remarks = remarks;
             PnsDeclined = pnsDeclined;
             EncounterId = encounterId;
+            ClientId = clientId;
         }
 
         public static ObsFinalTestResult Create(ObsFinalTestResultInfo obsInfo)
         {
             return new ObsFinalTestResult(obsInfo.Id,obsInfo.FirstTestResult, obsInfo.FirstTestResultCode, obsInfo.SecondTestResult, obsInfo.SecondTestResultCode, obsInfo.FinalResult, obsInfo.FinalResultCode, obsInfo.ResultGiven,
-                obsInfo.CoupleDiscordant, obsInfo.SelfTestOption,obsInfo.Remarks, obsInfo.PnsDeclined, obsInfo.EncounterId);
+                obsInfo.CoupleDiscordant, obsInfo.SelfTestOption,obsInfo.Remarks, obsInfo.PnsDeclined, obsInfo.EncounterId,obsInfo.ClientId);
         }
 
         public static List<ObsFinalTestResult> Create(EncounterInfo encounterInfo)

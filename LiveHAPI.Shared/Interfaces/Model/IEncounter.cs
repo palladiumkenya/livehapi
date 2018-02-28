@@ -5,6 +5,7 @@ namespace LiveHAPI.Shared.Interfaces.Model
     public interface IEncounter
     {
         Guid ClientId { get; set; }
+        Guid? IndexClientId { get; set; }
         Guid FormId { get; set; }
         Guid EncounterTypeId { get; set; }
         DateTime EncounterDate { get; set; }

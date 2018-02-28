@@ -28,6 +28,7 @@ namespace LiveHAPI.Core.Model.Encounters
         public DateTime? BookingDate { get; set; }
         public string Remarks { get; set; }
         public string PhoneNumber { get; set; }
+        public Guid IndexClientId { get; set; }
         public Guid EncounterId { get; set; }
 
         public bool BookingMet { get; set; }
@@ -42,7 +43,7 @@ namespace LiveHAPI.Core.Model.Encounters
         public ObsPartnerScreening(DateTime screeningDate, Guid ipvScreening, Guid physicalAssult, Guid threatened,
             Guid sexuallyUncomfortable, Guid hivStatus, Guid eligibility, DateTime? bookingDate, string remarks, string phoneNumber,
             Guid encounterId, Guid? pnsAccepted, Guid? iPVOutcome, string occupation, Guid? pNSRealtionship,
-            Guid? livingWithClient, Guid? pNSApproach)
+            Guid? livingWithClient, Guid? pNSApproach,Guid indexClientId)
         {
             ScreeningDate = screeningDate;
             PnsAccepted = pnsAccepted;
@@ -67,13 +68,14 @@ namespace LiveHAPI.Core.Model.Encounters
             Remarks = remarks;
             PhoneNumber = PhoneNumber;
             EncounterId = encounterId;
+            IndexClientId = indexClientId;
         }
 
         public ObsPartnerScreening(Guid id, DateTime screeningDate, Guid ipvScreening, Guid physicalAssult, Guid threatened, Guid sexuallyUncomfortable, Guid hivStatus, Guid eligibility, DateTime? bookingDate, string remarks, string phoneNumber, Guid encounterId,
         Guid? pnsAccepted, Guid? iPVOutcome, string occupation, Guid? pNSRealtionship,
-        Guid? livingWithClient, Guid? pNSApproach
+        Guid? livingWithClient, Guid? pNSApproach,Guid indexClientId
         )
-            : this(screeningDate, ipvScreening, physicalAssult, threatened, sexuallyUncomfortable, hivStatus, eligibility, bookingDate, remarks, phoneNumber,encounterId, pnsAccepted, iPVOutcome, occupation, pNSRealtionship, livingWithClient, pNSApproach)
+            : this(screeningDate, ipvScreening, physicalAssult, threatened, sexuallyUncomfortable, hivStatus, eligibility, bookingDate, remarks, phoneNumber,encounterId, pnsAccepted, iPVOutcome, occupation, pNSRealtionship, livingWithClient, pNSApproach,indexClientId)
         {
             Id = id;
         }
@@ -81,7 +83,7 @@ namespace LiveHAPI.Core.Model.Encounters
         public static ObsPartnerScreening Create(ObsPartnerScreeningInfo obsInfo)
         {
             return new ObsPartnerScreening(obsInfo.Id, obsInfo.ScreeningDate, obsInfo.IPVScreening, obsInfo.PhysicalAssult, obsInfo.Threatened, obsInfo.SexuallyUncomfortable, obsInfo.HivStatus, obsInfo.Eligibility, obsInfo.BookingDate, obsInfo.Remarks,obsInfo.PhoneNumber, obsInfo.EncounterId,
-            obsInfo.PnsAccepted, obsInfo.IPVOutcome, obsInfo.Occupation, obsInfo.PNSRealtionship, obsInfo.LivingWithClient, obsInfo.PNSApproach
+            obsInfo.PnsAccepted, obsInfo.IPVOutcome, obsInfo.Occupation, obsInfo.PNSRealtionship, obsInfo.LivingWithClient, obsInfo.PNSApproach,obsInfo.IndexClientId
             );
         }
 

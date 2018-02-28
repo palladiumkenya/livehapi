@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LiveHAPI.Infrastructure.Migrations
 {
-    public partial class hAPI001 : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,9 +12,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Actions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(maxLength: 50, nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,9 +25,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Code = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,9 +38,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "ConceptTypes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(maxLength: 50, nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,9 +51,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Conditions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(maxLength: 50, nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,9 +64,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Counties",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,9 +77,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "EncounterTypes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,9 +90,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "IdentifierTypes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(maxLength: 50, nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,10 +103,10 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Items",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Display = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Code = table.Column<string>(maxLength: 50, nullable: true),
+                    Display = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -117,9 +117,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "KeyPops",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(maxLength: 50, nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -130,9 +130,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "MaritalStatuses",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(maxLength: 50, nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -143,11 +143,11 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "MasterFacilities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    AreaCode = table.Column<int>(type: "int", nullable: false),
-                    AreaInfo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(nullable: false),
+                    AreaCode = table.Column<int>(nullable: false),
+                    AreaInfo = table.Column<string>(maxLength: 100, nullable: true),
+                    Name = table.Column<string>(maxLength: 100, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -158,12 +158,12 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Modules",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    Display = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Rank = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Description = table.Column<string>(maxLength: 150, nullable: true),
+                    Display = table.Column<string>(maxLength: 50, nullable: true),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Rank = table.Column<decimal>(nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,11 +174,11 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Persons",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    BirthDateEstimated = table.Column<bool>(type: "bit", nullable: true),
-                    Gender = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    BirthDate = table.Column<DateTime>(nullable: true),
+                    BirthDateEstimated = table.Column<bool>(nullable: true),
+                    Gender = table.Column<string>(maxLength: 10, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -189,9 +189,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "PracticeTypes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(maxLength: 50, nullable: false),
+                    Name = table.Column<string>(maxLength: 60, nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -202,9 +202,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "ProviderTypes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(maxLength: 50, nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -215,10 +215,10 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "RelationshipTypes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(maxLength: 50, nullable: false),
+                    Description = table.Column<string>(maxLength: 200, nullable: true),
+                    Name = table.Column<string>(maxLength: 100, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -229,10 +229,10 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "SubscriberSystems",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    IsDefault = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -243,10 +243,10 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Validators",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Rank = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(maxLength: 50, nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Rank = table.Column<decimal>(nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -257,9 +257,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "ValidatorTypes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(maxLength: 50, nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -270,11 +270,11 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Concepts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ConceptTypeId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    CategoryId = table.Column<Guid>(nullable: true),
+                    ConceptTypeId = table.Column<string>(maxLength: 50, nullable: true),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -291,10 +291,10 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "SubCounties",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CountyId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    CountyId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -311,12 +311,12 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "CategoryItems",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Display = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Rank = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    CategoryId = table.Column<Guid>(nullable: false),
+                    Display = table.Column<string>(maxLength: 100, nullable: true),
+                    ItemId = table.Column<Guid>(nullable: false),
+                    Rank = table.Column<decimal>(nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -339,14 +339,14 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Forms",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    Display = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ModuleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Rank = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    Version = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Description = table.Column<string>(maxLength: 150, nullable: true),
+                    Display = table.Column<string>(maxLength: 50, nullable: true),
+                    ModuleId = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Rank = table.Column<decimal>(nullable: false),
+                    Version = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -363,17 +363,17 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "PersonAddresss",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CountyId = table.Column<int>(type: "int", nullable: true),
-                    Landmark = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Lat = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
-                    Lng = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
-                    PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Preferred = table.Column<bool>(type: "bit", nullable: false),
-                    Source = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    SourceRef = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    SourceSys = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    CountyId = table.Column<int>(nullable: true),
+                    Landmark = table.Column<string>(maxLength: 200, nullable: true),
+                    Lat = table.Column<decimal>(nullable: true),
+                    Lng = table.Column<decimal>(nullable: true),
+                    PersonId = table.Column<Guid>(nullable: false),
+                    Preferred = table.Column<bool>(nullable: false),
+                    Source = table.Column<string>(maxLength: 50, nullable: true),
+                    SourceRef = table.Column<string>(maxLength: 50, nullable: true),
+                    SourceSys = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -396,14 +396,14 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "PersonContacts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Phone = table.Column<int>(type: "int", nullable: false),
-                    Preferred = table.Column<bool>(type: "bit", nullable: false),
-                    Source = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    SourceRef = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    SourceSys = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    PersonId = table.Column<Guid>(nullable: false),
+                    Phone = table.Column<int>(nullable: true),
+                    Preferred = table.Column<bool>(nullable: false),
+                    Source = table.Column<string>(maxLength: 50, nullable: true),
+                    SourceRef = table.Column<string>(maxLength: 50, nullable: true),
+                    SourceSys = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -420,17 +420,17 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "PersonNames",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    MiddleName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    MothersName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Preferred = table.Column<bool>(type: "bit", nullable: false),
-                    Source = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    SourceRef = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    SourceSys = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    FirstName = table.Column<string>(maxLength: 100, nullable: true),
+                    LastName = table.Column<string>(maxLength: 100, nullable: true),
+                    MiddleName = table.Column<string>(maxLength: 100, nullable: true),
+                    MothersName = table.Column<string>(maxLength: 100, nullable: true),
+                    PersonId = table.Column<Guid>(nullable: false),
+                    Preferred = table.Column<bool>(nullable: false),
+                    Source = table.Column<string>(maxLength: 50, nullable: true),
+                    SourceRef = table.Column<string>(maxLength: 50, nullable: true),
+                    SourceSys = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -447,13 +447,13 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Practices",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    CountyId = table.Column<int>(type: "int", nullable: true),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    PracticeTypeId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Code = table.Column<string>(maxLength: 20, nullable: true),
+                    CountyId = table.Column<int>(nullable: true),
+                    IsDefault = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    PracticeTypeId = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -473,15 +473,39 @@ namespace LiveHAPI.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SubscriberCohorts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Display = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Rank = table.Column<int>(nullable: false),
+                    SubscriberSystemId = table.Column<Guid>(nullable: false),
+                    View = table.Column<string>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubscriberCohorts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SubscriberCohorts_SubscriberSystems_SubscriberSystemId",
+                        column: x => x.SubscriberSystemId,
+                        principalTable: "SubscriberSystems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SubscriberConfigs",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Area = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubscriberSystemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Area = table.Column<string>(nullable: true),
+                    Code = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    SubscriberSystemId = table.Column<Guid>(nullable: false),
+                    Value = table.Column<string>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -498,17 +522,19 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "SubscriberMaps",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Field = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Group = table.Column<int>(type: "int", nullable: false),
-                    Mode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubField = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubscriberSystemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Field = table.Column<string>(nullable: true),
+                    FormId = table.Column<string>(nullable: true),
+                    Group = table.Column<int>(nullable: false),
+                    Mode = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    SectionId = table.Column<string>(nullable: true),
+                    SubField = table.Column<string>(nullable: true),
+                    SubName = table.Column<string>(nullable: true),
+                    SubType = table.Column<string>(nullable: true),
+                    SubscriberSystemId = table.Column<Guid>(nullable: false),
+                    Type = table.Column<string>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -525,16 +551,16 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "SubscriberMessagess",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateProcessed = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Processed = table.Column<bool>(type: "bit", nullable: false),
-                    Rank = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubscriberSystemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Content = table.Column<string>(nullable: true),
+                    DateProcessed = table.Column<DateTime>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Processed = table.Column<bool>(nullable: false),
+                    Rank = table.Column<decimal>(nullable: false),
+                    Subject = table.Column<string>(nullable: true),
+                    SubscriberSystemId = table.Column<Guid>(nullable: false),
+                    Type = table.Column<string>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -551,13 +577,13 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "SubscriberSqlActions",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Action = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rank = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    SubscriberSystemId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Action = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Rank = table.Column<decimal>(nullable: false),
+                    SubscriberSystemId = table.Column<Guid>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -574,16 +600,17 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "SubscriberTranslations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Display = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsText = table.Column<bool>(type: "bit", nullable: false),
-                    Ref = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubDisplay = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubRef = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubscriberSystemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Code = table.Column<string>(nullable: true),
+                    Display = table.Column<string>(nullable: true),
+                    Group = table.Column<int>(nullable: false),
+                    IsText = table.Column<bool>(nullable: false),
+                    Ref = table.Column<string>(nullable: true),
+                    SubCode = table.Column<string>(nullable: true),
+                    SubDisplay = table.Column<string>(nullable: true),
+                    SubRef = table.Column<string>(nullable: true),
+                    SubscriberSystemId = table.Column<Guid>(nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -600,13 +627,13 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Programs",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    Display = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    EncounterTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FormId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Rank = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Description = table.Column<string>(maxLength: 150, nullable: true),
+                    Display = table.Column<string>(maxLength: 50, nullable: true),
+                    EncounterTypeId = table.Column<Guid>(nullable: false),
+                    FormId = table.Column<Guid>(nullable: false),
+                    Rank = table.Column<decimal>(nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -629,14 +656,15 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ConceptId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Display = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    FormId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Ordinal = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Rank = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    ConceptId = table.Column<Guid>(nullable: false),
+                    Description = table.Column<string>(maxLength: 50, nullable: true),
+                    Display = table.Column<string>(maxLength: 50, nullable: true),
+                    Fact = table.Column<string>(nullable: true),
+                    FormId = table.Column<Guid>(nullable: false),
+                    Ordinal = table.Column<string>(maxLength: 50, nullable: true),
+                    Rank = table.Column<decimal>(nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -659,13 +687,17 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Clients",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    KeyPop = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    MaritalStatus = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    OtherKeyPop = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PracticeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    AlreadyTestedPos = table.Column<bool>(nullable: true),
+                    IsFamilyMember = table.Column<bool>(nullable: true),
+                    IsPartner = table.Column<bool>(nullable: true),
+                    KeyPop = table.Column<string>(maxLength: 50, nullable: true),
+                    MaritalStatus = table.Column<string>(maxLength: 50, nullable: true),
+                    OtherKeyPop = table.Column<string>(maxLength: 100, nullable: true),
+                    PersonId = table.Column<Guid>(nullable: false),
+                    PracticeId = table.Column<Guid>(nullable: false),
+                    PreventEnroll = table.Column<bool>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -688,12 +720,12 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "FormImplementations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    Display = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    FormId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PracticeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Description = table.Column<string>(maxLength: 150, nullable: true),
+                    Display = table.Column<string>(maxLength: 50, nullable: true),
+                    FormId = table.Column<Guid>(nullable: false),
+                    PracticeId = table.Column<Guid>(nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -716,20 +748,20 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "PracticeActivations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ActivationCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ActivationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Device = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    DeviceCode = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IPAddress = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    Lat = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
-                    Lng = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
-                    Model = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    Notes = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    PracticeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RequestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    ActivationCode = table.Column<string>(maxLength: 50, nullable: true),
+                    ActivationDate = table.Column<DateTime>(nullable: true),
+                    Device = table.Column<string>(maxLength: 150, nullable: true),
+                    DeviceCode = table.Column<string>(maxLength: 150, nullable: true),
+                    ExpiryDate = table.Column<DateTime>(nullable: true),
+                    IPAddress = table.Column<string>(maxLength: 150, nullable: true),
+                    Lat = table.Column<decimal>(nullable: true),
+                    Lng = table.Column<decimal>(nullable: true),
+                    Model = table.Column<string>(maxLength: 150, nullable: true),
+                    Notes = table.Column<string>(maxLength: 150, nullable: true),
+                    PracticeId = table.Column<Guid>(nullable: false),
+                    RequestDate = table.Column<DateTime>(nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -746,18 +778,18 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Providers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Initials = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Phone = table.Column<int>(type: "int", nullable: true),
-                    PracticeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProviderTypeId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Source = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    SourceRef = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    SourceSys = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Code = table.Column<string>(maxLength: 50, nullable: true),
+                    Email = table.Column<string>(maxLength: 100, nullable: true),
+                    Initials = table.Column<string>(maxLength: 50, nullable: true),
+                    PersonId = table.Column<Guid>(nullable: false),
+                    Phone = table.Column<int>(nullable: true),
+                    PracticeId = table.Column<Guid>(nullable: true),
+                    ProviderTypeId = table.Column<string>(maxLength: 50, nullable: true),
+                    Source = table.Column<string>(maxLength: 50, nullable: true),
+                    SourceRef = table.Column<string>(maxLength: 50, nullable: true),
+                    SourceSys = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -786,17 +818,17 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Phone = table.Column<int>(type: "int", nullable: true),
-                    PracticeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Source = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    SourceRef = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    SourceSys = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Email = table.Column<string>(maxLength: 100, nullable: true),
+                    Password = table.Column<string>(maxLength: 200, nullable: true),
+                    PersonId = table.Column<Guid>(nullable: false),
+                    Phone = table.Column<int>(nullable: true),
+                    PracticeId = table.Column<Guid>(nullable: true),
+                    Source = table.Column<string>(maxLength: 50, nullable: true),
+                    SourceRef = table.Column<string>(maxLength: 50, nullable: true),
+                    SourceSys = table.Column<string>(maxLength: 50, nullable: true),
+                    UserName = table.Column<string>(maxLength: 100, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -819,17 +851,17 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "QuestionBranches",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ActionId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ConditionId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    GotoQuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Group = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
-                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RefQuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Response = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ResponseComplex = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ResponseType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    ActionId = table.Column<string>(maxLength: 50, nullable: true),
+                    ConditionId = table.Column<string>(maxLength: 50, nullable: true),
+                    GotoQuestionId = table.Column<Guid>(nullable: true),
+                    Group = table.Column<decimal>(nullable: true),
+                    QuestionId = table.Column<Guid>(nullable: false),
+                    RefQuestionId = table.Column<Guid>(nullable: true),
+                    Response = table.Column<string>(maxLength: 50, nullable: true),
+                    ResponseComplex = table.Column<string>(maxLength: 50, nullable: true),
+                    ResponseType = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -858,20 +890,20 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "QuestionRemoteTransformations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ActionId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    AltContent = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ClientAttributeId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ConditionId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Group = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
-                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RemoteQuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Response = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ResponseComplex = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ResponseType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    SelfQuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    ActionId = table.Column<string>(maxLength: 50, nullable: true),
+                    AltContent = table.Column<string>(maxLength: 50, nullable: true),
+                    ClientAttributeId = table.Column<string>(maxLength: 50, nullable: true),
+                    ConditionId = table.Column<string>(maxLength: 50, nullable: true),
+                    Content = table.Column<string>(maxLength: 50, nullable: true),
+                    Group = table.Column<decimal>(nullable: true),
+                    QuestionId = table.Column<Guid>(nullable: false),
+                    RemoteQuestionId = table.Column<Guid>(nullable: true),
+                    Response = table.Column<string>(maxLength: 50, nullable: true),
+                    ResponseComplex = table.Column<string>(maxLength: 50, nullable: true),
+                    ResponseType = table.Column<string>(maxLength: 50, nullable: true),
+                    SelfQuestionId = table.Column<Guid>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -900,17 +932,17 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "QuestionReValidations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ActionId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ConditionId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Group = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
-                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    QuestionValidationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RefQuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Response = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ResponseComplex = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ResponseType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    ActionId = table.Column<string>(maxLength: 50, nullable: true),
+                    ConditionId = table.Column<string>(maxLength: 50, nullable: true),
+                    Group = table.Column<decimal>(nullable: true),
+                    QuestionId = table.Column<Guid>(nullable: false),
+                    QuestionValidationId = table.Column<Guid>(nullable: false),
+                    RefQuestionId = table.Column<Guid>(nullable: true),
+                    Response = table.Column<string>(maxLength: 50, nullable: true),
+                    ResponseComplex = table.Column<string>(maxLength: 100, nullable: true),
+                    ResponseType = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -939,18 +971,18 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "QuestionTransformation",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ActionId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ConditionId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Group = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
-                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Rank = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
-                    RefQuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Response = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ResponseComplex = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ResponseType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    ActionId = table.Column<string>(maxLength: 50, nullable: true),
+                    ConditionId = table.Column<string>(maxLength: 50, nullable: true),
+                    Content = table.Column<string>(maxLength: 50, nullable: true),
+                    Group = table.Column<decimal>(nullable: true),
+                    QuestionId = table.Column<Guid>(nullable: false),
+                    Rank = table.Column<decimal>(nullable: true),
+                    RefQuestionId = table.Column<Guid>(nullable: true),
+                    Response = table.Column<string>(maxLength: 50, nullable: true),
+                    ResponseComplex = table.Column<string>(maxLength: 100, nullable: true),
+                    ResponseType = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -979,14 +1011,14 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "QuestionValidations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MaxLimit = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    MinLimit = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Revision = table.Column<int>(type: "int", nullable: false),
-                    ValidatorId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ValidatorTypeId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    MaxLimit = table.Column<string>(maxLength: 50, nullable: true),
+                    MinLimit = table.Column<string>(maxLength: 50, nullable: true),
+                    QuestionId = table.Column<Guid>(nullable: false),
+                    Revision = table.Column<int>(nullable: false),
+                    ValidatorId = table.Column<string>(maxLength: 50, nullable: true),
+                    ValidatorTypeId = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1015,10 +1047,10 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "ClientAttributes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(maxLength: 50, nullable: false),
+                    ClientId = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1035,13 +1067,13 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "ClientIdentifiers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Identifier = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    IdentifierTypeId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Preferred = table.Column<bool>(type: "bit", nullable: false),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    ClientId = table.Column<Guid>(nullable: false),
+                    Identifier = table.Column<string>(maxLength: 100, nullable: true),
+                    IdentifierTypeId = table.Column<string>(maxLength: 50, nullable: true),
+                    Preferred = table.Column<bool>(nullable: false),
+                    RegistrationDate = table.Column<DateTime>(nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1064,12 +1096,13 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "ClientRelationships",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Preferred = table.Column<bool>(type: "bit", nullable: false),
-                    RelatedClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RelationshipTypeId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    ClientId = table.Column<Guid>(nullable: false),
+                    IsIndex = table.Column<bool>(nullable: true),
+                    Preferred = table.Column<bool>(nullable: false),
+                    RelatedClientId = table.Column<Guid>(nullable: false),
+                    RelationshipTypeId = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1089,22 +1122,46 @@ namespace LiveHAPI.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ClientStates",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ClientId = table.Column<Guid>(nullable: false),
+                    EncounterId = table.Column<Guid>(nullable: true),
+                    IndexClientId = table.Column<Guid>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
+                    StatusDate = table.Column<DateTime>(nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientStates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientStates_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Encounters",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DeviceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EncounterDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EncounterTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FormId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsComplete = table.Column<bool>(type: "bit", nullable: false),
-                    PracticeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProviderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Started = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Stopped = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    ClientId = table.Column<Guid>(nullable: false),
+                    DeviceId = table.Column<Guid>(nullable: false),
+                    EncounterDate = table.Column<DateTime>(nullable: false),
+                    EncounterTypeId = table.Column<Guid>(nullable: false),
+                    FormId = table.Column<Guid>(nullable: false),
+                    IndexClientId = table.Column<Guid>(nullable: true),
+                    IsComplete = table.Column<bool>(nullable: false),
+                    PracticeId = table.Column<Guid>(nullable: false),
+                    ProviderId = table.Column<Guid>(nullable: false),
+                    Started = table.Column<DateTime>(nullable: true),
+                    Stopped = table.Column<DateTime>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1133,17 +1190,18 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Obses",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EncounterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsNull = table.Column<bool>(type: "bit", nullable: false),
-                    ObsDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ValueCoded = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ValueDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ValueMultiCoded = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ValueNumeric = table.Column<decimal>(type: "decimal(18, 2)", nullable: true),
-                    ValueText = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    ClientId = table.Column<Guid>(nullable: false),
+                    EncounterId = table.Column<Guid>(nullable: false),
+                    IsNull = table.Column<bool>(nullable: false),
+                    ObsDate = table.Column<DateTime>(nullable: false),
+                    QuestionId = table.Column<Guid>(nullable: false),
+                    ValueCoded = table.Column<Guid>(nullable: true),
+                    ValueDateTime = table.Column<DateTime>(nullable: true),
+                    ValueMultiCoded = table.Column<string>(nullable: true),
+                    ValueNumeric = table.Column<decimal>(nullable: true),
+                    ValueText = table.Column<string>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1157,21 +1215,52 @@ namespace LiveHAPI.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ObsFamilyTraceResults",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    BookingDate = table.Column<DateTime>(nullable: true),
+                    Consent = table.Column<Guid>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    EncounterId = table.Column<Guid>(nullable: false),
+                    IndexClientId = table.Column<Guid>(nullable: false),
+                    Mode = table.Column<Guid>(nullable: false),
+                    ModeDisplay = table.Column<string>(nullable: true),
+                    Outcome = table.Column<Guid>(nullable: false),
+                    OutcomeDisplay = table.Column<string>(nullable: true),
+                    Reminder = table.Column<DateTime>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ObsFamilyTraceResults", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ObsFamilyTraceResults_Encounters_EncounterId",
+                        column: x => x.EncounterId,
+                        principalTable: "Encounters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ObsFinalTestResults",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CoupleDiscordant = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    EncounterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FinalResult = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    FinalResultCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FirstTestResult = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    FirstTestResultCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ResultGiven = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SecondTestResult = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SecondTestResultCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SelfTestOption = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    ClientId = table.Column<Guid>(nullable: false),
+                    CoupleDiscordant = table.Column<Guid>(nullable: true),
+                    EncounterId = table.Column<Guid>(nullable: false),
+                    FinalResult = table.Column<Guid>(nullable: true),
+                    FinalResultCode = table.Column<string>(nullable: true),
+                    FirstTestResult = table.Column<Guid>(nullable: true),
+                    FirstTestResultCode = table.Column<string>(nullable: true),
+                    PnsDeclined = table.Column<Guid>(nullable: true),
+                    Remarks = table.Column<string>(maxLength: 100, nullable: true),
+                    ResultGiven = table.Column<Guid>(nullable: true),
+                    SecondTestResult = table.Column<Guid>(nullable: true),
+                    SecondTestResultCode = table.Column<string>(nullable: true),
+                    SelfTestOption = table.Column<Guid>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1188,17 +1277,17 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "ObsLinkages",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DateEnrolled = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DatePromised = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EncounterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EnrollmentId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    FacilityHandedTo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    HandedTo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ReferredTo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Remarks = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false),
-                    WorkerCarde = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    Id = table.Column<Guid>(nullable: false),
+                    DateEnrolled = table.Column<DateTime>(nullable: true),
+                    DatePromised = table.Column<DateTime>(nullable: true),
+                    EncounterId = table.Column<Guid>(nullable: false),
+                    EnrollmentId = table.Column<string>(maxLength: 50, nullable: true),
+                    FacilityHandedTo = table.Column<string>(maxLength: 50, nullable: true),
+                    HandedTo = table.Column<string>(maxLength: 50, nullable: true),
+                    ReferredTo = table.Column<string>(maxLength: 50, nullable: true),
+                    Remarks = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false),
+                    WorkerCarde = table.Column<string>(maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1212,23 +1301,117 @@ namespace LiveHAPI.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ObsMemberScreenings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    BookingDate = table.Column<DateTime>(nullable: false),
+                    BookingMet = table.Column<bool>(nullable: false),
+                    DateBookingMet = table.Column<DateTime>(nullable: true),
+                    Eligibility = table.Column<Guid>(nullable: false),
+                    EncounterId = table.Column<Guid>(nullable: false),
+                    HivStatus = table.Column<Guid>(nullable: false),
+                    IndexClientId = table.Column<Guid>(nullable: false),
+                    Remarks = table.Column<string>(nullable: true),
+                    ScreeningDate = table.Column<DateTime>(nullable: false),
+                    TraceId = table.Column<Guid>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ObsMemberScreenings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ObsMemberScreenings_Encounters_EncounterId",
+                        column: x => x.EncounterId,
+                        principalTable: "Encounters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ObsPartnerScreenings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    BookingDate = table.Column<DateTime>(nullable: true),
+                    BookingMet = table.Column<bool>(nullable: false),
+                    DateBookingMet = table.Column<DateTime>(nullable: true),
+                    Eligibility = table.Column<Guid>(nullable: false),
+                    EncounterId = table.Column<Guid>(nullable: false),
+                    HivStatus = table.Column<Guid>(nullable: false),
+                    IPVOutcome = table.Column<Guid>(nullable: true),
+                    IPVScreening = table.Column<Guid>(nullable: false),
+                    IndexClientId = table.Column<Guid>(nullable: false),
+                    LivingWithClient = table.Column<Guid>(nullable: true),
+                    Occupation = table.Column<string>(nullable: true),
+                    PNSApproach = table.Column<Guid>(nullable: true),
+                    PNSRealtionship = table.Column<Guid>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhysicalAssult = table.Column<Guid>(nullable: false),
+                    PnsAccepted = table.Column<Guid>(nullable: true),
+                    Remarks = table.Column<string>(nullable: true),
+                    ScreeningDate = table.Column<DateTime>(nullable: false),
+                    SexuallyUncomfortable = table.Column<Guid>(nullable: false),
+                    Threatened = table.Column<Guid>(nullable: false),
+                    TraceId = table.Column<Guid>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ObsPartnerScreenings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ObsPartnerScreenings_Encounters_EncounterId",
+                        column: x => x.EncounterId,
+                        principalTable: "Encounters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ObsPartnerTraceResults",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    BookingDate = table.Column<DateTime>(nullable: true),
+                    Consent = table.Column<Guid>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    EncounterId = table.Column<Guid>(nullable: false),
+                    IndexClientId = table.Column<Guid>(nullable: false),
+                    Mode = table.Column<Guid>(nullable: false),
+                    ModeDisplay = table.Column<string>(nullable: true),
+                    Outcome = table.Column<Guid>(nullable: false),
+                    OutcomeDisplay = table.Column<string>(nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ObsPartnerTraceResults", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ObsPartnerTraceResults_Encounters_EncounterId",
+                        column: x => x.EncounterId,
+                        principalTable: "Encounters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ObsTestResults",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Attempt = table.Column<int>(type: "int", nullable: false),
-                    EncounterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Expiry = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsValid = table.Column<bool>(type: "bit", nullable: false),
-                    Kit = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    KitDisplay = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    KitOther = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    LotNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Result = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ResultCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ResultDisplay = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    TestName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Attempt = table.Column<int>(nullable: false),
+                    EncounterId = table.Column<Guid>(nullable: false),
+                    Expiry = table.Column<DateTime>(nullable: false),
+                    IsValid = table.Column<bool>(nullable: false),
+                    Kit = table.Column<Guid>(nullable: false),
+                    KitDisplay = table.Column<string>(maxLength: 50, nullable: true),
+                    KitOther = table.Column<string>(maxLength: 50, nullable: true),
+                    LotNumber = table.Column<string>(maxLength: 50, nullable: true),
+                    Result = table.Column<Guid>(nullable: false),
+                    ResultCode = table.Column<string>(maxLength: 50, nullable: true),
+                    ResultDisplay = table.Column<string>(maxLength: 50, nullable: true),
+                    TestName = table.Column<string>(maxLength: 50, nullable: true),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1245,12 +1428,12 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "ObsTraceResults",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EncounterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Mode = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Outcome = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Voided = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    EncounterId = table.Column<Guid>(nullable: false),
+                    Mode = table.Column<Guid>(nullable: false),
+                    Outcome = table.Column<Guid>(nullable: false),
+                    Voided = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1309,6 +1492,11 @@ namespace LiveHAPI.Infrastructure.Migrations
                 column: "PracticeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClientStates_ClientId",
+                table: "ClientStates",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Concepts_CategoryId",
                 table: "Concepts",
                 column: "CategoryId");
@@ -1349,6 +1537,11 @@ namespace LiveHAPI.Infrastructure.Migrations
                 column: "EncounterId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ObsFamilyTraceResults_EncounterId",
+                table: "ObsFamilyTraceResults",
+                column: "EncounterId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ObsFinalTestResults_EncounterId",
                 table: "ObsFinalTestResults",
                 column: "EncounterId");
@@ -1356,6 +1549,21 @@ namespace LiveHAPI.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ObsLinkages_EncounterId",
                 table: "ObsLinkages",
+                column: "EncounterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ObsMemberScreenings_EncounterId",
+                table: "ObsMemberScreenings",
+                column: "EncounterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ObsPartnerScreenings_EncounterId",
+                table: "ObsPartnerScreenings",
+                column: "EncounterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ObsPartnerTraceResults_EncounterId",
+                table: "ObsPartnerTraceResults",
                 column: "EncounterId");
 
             migrationBuilder.CreateIndex(
@@ -1519,6 +1727,11 @@ namespace LiveHAPI.Infrastructure.Migrations
                 column: "CountyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SubscriberCohorts_SubscriberSystemId",
+                table: "SubscriberCohorts",
+                column: "SubscriberSystemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SubscriberConfigs_SubscriberSystemId",
                 table: "SubscriberConfigs",
                 column: "SubscriberSystemId");
@@ -1569,6 +1782,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "ClientRelationships");
 
             migrationBuilder.DropTable(
+                name: "ClientStates");
+
+            migrationBuilder.DropTable(
                 name: "ConceptTypes");
 
             migrationBuilder.DropTable(
@@ -1587,10 +1803,22 @@ namespace LiveHAPI.Infrastructure.Migrations
                 name: "Obses");
 
             migrationBuilder.DropTable(
+                name: "ObsFamilyTraceResults");
+
+            migrationBuilder.DropTable(
                 name: "ObsFinalTestResults");
 
             migrationBuilder.DropTable(
                 name: "ObsLinkages");
+
+            migrationBuilder.DropTable(
+                name: "ObsMemberScreenings");
+
+            migrationBuilder.DropTable(
+                name: "ObsPartnerScreenings");
+
+            migrationBuilder.DropTable(
+                name: "ObsPartnerTraceResults");
 
             migrationBuilder.DropTable(
                 name: "ObsTestResults");
@@ -1633,6 +1861,9 @@ namespace LiveHAPI.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "SubCounties");
+
+            migrationBuilder.DropTable(
+                name: "SubscriberCohorts");
 
             migrationBuilder.DropTable(
                 name: "SubscriberConfigs");

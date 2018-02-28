@@ -12,6 +12,7 @@ namespace LiveHAPI.Shared.Interfaces.Model
         Guid? PnsAccepted { get; set; }
         DateTime? BookingDate { get; set; }
         Guid Eligibility { get; set; }
+        Guid IndexClientId { get; set; }
         Guid EncounterId { get; set; }
         Guid HivStatus { get; set; }
         Guid IPVScreening { get; set; }

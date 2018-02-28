@@ -10,6 +10,8 @@ namespace LiveHAPI.Shared.ValueObject
         public Guid Id { get; set; }
         public Guid ClientId { get; set; }
 
+        public Guid? IndexClientId { get; set; }
+
         public Guid FormId { get; set; }
 
         public Guid EncounterTypeId { get; set; }

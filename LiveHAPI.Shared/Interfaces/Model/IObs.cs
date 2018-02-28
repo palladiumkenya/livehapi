@@ -11,6 +11,7 @@ namespace LiveHAPI.Shared.Interfaces.Model
         Guid? ValueCoded { get; set; }
         string ValueMultiCoded { get; set; }
         DateTime? ValueDateTime { get; set; }
+        Guid ClientId { get; set; }
         Guid EncounterId { get; set; }
     }
 }

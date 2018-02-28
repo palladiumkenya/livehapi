@@ -9,6 +9,9 @@ namespace LiveHAPI.Shared.ValueObject
         public Guid Id { get; set; }
 
         public Guid? CoupleDiscordant { get; set; }
+
+        public Guid ClientId { get; set; }
+
         public Guid EncounterId { get; set; }
         public Guid? FinalResult { get; set; }
         public string FinalResultCode { get; set; }

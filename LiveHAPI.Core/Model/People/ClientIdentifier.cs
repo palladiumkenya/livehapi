@@ -23,7 +23,7 @@ namespace LiveHAPI.Core.Model.People
             Id = LiveGuid.NewGuid();
         }
 
-        private ClientIdentifier(string identifierTypeId, string identifier, DateTime registrationDate)
+        private ClientIdentifier(Guid id, string identifierTypeId, string identifier, DateTime registrationDate):base(id)
         {
             IdentifierTypeId = identifierTypeId;
             Identifier = identifier;
@@ -37,7 +37,7 @@ namespace LiveHAPI.Core.Model.People
 
         public static ClientIdentifier Create(IdentifierInfo address)
         {
-            return new ClientIdentifier(address.IdentifierTypeId, address.Identifier, address.RegistrationDate);
+            return new ClientIdentifier(address.Id, address.IdentifierTypeId, address.Identifier, address.RegistrationDate);
         }
 
         public static List<ClientIdentifier> Create(ClientInfo clientInfo)

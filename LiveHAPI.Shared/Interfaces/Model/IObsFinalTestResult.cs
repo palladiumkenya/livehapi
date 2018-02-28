@@ -1,10 +1,11 @@
 ﻿using System;
 
-namespace LiveHAPI.Core.Model.Encounters
+namespace LiveHAPI.Shared.Interfaces.Model
 {
     public interface IObsFinalTestResult
     {
         Guid? CoupleDiscordant { get; set; }
+        Guid ClientId { get; set; }
         Guid EncounterId { get; set; }
         Guid? FinalResult { get; set; }
         string FinalResultCode { get; set; }

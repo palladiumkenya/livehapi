@@ -1,3 +1,5 @@
+use master
+GO
 delete from iqcare.dbo.dtl_PatientContacts 
 delete from iqcare.dbo.[DTL_PATIENTHOUSEHOLDINFO] 	
 delete from iqcare.dbo.[DTL_RURALRESIDENCE] 	
