@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces.Model;
@@ -26,7 +27,7 @@ namespace LiveHAPI.Core.Model.People
         public string SourceSys { get; set; }
         public Guid? PracticeId { get; set; }
         public Guid PersonId { get; set; }
-        
+       
         public Provider()
         {
             Id = LiveGuid.NewGuid();

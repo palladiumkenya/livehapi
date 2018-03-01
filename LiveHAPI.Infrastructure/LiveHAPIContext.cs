@@ -59,10 +59,12 @@ namespace LiveHAPI.Infrastructure
 
         #region Provider
         public DbSet<Provider> Providers { get; set; }
+        
         #endregion
 
         #region User
-        public DbSet<User> Users { get; set; } 
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserSummary> UserSummaries { get; set; }
         #endregion
 
         #region Client

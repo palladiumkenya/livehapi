@@ -12,9 +12,10 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    partial class LiveHAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20180301191052_hAPISummaires")]
+    partial class hAPISummaires
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -825,15 +826,13 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Area")
-                        .HasMaxLength(100);
+                    b.Property<string>("Area");
 
                     b.Property<Guid>("ClientId");
 
                     b.Property<decimal>("Rank");
 
-                    b.Property<string>("Report")
-                        .HasMaxLength(100);
+                    b.Property<string>("Report");
 
                     b.Property<DateTime?>("ReportDate");
 
@@ -1059,8 +1058,7 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Area")
-                        .HasMaxLength(100);
+                    b.Property<string>("Area");
 
                     b.Property<decimal>("Rank");
 

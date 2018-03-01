@@ -5,33 +5,30 @@ using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.People
 {
-    public class ClientSummary : Entity<Guid>
+    public class UserSummary : Entity<Guid>
     {
         [MaxLength(100)]
         public string Area { get; set; }
-        [MaxLength(100)]
-        public string Report { get; set; }
-        public DateTime? ReportDate { get; set; }
+        public int Report { get; set; }
         public Decimal Rank { get; set; }
-        public Guid ClientId { get; set; }
+        public Guid UserId { get; set; }
 
-        public ClientSummary()
+        public UserSummary()
         {
             Id = LiveGuid.NewGuid();
         }
 
-        public ClientSummary(string area, string report, DateTime? reportDate, decimal rank,Guid clientId) : this()
+        public UserSummary(string area, int report,decimal rank,Guid userId) : this()
         {
             Area = area;
             Report = report;
-            ReportDate = reportDate;
             Rank = rank;
-            ClientId = clientId;
+            UserId = userId;
         }
 
         public override string ToString()
         {
-            return $"{Area} | {Report} | {ReportDate?.Date} |{Rank}";
+            return $"{Area} | {Report} | {Rank}";
         }
     }
 }

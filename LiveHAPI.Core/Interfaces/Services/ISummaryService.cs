@@ -5,8 +5,9 @@ using LiveHAPI.Core.Model.People;
 
 namespace LiveHAPI.Core.Interfaces.Services
 {
-    public interface IClientSummaryService
+    public interface ISummaryService
     {
         IEnumerable<ClientSummary> Generate(Client client);
+        IEnumerable<UserSummary> Generate(Guid userId);
     }
 }
