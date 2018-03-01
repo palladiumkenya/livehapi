@@ -32,7 +32,7 @@ namespace LiveHAPI.Infrastructure.Repository
 
             var persons = Context.Persons.Where(x => personIds.Contains(x.Id))
                 .Include(x => x.Clients).ThenInclude(c => c.Identifiers)
-                //.Include(x => x.Clients).ThenInclude(c => c.Relationships)
+                .Include(x => x.Clients).ThenInclude(c => c.ClientStates)
                 .Include(x => x.Addresses)
                 .Include(x => x.Contacts)
                 .Include(x => x.Names)
@@ -134,6 +134,7 @@ namespace LiveHAPI.Infrastructure.Repository
 
                 var persons = Context.Persons.Where(x => personIds.Contains(x.Id))
                     .Include(x => x.Clients).ThenInclude(c => c.Identifiers)
+                    .Include(x => x.Clients).ThenInclude(c => c.ClientStates)
                     .Include(x => x.Addresses)
                     .Include(x => x.Contacts)
                     .Include(x => x.Names)
