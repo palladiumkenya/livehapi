@@ -60,6 +60,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                     {
                         conn.Open();
                         cmd.ExecuteNonQuery();
+                      
                     }
                     catch (Exception e)
                     {                        

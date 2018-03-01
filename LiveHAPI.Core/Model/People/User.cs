@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using LiveHAPI.Shared.Custom;
@@ -35,6 +36,8 @@ namespace LiveHAPI.Core.Model.People
         public string SourceSys { get; set; }
         public Guid? PracticeId { get; set; }        
         public Guid PersonId { get; set; }
+        public ICollection<UserSummary> UserSummaries { get; set; } = new List<UserSummary>();
+
         [NotMapped]
         public string DecryptedPassword => Utils.Decrypt(Password);
 

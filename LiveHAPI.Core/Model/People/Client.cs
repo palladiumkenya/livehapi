@@ -31,6 +31,8 @@ namespace LiveHAPI.Core.Model.People
         public ICollection<ClientRelationship> Relationships { get; set; } = new List<ClientRelationship>();
         public ICollection<ClientAttribute> Attributes { get; set; } = new List<ClientAttribute>();
         public ICollection<Encounter> Encounters { get; set; } = new List<Encounter>();
+        public ICollection<ClientState> ClientStates { get; set; }=new List<ClientState>();
+        private ICollection<ClientSummary> ClientSummaries { get; set; }=new List<ClientSummary>();
 
         public Client()
         {
@@ -65,6 +67,9 @@ namespace LiveHAPI.Core.Model.People
             var relationships = ClientRelationship.Create(clientInfo);
             client.AddRelationships(relationships);
 
+            var states = ClientState.Create(clientInfo);
+            client.AddClientStates(states);
+
             return client;
         }
         public void Update(ClientInfo clientInfo)
@@ -84,6 +89,10 @@ namespace LiveHAPI.Core.Model.People
             Relationships.Clear();
             var relationships = ClientRelationship.Create(clientInfo);
             AddRelationships(relationships);
+
+            ClientStates.Clear();
+            var stats = ClientState.Create(clientInfo);
+            AddClientStates(stats);
         }
 
         public void AddIdentifier(ClientIdentifier personName)
@@ -112,7 +121,20 @@ namespace LiveHAPI.Core.Model.People
             }
         }
 
-       public bool IsPos()
+        public void AddClientState(ClientState state)
+        {
+            state.ClientId = Id;
+            ClientStates.Add(state);
+        }
+        public void AddClientStates(List<ClientState> states)
+        {
+            foreach (var state in states)
+            {
+                AddClientState(state);
+            }
+        }
+
+        public bool IsPos()
         {
             var finalResultEnocunters = Encounters.Where(x => x.EncounterTypeId == new Guid("b262f4ee-852f-11e7-bb31-be2e44b06b34")).ToList();
             var obs = new List<ObsFinalTestResult>();
@@ -154,6 +176,49 @@ namespace LiveHAPI.Core.Model.People
             return false;
         }
 
+        public bool IsInState(params LiveState[] states)
+        {
+            if (null != ClientStates && ClientStates.Any() && states.Length > 0)
+            {
+                var found = ClientStates.Where(x => states.Contains(x.Status)).ToList();
+                return found.Count == states.Length;
+            }
+            return false;
+        }
+
+        public bool IsInAnyState(params LiveState[] states)
+        {
+            if (null != ClientStates && ClientStates.Any() && states.Length > 0)
+            {
+                var found = ClientStates.Where(x => states.Contains(x.Status)).ToList();
+                return found.Count > 0;
+            }
+
+            return false;
+        }
+
+        public bool IsInState(Guid indexId, params LiveState[] states)
+        {
+            if (null != ClientStates && ClientStates.Any(x => null != x.IndexClientId && x.IndexClientId == indexId) &&
+                states.Length > 0)
+            {
+                var found = ClientStates.Where(x => states.Contains(x.Status) && x.IndexClientId == indexId).ToList();
+                return found.Count == states.Length;
+            }
+
+            return false;
+        }
+        public bool IsInAnyState(Guid indexId, params LiveState[] states)
+        {
+            if (null != ClientStates && ClientStates.Any(x => null != x.IndexClientId && x.IndexClientId == indexId) &&
+                states.Length > 0)
+            {
+                var found = ClientStates.Where(x => states.Contains(x.Status) && x.IndexClientId == indexId).ToList();
+                return found.Count > 0;
+            }
+
+            return false;
+        }
         public override string ToString()
         {
             var info = $"{Id}({PersonId}) {MaritalStatus}|{KeyPop}";

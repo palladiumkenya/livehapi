@@ -17,13 +17,14 @@ namespace LiveHAPI.Core.Model.Encounters
 
         //TODO: NII Remarks
         public string Remarks { get; set; }
+        public Guid IndexClientId { get; set; }
         public Guid EncounterId { get; set; }
         public bool BookingMet { get; set; }
         public DateTime? DateBookingMet { get; set; }
         public Guid? TraceId { get; set; }
       
         
-        public ObsMemberScreening(Guid id, DateTime screeningDate, Guid hivStatus, Guid eligibility, DateTime bookingDate, string remarks, Guid encounterId)
+        public ObsMemberScreening(Guid id, DateTime screeningDate, Guid hivStatus, Guid eligibility, DateTime bookingDate, string remarks, Guid encounterId,Guid indexClientId)
         {
             Id = id;
             ScreeningDate = screeningDate;
@@ -32,6 +33,7 @@ namespace LiveHAPI.Core.Model.Encounters
             BookingDate = bookingDate;
             Remarks = remarks;
             EncounterId = encounterId;
+            IndexClientId = indexClientId;
         }
 
         public ObsMemberScreening()
@@ -39,15 +41,15 @@ namespace LiveHAPI.Core.Model.Encounters
           
         }
 
-        public static ObsMemberScreening Create(Guid id, DateTime screeningDate, Guid hivStatus, Guid eligibility, DateTime bookingDate, string remarks, Guid encounterId)
+        public static ObsMemberScreening Create(Guid id, DateTime screeningDate, Guid hivStatus, Guid eligibility, DateTime bookingDate, string remarks, Guid encounterId, Guid indexClientId)
         {
-            var obs = new ObsMemberScreening(id, screeningDate, hivStatus, eligibility, bookingDate, remarks, encounterId);
+            var obs = new ObsMemberScreening(id, screeningDate, hivStatus, eligibility, bookingDate, remarks, encounterId,indexClientId);
             return obs;
         }
 
         public static ObsMemberScreening Create(ObsMemberScreeningInfo encounterInfo)
         {
-          return  new ObsMemberScreening(encounterInfo.Id, encounterInfo.ScreeningDate, encounterInfo.HivStatus, encounterInfo.Eligibility, encounterInfo.BookingDate, encounterInfo.Remarks, encounterInfo.EncounterId);
+          return  new ObsMemberScreening(encounterInfo.Id, encounterInfo.ScreeningDate, encounterInfo.HivStatus, encounterInfo.Eligibility, encounterInfo.BookingDate, encounterInfo.Remarks, encounterInfo.EncounterId,encounterInfo.IndexClientId);
         }
         public static List<ObsMemberScreening> Create(EncounterInfo encounterInfo)
         {

@@ -287,6 +287,7 @@ namespace LiveHAPI.Core.Model.People
                 }
                 c.Identifiers = ClientIdentifier.GetIdentifierInfos(cl.Identifiers.ToList());
                 c.Relationships= ClientRelationship.GetClientRelationshipInfos(cl.Relationships.ToList());
+                c.ClientStates = ClientState.GetClientStateInfos(cl.ClientStates.ToList());
             }
 
             return c;

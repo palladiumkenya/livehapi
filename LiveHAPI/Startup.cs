@@ -92,7 +92,9 @@ namespace LiveHAPI
             services.AddScoped<ILookupRepository, LookupRepository>();
             services.AddScoped<ISubscriberSystemRepository, SubscriberSystemRepository>();
             services.AddScoped<ISubscriberConfigRepository, SubscriberConfigRepository>();
-
+            services.AddScoped<IUserSummaryRepository, UserSummaryRepository>();
+            services.AddScoped<IClientSummaryRepository, ClientSummaryRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
 
             services.AddScoped<IMetaService, MetaService>();
             services.AddScoped<IStaffService, StaffService>();
@@ -110,6 +112,7 @@ namespace LiveHAPI
 
             services.AddScoped<ISetupService, SetupService>();
             services.AddScoped<ISetupFacilty, SetupFacilty>();
+            services.AddScoped<ISummaryService,SummaryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -226,6 +229,7 @@ namespace LiveHAPI
                 cfg.CreateMap<ObsFamilyTraceResult, ObsFamilyTraceResultInfo>();
                 cfg.CreateMap<ObsPartnerTraceResult, ObsPartnerTraceResultInfo>();
 
+                cfg.CreateMap<ClientSummaryInfo, ClientSummary>();
 
                 cfg.CreateMap<Location, Practice>()
                     .ForMember(x => x.Code, o => o.MapFrom(s => s.PosID))
@@ -280,9 +284,9 @@ namespace LiveHAPI
 
 
             Log.Debug(@"
-                            ╔═╗┌─┐┬ ┬┌─┐  ╔╦╗┌─┐┌┐ ┬┬  ┌─┐
-                            ╠═╣├┤ └┬┘├─┤  ║║║│ │├┴┐││  ├┤ 
-                            ╩ ╩└   ┴ ┴ ┴  ╩ ╩└─┘└─┘┴┴─┘└─┘
+                            ╔═╗┌─┐┬ ┬┌─┐  ╔╦╗┌─┐┌┐ ┬ ┬  ┌─┐
+                            ╠═╣├┤ └┬┘├─┤  ║║║│ │├┴┐│ │  ├┤ 
+                            ╩ ╩└   ┴ ┴ ┴  ╩ ╩└─┘└─┘┴ ┴─┘└─┘
                       ");
             Log.Debug("");
             Log.Debug(@"

@@ -22,7 +22,7 @@ namespace LiveHAPI.Core.Model.People
             Id = LiveGuid.NewGuid();
         }
 
-        public ClientRelationship(Guid relatedClientId, string relationshipTypeId, bool? isIndex)
+        public ClientRelationship(Guid id, Guid relatedClientId, string relationshipTypeId, bool? isIndex):base(id)
         {
             RelatedClientId = relatedClientId;
             RelationshipTypeId = relationshipTypeId;
@@ -31,7 +31,7 @@ namespace LiveHAPI.Core.Model.People
 
         public static ClientRelationship Create(RelationshipInfo address)
         {
-            return new ClientRelationship(address.RelatedClientId, address.RelationshipTypeId,address.IsIndex);
+            return new ClientRelationship(address.Id, address.RelatedClientId, address.RelationshipTypeId,address.IsIndex);
         }
 
         public static List<ClientRelationship> Create(ClientInfo clientInfo)

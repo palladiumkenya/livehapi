@@ -8,6 +8,9 @@ namespace LiveHAPI.Shared.ValueObject
     {
         public Guid Id { get; set; }
         public DateTime Date { get; set; }
+
+        public Guid IndexClientId { get; set; }
+
         public DateTime? Reminder { get; set; }
         public DateTime? BookingDate { get; set; }
         public Guid? Consent { get; set; }

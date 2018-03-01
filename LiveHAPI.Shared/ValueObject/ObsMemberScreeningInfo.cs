@@ -11,6 +11,9 @@ namespace LiveHAPI.Shared.ValueObject
        
         public Guid HivStatus { get; set; }
         public Guid Eligibility { get; set; }
+
+        public Guid IndexClientId { get; set; }
+
         public DateTime BookingDate { get; set; }
         public string Remarks { get; set; }
         public Guid EncounterId { get; set; }

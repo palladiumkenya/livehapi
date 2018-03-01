@@ -12,6 +12,7 @@ using LiveHAPI.Shared.ValueObject;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Model;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,14 +28,16 @@ namespace LiveHAPI.Controllers
         private readonly IEncounterSavedHandler _encounterSavedHandler;
         private readonly ISubscriberSystemRepository _subscriberSystemRepository;
         private readonly SubscriberSystem _subscriberSystem;
+        private readonly ISummaryService _summaryService;
 
-        public ClientsController(IClientService clientService, IEncounterService encounterService, IClientSavedHandler clientSavedHandler, IEncounterSavedHandler encounterSavedHandler, ISubscriberSystemRepository subscriberSystemRepository)
+        public ClientsController(IClientService clientService, IEncounterService encounterService, IClientSavedHandler clientSavedHandler, IEncounterSavedHandler encounterSavedHandler, ISubscriberSystemRepository subscriberSystemRepository, ISummaryService summaryService)
         {
             _clientService = clientService;
             _encounterService = encounterService;
             _clientSavedHandler = clientSavedHandler;
             _encounterSavedHandler = encounterSavedHandler;
             _subscriberSystemRepository = subscriberSystemRepository;
+            _summaryService = summaryService;
 
             _subscriberSystem = _subscriberSystemRepository.GetDefault();
         }
@@ -169,7 +172,8 @@ namespace LiveHAPI.Controllers
                     
                     foreach (var client in personMatch.Person.Clients)
                     {
-                        var isPos = client.IsPos();
+                        var isInHts = client.IsInState(LiveState.HtsEnrolled);
+                        var isPos = client.IsInState(LiveState.HtsTestedPos);
                         var isFam = client.IsFamilyContact();
                         var isPat = client.IsPartnerContact();
 
@@ -247,13 +251,28 @@ namespace LiveHAPI.Controllers
 
                         rc.Encounters = es;
                     }
+
                     if (null != rc.Client && !rc.Client.Id.IsNullOrEmpty())
+                    {
+                        try
+                        {
+                            var client = personMatch.Person.Clients.FirstOrDefault();
+                            var summries = _summaryService.Generate(client).ToList();
+                            rc.Client.ClientSummaries = Mapper.Map<List<ClientSummaryInfo>>(summries);
+                        }
+                        catch (Exception e)
+                        {
+                           Log.Debug($"{e}");
+                        }
+                       
                         personData.Add(rc);
+                    }
                 }
 
                 foreach (var remoteClientInfo in personData)
                 {
                     //
+
                 }
 
                 

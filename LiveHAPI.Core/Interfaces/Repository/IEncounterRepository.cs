@@ -7,5 +7,6 @@ namespace LiveHAPI.Core.Interfaces.Repository
     public interface IEncounterRepository : IRepository<Encounter,Guid>
     {
         List<Encounter> LoadEncounters(Guid clientId);
+        IEnumerable<Encounter> LoadByUser(Guid userId);
     }
 }

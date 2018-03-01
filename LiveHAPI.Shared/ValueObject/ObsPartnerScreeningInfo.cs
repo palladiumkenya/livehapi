@@ -15,6 +15,9 @@ namespace LiveHAPI.Shared.ValueObject
         public Guid SexuallyUncomfortable { get; set; }
         public Guid HivStatus { get; set; }
         public Guid Eligibility { get; set; }
+
+        public Guid IndexClientId { get; set; }
+
         public Guid? PNSApproach { get; set; }
         public Guid? LivingWithClient { get; set; }
         public Guid? PNSRealtionship { get; set; }

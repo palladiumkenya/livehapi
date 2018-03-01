@@ -59,10 +59,12 @@ namespace LiveHAPI.Infrastructure
 
         #region Provider
         public DbSet<Provider> Providers { get; set; }
+        
         #endregion
 
         #region User
-        public DbSet<User> Users { get; set; } 
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserSummary> UserSummaries { get; set; }
         #endregion
 
         #region Client
@@ -70,6 +72,8 @@ namespace LiveHAPI.Infrastructure
         public DbSet<ClientAttribute> ClientAttributes { get; set; }
         public DbSet<ClientIdentifier> ClientIdentifiers { get; set; }
         public DbSet<ClientRelationship> ClientRelationships { get; set; }
+        public DbSet<ClientState> ClientStates { get; set; }
+        public DbSet<ClientSummary> ClientSummaries { get; set; }
         #endregion
 
         #region Encounter
