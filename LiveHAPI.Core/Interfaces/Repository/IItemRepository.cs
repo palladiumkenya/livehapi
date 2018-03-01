@@ -1,0 +1,10 @@
+﻿using System;
+using LiveHAPI.Core.Model.Lookup;
+
+namespace LiveHAPI.Core.Interfaces.Repository
+{
+    public interface IItemRepository : IRepository<Item,Guid>
+    {
+        
+    }
+}

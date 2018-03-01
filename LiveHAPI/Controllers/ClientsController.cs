@@ -12,6 +12,7 @@ using LiveHAPI.Shared.ValueObject;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Model;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -169,7 +170,8 @@ namespace LiveHAPI.Controllers
                     
                     foreach (var client in personMatch.Person.Clients)
                     {
-                        var isPos = client.IsPos();
+                        var isInHts = client.IsInState(LiveState.HtsEnrolled);
+                        var isPos = client.IsInState(LiveState.HtsTestedPos);
                         var isFam = client.IsFamilyContact();
                         var isPat = client.IsPartnerContact();
 

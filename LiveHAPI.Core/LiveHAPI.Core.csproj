@@ -17,6 +17,7 @@
     <Compile Include="Model\Encounters\ObsPartnerTraceResult.cs" />
     <Compile Include="Model\Lookup\MasterFacility.cs" />
     <Compile Include="Model\People\ClientState.cs" />
+    <Compile Include="Model\People\ClientSummary.cs" />
     <Compile Include="Model\People\PersonMatch.cs" />
     <Compile Include="Model\People\PersonName.cs" />
     <Compile Include="Model\QModel\Action.cs" />

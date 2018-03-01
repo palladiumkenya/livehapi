@@ -71,6 +71,7 @@ namespace LiveHAPI.Infrastructure
         public DbSet<ClientIdentifier> ClientIdentifiers { get; set; }
         public DbSet<ClientRelationship> ClientRelationships { get; set; }
         public DbSet<ClientState> ClientStates { get; set; }
+        public DbSet<ClientSummary> ClientSummaries { get; set; }
         #endregion
 
         #region Encounter

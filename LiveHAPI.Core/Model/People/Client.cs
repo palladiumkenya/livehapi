@@ -32,6 +32,7 @@ namespace LiveHAPI.Core.Model.People
         public ICollection<ClientAttribute> Attributes { get; set; } = new List<ClientAttribute>();
         public ICollection<Encounter> Encounters { get; set; } = new List<Encounter>();
         public ICollection<ClientState> ClientStates { get; set; }=new List<ClientState>();
+        private ICollection<ClientSummary> ClientSummaries { get; set; }=new List<ClientSummary>();
 
         public Client()
         {
@@ -175,6 +176,49 @@ namespace LiveHAPI.Core.Model.People
             return false;
         }
 
+        public bool IsInState(params LiveState[] states)
+        {
+            if (null != ClientStates && ClientStates.Any() && states.Length > 0)
+            {
+                var found = ClientStates.Where(x => states.Contains(x.Status)).ToList();
+                return found.Count == states.Length;
+            }
+            return false;
+        }
+
+        public bool IsInAnyState(params LiveState[] states)
+        {
+            if (null != ClientStates && ClientStates.Any() && states.Length > 0)
+            {
+                var found = ClientStates.Where(x => states.Contains(x.Status)).ToList();
+                return found.Count > 0;
+            }
+
+            return false;
+        }
+
+        public bool IsInState(Guid indexId, params LiveState[] states)
+        {
+            if (null != ClientStates && ClientStates.Any(x => null != x.IndexClientId && x.IndexClientId == indexId) &&
+                states.Length > 0)
+            {
+                var found = ClientStates.Where(x => states.Contains(x.Status) && x.IndexClientId == indexId).ToList();
+                return found.Count == states.Length;
+            }
+
+            return false;
+        }
+        public bool IsInAnyState(Guid indexId, params LiveState[] states)
+        {
+            if (null != ClientStates && ClientStates.Any(x => null != x.IndexClientId && x.IndexClientId == indexId) &&
+                states.Length > 0)
+            {
+                var found = ClientStates.Where(x => states.Contains(x.Status) && x.IndexClientId == indexId).ToList();
+                return found.Count > 0;
+            }
+
+            return false;
+        }
         public override string ToString()
         {
             var info = $"{Id}({PersonId}) {MaritalStatus}|{KeyPop}";
