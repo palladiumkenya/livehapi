@@ -27,4 +27,8 @@ namespace LiveHAPI.Shared.ValueObject
             StatusDate = statusDate;
         }
     }
+
+
+  
+ 
 }

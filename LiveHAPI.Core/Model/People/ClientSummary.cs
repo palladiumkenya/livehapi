@@ -1,11 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.People
 {
-    public class ClientSummary : Entity<Guid>
+    public class ClientSummary : Entity<Guid>, IClientSummary
     {
         [MaxLength(100)]
         public string Area { get; set; }
