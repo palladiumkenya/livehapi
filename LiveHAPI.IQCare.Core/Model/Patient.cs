@@ -67,8 +67,8 @@ namespace LiveHAPI.IQCare.Core.Model
             var regDate = string.IsNullOrWhiteSpace(ids)
                 ? DateTime.Now.Date
                 : client.Identifiers.First().RegistrationDate;
-
-            return new Patient(
+            var patient=
+             new Patient(
                 client.Person.FirstName,
                 client.Person.MiddleName,
                 client.Person.LastName,
@@ -83,6 +83,7 @@ namespace LiveHAPI.IQCare.Core.Model
                 client.Person.Contacts.FirstOrDefault().Phone.ToString(),
                 Convert.ToInt32(GetTranslation("MaritalStatus", client.MaritalStatus,subscriberSystem,"0"))
                 );
+            return patient;
         }
 
 

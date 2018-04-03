@@ -17,11 +17,20 @@ namespace LiveHAPI.Infrastructure.Repository
         {
         }
 
-        public Client GetClient(Guid id)
+        public Client GetClient(Guid id,bool withIds = true)
         {
-            return Context.Clients
-                .Include(x => x.Identifiers)
-                .FirstOrDefault(x => x.Id == id);
+            if (withIds)
+            {
+                return Context.Clients
+                    .Include(x => x.Identifiers)
+                    .FirstOrDefault(x => x.Id == id);
+            }
+            else
+            {
+                return Context.Clients
+                    .FirstOrDefault(x => x.Id == id);
+            }
+            
         }
 
         public IEnumerable<PersonMatch> GetById(Guid id)
@@ -166,6 +175,31 @@ namespace LiveHAPI.Infrastructure.Repository
             }
             return personMatches;
         }
+
+        public void UpdateIds(List<ClientIdentifier> identifiers)
+        {
+            foreach (var clientIdentifier in identifiers)
+            {
+
+                var id = Context.ClientIdentifiers.AsNoTracking().FirstOrDefault(x => x.Id == clientIdentifier.Id);
+                if (null != id)
+                {
+                    id.Identifier = id.Identifier;
+                    id.RegistrationDate = id.RegistrationDate;
+                    Context.ClientIdentifiers.Update(id);
+                }
+                else
+                {
+                    Context.ClientIdentifiers.Add(id);
+                }
+            }
+        }
+
+        public void UpdateRelationships(List<ClientRelationship> relationships)
+        {
+         
+        }
+
         private int GetHit(Guid personId, List<SearchHit> searchHits)
         {
             var found = searchHits.FirstOrDefault(x => x.ItemId == personId);

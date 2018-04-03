@@ -23,10 +23,12 @@ namespace LiveHAPI.Controllers
     public class SummaryController : Controller
     {
         private readonly ISummaryService _summaryService;
+        private readonly IClientService _clientService;
 
-        public SummaryController(ISummaryService summaryService)
+        public SummaryController(ISummaryService summaryService, IClientService clientService)
         {
             _summaryService = summaryService;
+            _clientService = clientService;
         }
 
         [Route("user/{id}")]
@@ -37,6 +39,30 @@ namespace LiveHAPI.Controllers
             {
                 var userSummaries = _summaryService.Generate(id);
                 return Ok(userSummaries);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"Error generating summaries: {e}");
+                return StatusCode(500, "Error generating summaries");
+            }
+        }
+        [Route("client/{id}")]
+        [HttpGet]
+        public IActionResult GenerateClient(Guid id)
+        {
+            try
+            {
+                var personMatches = _clientService.FindById(id);
+                if (null != personMatches)
+                {
+                    var client = personMatches.FirstOrDefault().Person.Clients.FirstOrDefault();
+                    if (null != client)
+                    {
+                        var clientSummaries = _summaryService.Generate(client);
+                        return Ok(clientSummaries);
+                    }
+                }
+                return NotFound();
             }
             catch (Exception e)
             {

@@ -37,5 +37,8 @@
         PartnerEligibileNo,
         PartnerTracedContacted,
         PartnerTracedNotcontacted,
+
+        HtsSmartCardEnrolled,
+        HtsTested
     }
 }
