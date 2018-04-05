@@ -565,7 +565,7 @@ namespace LiveHAPI.IQCare.Infrastructure.Repository
                         SET 
 	                        [{subscriberMap.SubField}]= {GetValue(encounter, subscriberMap,subscriberSystem,99)}
                         WHERE 
-	                        mAfyaId='{mAfyId}';
+	                        mAfyaId='{mAfyId}'  AND [Visit_Pk]=@visitipk AND  Ptn_Pk=@ptnpk;;
                     ";
                         actions.Add(new SqlAction(rank, sql223));
                         rank++;
