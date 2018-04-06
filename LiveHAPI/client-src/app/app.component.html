@@ -1,0 +1,12 @@
+<div class="layout-wrapper" [ngClass]="{'layout-compact':layoutCompact}" (click)="onLayoutClick()">
+  <div class="layout-container">
+    <liveapp-top-bar></liveapp-top-bar>
+    <div class="layout-main">
+      <div class="layout-content">
+        <liveapp-welcome></liveapp-welcome>
+        <liveapp-footer></liveapp-footer>
+      </div>
+    </div>
+    <div class="layout-mask"></div>
+  </div>
+</div>

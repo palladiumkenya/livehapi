@@ -23,6 +23,7 @@ using LiveHAPI.Shared.ValueObject;
 using LiveHAPI.Shared.ValueObject.Meta;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -192,6 +193,10 @@ namespace LiveHAPI
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             AutoMapper.Mapper.Initialize(cfg =>
             {
