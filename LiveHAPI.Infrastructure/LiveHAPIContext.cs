@@ -77,6 +77,7 @@ namespace LiveHAPI.Infrastructure
         #endregion
 
         #region Encounter
+        public DbSet<PSmartStore> PSmartStores { get; set; }
         public DbSet<Encounter> Encounters { get; set; }
         public DbSet<Obs> Obses { get; set; }
         public DbSet<ObsFinalTestResult> ObsFinalTestResults { get; set; }

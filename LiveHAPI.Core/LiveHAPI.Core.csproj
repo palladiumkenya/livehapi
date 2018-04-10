@@ -15,6 +15,7 @@
     <Compile Include="Model\Encounters\ObsMemberScreening.cs" />
     <Compile Include="Model\Encounters\ObsPartnerScreening.cs" />
     <Compile Include="Model\Encounters\ObsPartnerTraceResult.cs" />
+    <Compile Include="Model\Encounters\PSmartStore.cs" />
     <Compile Include="Model\Lookup\MasterFacility.cs" />
     <Compile Include="Model\People\ClientState.cs" />
     <Compile Include="Model\People\UserSummary.cs" />
