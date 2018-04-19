@@ -20,11 +20,11 @@ using Serilog;
 
 namespace LiveHAPI.IQCare.Infrastructure.Repository
 {
-    public class PSmartStoreRepository : BaseRepository, IPSmartStoreRepository
+    public class PStoreRepository : BaseRepository, IPStoreRepository
     {
         private List<SqlAction> _sqlActions;
 
-        public PSmartStoreRepository(EMRContext context) : base(context)
+        public PStoreRepository(EMRContext context) : base(context)
         {
         }
 

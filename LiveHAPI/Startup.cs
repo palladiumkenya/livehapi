@@ -97,6 +97,7 @@ namespace LiveHAPI
       services.AddScoped<IUserSummaryRepository, UserSummaryRepository>();
       services.AddScoped<IClientSummaryRepository, ClientSummaryRepository>();
       services.AddScoped<IItemRepository, ItemRepository>();
+      services.AddScoped<IPSmartStoreRepository, PSmartStoreRepository>();
 
       services.AddScoped<IMetaService, MetaService>();
       services.AddScoped<IStaffService, StaffService>();
@@ -104,6 +105,7 @@ namespace LiveHAPI
       services.AddScoped<IClientService, ClientService>();
       services.AddScoped<IEncounterService, EncounterService>();
       services.AddScoped<IFormsService, FormsService>();
+      services.AddScoped<IPSmartStoreService, PSmartStoreService>();
 
       services.AddScoped<IClientSavedHandler, ClientSavedHandler>();
       services.AddScoped<IEncounterSavedHandler, EncounterSavedHandler>();
@@ -111,7 +113,9 @@ namespace LiveHAPI
       services.AddScoped<IConfigRepository, ConfigRepository>();
       services.AddScoped<IPatientRepository, PatientRepository>();
       services.AddScoped<IPatientEncounterRepository, PatientEncounterRepository>();
-
+      services.AddScoped<IPStoreRepository, PStoreRepository>();
+      services.AddScoped<IPatientFamilyRepository, PatientFamilyRepository>();
+      
       services.AddScoped<ISetupService, SetupService>();
       services.AddScoped<ISetupFacilty, SetupFacilty>();
       services.AddScoped<ISummaryService, SummaryService>();

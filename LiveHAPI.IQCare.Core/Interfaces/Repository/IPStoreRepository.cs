@@ -7,7 +7,7 @@ using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.IQCare.Core.Interfaces.Repository
 {
-    public interface IPSmartStoreRepository
+    public interface IPStoreRepository
     {        
         void CreateOrUpdate(List<PSmartStoreInfo> storeInfos, SubscriberSystem subscriberSystem, Location location);
     }

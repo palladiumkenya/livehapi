@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  info = 'This is the Afya Mobile API that will allow EMR subscribers access to data sent from devices running Afya Mobile.';
+  info = 'This is the Afya Mobile API that will allow EMR subscribers access to data sent from devices running Afya Mobile HTS Module';
 
   constructor() { }
 

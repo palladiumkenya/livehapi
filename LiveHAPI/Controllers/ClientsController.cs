@@ -349,7 +349,7 @@ namespace LiveHAPI.Controllers
       }
     }
 
-    [HttpPost("shr")]
+    [HttpPost("shrs")]
     public IActionResult CreateShrEncounters([FromBody] List<PSmartStoreInfo> encounters)
     {
       if (null == encounters)

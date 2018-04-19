@@ -5,7 +5,6 @@ using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.IQCare.Core.Interfaces.Repository;
-using IPSmartStoreRepository = LiveHAPI.IQCare.Core.Interfaces.Repository.IPSmartStoreRepository;
 
 
 namespace LiveHAPI.IQCare.Core.Handlers
@@ -13,9 +12,9 @@ namespace LiveHAPI.IQCare.Core.Handlers
     public class PSmartStoreSavedHandler : IPSmartStoreSavedHandler
     {
         private readonly IConfigRepository _configRepository;
-        private readonly IPSmartStoreRepository _encounterRepository;
+        private readonly IPStoreRepository _encounterRepository;
 
-        public PSmartStoreSavedHandler(IPSmartStoreRepository encounterRepository, IConfigRepository configRepository)
+        public PSmartStoreSavedHandler(IPStoreRepository encounterRepository, IConfigRepository configRepository)
         {
             _encounterRepository = encounterRepository;
             _configRepository = configRepository;
