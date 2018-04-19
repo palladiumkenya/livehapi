@@ -263,3 +263,4 @@ __pycache__/
 /Templates/AI/LiveHAPI-cache
 /Templates/AI/LiveHAPI-SetupFiles
 /Templates/AI/hapistart.bat
+/LiveHAPI/wwwroot
