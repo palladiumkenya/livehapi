@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using LiveHAPI.Core.Interfaces.Services;
@@ -44,7 +44,6 @@ namespace LiveHAPI
             _configRepository.CreateOrUpdateGroup(new Group("Afya Mobile"));
             _configRepository.CreateGroupFeature("Afya Mobile", featureIds);
             _configRepository.AssignUsersToGroup(userIds, "Afya Mobile");
-
         }
     }
 }

@@ -17,16 +17,16 @@ namespace LiveHAPI.Core.Service
             _pSmartStoreRepository = pSmartStoreRepository;
         }
 
-        public void Sync(List<PSmartStoreInfo> encounterInfos)
+        public void Sync(List<PSmartStoreInfo> infos)
         {
-            var stores = PSmartStore.Create(encounterInfos);
+            var stores = PSmartStore.Create(infos);
             _pSmartStoreRepository.InsertOrUpdate(stores);
             _pSmartStoreRepository.Save();
         }
 
-        public void Sync(PSmartStoreInfo encounterInfo)
+        public void Sync(PSmartStoreInfo info)
         {
-            var pSmartStore = PSmartStore.Create(encounterInfo);
+            var pSmartStore = PSmartStore.Create(info);
             _pSmartStoreRepository.InsertOrUpdate(pSmartStore);
             _pSmartStoreRepository.Save();
         }
