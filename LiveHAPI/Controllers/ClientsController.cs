@@ -43,8 +43,7 @@ namespace LiveHAPI.Controllers
       _subscriberSystemRepository = subscriberSystemRepository;
       _summaryService = summaryService;
       _pSmartStoreService = pSmartStoreService;
-
-      _subscriberSystem = _subscriberSystemRepository.GetDefault();
+     _subscriberSystem = _subscriberSystemRepository.GetDefault();
     }
 
     [Route("name/{name}")]
