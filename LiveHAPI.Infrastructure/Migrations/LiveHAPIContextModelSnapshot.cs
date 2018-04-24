@@ -398,6 +398,29 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.ToTable("ObsTraceResults");
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.Encounters.PSmartStore", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("Date_Created");
+
+                    b.Property<string>("Shr");
+
+                    b.Property<string>("Status")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime?>("Status_Date");
+
+                    b.Property<Guid>("Uuid");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PSmartStores");
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.Lookup.Category", b =>
                 {
                     b.Property<Guid>("Id")

@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -26,10 +28,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="hapistart.bat" />
     <None Remove="htchapi001.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="hapistart.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="htchapi001.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

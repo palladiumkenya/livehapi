@@ -16,6 +16,7 @@ namespace LiveHAPI.Core.Service
         private readonly IPersonRepository _personRepository;
         private readonly IClientRepository _clientRepository;
         
+        
         public ClientService(IPracticeRepository practiceRepository, IPersonRepository personRepository, IClientRepository clientRepository)
         {
             _practiceRepository = practiceRepository;
@@ -125,12 +126,15 @@ namespace LiveHAPI.Core.Service
                 _personRepository.Update(exisitngPerson);
                 _personRepository.Save();
 
-                var existingClient = _clientRepository.GetClient(client.Id);
+                var existingClient = _clientRepository.GetClient(client.Id,false);
 
                 if (null != existingClient)
                 {
                     existingClient.Update(client);
-                    _clientRepository.Update(existingClient);
+                   var clientToUpdate = existingClient;
+                    clientToUpdate.Identifiers=new List<ClientIdentifier>();
+                    _clientRepository.Update(clientToUpdate);
+                    _clientRepository.UpdateIds(existingClient.Identifiers.ToList());
                 }
                 else
                 {

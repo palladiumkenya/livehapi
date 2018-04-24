@@ -260,3 +260,7 @@ paket-files/
 __pycache__/
 *.pyc
 /LiveHAPI/logs
+/Templates/AI/LiveHAPI-cache
+/Templates/AI/LiveHAPI-SetupFiles
+/Templates/AI/hapistart.bat
+/LiveHAPI/wwwroot
