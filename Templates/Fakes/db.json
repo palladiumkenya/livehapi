@@ -1,0 +1,80 @@
+{
+   "getFacilities":[
+    {
+      "FacilityID": 1,
+      "FacilityName": "FacilityName1",
+      "PosID": 10000,
+      "Preferred": 0
+    },
+    {
+      "FacilityID": 2,
+      "FacilityName": "FacilityName2",
+      "PosID": 10001,
+      "Preferred": 1
+    },
+    {
+      "FacilityID": 3,
+      "FacilityName": "FacilityName3",
+      "PosID": 10002,
+      "Preferred": 0
+    }
+  ],
+  "getUsers":[
+    {
+      "UserId": 1,
+      "UserName": "UserName1",
+      "Password": "Password1",
+      "UserLastName": "UserLastName1",
+      "UserFirstName": "UserFirstName1"
+    },
+    {
+      "UserId": 2,
+      "UserName": "UserName2",
+      "Password": "Password2",
+      "UserLastName": "UserLastName2",
+      "UserFirstName": "UserFirstName2"
+    },
+    {
+      "UserId": 3,
+      "UserName": "UserName3",
+      "Password": "Password3",
+      "UserLastName": "UserLastName3",
+      "UserFirstName": "UserFirstName3"
+    },
+    {
+      "UserId": 4,
+      "UserName": "UserName4",
+      "Password": "Password4",
+      "UserLastName": "UserLastName4",
+      "UserFirstName": "UserFirstName4"
+    },
+    {
+      "UserId": 5,
+      "UserName": "UserName5",
+      "Password": "Password5",
+      "UserLastName": "UserLastName5",
+      "UserFirstName": "UserFirstName5"
+    },
+    {
+      "UserId": 6,
+      "UserName": "UserName6",
+      "Password": "Password6",
+      "UserLastName": "UserLastName6",
+      "UserFirstName": "UserFirstName6"
+    },
+    {
+      "UserId": 7,
+      "UserName": "UserName7",
+      "Password": "Password7",
+      "UserLastName": "UserLastName7",
+      "UserFirstName": "UserFirstName7"
+    },
+    {
+      "UserId": 8,
+      "UserName": "UserName8",
+      "Password": "Password8",
+      "UserLastName": "UserLastName8",
+      "UserFirstName": "UserFirstName8"
+    }
+  ]
+}
