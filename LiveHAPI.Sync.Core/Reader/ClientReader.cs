@@ -1,18 +1,19 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using LiveHAPI.Sync.Core.Interface;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Sync.Core.Interface.Readers;
+using Serilog;
 
 namespace LiveHAPI.Sync.Core.Reader
 {
     public abstract class ClientReader<T>:IClientReader<T>
     {
         private readonly HttpClient _httpClient;
-        protected ClientReader(HttpClient httpClient)
+        protected ClientReader(IRestClient restClient)
         {
-            _httpClient = httpClient;
+            _httpClient = restClient.Client;
         }
 
         public virtual Task<IEnumerable<T>> Read()
@@ -22,8 +23,18 @@ namespace LiveHAPI.Sync.Core.Reader
 
         protected async Task<IEnumerable<T>> Read(string endpoint)
         {
-            var response = await _httpClient.GetAsync(endpoint);
-            var result = await response.Content.ReadAsJsonAsync<List<T>>();
+            var result=new List<T>();
+            try
+            {
+                var response = await _httpClient.GetAsync(endpoint);
+                result = await response.Content.ReadAsJsonAsync<List<T>>();
+            }
+            catch (Exception e)
+            {
+                Log.Error($"error reading endpint [{endpoint}] for {typeof(T).Name}");
+                Log.Error($"{e}");
+            }
+            
             return result;
         }
     }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using LiveHAPI.Sync.Core.Interface;
+using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Reader;
 using NUnit.Framework;
 
@@ -11,15 +12,12 @@ namespace LiveHAPI.Sync.Core.Tests.Reader
     public class ClientUserReaderTests
     {
         private readonly string _baseUrl = "http://localhost:3333";
-        private HttpClient _httpClient;
         private IClientUserReader _reader;
 
         [SetUp]
         public void Setup()
         {
-            _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri(_baseUrl);
-            _reader = new ClientUserReader(_httpClient);
+            _reader = new ClientUserReader(new RestClient(_baseUrl));
         }
 
         [Test]
