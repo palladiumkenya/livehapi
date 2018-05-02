@@ -27,11 +27,6 @@ namespace LiveHAPI.Sync.Core.Tests.Service
         private ISyncUserService _service;
         private IClientUserReader _reader;
 
-        [OneTimeSetUp]
-        public void Init()
-        {
-            Mapper.Initialize(cfg => { cfg.AddProfile<ClientProfile>(); });
-        }
         [SetUp]
         public void SetUp()
         {

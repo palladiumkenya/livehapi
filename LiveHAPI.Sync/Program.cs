@@ -10,26 +10,34 @@ using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
 using LiveHAPI.Sync.Core.Interface.Readers;
+using LiveHAPI.Sync.Core.Interface.Schedulers;
 using LiveHAPI.Sync.Core.Interface.Services;
 using LiveHAPI.Sync.Core.Profiles;
 using LiveHAPI.Sync.Core.Reader;
 using LiveHAPI.Sync.Core.Service;
+using LiveHAPI.Sync.Schedulers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Quartz.Logging;
 
 namespace LiveHAPI.Sync
 {
     class Program
     {
+        public static IServiceProvider ServiceProvider { get; private set; }
+        public  static ISyncConfigScheduler SyncConfigScheduler { get; private set; }
         static void Main(string[] args)
         {
+            System.AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
+
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .WriteTo.Console()
                 .WriteTo.RollingFile("logs\\hapisync-{Date}.txt")
                 .CreateLogger();
+
+            Log.Debug("initializing Sync...");
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -48,17 +56,11 @@ namespace LiveHAPI.Sync
             Log.Debug($"    {connectionString}");
             Log.Debug(new string('-', 40));
 
-//            var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
-//            services.AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString));
-//
-//            var emrconnectionString = Startup.Configuration["connectionStrings:EMRConnection"];
-//            services.AddDbContext<EMRContext>(o => o.UseSqlServer(emrconnectionString));
-
-            var serviceProvider = new ServiceCollection()
+            ServiceProvider = new ServiceCollection()
 
                 .AddSingleton<IRestClient>(new RestClient(configuration["endpoints:iqcare"]))
                 .AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString))
-                
+
                 .AddScoped<IUserRepository, UserRepository>()
                 .AddScoped<IPracticeRepository, PracticeRepository>()
                 .AddScoped<IPersonRepository, PersonRepository>()
@@ -69,30 +71,34 @@ namespace LiveHAPI.Sync
                 .AddScoped<ISyncUserService, SyncUserService>()
                 .AddScoped<ISyncFacilityService, SyncFacilityService>()
 
-                .BuildServiceProvider();
+                .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(configuration["syncInterval:config"]))
+              
 
-            Log.Debug("starting Sync...");
+                .BuildServiceProvider();
 
             Mapper.Initialize(cfg => { cfg.AddProfile<ClientProfile>(); });
 
-            //readusers
-            var reader = serviceProvider.GetService<IClientUserReader>();
-            var users = reader.Read().Result.ToList();
-            foreach (var user in users)
+            Log.Debug("starting Sync...");
+
+            try
             {
-                Console.WriteLine(user);
+                SyncConfigScheduler = ServiceProvider.GetService<ISyncConfigScheduler>();
+                SyncConfigScheduler.Run();
+            }
+            catch (Exception e)
+            {
+                Log.Error("Sync startup error");
+                Log.Error($"{e}");
             }
 
-            Log.Debug(new string('-', 40));
-            //readfacs
-            var facReader = serviceProvider.GetService<IClientFacilityReader>();
-            var facilities = facReader.Read().Result.ToList();
-            foreach (var facility in facilities)
-            {
-                Console.WriteLine(facility);
-            }
+            Console.ReadLine();
+        }
 
-            Console.ReadKey();
+        private static void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        {
+            Log.Debug("stopping Sync...");
+            SyncConfigScheduler.Shutdown();
+            Log.Debug("Sync stopped");
         }
     }
 }
