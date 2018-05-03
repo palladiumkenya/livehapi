@@ -20,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz.Logging;
+using Z.Dapper.Plus;
 
 namespace LiveHAPI.Sync
 {
@@ -46,6 +47,9 @@ namespace LiveHAPI.Sync
             IConfigurationRoot configuration = builder.Build();
             var endpoint = configuration["endpoints:iqcare"];
             var connectionString = configuration.GetConnectionString("hAPIConnection");
+            var syncInterval = configuration["syncInterval:config"];
+            var bulkConfigName = configuration["bulkConfig:name"];
+            var bulkConfigCode = configuration["bulkConfig:code"];
 
             Log.Debug($"configured endpoint");
             Log.Debug(new string('-', 40));
@@ -56,14 +60,28 @@ namespace LiveHAPI.Sync
             Log.Debug($"    {connectionString}");
             Log.Debug(new string('-', 40));
 
+            try
+            {
+                DapperPlusManager.AddLicense(bulkConfigName, bulkConfigCode);
+                if (!Z.Dapper.Plus.DapperPlusManager.ValidateLicense(out var licenseErrorMessage))
+                {
+                    throw new Exception(licenseErrorMessage);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                throw;
+            }
+
             ServiceProvider = new ServiceCollection()
 
-                .AddSingleton<IRestClient>(new RestClient(configuration["endpoints:iqcare"]))
+                .AddSingleton<IRestClient>(new RestClient(endpoint))
                 .AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString))
 
-                .AddSingleton<IUserRepository, UserRepository>()
-                .AddSingleton<IPracticeRepository, PracticeRepository>()
-                .AddSingleton<IPersonRepository, PersonRepository>()
+                .AddTransient<IUserRepository, UserRepository>()
+                .AddTransient<IPracticeRepository, PracticeRepository>()
+                .AddTransient<IPersonRepository, PersonRepository>()
 
                 .AddSingleton<IClientUserReader, ClientUserReader>()
                 .AddSingleton<IClientFacilityReader, ClientFacilityReader>()
@@ -71,7 +89,7 @@ namespace LiveHAPI.Sync
                 .AddSingleton<ISyncUserService, SyncUserService>()
                 .AddSingleton<ISyncFacilityService, SyncFacilityService>()
 
-                .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(configuration["syncInterval:config"]))
+                .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(syncInterval))
               
 
                 .BuildServiceProvider();

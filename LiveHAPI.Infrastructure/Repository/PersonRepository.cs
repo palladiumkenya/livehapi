@@ -35,6 +35,7 @@ namespace LiveHAPI.Infrastructure.Repository
                 .Include(x => x.Addresses)
                 .Include(x => x.Contacts)
                 .Include(x => x.Names)
+                .Include(x=>x.Providers)
                 .FirstOrDefault(x => x.Id == id);
         }
 

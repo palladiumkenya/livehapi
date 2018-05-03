@@ -39,13 +39,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.Tests", "LiveHAPI.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sync", "Sync", "{9D0DEB0A-B084-442F-B638-B4D389E6700B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveHAPI.Sync.Core", "LiveHAPI.Sync.Core\LiveHAPI.Sync.Core.csproj", "{957226C9-0A29-4468-A4C6-DE857B0DC20F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.Sync.Core", "LiveHAPI.Sync.Core\LiveHAPI.Sync.Core.csproj", "{957226C9-0A29-4468-A4C6-DE857B0DC20F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{BA60706A-CE59-4887-A242-BC934C53F167}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveHAPI.Sync.Core.Tests", "LiveHAPI.Sync.Core.Tests\LiveHAPI.Sync.Core.Tests.csproj", "{AF20B4CC-1100-4175-9BB9-3034410E4BCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.Sync.Core.Tests", "LiveHAPI.Sync.Core.Tests\LiveHAPI.Sync.Core.Tests.csproj", "{AF20B4CC-1100-4175-9BB9-3034410E4BCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveHAPI.Sync", "LiveHAPI.Sync\LiveHAPI.Sync.csproj", "{EB537D16-048A-4AE4-8C1E-EE5C7C2556C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveHAPI.Sync", "LiveHAPI.Sync\LiveHAPI.Sync.csproj", "{EB537D16-048A-4AE4-8C1E-EE5C7C2556C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

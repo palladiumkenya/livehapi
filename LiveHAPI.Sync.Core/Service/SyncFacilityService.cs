@@ -27,13 +27,8 @@ namespace LiveHAPI.Sync.Core.Service
             var clientFacilities = await _clientFacilityReader.Read();
 
             var practices = Mapper.Map<List<Practice>>(clientFacilities);
-            int count = 0;
-            foreach (var practice in practices)
-            {
-                _practiceRepository.Sync(practice);
-                count++;
-            }
-
+            int count = practices.Count;
+            _practiceRepository.Sync(practices);
             return count;
         }
     }

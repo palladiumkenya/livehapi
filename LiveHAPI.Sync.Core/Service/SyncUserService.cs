@@ -26,13 +26,8 @@ namespace LiveHAPI.Sync.Core.Service
             var clientUsers = await _clientUserReader.Read();
 
             var users = Mapper.Map<List<User>>(clientUsers);
-            int count = 0;
-            foreach (var user in users)
-            {
-                _userRepository.Sync(user);
-                count++;
-            }
-
+            int count = users.Count;
+            _userRepository.Sync(users);
             return count;
         }
     }
