@@ -61,15 +61,15 @@ namespace LiveHAPI.Sync
                 .AddSingleton<IRestClient>(new RestClient(configuration["endpoints:iqcare"]))
                 .AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString))
 
-                .AddScoped<IUserRepository, UserRepository>()
-                .AddScoped<IPracticeRepository, PracticeRepository>()
-                .AddScoped<IPersonRepository, PersonRepository>()
+                .AddSingleton<IUserRepository, UserRepository>()
+                .AddSingleton<IPracticeRepository, PracticeRepository>()
+                .AddSingleton<IPersonRepository, PersonRepository>()
 
-                .AddScoped<IClientUserReader, ClientUserReader>()
-                .AddScoped<IClientFacilityReader, ClientFacilityReader>()
+                .AddSingleton<IClientUserReader, ClientUserReader>()
+                .AddSingleton<IClientFacilityReader, ClientFacilityReader>()
 
-                .AddScoped<ISyncUserService, SyncUserService>()
-                .AddScoped<ISyncFacilityService, SyncFacilityService>()
+                .AddSingleton<ISyncUserService, SyncUserService>()
+                .AddSingleton<ISyncFacilityService, SyncFacilityService>()
 
                 .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(configuration["syncInterval:config"]))
               
