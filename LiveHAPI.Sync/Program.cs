@@ -77,17 +77,21 @@ namespace LiveHAPI.Sync
             ServiceProvider = new ServiceCollection()
 
                 .AddSingleton<IRestClient>(new RestClient(endpoint))
+
                 .AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString))
 
-                .AddTransient<IUserRepository, UserRepository>()
-                .AddTransient<IPracticeRepository, PracticeRepository>()
-                .AddTransient<IPersonRepository, PersonRepository>()
+                .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<IPracticeRepository, PracticeRepository>()
+                .AddScoped<IPersonRepository, PersonRepository>()
+                .AddScoped<ISubscriberTranslationRepository, SubscriberTranslationRepository>()
+               
+                .AddScoped<IClientUserReader, ClientUserReader>()
+                .AddScoped<IClientFacilityReader, ClientFacilityReader>()
+                .AddScoped<IClientLookupReader, ClientLookupReader>()
 
-                .AddSingleton<IClientUserReader, ClientUserReader>()
-                .AddSingleton<IClientFacilityReader, ClientFacilityReader>()
-
-                .AddSingleton<ISyncUserService, SyncUserService>()
-                .AddSingleton<ISyncFacilityService, SyncFacilityService>()
+                .AddScoped<ISyncUserService, SyncUserService>()
+                .AddScoped<ISyncFacilityService, SyncFacilityService>()
+                .AddScoped<ISyncLookupService, SyncLookupService>()
 
                 .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(syncInterval))
               

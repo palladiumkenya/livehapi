@@ -32,7 +32,8 @@ namespace LiveHAPI.Sync.Schedulers
             var jobs = new List<Type>
             {
                 typeof(SyncFacilitiesJob),
-                typeof(SyncUsersJob)
+                typeof(SyncUsersJob),
+                typeof(SyncLookupsJob)
             };
 
             foreach (var job in jobs)
