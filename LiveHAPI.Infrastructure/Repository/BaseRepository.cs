@@ -15,6 +15,7 @@ namespace LiveHAPI.Infrastructure.Repository
 
         internal LiveHAPIContext Context;
         internal DbSet<T> DbSet;
+        private SqlConnection _connection;
 
         protected BaseRepository(LiveHAPIContext context)
         {
@@ -108,14 +109,20 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public IDbConnection GetDbConnection(bool open = true)
         {
-            var connection = new SqlConnection(Context.Database.GetDbConnection().ConnectionString);
+           _connection = new SqlConnection(Context.Database.GetDbConnection().ConnectionString);
+
             if (open)
             {
-                if (connection.State != ConnectionState.Open)
-                    connection.Open();
-                return connection;
+                if (_connection.State != ConnectionState.Open)
+                    _connection.Open();
+                return _connection;
             }
-            return connection;
+            return _connection;
+        }
+
+        public void CloseDbConnection()
+        {
+            _connection?.Dispose();
         }
     }
 }

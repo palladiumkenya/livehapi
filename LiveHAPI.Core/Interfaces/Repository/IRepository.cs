@@ -24,5 +24,6 @@ namespace LiveHAPI.Core.Interfaces.Repository
 
         void Save();
         IDbConnection GetDbConnection(bool open = true);
+        void CloseDbConnection();
     }
 }

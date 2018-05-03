@@ -26,7 +26,14 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public User GetByUser(string username)
         {
-            return GetDbConnection().GetAll<User>().FirstOrDefault(x => x.UserName.ToLower().Trim() == username.ToLower().Trim());
+            User user;
+            using (var con = GetDbConnection())
+            {
+                user= con.GetAll<User>()
+                    .FirstOrDefault(x => x.UserName.ToLower().Trim() == username.ToLower().Trim());
+            }
+
+            return user;
         }
 
         public void Sync(User user)
@@ -127,7 +134,7 @@ namespace LiveHAPI.Infrastructure.Repository
                 else
                 {
                     //  PracticeId
-                    var practiceId = GetPracticeId();
+                    var practiceId = GetFacilityId();
 
                     //  Person
                     var person = new Person();
@@ -157,12 +164,16 @@ namespace LiveHAPI.Infrastructure.Repository
                 }
             }
 
-            GetDbConnection().BulkUpdate(updateList);
-            GetDbConnection().BulkUpdate(personNameUpdateList);
-            GetDbConnection().BulkUpdate(personUpdateList);
-            GetDbConnection().BulkInsert(personInsertList)
-                .AlsoBulkInsert(x => x.Names, x => x.Providers);
-            GetDbConnection().BulkInsert(insertList);
+            using (var con = GetDbConnection())
+            {
+
+                con.BulkUpdate(updateList);
+                con.BulkUpdate(personNameUpdateList);
+                con.BulkUpdate(personUpdateList);
+                con.BulkInsert(personInsertList)
+                    .AlsoBulkInsert(x => x.Names, x => x.Providers);
+                con.BulkInsert(insertList);
+            }
         }
 
         private Guid? GetPracticeId()
@@ -172,7 +183,13 @@ namespace LiveHAPI.Infrastructure.Repository
         }
         private Guid? GetFacilityId()
         {
-            var prac = GetDbConnection().GetAll<Practice>().FirstOrDefault(x => x.IsDefault && x.PracticeTypeId == "Facility");
+            Practice prac;
+            using (var con = GetDbConnection())
+            {
+                 prac = con.GetAll<Practice>()
+                    .FirstOrDefault(x => x.IsDefault && x.PracticeTypeId == "Facility");
+            }
+
             return prac?.Id;
         }
     }

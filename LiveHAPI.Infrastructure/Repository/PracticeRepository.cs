@@ -31,7 +31,12 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public Practice GetByFacilityCode(string code)
         {
-            return GetDbConnection().GetAll<Practice>().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
+            Practice practice;
+            using (var con=GetDbConnection())
+            {
+                 practice = con.GetAll<Practice>().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
+            }
+            return practice;
         }
 
         public void Sync(Practice practice)
@@ -93,8 +98,13 @@ namespace LiveHAPI.Infrastructure.Repository
                         defaultList.Add(practice.Id);
                 }
             }
-            GetDbConnection().BulkUpdate(updateList);
-            GetDbConnection().BulkInsert(insertList);
+
+            using (var con = GetDbConnection())
+            {
+                con.BulkUpdate(updateList);
+                con.BulkInsert(insertList);
+            }
+
             ResetDefault(defaultList);
         }
 
@@ -111,14 +121,20 @@ namespace LiveHAPI.Infrastructure.Repository
                     {
                         exisitngDefaultPrac.IsDefault = false;
                     }
-                    GetDbConnection().BulkUpdate(exisitngDefaultPracs);
+                    using (var con = GetDbConnection())
+                    {
+                        con.BulkUpdate(exisitngDefaultPracs);
+                    }
                 }
 
                 var newDefaultPrac = GetDbConnection().Get<Practice>(defaultId);
                 if (null != newDefaultPrac)
                 {
                     newDefaultPrac.IsDefault = true;
-                    GetDbConnection().BulkUpdate(newDefaultPrac);
+                    using (var con = GetDbConnection())
+                    {
+                        con.BulkUpdate(newDefaultPrac);
+                    }
                 }
             }
         }
