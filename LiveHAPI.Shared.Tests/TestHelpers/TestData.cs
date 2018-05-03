@@ -10,6 +10,7 @@ using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
+using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Shared.ValueObject;
 using Newtonsoft.Json;
 
@@ -61,7 +62,8 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
         private static List<EncounterInfo> _encounterInfos =new List<EncounterInfo>();
         private static List<ObsInfo> _obsInfos=new List<ObsInfo>();
 
-        
+        private static List<SubscriberSystem> _subscriberSystems = new List<SubscriberSystem>();
+        private static List<SubscriberTranslation> _subscriberTranslations = new List<SubscriberTranslation>();
 
 
         public static void Init()
@@ -111,6 +113,9 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _encounterInfos=new List<EncounterInfo>();
             _obsInfos=new List<ObsInfo>();
 
+            _subscriberSystems=new List<SubscriberSystem>();
+            _subscriberTranslations=new List<SubscriberTranslation>();
+
 
         _counties = TestCounties();
             _facilities = TestFacilities();
@@ -119,6 +124,8 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             _providerTypes = TestProviderTypes();
             _identifierTypes = TestIdentifierTypes();
             _relationshipTypes = TestRelationshipTypes();
+            _subscriberSystems = TestSubscriberSystem();
+            _subscriberTranslations = TestSubscriberTranslations();
 
             _pracs = TestPractices();
             _devices = TestDevices();
@@ -745,6 +752,46 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
             list[3].FormId = TestForms()[1].Id;
             return list;
         }
+
+        public static List<SubscriberSystem> TestSubscriberSystem()
+        {
+            if (_subscriberSystems.Count > 0) return _subscriberSystems;
+
+            var list = Builder<SubscriberSystem>.CreateListOfSize(2)
+                .All()
+                .With(x => x.Voided = false)
+                .With(x => x.IsDefault = false)
+                .Build()
+                .ToList();
+
+            /*
+                16e23866-9d69-11e7-abc4-cec278b6b50a|IQCare|0|0
+                16e23877-9d69-11e7-abc4-cec278b6b50a|IQCare (Kenya Care)|1|0
+             */
+            list[0].Id=new Guid("16e23866-9d69-11e7-abc4-cec278b6b50a");
+            list[0].Name = "IQCare";
+            list[0].IsDefault = false;
+
+            list[1].Id = new Guid("16e23877-9d69-11e7-abc4-cec278b6b50a");
+            list[1].Name = "IQCare (Kenya Care)";
+            list[1].IsDefault = true;
+            return list;
+        }
+
+        public static List<SubscriberTranslation> TestSubscriberTranslations()
+        {
+            if (_subscriberTranslations.Count > 0) return _subscriberTranslations;
+
+            var list = Builder<SubscriberTranslation>.CreateListOfSize(_count)
+                .All()
+                .With(x => x.Voided = false)
+                .With(x => x.SubscriberSystemId = TestSubscriberSystem()[0].Id)
+                .Build()
+                .ToList();
+
+            return list;
+        }
+
         public static List<ClientInfo> TestClientInfos()
         {
             if (_clientInfos.Count > 0) return _clientInfos;

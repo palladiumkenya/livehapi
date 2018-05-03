@@ -10,7 +10,13 @@ namespace LiveHAPI.Core.Model.Subscriber
         public string Code { get; set; }
         public string Display { get; set; }
         public string SubCode { get; set; }
+        /// <summary>
+        /// IQCare ItemName
+        /// </summary>
         public string SubDisplay { get; set; }
+        /// <summary>
+        /// IQCare MasterName
+        /// </summary>
         public string SubRef { get; set; }
         public bool IsText { get; set; }
         public int Group { get; set; }
@@ -24,6 +30,17 @@ namespace LiveHAPI.Core.Model.Subscriber
         public bool HasSub()
         {
             return !string.IsNullOrWhiteSpace(SubRef);
+        }
+
+        public override string ToString()
+        {
+            return $"{Ref}|{Display}|{Code} >><< {SubCode}|{SubDisplay} [{SubRef}]";
+
+        }
+
+        public void UpdateTo(SubscriberTranslation practice)
+        {
+            SubCode = practice.SubCode;
         }
     }
 }
