@@ -93,6 +93,51 @@ namespace LiveHAPI.Shared.Custom
             var dataAsString = await content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(dataAsString);
         }
+        public static string ToIqDate(this DateTime? dateTime)
+        {
+            try
+            {
+                return dateTime.HasValue ? dateTime.Value.ToIqDate() : string.Empty;
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+        public static string ToIqDateOnly(this DateTime? dateTime)
+        {
+            try
+            {
+                return dateTime.HasValue ? dateTime.Value.ToIqDateOnly() : string.Empty;
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
 
+        public static string ToIqDate(this DateTime dateTime)
+        {
+            try
+            {
+                return dateTime.Date.ToString("yyyyMMddHHmmss");
+            }
+            catch (Exception e)
+            {
+                return string.Empty;
+            }
+        }
+        public static string ToIqDateOnly(this DateTime dateTime)
+        {
+            try
+            {
+                return dateTime.Date.ToString("yyyyMMdd");
+
+            }
+            catch (Exception e)
+            {
+                return string.Empty;
+            }
+        }
     }
 }
