@@ -2,7 +2,8 @@
 
 namespace LiveHAPI.Sync.Core.Interface.Writers
 {
-    public interface IClientPatientWriter : IClientWriter<ClientPatient>
+    public interface IClientPatientWriter 
+
     {
         
     }

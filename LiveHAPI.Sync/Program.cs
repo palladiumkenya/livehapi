@@ -84,7 +84,8 @@ namespace LiveHAPI.Sync
                 .AddScoped<IPracticeRepository, PracticeRepository>()
                 .AddScoped<IPersonRepository, PersonRepository>()
                 .AddScoped<ISubscriberTranslationRepository, SubscriberTranslationRepository>()
-               
+                .AddScoped<IClientRepository, ClientRepository>()
+
                 .AddScoped<IClientUserReader, ClientUserReader>()
                 .AddScoped<IClientFacilityReader, ClientFacilityReader>()
                 .AddScoped<IClientLookupReader, ClientLookupReader>()

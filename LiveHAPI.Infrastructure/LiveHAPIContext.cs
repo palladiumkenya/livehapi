@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LiveHAPI.Core.Model.Encounters;
+using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
@@ -126,6 +127,7 @@ namespace LiveHAPI.Infrastructure
         public DbSet<SubscriberMap> SubscriberMaps { get; set; }
         public DbSet<SubscriberTranslation> SubscriberTranslations { get; set; }
         public DbSet<SubscriberCohort> SubscriberCohorts { get; set; }
+        public DbSet<ClientStage> ClientStages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -138,7 +140,7 @@ namespace LiveHAPI.Infrastructure
             DapperPlusManager.Entity<PersonContact>().Table("PersonContacts").Key(x => x.Id);
             DapperPlusManager.Entity<Provider>().Table("Providers").Key(x => x.Id);
             DapperPlusManager.Entity<SubscriberTranslation>().Table("SubscriberTranslations").Key(x => x.Id);
-
+            DapperPlusManager.Entity<ClientStage>().Table("ClientStages").Key(x => x.Id);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Shared.Custom;
@@ -23,6 +24,20 @@ namespace LiveHAPI.Core.Model.People
         public  ICollection<User> Users { get; set; } = new List<User>();
         public ICollection<Provider> Providers { get; set; }=new List<Provider>();        
         public ICollection<Client> Clients { get; set; } = new List<Client>();
+
+        [NotMapped]
+        public bool IsClient
+        {
+            get
+            {
+                if (Clients.Any())
+                {
+                    var client = Clients.FirstOrDefault();
+                    return null != client && client.IsInState(LiveState.HtsEnrolled);
+                } 
+                return false;
+            }
+        }
 
         public Person()
         {

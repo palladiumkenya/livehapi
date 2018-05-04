@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
@@ -18,12 +19,23 @@ namespace LiveHAPI.Core.Model.Subscriber
         public ICollection<SubscriberTranslation> Translations { get; set; }
         public ICollection<SubscriberCohort> Cohorts { get; set; }
 
-        [NotMapped]
-        public List<User> Users { get; set; }
+        [NotMapped] public List<User> Users { get; set; }
 
         public SubscriberSystem()
         {
             Id = LiveGuid.NewGuid();
+        }
+
+        public string GetTranslation(object code,string subref, string def)
+        {
+            var translation =
+                Translations.FirstOrDefault(x => x.SubRef.IsSameAs(subref) &&
+                                                 x.SubDisplay.IsSameAs(code.ToString()));
+
+            if (null != translation)
+                return translation.SubCode;
+
+            return def;
         }
     }
 }

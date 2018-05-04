@@ -174,6 +174,23 @@ namespace LiveHAPI.Infrastructure.Repository
             return personMatches;
         }
 
+        public IEnumerable<Person> GetAllClients()
+        {
+            return Context.Persons
+                .Include(x => x.Names)
+                .Include(x => x.Addresses)
+                .Include(x => x.Contacts)
+                .Include(x => x.Clients)
+                .ThenInclude(y => y.Identifiers)
+                .Include(x => x.Clients)
+                .ThenInclude(y => y.ClientStates).AsNoTracking().ToList().Where(x => x.IsClient);
+        }
+
+        public IEnumerable<Person> GetContacts(Guid clientId)
+        {
+            throw new NotImplementedException();
+        }
+
         private int GetHit(Guid personId, List<SearchHit> searchHits)
         {
             var found = searchHits.FirstOrDefault(x => x.ItemId == personId);

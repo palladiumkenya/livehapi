@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using IQCare.Security;
 
 namespace LiveHAPI.Shared.Custom
@@ -20,6 +21,12 @@ namespace LiveHAPI.Shared.Custom
                 IV = Encoding.ASCII.GetBytes("t3ilc0m3")
             };
             return decry.Decrypt(parameter, "3wmotherwdrtybnio12ewq23");
+        }
+
+        public static T SafeConvert<T>(this string s)
+        {
+           
+            return (T)Convert.ChangeType(s, typeof(T));
         }
     }
 }

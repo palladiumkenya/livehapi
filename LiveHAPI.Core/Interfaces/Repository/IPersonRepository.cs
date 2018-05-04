@@ -12,5 +12,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
         IEnumerable<Person> GetStaff();
         IEnumerable<PersonMatch> Search(string searchItem);
         IEnumerable<PersonMatch> GetByCohort(SubscriberCohort cohort);
+        IEnumerable<Person> GetAllClients();
+        IEnumerable<Person> GetContacts(Guid clientId);
     }
 }
