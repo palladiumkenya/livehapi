@@ -34,15 +34,13 @@ namespace LiveHAPI.Core.Model.Exchange
 
         public static ClientStage Create(Person person, SubscriberSystem subscriber)
         {
-            
             var clientStage=new ClientStage();
 
             if (person.Names.Any())
             {
                 clientStage.FirstName = person.Names.First().FirstName;
                 clientStage.MiddleName = person.Names.First().MiddleName;
-                clientStage.LastName = person.Names.First().LastName;
-                
+                clientStage.LastName = person.Names.First().LastName;               
             }
 
             clientStage.Sex = subscriber.GetTranslation(person.Gender, "Gender", "0").SafeConvert<int>();
@@ -52,7 +50,6 @@ namespace LiveHAPI.Core.Model.Exchange
                 var client = person.Clients.First();
                 clientStage.MaritalStatus = subscriber.GetTranslation(client.MaritalStatus, "HTSMaritalStatus", "0").SafeConvert<int>();
             }
-
 
             return clientStage;
         }
