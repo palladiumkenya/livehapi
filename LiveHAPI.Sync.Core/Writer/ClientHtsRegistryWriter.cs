@@ -15,7 +15,7 @@ namespace LiveHAPI.Sync.Core.Writer
 {
     public class ClientHtsRegistryWriter : ClientWriter<HtsRegistry>, IClientHtsRegistryWriter
     {
-        public ClientHtsRegistryWriter(IRestClient restClient, ILoader<HtsRegistry> loader) : base(restClient, loader)
+        public ClientHtsRegistryWriter(IRestClient restClient, IHtsRegistryLoader loader) : base(restClient, loader)
         {
         }
 

@@ -15,8 +15,10 @@ using LiveHAPI.Shared.Tests.TestHelpers;
 using LiveHAPI.Sync.Core.Exchange;
 using LiveHAPI.Sync.Core.Extractor;
 using LiveHAPI.Sync.Core.Interface.Extractors;
+using LiveHAPI.Sync.Core.Interface.Loaders;
 using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Interface.Writers;
+using LiveHAPI.Sync.Core.Loader;
 using LiveHAPI.Sync.Core.Reader;
 using LiveHAPI.Sync.Core.Writer;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +37,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
         private IClientStageRepository _clientStageRepository;
         private ISubscriberSystemRepository _subscriberSystemRepository;
         private IClientStageExtractor _clientStageExtractor;
+        private IHtsRegistryLoader _htsRegistryLoader;
       
         private LiveHAPIContext _context;
    
@@ -58,13 +61,16 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
 
             _clientStageExtractor =
                 new ClientStageExtractor(_personRepository, _clientStageRepository, _subscriberSystemRepository);
-            _clientHtsRegistryWriter=new ClientHtsRegistryWriter(new RestClient(_baseUrl),);
+            _htsRegistryLoader=new HtsRegistryLoader(_clientStageRepository,new PracticeRepository(_context));
+            _clientHtsRegistryWriter=new ClientHtsRegistryWriter(new RestClient(_baseUrl),_htsRegistryLoader);
         }
 
         [Test]
         public void should_Write_Clients()
         {
             var clientsResponses = _clientHtsRegistryWriter.Write().Result.ToList();
+                Assert.False(string.IsNullOrWhiteSpace(_clientHtsRegistryWriter.Message));
+            Console.WriteLine(_clientHtsRegistryWriter.Message);
             Assert.True(clientsResponses.Any());
             foreach (var response in clientsResponses)
             {

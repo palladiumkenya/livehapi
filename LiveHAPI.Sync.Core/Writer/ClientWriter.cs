@@ -10,6 +10,7 @@ using LiveHAPI.Sync.Core.Interface.Extractors;
 using LiveHAPI.Sync.Core.Interface.Loaders;
 using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Interface.Writers;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace LiveHAPI.Sync.Core.Writer
@@ -18,12 +19,15 @@ namespace LiveHAPI.Sync.Core.Writer
     {
         private readonly HttpClient _httpClient;
         private readonly ILoader<T> _loader;
+        private string _message;
 
         protected ClientWriter(IRestClient restClient, ILoader<T> loader)
         {
             _httpClient = restClient.Client;
             _loader = loader;
         }
+
+        public string Message => _message;
 
         public virtual Task<IEnumerable<SynchronizeClientsResponse>> Write()
         {
@@ -33,6 +37,8 @@ namespace LiveHAPI.Sync.Core.Writer
         protected async Task<IEnumerable<SynchronizeClientsResponse>> Write(string endpoint)
         {
             var data =  _loader.Load();
+            _message = JsonConvert.SerializeObject(data);
+
             var result = new List<SynchronizeClientsResponse>();
             try
             {

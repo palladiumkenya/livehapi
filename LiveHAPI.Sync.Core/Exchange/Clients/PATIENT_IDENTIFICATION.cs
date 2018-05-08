@@ -44,7 +44,7 @@ namespace LiveHAPI.Sync.Core.Exchange.Clients
 
                 Clients.INTERNAL_PATIENT_ID.Create(clientStage.ClientId,clientStage.Serial),
                 PATIENT_NAME.Create(clientStage.FirstName, clientStage.MiddleName, clientStage.LastName),
-                clientStage.DateOfBirth.ToIqDate(),
+                clientStage.DateOfBirth.ToIqDateOnly(),
                 clientStage.DateOfBirthPrecision,
                 clientStage.Sex,
                 new List<int> { clientStage.KeyPop },
