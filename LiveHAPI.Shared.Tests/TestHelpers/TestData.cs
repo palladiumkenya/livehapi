@@ -782,7 +782,7 @@ namespace LiveHAPI.Shared.Tests.TestHelpers
         {
             if (_subscriberTranslations.Count > 0) return _subscriberTranslations;
 
-            var list = Builder<SubscriberTranslation>.CreateListOfSize(_count)
+            var list = Builder<SubscriberTranslation>.CreateListOfSize(4)
                 .All()
                 .With(x => x.Voided = false)
                 .With(x => x.SubscriberSystemId = TestSubscriberSystem()[0].Id)
@@ -2169,5 +2169,120 @@ return JsonConvert.DeserializeObject<ClientInfo>(json);
 ".Replace("^", "'");
             return JsonConvert.DeserializeObject<List<EncounterInfo>>(json);
         }
+        public static List<SubscriberTranslation> TestTranslations()
+        {
+            var json = @"
+  [
+    {
+      ^Id^: ^FDA20A28-4EDB-11E8-9C2D-FA7AE01BBEBC^,
+      ^Code^: ^O^,
+      ^Display^: ^Others^,
+      ^Group^: 99,
+      ^IsText^: ^TRUE^,
+      ^Ref^: ^Client.KeyPop^,
+      ^SubCode^: 25,
+      ^SubDisplay^: ^Other^,
+      ^SubRef^: ^HTSKeyPopulation^,
+      ^SubscriberSystemId^: ^16E23877-9D69-11E7-ABC4-CEC278B6B50A^,
+      ^Voided^: ^FALSE^
+    },
+    {
+      ^Id^: ^FDA16F28-4EDB-11E8-9C2D-FA7AE01BBEBC^,
+      ^Code^: ^S^,
+      ^Display^: ^Single^,
+      ^Group^: 0,
+      ^IsText^: ^TRUE^,
+      ^Ref^: ^MaritalStatus^,
+      ^SubCode^: 58,
+      ^SubDisplay^: ^Single^,
+      ^SubRef^: ^HTSMaritalStatus^,
+      ^SubscriberSystemId^: ^16E23877-9D69-11E7-ABC4-CEC278B6B50A^,
+      ^Voided^: ^FALSE^
+    },
+    {
+      ^Id^: ^FDA1752C-4EDB-11E8-9C2D-FA7AE01BBEBC^,
+      ^Code^: ^O^,
+      ^Display^: ^Other^,
+      ^Group^: 0,
+      ^IsText^: ^TRUE^,
+      ^Ref^: ^MaritalStatus^,
+      ^SubCode^: 25,
+      ^SubDisplay^: ^Other^,
+      ^SubRef^: ^HTSMaritalStatus^,
+      ^SubscriberSystemId^: ^16E23877-9D69-11E7-ABC4-CEC278B6B50A^,
+      ^Voided^: ^FALSE^
+    },
+    {
+      ^Id^: ^FDA16B5E-4EDB-11E8-9C2D-FA7AE01BBEBC^,
+      ^Code^: ^M^,
+      ^Display^: ^M^,
+      ^Group^: 0,
+      ^IsText^: ^FALSE^,
+      ^Ref^: ^Sex^,
+      ^SubCode^: 51,
+      ^SubDisplay^: ^Male^,
+      ^SubRef^: ^Gender^,
+      ^SubscriberSystemId^: ^16E23877-9D69-11E7-ABC4-CEC278B6B50A^,
+      ^Voided^: ^FALSE^
+    },
+    {
+      ^Id^: ^FDA200A0-4EDB-11E8-9C2D-FA7AE01BBEBC^,
+      ^Code^: ^MSM^,
+      ^Display^: ^Men who have sex with men^,
+      ^Group^: 99,
+      ^IsText^: ^TRUE^,
+      ^Ref^: ^Client.KeyPop^,
+      ^SubCode^: 65,
+      ^SubDisplay^: ^MSM^,
+      ^SubRef^: ^HTSKeyPopulation^,
+      ^SubscriberSystemId^: ^16E23877-9D69-11E7-ABC4-CEC278B6B50A^,
+      ^Voided^: ^FALSE^
+    },
+    {
+      ^Id^: ^FDA201CC-4EDB-11E8-9C2D-FA7AE01BBEBC^,
+      ^Code^: ^MSW^,
+      ^Display^: ^Male Sex worker^,
+      ^Group^: 99,
+      ^IsText^: ^TRUE^,
+      ^Ref^: ^Client.KeyPop^,
+      ^SubCode^: 261,
+      ^SubDisplay^: ^SW^,
+      ^SubRef^: ^HTSKeyPopulation^,
+      ^SubscriberSystemId^: ^16E23877-9D69-11E7-ABC4-CEC278B6B50A^,
+      ^Voided^: ^FALSE^
+    },
+    {
+      ^Id^: ^FDA173D8-4EDB-11E8-9C2D-FA7AE01BBEBC^,
+      ^Code^: ^D^,
+      ^Display^: ^Divorced^,
+      ^Group^: 0,
+      ^IsText^: ^TRUE^,
+      ^Ref^: ^MaritalStatus^,
+      ^SubCode^: 62,
+      ^SubDisplay^: ^Divorced^,
+      ^SubRef^: ^HTSMaritalStatus^,
+      ^SubscriberSystemId^: ^16E23877-9D69-11E7-ABC4-CEC278B6B50A^,
+      ^Voided^: ^FALSE^
+    },
+    {
+      ^Id^: ^FDA16DDE-4EDB-11E8-9C2D-FA7AE01BBEBC^,
+      ^Code^: ^F^,
+      ^Display^: ^F^,
+      ^Group^: 0,
+      ^IsText^: ^FALSE^,
+      ^Ref^: ^Sex^,
+      ^SubCode^: 52,
+      ^SubDisplay^: ^Female^,
+      ^SubRef^: ^Gender^,
+      ^SubscriberSystemId^: ^16E23877-9D69-11E7-ABC4-CEC278B6B50A^,
+      ^Voided^: ^FALSE^
+    }
+  ]
+
+
+".Replace("^", "'");
+            return JsonConvert.DeserializeObject<List<SubscriberTranslation>>(json);
+        }
+
     }
 }

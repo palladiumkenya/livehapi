@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Shared.Custom;
 
 namespace LiveHAPI.Sync.Core.Exchange.Clients
@@ -37,22 +38,20 @@ namespace LiveHAPI.Sync.Core.Exchange.Clients
             REGISTRATION_DATE = registrationDate;
         }
 
-        public static PATIENT_IDENTIFICATION Create(Guid clientId, string serial, string firstName, string middleName,
-            string lastName, DateTime dateOfBirth, int sex, int keyPop, string landmark, int phoneNumber,
-            int maritalStatus, DateTime registrationDate)
+        public static PATIENT_IDENTIFICATION Create(ClientStage clientStage)
         {
             return new PATIENT_IDENTIFICATION(
 
-                Clients.INTERNAL_PATIENT_ID.Create(clientId, serial),
-                PATIENT_NAME.Create(firstName, middleName, lastName),
-                dateOfBirth.ToIqDate(),
-                "ESTIMATED",
-                sex,
-                new List<int> {keyPop},
-                PATIENT_ADDRESS.Create(landmark),
-                phoneNumber.ToString(),
-                maritalStatus,
-                registrationDate.ToIqDateOnly());
+                Clients.INTERNAL_PATIENT_ID.Create(clientStage.ClientId,clientStage.Serial),
+                PATIENT_NAME.Create(clientStage.FirstName, clientStage.MiddleName, clientStage.LastName),
+                clientStage.DateOfBirth.ToIqDate(),
+                clientStage.DateOfBirthPrecision,
+                clientStage.Sex,
+                new List<int> { clientStage.KeyPop },
+                PATIENT_ADDRESS.Create(clientStage.Landmark),
+                clientStage.Phone,
+                clientStage.MaritalStatus,
+                clientStage.RegistrationDate.ToIqDateOnly());
         }
     }
 }

@@ -30,7 +30,7 @@ namespace LiveHAPI.Core.Model.Subscriber
         {
             var translation =
                 Translations.FirstOrDefault(x => x.SubRef.IsSameAs(subref) &&
-                                                 x.SubDisplay.IsSameAs(code.ToString()));
+                                                 x.Code.IsSameAs(code.ToString()));
 
             if (null != translation)
                 return translation.SubCode;

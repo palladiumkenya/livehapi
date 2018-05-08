@@ -30,9 +30,9 @@ namespace LiveHAPI.Sync.Core.Exchange
             PROCESSING_ID = processingId;
         }
 
-        public static MESSAGE_HEADER Create()
+        public static MESSAGE_HEADER Create(string sendingFacility)
         {
-            return Create(string.Empty,null);
+            return Create(sendingFacility,DateTime.Now);
         }
 
         public static MESSAGE_HEADER Create(string sendingFacility, DateTime? messageDatetime)

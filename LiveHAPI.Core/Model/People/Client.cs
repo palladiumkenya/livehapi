@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces.Model;
@@ -33,6 +34,20 @@ namespace LiveHAPI.Core.Model.People
         public ICollection<Encounter> Encounters { get; set; } = new List<Encounter>();
         public ICollection<ClientState> ClientStates { get; set; }=new List<ClientState>();
         private ICollection<ClientSummary> ClientSummaries { get; set; }=new List<ClientSummary>();
+
+        [NotMapped]
+        public ClientIdentifier HtsEnrollment
+        {
+            get
+            {
+                if (Identifiers.Any())
+                {
+                    return Identifiers.FirstOrDefault(x => x.IdentifierTypeId.IsSameAs("Serial"));
+                }
+                return null;
+            }
+
+        }
 
         public Client()
         {

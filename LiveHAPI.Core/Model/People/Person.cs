@@ -26,7 +26,7 @@ namespace LiveHAPI.Core.Model.People
         public ICollection<Client> Clients { get; set; } = new List<Client>();
 
         [NotMapped]
-        public bool IsClient
+        public bool IsClientEnrolled
         {
             get
             {
@@ -38,6 +38,44 @@ namespace LiveHAPI.Core.Model.People
                 return false;
             }
         }
+
+        [NotMapped]
+        public bool IsClient
+        {
+            get
+            {
+                if (Clients.Any())
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        [NotMapped]
+        public PersonName PersonName
+        {
+            get
+            {
+                if (Names.Any())
+                    return Names.First();
+
+                return null;
+            }
+        }
+
+        [NotMapped]
+        public Client PersonClient
+        {
+            get
+            {
+                if (Clients.Any())
+                    return Clients.First();
+
+                return null;
+            }
+        }
+
 
         public Person()
         {

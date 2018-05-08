@@ -1,4 +1,6 @@
-﻿using LiveHAPI.Sync.Core.Exchange.Clients;
+﻿using System.Collections.Generic;
+using LiveHAPI.Core.Model.Exchange;
+using LiveHAPI.Sync.Core.Exchange.Clients;
 
 namespace LiveHAPI.Sync.Core.Exchange
 {
@@ -17,9 +19,9 @@ namespace LiveHAPI.Sync.Core.Exchange
             ENCOUNTER = encounter;
         }
 
-        public static NEWCLIENT Create(PATIENT_IDENTIFICATION patientIdentification, ENCOUNTERS encounter)
+        public static NEWCLIENT Create(ClientStage  client, ENCOUNTERS encounter)
         {
-            return new NEWCLIENT(patientIdentification, encounter);
+            return new NEWCLIENT(PATIENT_IDENTIFICATION.Create(client),encounter );
         }
     }
 }

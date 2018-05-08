@@ -13,9 +13,10 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    partial class LiveHAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20180508074227_ClientStageReview001")]
+    partial class ClientStageReview001
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -426,8 +427,6 @@ namespace LiveHAPI.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("ClientId");
 
                     b.Property<DateTime>("DateOfBirth");
 

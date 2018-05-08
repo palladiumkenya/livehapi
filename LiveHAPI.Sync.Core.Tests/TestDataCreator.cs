@@ -25,6 +25,9 @@ namespace LiveHAPI.Sync.Core.Tests
             var concepts = TestData.TestConcepts();
             var questions = TestData.TestQuestions();
 
+            var systems = TestData.TestSubscriberSystem();
+            var translations = TestData.TestSubscriberTranslations();
+
             var practices = TestData.TestPracticeWithActivation();
             var practiceActivations = practices.SelectMany(x => x.Activations).ToList();
             var persons = TestData.TestPersons();
@@ -54,6 +57,7 @@ namespace LiveHAPI.Sync.Core.Tests
                 conceptTypes, encounterTypes,
                 modules, forms, concepts, questions,
                 practices, practiceActivations,
+                systems,translations,
                 persons, personNames, personAddresses, personContacts,
                 users,
                 providers,
