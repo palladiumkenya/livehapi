@@ -13,7 +13,7 @@ namespace LiveHAPI.Core.Model.Exchange
     public class ClientPretestStage : Entity<Guid>
     {
         public HtsEncounterType EncounterType { get; set; }
-        public string EncounterDate { get; set; }
+        public DateTime EncounterDate { get; set; }
         public int? ServicePoint { get; set; }
         public int? EverTested { get; set; }
         public int? MonthsSinceLastTest { get; set; }
@@ -45,6 +45,7 @@ namespace LiveHAPI.Core.Model.Exchange
             {
                 var obses = obsEncounter.Obses.ToList();
                 clientStage.Id = obsEncounter.Id;
+                clientStage.EncounterDate = obsEncounter.EncounterDate;
                 clientStage.TestedAs = GetObsValue(obses, "TestedAs", subscriber, "B260401E-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
                 clientStage.TbScreening = GetObsValue(obses, "TbScreening", subscriber, "B2605F54-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
                 clientStage.Remarks = GetObsValue(obses, "B260665C-852F-11E7-BB31-BE2E44B06B34");
@@ -54,7 +55,7 @@ namespace LiveHAPI.Core.Model.Exchange
                 clientStage.SelfTest12Months = GetObsValue(obses, "YesNo", subscriber, "B2603773-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
                 clientStage.Strategy = GetObsValue(obses, "Strategy", subscriber, "B260417C-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
                 clientStage.ServicePoint = GetObsValue(obses, "HTSEntryPoints", subscriber, "B26039A1-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
-                clientStage.MonthsSinceLastTest = GetObsValue(obses, "B26039A2-852F-11E7-BB31-BE2E44B06B34", true).SafeConvert<int>();
+                clientStage.MonthsSinceLastTest = GetObsValue(obses, "B26039A2-852F-11E7-BB31-BE2E44B06B34", true,"0").SafeConvert<int>();
                 clientStage.Consent = GetObsValue(obses, "YesNo", subscriber, "B2603DC6-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
                 clientStage.ClientId = obsEncounter.ClientId;
             }
@@ -71,7 +72,9 @@ namespace LiveHAPI.Core.Model.Exchange
             }
             return string.Empty;
         }
-        private static string GetObsValue(List<Obs> obses,string question, bool numeric=false)
+
+        private static string GetObsValue(List<Obs> obses, string question, bool numeric = false,
+            string defaultValue = "")
         {
             var obs = obses.FirstOrDefault(x => x.QuestionId == new Guid(question));
             if (null != obs)
@@ -81,7 +84,8 @@ namespace LiveHAPI.Core.Model.Exchange
 
                 return obs.ValueText;
             }
-            return string.Empty;
+
+            return defaultValue;
         }
 
         private static List<ClientPretestDisabilityStage> GetDisabilityStages(List<Obs> obses, string question,SubscriberSystem subscriber,Guid id)

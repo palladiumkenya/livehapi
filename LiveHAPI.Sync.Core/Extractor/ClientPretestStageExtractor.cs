@@ -27,6 +27,8 @@ namespace LiveHAPI.Sync.Core.Extractor
 
         public async Task<IEnumerable<ClientPretestStage>> Extract()
         {
+            _clientPretestStageRepository.Clear();
+
             var subscriber = await _subscriberSystemRepository.GetDefaultAsync();
 
             if (null == subscriber)
@@ -39,25 +41,16 @@ namespace LiveHAPI.Sync.Core.Extractor
             {
                 //Pretests   
 
-                var finalResults = _clientEncounterRepository.GetFinalTesting(clientId).ToList();
+                var finalResults = _clientEncounterRepository.GetPretest(clientId).ToList();
                 if (finalResults.Any())
                 {
-
+                    foreach (var finalResult in finalResults)
+                    {
+                        pretestStages.Add(ClientPretestStage.Create(finalResult,subscriber));
+                    }
                 }
             }
-
-
-//            var persons = _personRepository.GetAllClients();
-//            foreach (var person in persons)
-//            {
-//                clients.Add(ClientPretestStage.Create(person, subscriber));
-//            }
-
-
-
-
             _clientPretestStageRepository.BulkInsert(pretestStages);
-
             return _clientPretestStageRepository.GetAll();
         }
     }

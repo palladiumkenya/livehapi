@@ -11,7 +11,7 @@ namespace LiveHAPI.Core.Model.Exchange
 {
     public class ClientPretestDisabilityStage : Entity<Guid>
     {
-        public int Disability { get; set; }
+        public int Disabilities { get; set; }
         public Guid ClientPretestStageId { get; set; }
 
         public ClientPretestDisabilityStage()
@@ -21,7 +21,7 @@ namespace LiveHAPI.Core.Model.Exchange
 
         public ClientPretestDisabilityStage(int disability, Guid clientPretestStageId):this()
         {
-            Disability = disability;
+            Disabilities = disability;
             ClientPretestStageId = clientPretestStageId;
         }
 
@@ -29,7 +29,7 @@ namespace LiveHAPI.Core.Model.Exchange
 
         public override string ToString()
         {
-            return $" [{Disability} {Id}]";
+            return $" [{Disabilities} {Id}]";
         }
     }
 }

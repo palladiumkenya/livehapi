@@ -23,6 +23,19 @@ namespace LiveHAPI.Infrastructure.Repository
         {
         }
 
+        public override IEnumerable<ClientPretestStage> GetAll(bool voided = false)
+        {
+            return DbSet.Include(x => x.Disabilities).AsNoTracking();
+        }
+
+        public void Clear()
+        {
+            using (var con = GetDbConnection())
+            {
+                con.Execute($"DELETE FROM {nameof(ClientPretestStage)}s");
+            }
+        }
+
         public void BulkInsert(IEnumerable<ClientPretestStage> clientStages)
         {
             using (var con = GetDbConnection())
