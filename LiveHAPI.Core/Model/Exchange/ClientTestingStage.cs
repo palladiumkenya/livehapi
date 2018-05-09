@@ -31,7 +31,7 @@ namespace LiveHAPI.Core.Model.Exchange
 
         public static List <ClientTestingStage> Create(Encounter testingEncounter, SubscriberSystem subscriber)
         {
-            var create=new List<ClientTestingStage>();
+            var clientTestingStages=new List<ClientTestingStage>();
 
             if (testingEncounter.ObsTraceResults.Any())
             {
@@ -46,9 +46,9 @@ namespace LiveHAPI.Core.Model.Exchange
                 clientTestingStage.Result = subscriber.GetTranslation(testResult.Kit, "HIVResults", "ObsTestResult.Result", "0").SafeConvert<int>();
                 clientTestingStage.TestRound = (int)clientTestingStage.HtsTestType;
                 clientTestingStage.ClientId = testingEncounter.ClientId;
-                create.Add(clientTestingStage);
+                clientTestingStages.Add(clientTestingStage);
             }
-            return create;
+            return clientTestingStages;
         }
 
         private  static HtsTestType GetTestType(string name)

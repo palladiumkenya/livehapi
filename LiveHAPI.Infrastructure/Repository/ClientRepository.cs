@@ -33,6 +33,14 @@ namespace LiveHAPI.Infrastructure.Repository
             
         }
 
+        public Client GetClientStates(Guid id)
+        {
+            return Context.Clients
+                .Include(x => x.ClientStates)
+                .AsNoTracking()
+                .FirstOrDefault(x => x.Id == id);
+        }
+
         public IEnumerable<PersonMatch> GetById(Guid id)
         {
             var personMatches = new List<PersonMatch>();

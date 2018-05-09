@@ -11,7 +11,7 @@ namespace LiveHAPI.Core.Model.Exchange
 {
     public class ClientTracingStage : Entity<Guid>
     {
-        public string TracingDate { get; set; }
+        public DateTime TracingDate { get; set; }
         public int TracingMode { get; set; }
         public int TracingOutcome { get; set; }
         public Guid ClientId { get; set; }
@@ -34,7 +34,7 @@ namespace LiveHAPI.Core.Model.Exchange
                 var clientStage = new ClientTracingStage();
                 var traceResult = tracingEncounter.ObsTraceResults.First();
                 clientStage.Id = traceResult.Id;
-                clientStage.TracingDate = traceResult.Date.ToIqDateOnly();
+                clientStage.TracingDate = traceResult.Date;
                 clientStage.TracingMode = subscriber.GetTranslation(traceResult.Mode, "TracingMode", "ObsTraceResult.Mode", "0").SafeConvert<int>();
                 clientStage.TracingOutcome = subscriber.GetTranslation(traceResult.Outcome, "TracingOutcome", "ObsTraceResult.Outcome","0").SafeConvert<int>();
                 clientStage.ClientId = tracingEncounter.ClientId;

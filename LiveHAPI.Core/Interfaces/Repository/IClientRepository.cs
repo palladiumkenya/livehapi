@@ -7,6 +7,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
     public interface IClientRepository : IRepository<Client,Guid>
     {
         Client GetClient(Guid id, bool withIds = true);
+        Client GetClientStates(Guid id);
         IEnumerable<PersonMatch> GetById(Guid id);
         IEnumerable<PersonMatch> GetRelationsById(Guid id);
         IEnumerable<PersonMatch> Search(string searchItem);

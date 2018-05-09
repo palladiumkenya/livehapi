@@ -12,7 +12,7 @@ namespace LiveHAPI.Core.Model.Exchange
     public class ClientReferralStage : Entity<Guid>
     {
         public string ReferredTo { get; set; }
-        public string DateToBeEnrolled { get; set; }
+        public DateTime? DateToBeEnrolled { get; set; }
         public Guid ClientId { get; set; }
         public SyncStatus SyncStatus { get; set; }
         public DateTime StatusDate { get; set; }
@@ -36,7 +36,7 @@ namespace LiveHAPI.Core.Model.Exchange
                 var linkage = linkageEncounter.ObsLinkages.First();
                 clientStage.Id = linkage.Id;
                 clientStage.ReferredTo = linkage.ReferredTo;
-                clientStage.DateToBeEnrolled = linkage.DateEnrolled.ToIqDateOnly();
+                clientStage.DateToBeEnrolled = linkage.DateEnrolled;
                 clientStage.ClientId = linkageEncounter.ClientId;
             }
 

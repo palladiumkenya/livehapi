@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Shared.Custom;
 
 namespace LiveHAPI.Sync.Core.Exchange.Encounters
@@ -23,6 +25,16 @@ namespace LiveHAPI.Sync.Core.Exchange.Encounters
         public static NewTracing Create(DateTime tracingDate, int tracingMode, int tracingOutcome)
         {
             return new NewTracing(tracingDate.ToIqDateOnly(),tracingMode,tracingOutcome);
+        }
+
+        public static List<NewTracing> Create(List<ClientTracingStage> stage)
+        {
+            var list = new List<NewTracing>();
+            foreach (var clientTracingStage in stage)
+            {
+                  list.Add(new NewTracing(clientTracingStage.TracingDate.ToIqDateOnly(),clientTracingStage.TracingMode,clientTracingStage.TracingOutcome));  
+            }
+            return list;
         }
     }
 }

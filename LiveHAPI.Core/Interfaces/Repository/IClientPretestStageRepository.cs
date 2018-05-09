@@ -8,6 +8,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
 {
     public interface IClientPretestStageRepository : IRepository<ClientPretestStage, Guid>
     {
+        IEnumerable<ClientPretestStage> GetByClientId(Guid clientId);
         void Clear();
         void BulkInsert(IEnumerable<ClientPretestStage> clientStages);
     }

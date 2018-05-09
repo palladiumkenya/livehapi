@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Shared.Custom;
 
 namespace LiveHAPI.Sync.Core.Exchange.Encounters
@@ -15,6 +17,7 @@ namespace LiveHAPI.Sync.Core.Exchange.Encounters
         public NewTests()
         {
         }
+
         private NewTests(int kitType, string kitOther, string lotNumber, string expiryDate, int result, int testRound)
         {
             KIT_TYPE = kitType;
@@ -28,7 +31,22 @@ namespace LiveHAPI.Sync.Core.Exchange.Encounters
         public static NewTests Create(int kitType, string kitOther, string lotNumber, DateTime expiryDate, int result,
             int testRound)
         {
-            return new NewTests(kitType,kitOther,lotNumber,expiryDate.ToIqDateOnly(),result,testRound);
+            return new NewTests(kitType, kitOther, lotNumber, expiryDate.ToIqDateOnly(), result, testRound);
+        }
+
+        internal static List<NewTests> Create(IEnumerable<ClientTestingStage> stages)
+        {
+            var list = new List<NewTests>();
+
+            foreach (var stage in stages)
+            {
+                list.Add(
+                    new NewTests(
+                        stage.KitType, stage.KitOther, stage.LotNumber, stage.ExpiryDate, stage.Result, stage.TestRound
+                    ));
+            }
+
+            return list;
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿namespace LiveHAPI.Sync.Core.Exchange.Encounters
+﻿using System;
+using System.Collections.Generic;
+using LiveHAPI.Core.Model.Exchange;
+
+namespace LiveHAPI.Sync.Core.Exchange.Encounters
 {
     public class SUMMARY
     {
@@ -30,6 +34,19 @@
         public static SUMMARY Create(int screeningResult, int confirmatoryResult, int finalResult, int finalResultGiven, int coupleDiscordant, int pnsAccepted, int pnsDeclineReason, string remarks)
         {
             return new SUMMARY(screeningResult,confirmatoryResult,finalResult,finalResultGiven,coupleDiscordant,pnsAccepted,pnsDeclineReason,remarks);
+        }
+
+        internal static SUMMARY Create(ClientFinalTeststage stage)
+        {
+            return new SUMMARY(
+                stage.ScreeningResult,
+                stage.ConfirmatoryResult,
+                stage.FinalResult,
+                stage.FinalResultGiven,
+                stage.CoupleDiscordant,
+                stage.PnsAccepted,
+                stage.PnsDeclineReason,stage.Remarks
+                );
         }
     }
 }

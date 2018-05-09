@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using LiveHAPI.Core.Model.Encounters;
@@ -29,7 +30,17 @@ namespace LiveHAPI.Core.Model.Exchange
         public SyncStatus SyncStatus { get; set; }
         public DateTime StatusDate { get; set; }
         public string SyncStatusInfo { get; set; }
-      
+
+        [NotMapped]
+        public List<int> IqDisabilities
+        {
+            get
+            {
+                if (Disabilities.Any())
+                    return Disabilities.Select(x => x.Disabilities).ToList();
+                return new List<int>();
+            }
+        }
 
         public ClientPretestStage()
         {
@@ -37,7 +48,7 @@ namespace LiveHAPI.Core.Model.Exchange
             StatusDate=DateTime.Now;
         }
 
-        public static ClientPretestStage Create(Encounter obsEncounter, SubscriberSystem subscriber)
+        public static ClientPretestStage Create(HtsEncounterType encounterType, Encounter obsEncounter, SubscriberSystem subscriber)
         {
             var clientStage=new ClientPretestStage();
 
@@ -46,6 +57,7 @@ namespace LiveHAPI.Core.Model.Exchange
                 var obses = obsEncounter.Obses.ToList();
                 clientStage.Id = obsEncounter.Id;
                 clientStage.EncounterDate = obsEncounter.EncounterDate;
+                clientStage.EncounterType = encounterType;
                 clientStage.TestedAs = GetObsValue(obses, "TestedAs", subscriber, "B260401E-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
                 clientStage.TbScreening = GetObsValue(obses, "TbScreening", subscriber, "B2605F54-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
                 clientStage.Remarks = GetObsValue(obses, "B260665C-852F-11E7-BB31-BE2E44B06B34");

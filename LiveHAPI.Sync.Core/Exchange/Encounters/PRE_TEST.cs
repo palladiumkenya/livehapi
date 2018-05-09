@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Shared.Custom;
 
 namespace LiveHAPI.Sync.Core.Exchange.Encounters
@@ -39,6 +40,25 @@ namespace LiveHAPI.Sync.Core.Exchange.Encounters
             STRATEGY = strategy;
             TB_SCREENING = tbScreening;
             REMARKS = remarks;
+        }
+
+        public static PRE_TEST Create(ClientPretestStage clientPretestStage)
+        {
+         return new PRE_TEST(
+             (int)clientPretestStage.EncounterType,
+             clientPretestStage.EncounterDate.ToIqDateOnly(),
+             clientPretestStage.ServicePoint.Value,
+             clientPretestStage.EverTested.Value,
+             clientPretestStage.MonthsSinceLastTest.Value,
+             clientPretestStage.SelfTest12Months.Value,
+             clientPretestStage.DisabilityIndicator.Value,
+             clientPretestStage.IqDisabilities,
+             clientPretestStage.Consent.Value,
+             clientPretestStage.TestedAs.Value,
+             clientPretestStage.Strategy.Value,
+             clientPretestStage.TbScreening.Value,
+             clientPretestStage.Remarks
+             );
         }
 
         public static PRE_TEST Create(int encounterType, DateTime encounterDate, int servicePoint, int everTested, int monthsSinceLastTest, int selfTest12Months, int disabilityIndicator, List<int> disabilities, int consent, int testedAs, int strategy, int tbScreening, string remarks)

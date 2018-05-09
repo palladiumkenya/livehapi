@@ -49,8 +49,8 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
             _subscriberSystemRepository = new SubscriberSystemRepository(_context);
 
             _clientPretestStageExtractor =
-                new ClientPretestStageExtractor(_clientStageRepository, _clientPretestStageRepository,
-                    _subscriberSystemRepository, _clientEncounterRepository);
+                new ClientPretestStageExtractor( _clientStageRepository, _clientPretestStageRepository,
+                    _subscriberSystemRepository, _clientEncounterRepository, new ClientRepository(_context));
 
         }
 //

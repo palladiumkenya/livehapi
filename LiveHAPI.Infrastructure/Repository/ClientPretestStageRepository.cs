@@ -28,6 +28,11 @@ namespace LiveHAPI.Infrastructure.Repository
             return DbSet.Include(x => x.Disabilities).AsNoTracking();
         }
 
+        public IEnumerable<ClientPretestStage> GetByClientId(Guid clientId)
+        {
+            return DbSet.Where(x=>x.ClientId==clientId).Include(x => x.Disabilities).AsNoTracking();
+        }
+
         public void Clear()
         {
             using (var con = GetDbConnection())

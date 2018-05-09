@@ -1,4 +1,5 @@
 ﻿using System;
+using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Shared.Custom;
 
 namespace LiveHAPI.Sync.Core.Exchange.Encounters
@@ -21,6 +22,11 @@ namespace LiveHAPI.Sync.Core.Exchange.Encounters
         public static NewReferral Create(string referredTo, DateTime dateToBeEnrolled)
         {
            return new NewReferral(referredTo,dateToBeEnrolled.ToIqDateOnly());
+        }
+
+        internal static NewReferral Create(ClientReferralStage stage)
+        {
+            return new NewReferral(stage.ReferredTo,stage.DateToBeEnrolled.ToIqDateOnly());
         }
     }
 }

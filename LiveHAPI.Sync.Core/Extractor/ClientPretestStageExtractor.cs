@@ -4,12 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.Exchange;
+using LiveHAPI.Shared.Enum;
+using LiveHAPI.Shared.Model;
 using LiveHAPI.Sync.Core.Interface.Extractors;
 
 namespace LiveHAPI.Sync.Core.Extractor
 {
     public class ClientPretestStageExtractor : IClientPretestStageExtractor
     {
+        private readonly IClientRepository _clientRepository;
         private readonly IClientEncounterRepository _clientEncounterRepository;
         private readonly IClientStageRepository _clientStageRepository;
 
@@ -17,16 +20,18 @@ namespace LiveHAPI.Sync.Core.Extractor
         private readonly ISubscriberSystemRepository _subscriberSystemRepository;
 
         public ClientPretestStageExtractor(IClientStageRepository clientStageRepository, IClientPretestStageRepository clientPretestStageRepository,
-            ISubscriberSystemRepository subscriberSystemRepository, IClientEncounterRepository clientEncounterRepository)
+            ISubscriberSystemRepository subscriberSystemRepository, IClientEncounterRepository clientEncounterRepository, IClientRepository clientRepository)
         {
             _clientStageRepository = clientStageRepository;
             _clientPretestStageRepository = clientPretestStageRepository;
             _subscriberSystemRepository = subscriberSystemRepository;
             _clientEncounterRepository = clientEncounterRepository;
+            _clientRepository = clientRepository;
         }
 
         public async Task<IEnumerable<ClientPretestStage>> Extract()
         {
+            
             _clientPretestStageRepository.Clear();
 
             var subscriber = await _subscriberSystemRepository.GetDefaultAsync();
@@ -39,14 +44,25 @@ namespace LiveHAPI.Sync.Core.Extractor
 
             foreach (var clientId in clientIds)
             {
+                HtsEncounterType encounterType = HtsEncounterType.Initial;
+                //client
+                var client = _clientRepository.GetClientStates(clientId);
+                if (null != client)
+                {
+                    encounterType= client.IsInAnyState(LiveState.HtsRetestedInc, LiveState.HtsRetestedPos,
+                        LiveState.HtsRetestedNeg)
+                        ? HtsEncounterType.Repeat
+                        : HtsEncounterType.Initial;
+                }
+
                 //Pretests   
 
-                var finalResults = _clientEncounterRepository.GetPretest(clientId).ToList();
-                if (finalResults.Any())
+                var pretests = _clientEncounterRepository.GetPretest(clientId).ToList();
+                if (pretests.Any())
                 {
-                    foreach (var finalResult in finalResults)
+                    foreach (var finalResult in pretests)
                     {
-                        pretestStages.Add(ClientPretestStage.Create(finalResult,subscriber));
+                        pretestStages.Add(ClientPretestStage.Create(encounterType,finalResult, subscriber));
                     }
                 }
             }

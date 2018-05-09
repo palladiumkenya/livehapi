@@ -1,4 +1,5 @@
-﻿using LiveHAPI.Sync.Core.Exchange.Encounters;
+﻿using System.Collections.Generic;
+using LiveHAPI.Sync.Core.Exchange.Encounters;
 
 namespace LiveHAPI.Sync.Core.Exchange
 {
@@ -8,14 +9,14 @@ namespace LiveHAPI.Sync.Core.Exchange
         public PRE_TEST PRE_TEST { get; set; }
         public HIV_TESTS HIV_TESTS { get; set; }
         public NewReferral REFERRAL { get; set; }
-        public NewTracing TRACING { get; set; }
+        public List<NewTracing> TRACING { get; set; }
         public NewLinkage LINKAGE { get; set; }
 
         public ENCOUNTERS()
         {
         }
 
-        private ENCOUNTERS(PLACER_DETAIL placerDetail, PRE_TEST preTest, HIV_TESTS hivTests, NewReferral referral, NewTracing tracing, NewLinkage linkage)
+        private ENCOUNTERS(PLACER_DETAIL placerDetail, PRE_TEST preTest, HIV_TESTS hivTests, NewReferral referral, List<NewTracing> tracing, NewLinkage linkage)
         {
             PLACER_DETAIL = placerDetail;
             PRE_TEST = preTest;
@@ -25,7 +26,7 @@ namespace LiveHAPI.Sync.Core.Exchange
             LINKAGE = linkage;
         }
 
-        public static ENCOUNTERS Create(PLACER_DETAIL placerDetail, PRE_TEST preTest, HIV_TESTS hivTests, NewReferral referral, NewTracing tracing, NewLinkage linkage)
+        public static ENCOUNTERS Create(PLACER_DETAIL placerDetail, PRE_TEST preTest, HIV_TESTS hivTests, NewReferral referral, List<NewTracing> tracing, NewLinkage linkage)
         {
             return new ENCOUNTERS(placerDetail,preTest,hivTests,referral,tracing,linkage);
         }

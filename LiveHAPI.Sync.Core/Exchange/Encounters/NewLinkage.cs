@@ -1,4 +1,5 @@
 ﻿using System;
+using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Shared.Custom;
 
 namespace LiveHAPI.Sync.Core.Exchange.Encounters
@@ -29,6 +30,13 @@ namespace LiveHAPI.Sync.Core.Exchange.Encounters
         public static NewLinkage Create(string facility, string healthWorker, string carde, DateTime? dateEnrolled, string cccNumber, string remarks)
         {
             return new NewLinkage(facility,healthWorker,carde,dateEnrolled.ToIqDateOnly(),cccNumber,remarks);
+        }
+
+        public static NewLinkage Create(ClientLinkageStage stage1)
+        {
+           return new NewLinkage(
+               stage1.Facility,stage1.HealthWorker,stage1.Carde,stage1.DateEnrolled,stage1.CccNumber,stage1.Remarks
+               );
         }
     }
 }
