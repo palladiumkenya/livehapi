@@ -128,7 +128,8 @@ namespace LiveHAPI.Infrastructure
         public DbSet<SubscriberTranslation> SubscriberTranslations { get; set; }
         public DbSet<SubscriberCohort> SubscriberCohorts { get; set; }
         public DbSet<ClientStage> ClientStages { get; set; }
-
+        public DbSet<ClientPretestStage> ClientPretestStages { get; set; }
+        public DbSet<ClientPretestDisabilityStage> ClientPretestDisabilityStages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -141,6 +142,8 @@ namespace LiveHAPI.Infrastructure
             DapperPlusManager.Entity<Provider>().Table("Providers").Key(x => x.Id);
             DapperPlusManager.Entity<SubscriberTranslation>().Table("SubscriberTranslations").Key(x => x.Id);
             DapperPlusManager.Entity<ClientStage>().Table("ClientStages").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientPretestStage>().Table("ClientPretestStages").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientPretestDisabilityStage>().Table("ClientPretestDisabilityStages").Key(x => x.Id);
         }
     }
 }
