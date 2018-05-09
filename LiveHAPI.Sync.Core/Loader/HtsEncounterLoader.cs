@@ -11,7 +11,8 @@ using LiveHAPI.Sync.Core.Interface.Loaders;
 
 namespace LiveHAPI.Sync.Core.Loader
 {
-    public class HtsEncounterLoader : IHtsEncounterLoader
+    public class 
+        HtsEncounterLoader : IHtsEncounterLoader
     {
         private readonly IClientPretestStageRepository _clientPretestStageRepository;
         private readonly IClientEncounterRepository _clientEncounterRepository;
@@ -25,6 +26,11 @@ namespace LiveHAPI.Sync.Core.Loader
         }
 
         public ENCOUNTERS Load()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ENCOUNTERS> LoadAll()
         {
             throw new NotImplementedException();
         }

@@ -28,6 +28,7 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
         private Person person;
         private SubscriberSystem subscriber;
 
+
         [SetUp]
         public void SetUp()
         {

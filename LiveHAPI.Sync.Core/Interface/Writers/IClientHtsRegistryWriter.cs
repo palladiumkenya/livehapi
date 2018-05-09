@@ -7,6 +7,6 @@ namespace LiveHAPI.Sync.Core.Interface.Writers
     public interface IClientHtsRegistryWriter : IClientWriter<HtsRegistry>
 
     {
-        
+
     }
 }

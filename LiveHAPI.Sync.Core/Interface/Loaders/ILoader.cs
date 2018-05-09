@@ -5,5 +5,6 @@ namespace LiveHAPI.Sync.Core.Interface.Loaders
     public interface ILoader<T>
     {
         T Load();
+        IEnumerable<T> LoadAll();
     }
 }

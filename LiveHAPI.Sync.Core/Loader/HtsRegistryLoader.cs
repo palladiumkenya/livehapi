@@ -25,5 +25,10 @@ namespace LiveHAPI.Sync.Core.Loader
             var clients = _clientStageRepository.GetAll().ToList();
             return HtsRegistry.Create(mfl, clients);
         }
+
+        public IEnumerable<HtsRegistry> LoadAll()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

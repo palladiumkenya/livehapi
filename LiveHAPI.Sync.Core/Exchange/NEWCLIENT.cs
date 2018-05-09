@@ -13,6 +13,10 @@ namespace LiveHAPI.Sync.Core.Exchange
         {
         }
 
+        private NEWCLIENT(PATIENT_IDENTIFICATION patientIdentification)
+        {
+            PATIENT_IDENTIFICATION = patientIdentification;
+        }
         private NEWCLIENT(PATIENT_IDENTIFICATION patientIdentification, ENCOUNTERS encounter)
         {
             PATIENT_IDENTIFICATION = patientIdentification;
@@ -22,6 +26,11 @@ namespace LiveHAPI.Sync.Core.Exchange
         public static NEWCLIENT Create(ClientStage  client, ENCOUNTERS encounter)
         {
             return new NEWCLIENT(PATIENT_IDENTIFICATION.Create(client),encounter );
+        }
+
+        public static NEWCLIENT Create(ClientStage client)
+        {
+            return new NEWCLIENT(PATIENT_IDENTIFICATION.Create(client));
         }
     }
 }

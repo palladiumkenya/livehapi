@@ -33,20 +33,25 @@ namespace LiveHAPI.Core.Model.Exchange
         {
             var clientTestingStages=new List<ClientTestingStage>();
 
-            if (testingEncounter.ObsTraceResults.Any())
+            if (testingEncounter.ObsTestResults.Any())
             {
-                var clientTestingStage = new ClientTestingStage();
-                var testResult = testingEncounter.ObsTestResults.First();
-                clientTestingStage.Id = testResult.Id;
-                clientTestingStage.HtsTestType = GetTestType(testResult.TestName);
-                clientTestingStage.KitType = subscriber.GetTranslation(testResult.Kit, "HIVTestKits", "ObsTestResult.Kit", "0").SafeConvert<int>();
-                clientTestingStage.KitOther = testResult.KitOther;
-                clientTestingStage.LotNumber = testResult.LotNumber;
-                clientTestingStage.ExpiryDate = testResult.Expiry.ToIqDateOnly();
-                clientTestingStage.Result = subscriber.GetTranslation(testResult.Kit, "HIVResults", "ObsTestResult.Result", "0").SafeConvert<int>();
-                clientTestingStage.TestRound = (int)clientTestingStage.HtsTestType;
-                clientTestingStage.ClientId = testingEncounter.ClientId;
-                clientTestingStages.Add(clientTestingStage);
+                foreach (var testResult in testingEncounter.ObsTestResults)
+                {
+                    var clientTestingStage = new ClientTestingStage();
+
+                    clientTestingStage.Id = testResult.Id;
+                    clientTestingStage.HtsTestType = GetTestType(testResult.TestName);
+                    clientTestingStage.KitType = subscriber.GetTranslation(testResult.Kit, "HIVTestKits", "ObsTestResult.Kit", "0").SafeConvert<int>();
+                    clientTestingStage.KitOther = testResult.KitOther;
+                    clientTestingStage.LotNumber = testResult.LotNumber;
+                    clientTestingStage.ExpiryDate = testResult.Expiry.ToIqDateOnly();
+                    clientTestingStage.Result = subscriber.GetTranslation(testResult.Kit, "HIVResults", "ObsTestResult.Result", "0").SafeConvert<int>();
+                    clientTestingStage.TestRound = (int)clientTestingStage.HtsTestType;
+                    clientTestingStage.ClientId = testingEncounter.ClientId;
+
+                    clientTestingStages.Add(clientTestingStage);
+                }
+               
             }
             return clientTestingStages;
         }

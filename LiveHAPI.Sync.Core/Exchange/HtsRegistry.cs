@@ -24,8 +24,14 @@ namespace LiveHAPI.Sync.Core.Exchange
 
             foreach (var client in clients)
             {
-                newclients.Add(NEWCLIENT.Create(client,new ENCOUNTERS()));
+                newclients.Add(NEWCLIENT.Create(client));
             }
+            return new HtsRegistry(MESSAGE_HEADER.Create(facility), newclients);
+        }
+
+        public static HtsRegistry Create(string facility, ClientStage clientStage, ENCOUNTERS encounters)
+        {
+            var newclients = new List<NEWCLIENT> {NEWCLIENT.Create(clientStage, encounters)};
             return new HtsRegistry(MESSAGE_HEADER.Create(facility), newclients);
         }
     }
