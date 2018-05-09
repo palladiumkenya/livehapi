@@ -17,20 +17,13 @@ using Z.Dapper.Plus;
 
 namespace LiveHAPI.Infrastructure.Repository
 {
-    public class ClientStageRepository : BaseRepository<ClientStage, Guid>, IClientStageRepository
+    public class ClientPretestStageRepository : BaseRepository<ClientPretestStage, Guid>, IClientPretestStageRepository
     {
-        public ClientStageRepository(LiveHAPIContext context) : base(context)
+        public ClientPretestStageRepository(LiveHAPIContext context) : base(context)
         {
-        }
-        public void Clear()
-        {
-            using (var con = GetDbConnection())
-            {
-                con.Execute($"DELETE FROM {nameof(ClientStage)}s");
-            }
         }
 
-        public void BulkInsert(IEnumerable<ClientStage> clientStages)
+        public void BulkInsert(IEnumerable<ClientPretestStage> clientStages)
         {
             using (var con = GetDbConnection())
             {

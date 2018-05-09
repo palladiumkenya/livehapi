@@ -23,7 +23,9 @@ namespace LiveHAPI.Core.Model.Encounters
         public Guid? ResultGiven { get; set; }
         
         public Guid? CoupleDiscordant { get; set; }
-        
+        /// <summary>
+        /// Accepted to partner listing
+        /// </summary>
         public Guid? SelfTestOption { get; set; }
         public Guid? PnsDeclined { get; set; }
         [MaxLength(100)]

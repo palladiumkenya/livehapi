@@ -37,5 +37,18 @@ namespace LiveHAPI.Core.Model.Subscriber
 
             return def;
         }
+
+        public string GetTranslation(object code, string subref, string hapiRef, string def)
+        {
+            var translation =
+                Translations.FirstOrDefault(x => x.Ref.IsSameAs(hapiRef) &&
+                                                 x.SubRef.IsSameAs(subref) &&
+                                                 x.Code.IsSameAs(code.ToString()));
+
+            if (null != translation)
+                return translation.SubCode;
+
+            return def;
+        }
     }
 }

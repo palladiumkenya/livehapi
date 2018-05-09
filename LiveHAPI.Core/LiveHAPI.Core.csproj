@@ -16,7 +16,12 @@
     <Compile Include="Model\Encounters\ObsPartnerScreening.cs" />
     <Compile Include="Model\Encounters\ObsPartnerTraceResult.cs" />
     <Compile Include="Model\Encounters\PSmartStore.cs" />
+    <Compile Include="Model\Exchange\ClientFinalTeststage.cs" />
+    <Compile Include="Model\Exchange\ClientTestingStage.cs" />
+    <Compile Include="Model\Exchange\ClientTracingStage.cs" />
+    <Compile Include="Model\Exchange\ClientReferralStage.cs" />
     <Compile Include="Model\Exchange\ClientPretestDisabilityStage.cs" />
+    <Compile Include="Model\Exchange\ClientLinkageStage.cs" />
     <Compile Include="Model\Exchange\ClientPretestStage.cs" />
     <Compile Include="Model\Exchange\ClientStage.cs" />
     <Compile Include="Model\Lookup\MasterFacility.cs" />
