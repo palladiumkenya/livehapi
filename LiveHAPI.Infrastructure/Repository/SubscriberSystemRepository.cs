@@ -36,12 +36,14 @@ namespace LiveHAPI.Infrastructure.Repository
         {
             var sub = Context.SubscriberSystems
                 .Include(x => x.Translations)
+                .Include(x => x.Maps)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.IsDefault);
 
             if(null==sub)
                 sub=Context.SubscriberSystems
                     .Include(x => x.Translations)
+                    .Include(x=>x.Maps)
                     .AsNoTracking()
                     .FirstOrDefaultAsync();
 
