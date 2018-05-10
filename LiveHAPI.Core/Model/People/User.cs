@@ -6,6 +6,7 @@ using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
+using Serilog;
 
 namespace LiveHAPI.Core.Model.People
 {
@@ -39,7 +40,22 @@ namespace LiveHAPI.Core.Model.People
         public ICollection<UserSummary> UserSummaries { get; set; } = new List<UserSummary>();
 
         [NotMapped]
-        public string DecryptedPassword => Utils.Decrypt(Password);
+        public string DecryptedPassword
+        {
+            get
+            {
+                try
+                {
+                    return Utils.Decrypt(Password);
+                }
+                catch (Exception e)
+                {
+                    Log.Error($"{e}");
+                }
+
+                return string.Empty;
+            }
+        }
 
         public User()
         {

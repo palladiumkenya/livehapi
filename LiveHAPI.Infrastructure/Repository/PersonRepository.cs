@@ -183,7 +183,21 @@ namespace LiveHAPI.Infrastructure.Repository
                 .Include(x => x.Clients)
                 .ThenInclude(y => y.Identifiers)
                 .Include(x => x.Clients)
-                .ThenInclude(y => y.ClientStates).AsNoTracking().ToList().Where(x => x.IsClient);
+                .ThenInclude(y => y.ClientStates).AsNoTracking().ToList()
+                .Where(x => x.IsHtsClient);
+        }
+
+        public IEnumerable<Person> GetAllSecondaryClients()
+        {
+            return Context.Persons
+                .Include(x => x.Names)
+                .Include(x => x.Addresses)
+                .Include(x => x.Contacts)
+                .Include(x => x.Clients)
+                .ThenInclude(y => y.Identifiers)
+                .Include(x => x.Clients)
+                .ThenInclude(y => y.ClientStates).AsNoTracking().ToList()
+                .Where(x =>x.IsClient&& !x.IsHtsClient);
         }
 
         public IEnumerable<Person> GetContacts(Guid clientId)

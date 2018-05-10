@@ -51,6 +51,18 @@ namespace LiveHAPI.Core.Model.People
                 return false;
             }
         }
+        [NotMapped]
+        public bool IsHtsClient
+        {
+            get
+            {
+                if (Clients.Any())
+                {
+                    return Clients.First().IsInState(LiveState.HtsEnrolled)|| Clients.First().Identifiers.Any();
+                }
+                return false;
+            }
+        }
 
         [NotMapped]
         public PersonName PersonName

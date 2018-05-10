@@ -26,6 +26,7 @@ namespace LiveHAPI.Core.Model.Exchange
         public DateTime RegistrationDate { get; set; }
 
         public Guid ClientId { get; set; }
+        public bool IsIndex { get; set; }
         public SyncStatus SyncStatus { get; set; }
         public DateTime StatusDate { get; set; }
         public string SyncStatusInfo { get; set; }
@@ -64,7 +65,9 @@ namespace LiveHAPI.Core.Model.Exchange
                 : "ESTIMATED";
             clientStage.Sex = subscriber.GetTranslation(person.Gender, "Gender", "0").SafeConvert<int>();
 
-            if (null!=person.PersonClient)
+            clientStage.IsIndex = null != person.PersonClient;
+
+            if (clientStage.IsIndex)
             {
                 var client = person.PersonClient;
 

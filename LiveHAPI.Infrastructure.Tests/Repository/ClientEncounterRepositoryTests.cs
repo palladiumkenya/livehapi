@@ -3,6 +3,7 @@ using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Infrastructure.Repository;
+using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Tests.TestHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +14,7 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
     [TestFixture]
     public class ClientEncounterRepositoryTests
     {
-        private readonly Guid _clientId=new Guid("FAE99D4A-8F7A-42C4-B43E-A8C9008C66AC");
+        private readonly Guid _clientId=new Guid("2C0DA8D1-0E20-41A8-BD3B-A8DC01554752");
         private LiveHAPIContext _context;
         private IClientEncounterRepository _clientRepository;
 
@@ -23,7 +24,7 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
              var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:livehAPIConnection"];
+            var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
 
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)

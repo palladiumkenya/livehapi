@@ -316,7 +316,7 @@ namespace LiveHAPI.Controllers
       {
         _clientService.SyncClient(client);
 
-        SyncEventDispatcher.Raise(new ClientSaved(client), _clientSavedHandler, _subscriberSystem);
+        //SyncEventDispatcher.Raise(new ClientSaved(client), _clientSavedHandler, _subscriberSystem);
 
         return Ok();
       }
@@ -337,7 +337,7 @@ namespace LiveHAPI.Controllers
       {
         _encounterService.Sync(encounters);
 
-        SyncEventDispatcher.Raise(new EncounterSaved(encounters), _encounterSavedHandler, _subscriberSystem);
+        //SyncEventDispatcher.Raise(new EncounterSaved(encounters), _encounterSavedHandler, _subscriberSystem);
 
         return Ok();
       }

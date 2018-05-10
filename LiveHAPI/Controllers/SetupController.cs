@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -49,7 +49,7 @@ namespace LiveHAPI.Controllers
             try
             {
                 Log.Debug("loading users from emr");
-                _setupFacilty.SyncUsers();
+                //_setupFacilty.SyncUsers();
             }
             catch (Exception e)
             {

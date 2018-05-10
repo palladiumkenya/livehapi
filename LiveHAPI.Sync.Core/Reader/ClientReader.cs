@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using LiveHAPI.Shared.Custom;
@@ -27,7 +28,8 @@ namespace LiveHAPI.Sync.Core.Reader
             try
             {
                 var response = await _httpClient.GetAsync(endpoint);
-                result = await response.Content.ReadAsJsonAsync<List<T>>();
+                var data=await response.Content.ReadAsJsonAsync<T[]>();
+                result = data.ToList();
             }
             catch (Exception e)
             {

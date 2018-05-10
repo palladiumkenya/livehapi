@@ -39,4 +39,13 @@
     <ProjectReference Include="..\LiveHAPI.Sync.Core\LiveHAPI.Sync.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="LiveHAPIDev.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LiveHAPIDev_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
