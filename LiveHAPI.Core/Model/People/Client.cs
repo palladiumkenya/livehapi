@@ -212,6 +212,15 @@ namespace LiveHAPI.Core.Model.People
             return false;
         }
 
+        public List<ClientState> GetStates(params LiveState[] states)
+        {
+            if (null != ClientStates && ClientStates.Any() && states.Length > 0)
+            {
+                return ClientStates.Where(x => states.Contains(x.Status)).ToList();
+            }
+
+            return new List<ClientState>();
+        }
         public bool IsInState(Guid indexId, params LiveState[] states)
         {
             if (null != ClientStates && ClientStates.Any(x => null != x.IndexClientId && x.IndexClientId == indexId) &&

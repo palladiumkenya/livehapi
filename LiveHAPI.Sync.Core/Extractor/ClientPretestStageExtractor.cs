@@ -44,7 +44,9 @@ namespace LiveHAPI.Sync.Core.Extractor
             foreach (var clientId in clientIds)
             {
                 HtsEncounterType encounterType = HtsEncounterType.Initial;
-                //client
+
+                //  Client
+
                 var client = _clientRepository.GetClientStates(clientId);
                 if (null != client)
                 {
@@ -54,7 +56,7 @@ namespace LiveHAPI.Sync.Core.Extractor
                         : HtsEncounterType.Initial;
                 }
 
-                //Pretests   
+                //  Pretests   
 
                 var pretests = _clientEncounterRepository.GetPretest(clientId).ToList();
                 if (pretests.Any())

@@ -29,7 +29,7 @@ namespace LiveHAPI.Sync.Core.Extractor
             var encounters = _clientEncounterRepository.GetReferralLinkage();
             foreach (var encounter in encounters)
             {
-                clients.Add(ClientReferralStage.Create(encounter, subscriber));
+                clients.AddRange(ClientReferralStage.Create(encounter, subscriber));
             }
 
             return clients;

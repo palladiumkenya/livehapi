@@ -22,8 +22,7 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
         private  ISubscriberSystemRepository _subscriberSystemRepository;
         private IClientPretestStageExtractor _clientPretestStageExtractor;
         private LiveHAPIContext _context;
-        private Person person;
-        private SubscriberSystem subscriber;
+
 
         [SetUp]
         public void SetUp()

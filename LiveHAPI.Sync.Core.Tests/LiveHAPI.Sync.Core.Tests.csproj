@@ -43,6 +43,12 @@
     <None Update="LiveHAPIDev.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="LiveHAPIDev.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LiveHAPIDev_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="LiveHAPIDev_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

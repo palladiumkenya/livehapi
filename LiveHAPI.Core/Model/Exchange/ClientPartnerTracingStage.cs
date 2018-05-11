@@ -36,9 +36,9 @@ namespace LiveHAPI.Core.Model.Exchange
         {
             var stages = new List<ClientPartnerTracingStage>();
 
-            if (tracingEncounter.ObsFamilyTraceResults.Any())
+            if (tracingEncounter.ObsPartnerTraceResults.Any())
             {
-                foreach (var traceResult in tracingEncounter.ObsFamilyTraceResults)
+                foreach (var traceResult in tracingEncounter.ObsPartnerTraceResults)
                 {
                     var tracingStage = new ClientPartnerTracingStage();
 

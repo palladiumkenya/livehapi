@@ -14,7 +14,7 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
 {
     public class ClientFamilyScreeningStageExtractorTests
     {
-        private IClientEncounterRepository _clientEncounterRepository;
+        private IContactsEncounterRepository _clientEncounterRepository;
         private  ISubscriberSystemRepository _subscriberSystemRepository;
         private IClientFamilyScreeningStageExtractor _stageExtractor;
         private LiveHAPIContext _context;
@@ -31,7 +31,7 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
                 .Options;
 
             _context = new LiveHAPIContext(options);
-            _clientEncounterRepository=new ClientEncounterRepository(_context);
+            _clientEncounterRepository=new ContactsEncounterRepository(_context);
             _subscriberSystemRepository = new SubscriberSystemRepository(_context);
 
             _stageExtractor =

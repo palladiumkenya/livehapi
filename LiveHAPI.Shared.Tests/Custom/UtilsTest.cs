@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FizzWare.NBuilder;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Shared.Custom;
@@ -32,9 +33,33 @@ namespace LiveHAPI.Shared.Tests.Custom
                 }
                 
             }
-            foreach (var encounter in encounters)
+
+            var allObs = encounters.SelectMany(x => x.Obses).ToList();
+            Assert.True(allObs.Count>0);
+            var obsGroups = allObs
+                .GroupBy(x => x.EncounterId).ToList();
+
+            Assert.True(obsGroups.Count == 2);
+            foreach (var obsGroup in obsGroups)
             {
+                Console.WriteLine($"{obsGroup.ToList().First().EncounterId}");
+                foreach (var o in obsGroup.ToList())
+                {
+                    Console.WriteLine($"        {o.Id}");   
+                }
+            }
                 
+            
+
+            foreach (var obsGroup in obsGroups)
+            {
+
+                // obsGroup.
+            }
+
+            foreach (var obs in allObs)
+            {
+                Console.WriteLine($"{obs.Id} | {obs.EncounterId} | {obs.ValueText}");
             }
         }
     }

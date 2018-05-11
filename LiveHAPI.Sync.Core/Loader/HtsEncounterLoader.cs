@@ -70,7 +70,7 @@ namespace LiveHAPI.Sync.Core.Loader
                 if (null != referall)
                 {
                     var stage = ClientReferralStage.Create(referall,sub);
-                     newrefferal = NewReferral.Create(stage);
+                    // newrefferal = NewReferral.Create(stage);
 
                     var stage1 = ClientLinkageStage.Create(referall, sub);
                      newlinkage = NewLinkage.Create(stage1);
