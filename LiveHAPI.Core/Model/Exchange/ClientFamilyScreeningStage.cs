@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Shared.Custom;
@@ -9,48 +11,42 @@ namespace LiveHAPI.Core.Model.Exchange
 {
     public class ClientFamilyScreeningStage : Entity<Guid>
     {
-        public Guid IndexClientId { get; set; }
-        public int Relation { get; set; }
-        public bool IsPartner { get; set; }
-        public Guid SecondaryClientId { get; set; }
+        public string ScreeningDate { get; set; }
+        public int HivStatus { get; set; }
+        public int EligibleForHts { get; set; }
+        public DateTime? BookingDate { get; set; }
+        public string Remarks { get; set; }
+        public Guid ClientId { get; set; }
         public SyncStatus SyncStatus { get; set; }
         public DateTime StatusDate { get; set; }
         public string SyncStatusInfo { get; set; }
 
         public ClientFamilyScreeningStage()
         {
-            Id = LiveGuid.NewGuid();
             SyncStatus = SyncStatus.Staged;
             StatusDate = DateTime.Now;
         }
 
-        private ClientFamilyScreeningStage(Guid indexClientId, int relation, Guid secondaryClientId, bool isPartner) :
-            this()
-        {
-            IndexClientId = indexClientId;
-            Relation = relation;
-            SecondaryClientId = secondaryClientId;
-            IsPartner = isPartner;
-        }
-
-        public static ClientFamilyScreeningStage Create(ClientRelationship relationship, SubscriberSystem subscriber)
+        public static ClientFamilyScreeningStage Create(Encounter encounter, SubscriberSystem subscriber)
         {
             var clientStage = new ClientFamilyScreeningStage();
 
-            if (null!=relationship)
+            if (encounter.ObsMemberScreenings.Any())
             {
-                clientStage.IndexClientId = relationship.ClientId;
-                clientStage.IsPartner = relationship.IsPartner;
-                clientStage.SecondaryClientId = relationship.RelatedClientId;
-                clientStage.Relation = subscriber.GetTranslation(relationship.RelationshipTypeId, "Relationship", "0").SafeConvert<int>(); ;
+                var screening = encounter.ObsMemberScreenings.First();
+                clientStage.Id = screening.Id;
+                clientStage.HivStatus = subscriber.GetTranslation(screening.HivStatus, "ScreeningHivStatus", "ObsMemberScreening.HivStatus", "0").SafeConvert<int>();
+                clientStage.EligibleForHts = subscriber.GetTranslation(screening.Eligibility, "YesNo", "ObsMemberScreening.Eligibility", "0").SafeConvert<int>();
+                clientStage.BookingDate = screening.BookingDate;
+                clientStage.Remarks = screening.Remarks;
+                clientStage.ClientId = encounter.ClientId;
             }
 
             return clientStage;
         }
-
         public override string ToString()
         {
-            return $"{IndexClientId} {Relation}  {SecondaryClientId} [{IsPartner}] ";
+            return $"{ClientId}";
         }
     }
 }

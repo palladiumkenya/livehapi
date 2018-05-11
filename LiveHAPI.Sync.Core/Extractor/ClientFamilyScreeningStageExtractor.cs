@@ -9,10 +9,10 @@ namespace LiveHAPI.Sync.Core.Extractor
 {
     public class ClientFamilyScreeningStageExtractor : IClientFamilyScreeningStageExtractor
     {
-        private readonly IClientEncounterRepository _clientEncounterRepository;
+        private readonly IContactsEncounterRepository _clientEncounterRepository;
        private readonly ISubscriberSystemRepository _subscriberSystemRepository;
 
-        public ClientFamilyScreeningStageExtractor(IClientEncounterRepository clientEncounterRepository, ISubscriberSystemRepository subscriberSystemRepository)
+        public ClientFamilyScreeningStageExtractor(IContactsEncounterRepository clientEncounterRepository, ISubscriberSystemRepository subscriberSystemRepository)
         {
             _clientEncounterRepository = clientEncounterRepository;
             _subscriberSystemRepository = subscriberSystemRepository;
@@ -25,12 +25,12 @@ namespace LiveHAPI.Sync.Core.Extractor
             if (null == subscriber)
                 throw new Exception("Default EMR NOT SET");
             var clients = new List<ClientFamilyScreeningStage>();
-//
-//            var encounters = _clientEncounterRepository.GetFamilyScreening();
-//            foreach (var encounter in encounters)
-//            {
-//                clients.AddRange(ClientFamilyScreeningStage.Create(encounter, subscriber));
-//            }
+
+            var encounters = _clientEncounterRepository.GetFamilyScreening();
+            foreach (var encounter in encounters)
+            {
+                clients.AddRange(ClientFamilyScreeningStage.Create(encounter, subscriber));
+            }
 
             return clients;
         }

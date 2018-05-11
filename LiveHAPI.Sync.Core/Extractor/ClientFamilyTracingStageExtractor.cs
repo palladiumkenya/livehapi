@@ -9,10 +9,10 @@ namespace LiveHAPI.Sync.Core.Extractor
 {
     public class ClientFamilyTracingStageExtractor : IClientFamilyTracingStageExtractor
     {
-        private readonly IClientEncounterRepository _clientEncounterRepository;
+        private readonly IContactsEncounterRepository _clientEncounterRepository;
        private readonly ISubscriberSystemRepository _subscriberSystemRepository;
 
-        public ClientFamilyTracingStageExtractor(IClientEncounterRepository clientEncounterRepository, ISubscriberSystemRepository subscriberSystemRepository)
+        public ClientFamilyTracingStageExtractor(IContactsEncounterRepository clientEncounterRepository, ISubscriberSystemRepository subscriberSystemRepository)
         {
             _clientEncounterRepository = clientEncounterRepository;
             _subscriberSystemRepository = subscriberSystemRepository;
@@ -25,12 +25,12 @@ namespace LiveHAPI.Sync.Core.Extractor
             if (null == subscriber)
                 throw new Exception("Default EMR NOT SET");
             var clients = new List<ClientFamilyTracingStage>();
-//
-//            var encounters = _clientEncounterRepository.GetFamilyTracing();
-//            foreach (var encounter in encounters)
-//            {
-//                clients.AddRange(ClientFamilyTracingStage.Create(encounter, subscriber));
-//            }
+
+            var encounters = _clientEncounterRepository.GetFamilyTracing();
+            foreach (var encounter in encounters)
+            {
+                clients.AddRange(ClientFamilyTracingStage.Create(encounter, subscriber));
+            }
 
             return clients;
         }
