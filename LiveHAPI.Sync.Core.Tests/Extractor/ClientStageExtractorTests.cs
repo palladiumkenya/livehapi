@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using FizzWare.NBuilder;
 using LiveHAPI.Core.Interfaces.Repository;
@@ -14,7 +13,6 @@ using LiveHAPI.Sync.Core.Extractor;
 using LiveHAPI.Sync.Core.Interface.Extractors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace LiveHAPI.Sync.Core.Tests.Extractor
@@ -37,7 +35,7 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
                 .AddJsonFile("appsettings.json")
                 .Build();
             var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
-            Console.WriteLine(connectionString);
+         
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;

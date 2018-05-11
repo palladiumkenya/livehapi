@@ -53,7 +53,7 @@ namespace LiveHAPI.Sync.Core.Loader
                 SUMMARY summar = null;
                 if (null != finalTesting)
                 {
-                    var stages = ClientFinalTeststage.Create(finalTesting, sub).FirstOrDefault();
+                    var stages = ClientFinalTestStage.Create(finalTesting, sub).FirstOrDefault();
                     summar = SUMMARY.Create(stages);
                 }
                 var testing = _clientEncounterRepository.GetTesting(clientId).FirstOrDefault();

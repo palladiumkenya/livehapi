@@ -17,7 +17,7 @@ namespace LiveHAPI.Core.Model.Exchange
         public DateTime EncounterDate { get; set; }
         public int? ServicePoint { get; set; }
         public int? EverTested { get; set; }
-        public int? MonthsSinceLastTest { get; set; }
+        public decimal? MonthsSinceLastTest { get; set; }
         public int? SelfTest12Months { get; set; }
         public int? DisabilityIndicator { get; set; }
         public int? Consent { get; set; }
@@ -67,7 +67,7 @@ namespace LiveHAPI.Core.Model.Exchange
                 clientStage.SelfTest12Months = GetObsValue(obses, "YesNo", subscriber, "B2603773-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
                 clientStage.Strategy = GetObsValue(obses, "Strategy", subscriber, "B260417C-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
                 clientStage.ServicePoint = GetObsValue(obses, "HTSEntryPoints", subscriber, "B26039A1-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
-                clientStage.MonthsSinceLastTest = GetObsValue(obses, "B26039A2-852F-11E7-BB31-BE2E44B06B34", true,"0").SafeConvert<int>();
+                clientStage.MonthsSinceLastTest = GetObsValue(obses, "B26039A2-852F-11E7-BB31-BE2E44B06B34", true,"0").SafeConvert<decimal>();
                 clientStage.Consent = GetObsValue(obses, "YesNo", subscriber, "B2603DC6-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
                 clientStage.ClientId = obsEncounter.ClientId;
             }

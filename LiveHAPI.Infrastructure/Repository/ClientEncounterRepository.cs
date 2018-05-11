@@ -19,59 +19,68 @@ namespace LiveHAPI.Infrastructure.Repository
             _encounterTypes = context.EncounterTypes.AsNoTracking().ToList();
         }
 
-        public IEnumerable<Encounter> GetReferralLinkage(Guid clientId)
+        public IEnumerable<Encounter> GetReferralLinkage(Guid? clientId=null)
         {
             var encounters = Context.Encounters
-                .Where(x => x.ClientId == clientId &&
-                            x.EncounterTypeId == GetEncounterTypeId("HTS Linkage"))
+                .Where(x => x.EncounterTypeId == GetEncounterTypeId("HTS Linkage"))
                 .Include(x => x.ObsLinkages)
-                .OrderByDescending(x=>x.EncounterDate)
                 .AsNoTracking();
+
+            if (!clientId.IsNullOrEmpty())
+                encounters = encounters.Where(x => x.ClientId == clientId).AsNoTracking();
 
             return encounters;
         }
 
-        public IEnumerable<Encounter> GetTracing(Guid clientId)
+        public IEnumerable<Encounter> GetTracing(Guid? clientId=null)
         {
+         
             var encounters = Context.Encounters
-                .Where(x => x.ClientId == clientId &&
-                            (x.EncounterTypeId == GetEncounterTypeId("HTS Trace")|| x.EncounterTypeId == GetEncounterTypeId("HTS Linkage"))
-                            )
+                .Where(x => x.EncounterTypeId == GetEncounterTypeId("HTS Trace") || x.EncounterTypeId == GetEncounterTypeId("HTS Linkage"))
                 .Include(x => x.ObsTraceResults)
                 .AsNoTracking();
 
+            if (!clientId.IsNullOrEmpty())
+                encounters = encounters.Where(x => x.ClientId == clientId).AsNoTracking();
+
             return encounters;
         }
 
-        public IEnumerable<Encounter> GetTesting(Guid clientId)
+        public IEnumerable<Encounter> GetTesting(Guid? clientId=null)
         {
             var encounters = Context.Encounters
-                .Where(x => x.ClientId == clientId &&
-                            x.EncounterTypeId == GetEncounterTypeId("HTS Initial Test"))
+                .Where(x => x.EncounterTypeId == GetEncounterTypeId("HTS Initial Test"))
                 .Include(x => x.ObsTestResults)
                 .AsNoTracking();
 
+            if (!clientId.IsNullOrEmpty())
+                encounters = encounters.Where(x => x.ClientId == clientId).AsNoTracking();
+
             return encounters;
         }
 
-        public IEnumerable<Encounter> GetFinalTesting(Guid clientId)
+        public IEnumerable<Encounter> GetFinalTesting(Guid? clientId=null)
         {
             var encounters = Context.Encounters
-                .Where(x => x.ClientId == clientId &&
-                            x.EncounterTypeId == GetEncounterTypeId("HTS Initial Test"))
+                .Where(x => x.EncounterTypeId == GetEncounterTypeId("HTS Initial Test"))
                 .Include(x => x.ObsFinalTestResults)
                 .AsNoTracking();
 
+            if (!clientId.IsNullOrEmpty())
+                encounters = encounters.Where(x => x.ClientId == clientId).AsNoTracking();
+
             return encounters;
         }
 
-        public IEnumerable<Encounter> GetPretest(Guid clientId)
+        public IEnumerable<Encounter> GetPretest(Guid? clientId=null)
         {
             var encounters = Context.Encounters
-                .Where(x => x.ClientId == clientId &&
-                            x.EncounterTypeId == GetEncounterTypeId("HTS Initial"))
+                .Where(x => x.EncounterTypeId == GetEncounterTypeId("HTS Initial"))
                 .Include(x => x.Obses)
                 .AsNoTracking();
+
+            if (!clientId.IsNullOrEmpty())
+                encounters = encounters.Where(x => x.ClientId == clientId);
 
             return encounters;
         }

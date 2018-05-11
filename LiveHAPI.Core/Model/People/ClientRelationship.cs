@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
@@ -16,6 +17,18 @@ namespace LiveHAPI.Core.Model.People
         public bool Preferred { get; set; }
         public Guid ClientId { get; set; }
         public bool? IsIndex { get; set; }
+
+        [NotMapped]
+        public bool IsPartner
+        {
+            get { return RelationshipTypeId.IsSameAs("Cowife") || RelationshipTypeId.IsSameAs("Partner") || RelationshipTypeId.IsSameAs("Spouse"); }
+        }
+
+        [NotMapped]
+        public bool ClientIsIndex
+        {
+            get { return null != IsIndex && !IsIndex.Value; }
+        }
 
         public ClientRelationship()
         {

@@ -53,7 +53,7 @@ namespace LiveHAPI.Core.Model.Exchange
 
         public override string ToString()
         {
-            return $" [{ClientId} {Id}]";
+            return $"{Facility} {HealthWorker} [{ClientId}]";
         }
     }
 }

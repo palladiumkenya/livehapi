@@ -26,6 +26,7 @@ namespace LiveHAPI.Core.Model.Exchange
         public DateTime RegistrationDate { get; set; }
 
         public Guid ClientId { get; set; }
+       
         public bool IsIndex { get; set; }
         public SyncStatus SyncStatus { get; set; }
         public DateTime StatusDate { get; set; }
@@ -65,8 +66,16 @@ namespace LiveHAPI.Core.Model.Exchange
                 : "ESTIMATED";
             clientStage.Sex = subscriber.GetTranslation(person.Gender, "Gender", "0").SafeConvert<int>();
 
-            clientStage.IsIndex = null != person.PersonClient;
+            var clientt = person.PersonClient;
+            if (null != clientt)
+            {
+                clientStage.KeyPop =
+                    subscriber.GetTranslation(clientt.KeyPop, "HTSKeyPopulation", "0").SafeConvert<int>();
+                clientStage.MaritalStatus = subscriber.GetTranslation(clientt.MaritalStatus, "HTSMaritalStatus", "0")
+                    .SafeConvert<int>();
+            }
 
+            clientStage.IsIndex = person.IsHtsClient;
             if (clientStage.IsIndex)
             {
                 var client = person.PersonClient;
@@ -76,16 +85,14 @@ namespace LiveHAPI.Core.Model.Exchange
                     clientStage.Serial = client.HtsEnrollment.Identifier;
                     clientStage.RegistrationDate = client.HtsEnrollment.RegistrationDate;
                 }
-                clientStage.KeyPop=subscriber.GetTranslation(client.KeyPop, "HTSKeyPopulation", "0").SafeConvert<int>();
-                clientStage.MaritalStatus = subscriber.GetTranslation(client.MaritalStatus, "HTSMaritalStatus", "0").SafeConvert<int>();
+               
             }
-           
             return clientStage;
         }
 
         public override string ToString()
         {
-            return $"{FirstName} {LastName},{Sex} {Serial} {MaritalStatus} [{ClientId} {Id}]";
+            return $"{FirstName} {LastName} [{(IsIndex?"Index":"Secondary")}], [{ClientId}]";
         }
     }
 }

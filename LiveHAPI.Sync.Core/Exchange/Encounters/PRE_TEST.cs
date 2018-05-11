@@ -49,7 +49,7 @@ namespace LiveHAPI.Sync.Core.Exchange.Encounters
              clientPretestStage.EncounterDate.ToIqDateOnly(),
              clientPretestStage.ServicePoint.Value,
              clientPretestStage.EverTested.Value,
-             clientPretestStage.MonthsSinceLastTest.Value,
+             (int)clientPretestStage.MonthsSinceLastTest.Value,
              clientPretestStage.SelfTest12Months.Value,
              clientPretestStage.DisabilityIndicator.Value,
              clientPretestStage.IqDisabilities,

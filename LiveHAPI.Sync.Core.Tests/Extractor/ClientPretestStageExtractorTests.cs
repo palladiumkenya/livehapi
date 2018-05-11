@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using FizzWare.NBuilder;
 using LiveHAPI.Core.Interfaces.Repository;
-using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
-using LiveHAPI.Shared.Tests.TestHelpers;
+using LiveHAPI.Shared.Custom;
 using LiveHAPI.Sync.Core.Extractor;
 using LiveHAPI.Sync.Core.Interface.Extractors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace LiveHAPI.Sync.Core.Tests.Extractor
@@ -29,14 +25,13 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
         private Person person;
         private SubscriberSystem subscriber;
 
-
         [SetUp]
         public void SetUp()
         {
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:livehAPIConnection"];
+            var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;
@@ -52,18 +47,18 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
                 new ClientPretestStageExtractor( _clientStageRepository, _clientPretestStageRepository,
                     _subscriberSystemRepository, _clientEncounterRepository, new ClientRepository(_context));
 
+
+            var x=new ClientStageExtractor(new PersonRepository(_context), _clientStageRepository,
+                _subscriberSystemRepository).Extract().Result;
+
+
         }
-//
-//        [Test]
-//        public void should_Extract_Translated()
-//        {
-//           
-//        }
+
         [Test]
         public void should_Extract()
         {
             var clients = _clientPretestStageExtractor.Extract().Result.ToList();
-            Assert.True(clients.Count>0);
+            Assert.True(clients.Any());
             foreach (var clientStage in clients)
             {
                 Console.WriteLine(clientStage);

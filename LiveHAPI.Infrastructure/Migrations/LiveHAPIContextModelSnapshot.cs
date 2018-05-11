@@ -457,7 +457,7 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<int?>("EverTested");
 
-                    b.Property<int?>("MonthsSinceLastTest");
+                    b.Property<decimal?>("MonthsSinceLastTest");
 
                     b.Property<string>("Remarks");
 
@@ -497,6 +497,8 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<string>("FirstName");
 
+                    b.Property<bool>("IsIndex");
+
                     b.Property<int>("KeyPop");
 
                     b.Property<string>("Landmark");
@@ -526,6 +528,32 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ClientStages");
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.Exchange.ClientStageRelationship", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("IndexClientId");
+
+                    b.Property<bool>("IsPartner");
+
+                    b.Property<int>("Relation");
+
+                    b.Property<Guid>("SecondaryClientId");
+
+                    b.Property<DateTime>("StatusDate");
+
+                    b.Property<int>("SyncStatus");
+
+                    b.Property<string>("SyncStatusInfo");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClientStageRelationships");
                 });
 
             modelBuilder.Entity("LiveHAPI.Core.Model.Lookup.Category", b =>

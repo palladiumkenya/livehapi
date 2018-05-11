@@ -62,7 +62,7 @@ namespace LiveHAPI.Core.Model.Exchange
         }
         public override string ToString()
         {
-            return $" [{ClientId} {Id}]";
+            return $"{KitType} | {LotNumber} | {Result} [{ClientId}]";
         }
     }
 }

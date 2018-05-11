@@ -36,7 +36,7 @@ namespace LiveHAPI.Sync.Core.Exchange.Encounters
             return new SUMMARY(screeningResult,confirmatoryResult,finalResult,finalResultGiven,coupleDiscordant,pnsAccepted,pnsDeclineReason,remarks);
         }
 
-        internal static SUMMARY Create(ClientFinalTeststage stage)
+        internal static SUMMARY Create(ClientFinalTestStage stage)
         {
             return new SUMMARY(
                 stage.ScreeningResult,

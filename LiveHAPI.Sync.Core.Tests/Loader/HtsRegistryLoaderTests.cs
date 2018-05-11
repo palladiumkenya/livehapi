@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Linq;
-using FizzWare.NBuilder;
 using LiveHAPI.Core.Interfaces.Repository;
-using LiveHAPI.Core.Model.People;
-using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
-using LiveHAPI.Shared.Tests.TestHelpers;
-using LiveHAPI.Sync.Core.Extractor;
 using LiveHAPI.Sync.Core.Interface.Loaders;
 using LiveHAPI.Sync.Core.Loader;
 using Microsoft.EntityFrameworkCore;

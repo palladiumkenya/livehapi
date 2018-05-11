@@ -9,7 +9,7 @@ using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Model.Exchange
 {
-    public class ClientFinalTeststage : Entity<Guid>
+    public class ClientFinalTestStage : Entity<Guid>
     {
         public int ScreeningResult { get; set; }
         public int ConfirmatoryResult { get; set; }
@@ -24,19 +24,19 @@ namespace LiveHAPI.Core.Model.Exchange
         public DateTime StatusDate { get; set; }
         public string SyncStatusInfo { get; set; }
       
-        public ClientFinalTeststage()
+        public ClientFinalTestStage()
         {
             SyncStatus = SyncStatus.Staged;
             StatusDate=DateTime.Now;
         }
 
-        public static List <ClientFinalTeststage> Create(Encounter testingEncounter, SubscriberSystem subscriber)
+        public static List <ClientFinalTestStage> Create(Encounter testingEncounter, SubscriberSystem subscriber)
         {
-            var stages=new List<ClientFinalTeststage>();
+            var stages=new List<ClientFinalTestStage>();
 
             if (testingEncounter.ObsFinalTestResults.Any())
             {
-                var clientStage = new ClientFinalTeststage();
+                var clientStage = new ClientFinalTestStage();
                 var testResult = testingEncounter.ObsFinalTestResults.First();
                 clientStage.Id = testResult.Id;
                 clientStage.ScreeningResult = subscriber.GetTranslation(testResult.FirstTestResult, "HIVResults", "ObsFinalTestResult.FirstTestResult", "0").SafeConvert<int>();
@@ -59,7 +59,7 @@ namespace LiveHAPI.Core.Model.Exchange
         }
         public override string ToString()
         {
-            return $" [{ClientId} {Id}]";
+            return $"{ScreeningResult} |{ConfirmatoryResult}|{FinalResult} | {ClientId}";
         }
     }
 }

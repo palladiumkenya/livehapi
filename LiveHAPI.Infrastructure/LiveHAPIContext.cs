@@ -130,6 +130,7 @@ namespace LiveHAPI.Infrastructure
         public DbSet<ClientStage> ClientStages { get; set; }
         public DbSet<ClientPretestStage> ClientPretestStages { get; set; }
         public DbSet<ClientPretestDisabilityStage> ClientPretestDisabilityStages { get; set; }
+        public DbSet<ClientStageRelationship> ClientStageRelationships { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -144,6 +145,7 @@ namespace LiveHAPI.Infrastructure
             DapperPlusManager.Entity<ClientStage>().Table("ClientStages").Key(x => x.Id);
             DapperPlusManager.Entity<ClientPretestStage>().Table("ClientPretestStages").Key(x => x.Id);
             DapperPlusManager.Entity<ClientPretestDisabilityStage>().Table("ClientPretestDisabilityStages").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientStageRelationship>().Table("ClientStageRelationships").Key(x => x.Id);
         }
     }
 }

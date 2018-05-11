@@ -71,6 +71,17 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
         }
 
         [Test]
+        public void should_Get_All_Index_Clients()
+        {
+            var persons = _personRepository.GetAllIndexClients().ToList();
+            Assert.IsTrue(persons.Count > 0);
+            foreach (var person in persons)
+            {
+                Console.WriteLine(person);
+            }
+        }
+
+        [Test]
         public void should_Get_All_SecondaryClients()
         {
             var persons = _personRepository.GetAllSecondaryClients().ToList();

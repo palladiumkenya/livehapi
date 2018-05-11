@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
 using LiveHAPI.Core.Interfaces.Repository;
-using LiveHAPI.Core.Model.People;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
+using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Tests.TestHelpers;
 using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Interface.Services;
-using LiveHAPI.Sync.Core.Profiles;
 using LiveHAPI.Sync.Core.Reader;
 using LiveHAPI.Sync.Core.Service;
 using Microsoft.EntityFrameworkCore;
@@ -33,15 +29,14 @@ namespace LiveHAPI.Sync.Core.Tests.Service
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:hAPIConnection"];
+            var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
 
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;
             _reader = new ClientUserReader(new RestClient(_baseUrl));
             _context = new LiveHAPIContext(options);
-            TestData.Init();
-            TestDataCreator.Init(_context);
+        
             _repository = new UserRepository(_context);
             _service=new SyncUserService(_reader,_repository);
         }

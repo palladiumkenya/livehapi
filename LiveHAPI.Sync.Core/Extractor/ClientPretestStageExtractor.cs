@@ -31,7 +31,6 @@ namespace LiveHAPI.Sync.Core.Extractor
 
         public async Task<IEnumerable<ClientPretestStage>> Extract()
         {
-            
             _clientPretestStageRepository.Clear();
 
             var subscriber = await _subscriberSystemRepository.GetDefaultAsync();
@@ -40,7 +39,7 @@ namespace LiveHAPI.Sync.Core.Extractor
                 throw new Exception("Default EMR NOT SET");
             var pretestStages = new List<ClientPretestStage>();
 
-            var clientIds = _clientStageRepository.GetAll().Select(x => x.ClientId).ToList();
+            var clientIds = _clientStageRepository.GetAll().Where(x=>x.IsIndex).Select(x => x.ClientId).ToList();
 
             foreach (var clientId in clientIds)
             {

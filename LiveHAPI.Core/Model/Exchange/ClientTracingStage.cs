@@ -46,7 +46,7 @@ namespace LiveHAPI.Core.Model.Exchange
 
         public override string ToString()
         {
-            return $" [{ClientId} {Id}]";
+            return $"{TracingDate} |{TracingMode} |{TracingOutcome} [{ClientId}]";
         }
     }
 }

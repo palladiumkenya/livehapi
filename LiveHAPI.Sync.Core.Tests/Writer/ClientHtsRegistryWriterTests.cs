@@ -1,22 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using FizzWare.NBuilder;
 using LiveHAPI.Core.Interfaces.Repository;
-using LiveHAPI.Core.Model.Exchange;
-using LiveHAPI.Core.Model.People;
-using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
-using LiveHAPI.Shared.Custom;
-using LiveHAPI.Shared.Tests.TestHelpers;
-using LiveHAPI.Sync.Core.Exchange;
 using LiveHAPI.Sync.Core.Extractor;
 using LiveHAPI.Sync.Core.Interface.Extractors;
 using LiveHAPI.Sync.Core.Interface.Loaders;
-using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Interface.Writers;
 using LiveHAPI.Sync.Core.Loader;
 using LiveHAPI.Sync.Core.Reader;
@@ -24,7 +13,6 @@ using LiveHAPI.Sync.Core.Writer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 namespace LiveHAPI.Sync.Core.Tests.Writer
 {
