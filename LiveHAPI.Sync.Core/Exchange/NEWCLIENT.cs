@@ -23,6 +23,11 @@ namespace LiveHAPI.Sync.Core.Exchange
             ENCOUNTER = encounter;
         }
 
+        public static NEWCLIENT Create(PATIENT_IDENTIFICATION pid, ENCOUNTERS encounter)
+        {
+            return new NEWCLIENT(pid, encounter);
+        }
+
         public static NEWCLIENT Create(ClientStage  client, ENCOUNTERS encounter)
         {
             return new NEWCLIENT(PATIENT_IDENTIFICATION.Create(client),encounter );

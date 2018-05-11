@@ -23,8 +23,6 @@ namespace LiveHAPI.Sync.Core.Extractor
 
         public async Task<IEnumerable<ClientStage>> Extract()
         {
-            //TODO: Stage client
-
             _clientStageRepository.Clear();
 
             var subscriber = await _subscriberSystemRepository.GetDefaultAsync();
@@ -39,9 +37,13 @@ namespace LiveHAPI.Sync.Core.Extractor
                 clients.Add(ClientStage.Create(person, subscriber));
             }
 
-            _clientStageRepository.BulkInsert(clients);
+            return clients;
+        }
 
-            return _clientStageRepository.GetAll();
+        public async Task ExtractAndStage()
+        {
+            var clients =await Extract();
+            _clientStageRepository.BulkInsert(clients);
         }
     }
 }

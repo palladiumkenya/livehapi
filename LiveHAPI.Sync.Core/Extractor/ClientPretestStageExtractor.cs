@@ -67,8 +67,14 @@ namespace LiveHAPI.Sync.Core.Extractor
                     }
                 }
             }
+
+            return pretestStages;
+        }
+
+        public async Task ExtractAndStage()
+        {
+            var pretestStages = await Extract();
             _clientPretestStageRepository.BulkInsert(pretestStages);
-            return _clientPretestStageRepository.GetAll();
         }
     }
 }

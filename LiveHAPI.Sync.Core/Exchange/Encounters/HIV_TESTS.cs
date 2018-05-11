@@ -27,6 +27,14 @@ namespace LiveHAPI.Sync.Core.Exchange.Encounters
             return new HIV_TESTS(screening,confirmatory,summary);
         }
 
+        public static HIV_TESTS Create(List<ClientTestingStage> tests, ClientFinalTestStage stage)
+        {
+            var screening = NewTests.Create(tests.Where(x => x.HtsTestType == HtsTestType.Screening));
+            var confirmatory = NewTests.Create(tests.Where(x => x.HtsTestType == HtsTestType.Confrimatory));
+            var summary=Encounters.SUMMARY.Create(stage);
+            return new HIV_TESTS(screening, confirmatory, summary);
+        }
+
         public static HIV_TESTS Create(List<ClientTestingStage> tests, SUMMARY summary)
         {
             var screening = NewTests.Create(tests.Where(x => x.HtsTestType == HtsTestType.Screening));
