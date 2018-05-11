@@ -11,9 +11,16 @@ namespace LiveHAPI.Core.Model.Exchange
 {
     public class ClientPartnerTracingStage : Entity<Guid>
     {
+
         public DateTime TracingDate { get; set; }
+
         public int TracingMode { get; set; }
+
         public int TracingOutcome { get; set; }
+
+        public int Consent { get; set; }
+
+        public DateTime? BookingDate { get; set; }
         public Guid ClientId { get; set; }
         public SyncStatus SyncStatus { get; set; }
         public DateTime StatusDate { get; set; }
@@ -29,16 +36,21 @@ namespace LiveHAPI.Core.Model.Exchange
         {
             var stages = new List<ClientPartnerTracingStage>();
 
-            if (tracingEncounter.ObsTraceResults.Any())
+            if (tracingEncounter.ObsFamilyTraceResults.Any())
             {
-                var clientStage = new ClientPartnerTracingStage();
-                var traceResult = tracingEncounter.ObsTraceResults.First();
-                clientStage.Id = traceResult.Id;
-                clientStage.TracingDate = traceResult.Date;
-                clientStage.TracingMode = subscriber.GetTranslation(traceResult.Mode, "TracingMode", "ObsTraceResult.Mode", "0").SafeConvert<int>();
-                clientStage.TracingOutcome = subscriber.GetTranslation(traceResult.Outcome, "TracingOutcome", "ObsTraceResult.Outcome", "0").SafeConvert<int>();
-                clientStage.ClientId = tracingEncounter.ClientId;
-                stages.Add(clientStage);
+                foreach (var traceResult in tracingEncounter.ObsFamilyTraceResults)
+                {
+                    var tracingStage = new ClientPartnerTracingStage();
+
+                    tracingStage.Id = traceResult.Id;
+                    tracingStage.TracingDate = traceResult.Date;
+                    tracingStage.TracingMode = subscriber.GetTranslation(traceResult.Mode, "TracingMode", "ObsPartnerTraceResult.Mode", "0").SafeConvert<int>();
+                    tracingStage.TracingOutcome = subscriber.GetTranslation(traceResult.Outcome, "PnsTracingOutcome", "ObsPartnerTraceResult.Outcomee", "0").SafeConvert<int>();
+                    tracingStage.Consent = subscriber.GetTranslation(traceResult.Consent, "YesNo", "ObsPartnerTraceResult.Consent", "0").SafeConvert<int>();
+                    tracingStage.BookingDate = traceResult.BookingDate;
+                    tracingStage.ClientId = tracingEncounter.ClientId;
+                    stages.Add(tracingStage);
+                }
             }
 
             return stages;

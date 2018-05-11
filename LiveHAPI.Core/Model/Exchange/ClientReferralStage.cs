@@ -25,22 +25,22 @@ namespace LiveHAPI.Core.Model.Exchange
             StatusDate=DateTime.Now;
         }
 
-      
-
-        public static ClientReferralStage Create(Encounter linkageEncounter, SubscriberSystem subscriber)
+        public static List<ClientReferralStage> Create(Encounter linkageEncounter, SubscriberSystem subscriber)
         {
-            var clientStage=new ClientReferralStage();
-
+            var clientStages=new List<ClientReferralStage>();
             if (linkageEncounter.ObsLinkages.Any())
             {
-                var linkage = linkageEncounter.ObsLinkages.First();
-                clientStage.Id = linkage.Id;
-                clientStage.ReferredTo = linkage.ReferredTo;
-                clientStage.DateToBeEnrolled = linkage.DateEnrolled;
-                clientStage.ClientId = linkageEncounter.ClientId;
+                foreach (var linkage in linkageEncounter.ObsLinkages)
+                {
+                    var clientStage = new ClientReferralStage();
+                    clientStage.Id = linkage.Id;
+                    clientStage.ReferredTo = linkage.ReferredTo;
+                    clientStage.DateToBeEnrolled = linkage.DateEnrolled;
+                    clientStage.ClientId = linkageEncounter.ClientId;
+                    clientStages.Add(clientStage);
+                }
             }
-
-            return clientStage;
+            return clientStages;
         }
 
         public override string ToString()

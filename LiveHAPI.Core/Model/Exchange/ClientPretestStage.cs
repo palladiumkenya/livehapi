@@ -54,6 +54,10 @@ namespace LiveHAPI.Core.Model.Exchange
 
             if (obsEncounter.Obses.Any())
             {
+                foreach (var obsess in obsEncounter.Obses.GroupBy(x=>x.EncounterId))
+                {
+                    
+                }
                 var obses = obsEncounter.Obses.ToList();
                 clientStage.Id = obsEncounter.Id;
                 clientStage.EncounterDate = obsEncounter.EncounterDate;

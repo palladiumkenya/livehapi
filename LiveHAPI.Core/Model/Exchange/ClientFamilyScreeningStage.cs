@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.People;
@@ -27,22 +28,27 @@ namespace LiveHAPI.Core.Model.Exchange
             StatusDate = DateTime.Now;
         }
 
-        public static ClientFamilyScreeningStage Create(Encounter encounter, SubscriberSystem subscriber)
+        public static List<ClientFamilyScreeningStage> Create(Encounter encounter, SubscriberSystem subscriber)
         {
-            var clientStage = new ClientFamilyScreeningStage();
+            var clientStages = new List<ClientFamilyScreeningStage>();
 
             if (encounter.ObsMemberScreenings.Any())
             {
-                var screening = encounter.ObsMemberScreenings.First();
-                clientStage.Id = screening.Id;
-                clientStage.HivStatus = subscriber.GetTranslation(screening.HivStatus, "ScreeningHivStatus", "ObsMemberScreening.HivStatus", "0").SafeConvert<int>();
-                clientStage.EligibleForHts = subscriber.GetTranslation(screening.Eligibility, "YesNo", "ObsMemberScreening.Eligibility", "0").SafeConvert<int>();
-                clientStage.BookingDate = screening.BookingDate;
-                clientStage.Remarks = screening.Remarks;
-                clientStage.ClientId = encounter.ClientId;
+                foreach (var screening in encounter.ObsMemberScreenings)
+                {
+                    var clientStage = new ClientFamilyScreeningStage();
+                    clientStage.Id = screening.Id;
+                    clientStage.HivStatus = subscriber.GetTranslation(screening.HivStatus, "ScreeningHivStatus", "ObsMemberScreening.HivStatus", "0").SafeConvert<int>();
+                    clientStage.EligibleForHts = subscriber.GetTranslation(screening.Eligibility, "YesNo", "ObsMemberScreening.Eligibility", "0").SafeConvert<int>();
+                    clientStage.BookingDate = screening.BookingDate;
+                    clientStage.Remarks = screening.Remarks;
+                    clientStage.ClientId = encounter.ClientId;
+                    clientStages.Add(clientStage);
+                }
+              
             }
 
-            return clientStage;
+            return clientStages;
         }
         public override string ToString()
         {

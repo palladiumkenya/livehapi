@@ -31,16 +31,17 @@ namespace LiveHAPI.Core.Model.Exchange
 
             if (tracingEncounter.ObsTraceResults.Any())
             {
-                var clientStage = new ClientTracingStage();
-                var traceResult = tracingEncounter.ObsTraceResults.First();
-                clientStage.Id = traceResult.Id;
-                clientStage.TracingDate = traceResult.Date;
-                clientStage.TracingMode = subscriber.GetTranslation(traceResult.Mode, "TracingMode", "ObsTraceResult.Mode", "0").SafeConvert<int>();
-                clientStage.TracingOutcome = subscriber.GetTranslation(traceResult.Outcome, "TracingOutcome", "ObsTraceResult.Outcome","0").SafeConvert<int>();
-                clientStage.ClientId = tracingEncounter.ClientId;
-                stages.Add(clientStage);
+                foreach (var traceResult in tracingEncounter.ObsTraceResults)
+                {
+                    var clientStage = new ClientTracingStage();
+                    clientStage.Id = traceResult.Id;
+                    clientStage.TracingDate = traceResult.Date;
+                    clientStage.TracingMode = subscriber.GetTranslation(traceResult.Mode, "TracingMode", "ObsTraceResult.Mode", "0").SafeConvert<int>();
+                    clientStage.TracingOutcome = subscriber.GetTranslation(traceResult.Outcome, "TracingOutcome", "ObsTraceResult.Outcome", "0").SafeConvert<int>();
+                    clientStage.ClientId = tracingEncounter.ClientId;
+                    stages.Add(clientStage);
+                }
             }
-
             return stages;
         }
 

@@ -15,7 +15,7 @@ namespace LiveHAPI.Core.Model.Exchange
         public DateTime? ReminderDate { get; set; }
         public int TracingMode { get; set; }
         public int TracingOutcome { get; set; }
-        public int Consent { get; set; }
+        public int? Consent { get; set; }
         public DateTime? BookingDate { get; set; }
         public Guid ClientId { get; set; }
         public SyncStatus SyncStatus { get; set; }
@@ -39,15 +39,13 @@ namespace LiveHAPI.Core.Model.Exchange
                     var tracingStage = new ClientFamilyTracingStage();
 
                     tracingStage.Id = traceResult.Id;
-                    tracingStage.HtsTestType = GetTestType(traceResult.TestName);
-                    tracingStage.KitType = subscriber.GetTranslation(traceResult.Kit, "HIVTestKits", "ObsTestResult.Kit", "0").SafeConvert<int>();
-                    tracingStage.KitOther = traceResult.KitOther;
-                    tracingStage.LotNumber = traceResult.LotNumber;
-                    tracingStage.ExpiryDate = traceResult.Expiry.ToIqDateOnly();
-                    tracingStage.Result = subscriber.GetTranslation(traceResult.Kit, "HIVResults", "ObsTestResult.Result", "0").SafeConvert<int>();
-                    tracingStage.TestRound = (int)tracingStage.HtsTestType;
-                    tracingStage.ClientId = testingEncounter.ClientId;
-
+                    tracingStage.TracingDate = traceResult.Date;
+                    tracingStage.ReminderDate = traceResult.Reminder;
+                    tracingStage.TracingMode = subscriber.GetTranslation(traceResult.Mode, "TracingMode", "ObsFamilyTraceResult.Mode", "0").SafeConvert<int>();
+                    tracingStage.TracingOutcome = subscriber.GetTranslation(traceResult.Outcome, "PnsTracingOutcome", "ObsFamilyTraceResult.Outcome", "0").SafeConvert<int>();
+                    tracingStage.Consent = subscriber.GetTranslation(traceResult.Consent, "YesNo", "ObsFamilyTraceResult.Consent", "0").SafeConvert<int>();
+                    tracingStage.BookingDate = traceResult.BookingDate;
+                    tracingStage.ClientId = tracingEncounter.ClientId;
                     stages.Add(tracingStage);
                 }
             }
