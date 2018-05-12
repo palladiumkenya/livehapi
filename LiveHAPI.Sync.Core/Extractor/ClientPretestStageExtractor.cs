@@ -71,10 +71,11 @@ namespace LiveHAPI.Sync.Core.Extractor
             return pretestStages;
         }
 
-        public async Task ExtractAndStage()
+        public async Task<int> ExtractAndStage()
         {
             var pretestStages = await Extract();
             _clientPretestStageRepository.BulkInsert(pretestStages);
+            return 1;
         }
     }
 }

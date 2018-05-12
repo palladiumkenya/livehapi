@@ -89,5 +89,18 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
                 Console.WriteLine(clientStage);
             }
         }
+
+        [Test]
+        public void should_ExtractAndStage()
+        {
+            var clients = _clientStageExtractor.ExtractAndStage().Result;
+            Assert.True(clients==1);
+            var stagedClients = _clientStageRepository.GetAll().ToList();
+            Assert.True(stagedClients.Count>0);
+            foreach (var clientStage in stagedClients)
+            {
+                Console.WriteLine(clientStage);
+            }
+        }
     }
 }

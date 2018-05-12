@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.Exchange;
@@ -40,10 +41,11 @@ namespace LiveHAPI.Sync.Core.Extractor
             return clients;
         }
 
-        public async Task ExtractAndStage()
+        public async Task<int> ExtractAndStage()
         {
             var clients =await Extract();
             _clientStageRepository.BulkInsert(clients);
+            return 1;
         }
     }
 }

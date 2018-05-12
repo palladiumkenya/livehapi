@@ -22,6 +22,7 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
         private  ISubscriberSystemRepository _subscriberSystemRepository;
         private IClientPretestStageExtractor _clientPretestStageExtractor;
         private LiveHAPIContext _context;
+        private ClientStageExtractor _clientStageExtractor;
 
 
         [SetUp]
@@ -50,7 +51,8 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
             var x=new ClientStageExtractor(new PersonRepository(_context), _clientStageRepository,
                 _subscriberSystemRepository).Extract().Result;
 
-
+           _clientStageExtractor= new ClientStageExtractor(new PersonRepository(_context), _clientStageRepository,
+                _subscriberSystemRepository);
         }
 
         [Test]
@@ -59,6 +61,22 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
             var clients = _clientPretestStageExtractor.Extract().Result.ToList();
             Assert.True(clients.Any());
             foreach (var clientStage in clients)
+            {
+                Console.WriteLine(clientStage);
+            }
+        }
+
+        [Test]
+        public void should_ExtractAndStage()
+        {
+            var inital= _clientStageExtractor.ExtractAndStage().Result;
+            Assert.True(inital == 1);
+
+            var clients = _clientPretestStageExtractor.ExtractAndStage().Result;
+            Assert.True(clients == 1);
+            var stagedClients = _clientPretestStageRepository.GetAll().ToList();
+            Assert.True(stagedClients.Count > 0);
+            foreach (var clientStage in stagedClients)
             {
                 Console.WriteLine(clientStage);
             }

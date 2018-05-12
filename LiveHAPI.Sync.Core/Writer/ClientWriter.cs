@@ -19,11 +19,11 @@ namespace LiveHAPI.Sync.Core.Writer
     public abstract class ClientWriter<T> : IClientWriter<T>
     {
         private readonly HttpClient _httpClient;
-        private readonly ILoader<T> _loader;
+        private readonly IMessageLoader<T> _loader;
         private string _message;
         private List<SendError> _errors;
 
-        protected ClientWriter(IRestClient restClient, ILoader<T> loader)
+        protected ClientWriter(IRestClient restClient, IMessageLoader<T> loader)
         {
             _httpClient = restClient.Client;
             _loader = loader;
@@ -38,11 +38,11 @@ namespace LiveHAPI.Sync.Core.Writer
             return Write($"api/{typeof(T).Name}");
         }
 
-        public async Task<IEnumerable<SynchronizeClientsResponse>> WriteEach(string endpoint)
+        protected async Task<IEnumerable<SynchronizeClientsResponse>> Write(string endpoint)
         {
             _errors =new List<SendError>();
             var results = new List<SynchronizeClientsResponse>();
-            var htsClients = _loader.LoadAll();
+            var htsClients =await _loader.Load();
             foreach (var htsClient in htsClients)
             {
                 _message = JsonConvert.SerializeObject(htsClient);
@@ -51,6 +51,7 @@ namespace LiveHAPI.Sync.Core.Writer
                     var response = await _httpClient.PostAsJsonAsync(endpoint, htsClient);
                     response.EnsureSuccessStatusCode();
                     var result = await response.Content.ReadAsJsonAsync<SynchronizeClientsResponse>();
+                    results.Add(result);
                 }
                 catch (Exception e)
                 {
@@ -65,26 +66,6 @@ namespace LiveHAPI.Sync.Core.Writer
             }
 
             return results;
-        }
-
-        protected async Task<IEnumerable<SynchronizeClientsResponse>> Write(string endpoint)
-        {
-            var data =  _loader.Load();
-            _message = JsonConvert.SerializeObject(data);
-
-            var result = new List<SynchronizeClientsResponse>();
-            try
-            {
-                var response = await _httpClient.PostAsJsonAsync(endpoint, data);
-                result = await response.Content.ReadAsJsonAsync<List<SynchronizeClientsResponse>>();
-            }
-            catch (Exception e)
-            {
-                Log.Error($"error posting to endpint [{endpoint}] for {typeof(T).Name}");
-                Log.Error($"{e}");
-            }
-
-            return result;
         }
     }
 }

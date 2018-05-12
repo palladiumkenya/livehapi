@@ -37,5 +37,10 @@ namespace LiveHAPI.Infrastructure.Repository
                 con.BulkInsert(clientStages);
             }
         }
+
+        public IEnumerable<ClientStage> GetIndexClients()
+        {
+            return GetAll(x => x.IsIndex);
+        }
     }
 }

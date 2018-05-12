@@ -52,7 +52,7 @@ namespace LiveHAPI.Sync.Core.Loader
 
             //      NEWCLIENT
 
-            var stagedIndexClients = _clientStageRepository.GetAll();
+            var stagedIndexClients = _clientStageRepository.GetIndexClients();
 
             foreach (var stagedClient in stagedIndexClients)
             {
@@ -77,13 +77,13 @@ namespace LiveHAPI.Sync.Core.Loader
 
                 //  HIV_TESTS
                 var allfinalTests = await _clientFinalTestStageExtractor.Extract();
-                var finalTest = allfinalTests.ToList().FirstOrDefault();
+                var finalTest = allfinalTests.ToList().LastOrDefault();
                 var alltests = await _clientTestingStageExtractor.Extract();
 
                 var ht = HIV_TESTS.Create(alltests.ToList(), finalTest);
                 //  NewReferral
                 var allReferrals = await _clientReferralStageExtractor.Extract();
-                var referrall = allReferrals.FirstOrDefault();
+                var referrall = allReferrals.LastOrDefault();
                 var nr = NewReferral.Create(referrall);
 
                 //  NewTracing
@@ -92,7 +92,7 @@ namespace LiveHAPI.Sync.Core.Loader
 
                 // NewLinkage
                 var allLinkages = await _clientLinkageStageExtractor.Extract();
-                var linkage = allLinkages.FirstOrDefault();
+                var linkage = allLinkages.LastOrDefault();
 
                 var ln = NewLinkage.Create(linkage);
 
@@ -102,7 +102,7 @@ namespace LiveHAPI.Sync.Core.Loader
                 messages.Add(new IndexClientMessage(header,new List<NEWCLIENT>{NEWCLIENT.Create(pid,en)}));
             }
 
-            return new List<IndexClientMessage>();
+            return messages;
         }
     }
 }

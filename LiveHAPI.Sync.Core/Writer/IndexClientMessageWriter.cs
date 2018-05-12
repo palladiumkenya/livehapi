@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Sync.Core.Exchange;
+using LiveHAPI.Sync.Core.Exchange.Messages;
 using LiveHAPI.Sync.Core.Interface.Extractors;
 using LiveHAPI.Sync.Core.Interface.Loaders;
 using LiveHAPI.Sync.Core.Interface.Readers;
@@ -13,9 +14,9 @@ using Serilog;
 
 namespace LiveHAPI.Sync.Core.Writer
 {
-    public class ClientHtsRegistryWriter : ClientWriter<HtsRegistry>, IClientHtsRegistryWriter
+    public class IndexClientMessageWriter : ClientWriter<IndexClientMessage>, IIndexClientMessageWriter
     {
-        public ClientHtsRegistryWriter(IRestClient restClient, IHtsRegistryLoader loader) : base(restClient, loader)
+        public IndexClientMessageWriter(IRestClient restClient, IIndexClientMessageLoader loader) : base(restClient, loader)
         {
         }
 

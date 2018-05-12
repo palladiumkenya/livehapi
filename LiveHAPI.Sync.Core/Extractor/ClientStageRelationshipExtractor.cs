@@ -42,7 +42,7 @@ namespace LiveHAPI.Sync.Core.Extractor
             return _clientStageRelationshipRepository.GetAll();
         }
 
-        public Task ExtractAndStage()
+        public Task<int> ExtractAndStage()
         {
             throw new NotImplementedException();
         }

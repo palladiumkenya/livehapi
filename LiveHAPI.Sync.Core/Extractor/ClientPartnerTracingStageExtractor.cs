@@ -35,7 +35,7 @@ namespace LiveHAPI.Sync.Core.Extractor
             return clients;
         }
 
-        public Task ExtractAndStage()
+        public Task<int> ExtractAndStage()
         {
             throw new NotImplementedException();
         }

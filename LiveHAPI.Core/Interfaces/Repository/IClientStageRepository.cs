@@ -10,5 +10,6 @@ namespace LiveHAPI.Core.Interfaces.Repository
     {
         void Clear();
         void BulkInsert(IEnumerable<ClientStage> clientStages);
+        IEnumerable<ClientStage> GetIndexClients();
     }
 }

@@ -39,81 +39,10 @@
     <Content Include="htchapi001.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwrootx\3rdpartylicenses.txt" />
-    <Content Include="wwwrootx\assets\layout\css\layout-dark-green.css" />
-    <Content Include="wwwrootx\assets\layout\css\layout-dark-green.scss" />
-    <Content Include="wwwrootx\assets\layout\fonts\MaterialIcons-Regular.eot" />
-    <Content Include="wwwrootx\assets\layout\fonts\MaterialIcons-Regular.ttf" />
-    <Content Include="wwwrootx\assets\layout\fonts\MaterialIcons-Regular.woff" />
-    <Content Include="wwwrootx\assets\layout\fonts\MaterialIcons-Regular.woff2" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-300.eot" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-300.svg" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-300.ttf" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-300.woff" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-300.woff2" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-700.eot" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-700.svg" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-700.ttf" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-700.woff" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-700.woff2" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-regular.eot" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-regular.svg" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-regular.ttf" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-regular.woff" />
-    <Content Include="wwwrootx\assets\layout\fonts\roboto-v15-latin-regular.woff2" />
-    <Content Include="wwwrootx\assets\layout\images\401.svg" />
-    <Content Include="wwwrootx\assets\layout\images\404.svg" />
-    <Content Include="wwwrootx\assets\layout\images\dwapi.fw.png" />
-    <Content Include="wwwrootx\assets\layout\images\dwapi.png" />
-    <Content Include="wwwrootx\assets\layout\images\error.svg" />
-    <Content Include="wwwrootx\assets\layout\images\favicon.png" />
-    <Content Include="wwwrootx\assets\layout\images\logo.fw.png" />
-    <Content Include="wwwrootx\assets\layout\images\logo.png" />
-    <Content Include="wwwrootx\assets\layout\images\logo2x.png" />
-    <Content Include="wwwrootx\assets\layout\images\preloader.gif" />
-    <Content Include="wwwrootx\assets\layout\js\ripple.js" />
-    <Content Include="wwwrootx\assets\pages\404.html" />
-    <Content Include="wwwrootx\assets\pages\access.html" />
-    <Content Include="wwwrootx\assets\pages\error.html" />
-    <Content Include="wwwrootx\assets\pages\jquery.js" />
-    <Content Include="wwwrootx\assets\pages\primeng.min.css" />
-    <Content Include="wwwrootx\assets\sass\layout\_compact.scss" />
-    <Content Include="wwwrootx\assets\sass\layout\_dashboard.scss" />
-    <Content Include="wwwrootx\assets\sass\layout\_exception.scss" />
-    <Content Include="wwwrootx\assets\sass\layout\_landing.scss" />
-    <Content Include="wwwrootx\assets\sass\layout\_layout.scss" />
-    <Content Include="wwwrootx\assets\sass\layout\_login.scss" />
-    <Content Include="wwwrootx\assets\sass\layout\_main.scss" />
-    <Content Include="wwwrootx\assets\sass\layout\_splash.scss" />
-    <Content Include="wwwrootx\assets\sass\layout\_utils.scss" />
-    <Content Include="wwwrootx\assets\sass\theme\_common.scss" />
-    <Content Include="wwwrootx\assets\sass\theme\_data.scss" />
-    <Content Include="wwwrootx\assets\sass\theme\_forms.scss" />
-    <Content Include="wwwrootx\assets\sass\theme\_icons.scss" />
-    <Content Include="wwwrootx\assets\sass\theme\_menu.scss" />
-    <Content Include="wwwrootx\assets\sass\theme\_message.scss" />
-    <Content Include="wwwrootx\assets\sass\theme\_misc.scss" />
-    <Content Include="wwwrootx\assets\sass\theme\_overlay.scss" />
-    <Content Include="wwwrootx\assets\sass\theme\_panel.scss" />
-    <Content Include="wwwrootx\assets\sass\theme\_theme.scss" />
-    <Content Include="wwwrootx\assets\sass\_fonts.scss" />
-    <Content Include="wwwrootx\assets\sass\_mixins.scss" />
-    <Content Include="wwwrootx\assets\sass\_variables.scss" />
-    <Content Include="wwwrootx\assets\theme\theme-dark-green.css" />
-    <Content Include="wwwrootx\assets\theme\theme-dark-green.scss" />
-    <Content Include="wwwrootx\color.c7a33805ffda0d32bd2a.png" />
-    <Content Include="wwwrootx\favicon.ico" />
-    <Content Include="wwwrootx\index.html" />
-    <Content Include="wwwrootx\inline.318b50c57b4eba3d437b.bundle.js" />
-    <Content Include="wwwrootx\line.567f57385ea3dde2c9ae.gif" />
-    <Content Include="wwwrootx\main.081dc40758417df019d3.bundle.js" />
-    <Content Include="wwwrootx\polyfills.e7e0b28f26cb0a72996e.bundle.js" />
-    <Content Include="wwwrootx\scripts.17cb162ba52c79069f78.bundle.js" />
-    <Content Include="wwwrootx\styles.179336d896e031781d2d.bundle.css" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwrootx\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -130,6 +59,80 @@
 
   <ItemGroup>
      <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\3rdpartylicenses.txt" />
+    <None Include="wwwroot\assets\layout\css\layout-dark-green.css" />
+    <None Include="wwwroot\assets\layout\css\layout-dark-green.scss" />
+    <None Include="wwwroot\assets\layout\fonts\MaterialIcons-Regular.eot" />
+    <None Include="wwwroot\assets\layout\fonts\MaterialIcons-Regular.ttf" />
+    <None Include="wwwroot\assets\layout\fonts\MaterialIcons-Regular.woff" />
+    <None Include="wwwroot\assets\layout\fonts\MaterialIcons-Regular.woff2" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-300.eot" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-300.svg" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-300.ttf" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-300.woff" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-300.woff2" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-700.eot" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-700.svg" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-700.ttf" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-700.woff" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-700.woff2" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-regular.eot" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-regular.svg" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-regular.ttf" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-regular.woff" />
+    <None Include="wwwroot\assets\layout\fonts\roboto-v15-latin-regular.woff2" />
+    <None Include="wwwroot\assets\layout\images\401.svg" />
+    <None Include="wwwroot\assets\layout\images\404.svg" />
+    <None Include="wwwroot\assets\layout\images\dwapi.fw.png" />
+    <None Include="wwwroot\assets\layout\images\dwapi.png" />
+    <None Include="wwwroot\assets\layout\images\error.svg" />
+    <None Include="wwwroot\assets\layout\images\favicon.png" />
+    <None Include="wwwroot\assets\layout\images\logo.fw.png" />
+    <None Include="wwwroot\assets\layout\images\logo.png" />
+    <None Include="wwwroot\assets\layout\images\logo2x.png" />
+    <None Include="wwwroot\assets\layout\images\preloader.gif" />
+    <None Include="wwwroot\assets\layout\js\ripple.js" />
+    <None Include="wwwroot\assets\pages\404.html" />
+    <None Include="wwwroot\assets\pages\access.html" />
+    <None Include="wwwroot\assets\pages\error.html" />
+    <None Include="wwwroot\assets\pages\jquery.js" />
+    <None Include="wwwroot\assets\pages\primeng.min.css" />
+    <None Include="wwwroot\assets\sass\layout\_compact.scss" />
+    <None Include="wwwroot\assets\sass\layout\_dashboard.scss" />
+    <None Include="wwwroot\assets\sass\layout\_exception.scss" />
+    <None Include="wwwroot\assets\sass\layout\_landing.scss" />
+    <None Include="wwwroot\assets\sass\layout\_layout.scss" />
+    <None Include="wwwroot\assets\sass\layout\_login.scss" />
+    <None Include="wwwroot\assets\sass\layout\_main.scss" />
+    <None Include="wwwroot\assets\sass\layout\_splash.scss" />
+    <None Include="wwwroot\assets\sass\layout\_utils.scss" />
+    <None Include="wwwroot\assets\sass\theme\_common.scss" />
+    <None Include="wwwroot\assets\sass\theme\_data.scss" />
+    <None Include="wwwroot\assets\sass\theme\_forms.scss" />
+    <None Include="wwwroot\assets\sass\theme\_icons.scss" />
+    <None Include="wwwroot\assets\sass\theme\_menu.scss" />
+    <None Include="wwwroot\assets\sass\theme\_message.scss" />
+    <None Include="wwwroot\assets\sass\theme\_misc.scss" />
+    <None Include="wwwroot\assets\sass\theme\_overlay.scss" />
+    <None Include="wwwroot\assets\sass\theme\_panel.scss" />
+    <None Include="wwwroot\assets\sass\theme\_theme.scss" />
+    <None Include="wwwroot\assets\sass\_fonts.scss" />
+    <None Include="wwwroot\assets\sass\_mixins.scss" />
+    <None Include="wwwroot\assets\sass\_variables.scss" />
+    <None Include="wwwroot\assets\theme\theme-dark-green.css" />
+    <None Include="wwwroot\assets\theme\theme-dark-green.scss" />
+    <None Include="wwwroot\color.c7a33805ffda0d32bd2a.png" />
+    <None Include="wwwroot\favicon.ico" />
+    <None Include="wwwroot\index.html" />
+    <None Include="wwwroot\inline.318b50c57b4eba3d437b.bundle.js" />
+    <None Include="wwwroot\line.567f57385ea3dde2c9ae.gif" />
+    <None Include="wwwroot\main.081dc40758417df019d3.bundle.js" />
+    <None Include="wwwroot\polyfills.e7e0b28f26cb0a72996e.bundle.js" />
+    <None Include="wwwroot\scripts.17cb162ba52c79069f78.bundle.js" />
+    <None Include="wwwroot\styles.179336d896e031781d2d.bundle.css" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LiveHAPI.Core\LiveHAPI.Core.csproj" />
