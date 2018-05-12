@@ -65,6 +65,21 @@ namespace LiveHAPI.Core.Model.People
         }
 
         [NotMapped]
+        public DateTime ContactRegDate
+        {
+            get
+            {
+                if (Clients.Any())
+                {
+                    var clientStates = Clients.First().ClientStates.OrderBy(x => x.StatusDate).ToList();
+                    if (clientStates.Any())
+                        return clientStates.First().StatusDate;
+                }
+                return new DateTime(1900,1,1);
+            }
+        }
+
+        [NotMapped]
         public PersonName PersonName
         {
             get

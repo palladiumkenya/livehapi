@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Sync.Core.Exchange.Clients;
 
@@ -8,12 +9,14 @@ namespace LiveHAPI.Sync.Core.Exchange
     {
         public int RELATIONSHIP_TYPE { get; set; }
 
+        protected PARTNER_FAMILY_PATIENT_IDENTIFICATION(ClientStage clientStage, Guid indexClientId, int relationshipType) : base(clientStage, indexClientId)
+        {
+            RELATIONSHIP_TYPE = relationshipType;
+        }
+
         public static PARTNER_FAMILY_PATIENT_IDENTIFICATION Create(ClientStage stagedClient, Guid indexClientId, int relation)
         {
-            var pid = CreateContact(stagedClient, indexClientId);
-            var cid = pid as PARTNER_FAMILY_PATIENT_IDENTIFICATION;
-            cid.RELATIONSHIP_TYPE = relation;
-            return cid;
+            return new PARTNER_FAMILY_PATIENT_IDENTIFICATION(stagedClient,indexClientId,relation);
         }
     }
 }

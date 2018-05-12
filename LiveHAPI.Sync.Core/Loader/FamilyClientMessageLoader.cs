@@ -18,39 +18,19 @@ namespace LiveHAPI.Sync.Core.Loader
     {
         private readonly IPracticeRepository _practiceRepository;
         private readonly IClientStageRepository _clientStageRepository;
-        private readonly IClientPretestStageRepository _clientPretestStageRepository;
         private readonly IClientStageRelationshipRepository _clientStageRelationshipRepository;
-        private readonly IContactsEncounterRepository _contactsEncounterRepository;
-        private readonly IClientTestingStageExtractor _clientTestingStageExtractor;
-        private readonly IClientFinalTestStageExtractor _clientFinalTestStageExtractor;
-        private readonly IClientReferralStageExtractor _clientReferralStageExtractor;
-        private readonly IClientTracingStageExtractor _clientTracingStageExtractor;
-        private readonly IClientLinkageStageExtractor _clientLinkageStageExtractor;
         private readonly IClientFamilyScreeningStageExtractor _clientFamilyScreeningStageExtractor;
         private readonly IClientFamilyTracingStageExtractor _clientFamilyTracingStageExtractor;
 
         public FamilyClientMessageLoader(IPracticeRepository practiceRepository,
-            IClientStageRepository clientStageRepository, IClientPretestStageRepository clientPretestStageRepository,
-            IClientTestingStageExtractor clientTestingStageExtractor,
-            IClientFinalTestStageExtractor clientFinalTestStageExtractor,
-            IClientReferralStageExtractor clientReferralStageExtractor,
-            IClientTracingStageExtractor clientTracingStageExtractor,
-            IClientLinkageStageExtractor clientLinkageStageExtractor,
+            IClientStageRepository clientStageRepository,
             IClientStageRelationshipRepository clientStageRelationshipRepository,
-            IContactsEncounterRepository contactsEncounterRepository,
             IClientFamilyScreeningStageExtractor clientFamilyScreeningStageExtractor,
             IClientFamilyTracingStageExtractor clientFamilyTracingStageExtractor)
         {
             _practiceRepository = practiceRepository;
             _clientStageRepository = clientStageRepository;
-            _clientPretestStageRepository = clientPretestStageRepository;
-            _clientTestingStageExtractor = clientTestingStageExtractor;
-            _clientFinalTestStageExtractor = clientFinalTestStageExtractor;
-            _clientReferralStageExtractor = clientReferralStageExtractor;
-            _clientTracingStageExtractor = clientTracingStageExtractor;
-            _clientLinkageStageExtractor = clientLinkageStageExtractor;
             _clientStageRelationshipRepository = clientStageRelationshipRepository;
-            _contactsEncounterRepository = contactsEncounterRepository;
             _clientFamilyScreeningStageExtractor = clientFamilyScreeningStageExtractor;
             _clientFamilyTracingStageExtractor = clientFamilyTracingStageExtractor;
         }

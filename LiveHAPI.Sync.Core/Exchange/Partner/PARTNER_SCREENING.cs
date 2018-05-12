@@ -57,26 +57,31 @@ namespace LiveHAPI.Sync.Core.Exchange.Partner
             BOOKING_DATE = bookingDate;
         }
 
+        public static PARTNER_SCREENING Create(ClientPartnerScreeningStage clientTracingStage)
+        {
+            return new PARTNER_SCREENING(
+                clientTracingStage.PnsAccepted,
+                clientTracingStage.ScreeningDate.ToIqDateOnly(),
+                clientTracingStage.IpvScreeningDone.Value,
+                clientTracingStage.HurtByPartner.Value,
+                clientTracingStage.ThreatByPartner.Value,
+                clientTracingStage.SexualAbuseByPartner.Value,
+                clientTracingStage.IpvOutcome.Value,
+                clientTracingStage.PartnerOccupation,
+                clientTracingStage.PartnerRelationship.Value,
+                clientTracingStage.LivingWithClient.Value,
+                clientTracingStage.HivStatus.Value,
+                clientTracingStage.PnsApproach.Value,
+                clientTracingStage.EligibleForHts.Value,
+                clientTracingStage.BookingDate.ToIqDateOnly());
+        }
+
         public static List<PARTNER_SCREENING> Create(List<ClientPartnerScreeningStage> stage)
         {
             var list = new List<PARTNER_SCREENING>();
             foreach (var clientTracingStage in stage)
             {
-                list.Add(new PARTNER_SCREENING(
-                    clientTracingStage.PnsAccepted,
-                    clientTracingStage.ScreeningDate.ToIqDateOnly(),
-                    clientTracingStage.IpvScreeningDone.Value,
-                    clientTracingStage.HurtByPartner.Value,
-                    clientTracingStage.ThreatByPartner.Value,
-                    clientTracingStage.SexualAbuseByPartner.Value,
-                    clientTracingStage.IpvOutcome.Value,
-                    clientTracingStage.PartnerOccupation,
-                    clientTracingStage.PartnerRelationship.Value,
-                    clientTracingStage.LivingWithClient.Value,
-                    clientTracingStage.HivStatus.Value,
-                    clientTracingStage.PnsApproach.Value,
-                    clientTracingStage.EligibleForHts.Value,
-                    clientTracingStage.BookingDate.ToIqDateOnly()));
+                list.Add(Create(clientTracingStage));
             }
             return list;
         }

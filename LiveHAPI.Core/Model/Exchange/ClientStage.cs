@@ -85,8 +85,11 @@ namespace LiveHAPI.Core.Model.Exchange
                 {
                     clientStage.Serial = client.HtsEnrollment.Identifier;
                     clientStage.RegistrationDate = client.HtsEnrollment.RegistrationDate;
-                }
-               
+                }         
+            }
+            else
+            {
+                clientStage.RegistrationDate = person.ContactRegDate;
             }
             return clientStage;
         }

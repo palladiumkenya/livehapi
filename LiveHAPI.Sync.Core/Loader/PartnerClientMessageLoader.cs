@@ -18,39 +18,19 @@ namespace LiveHAPI.Sync.Core.Loader
     {
         private readonly IPracticeRepository _practiceRepository;
         private readonly IClientStageRepository _clientStageRepository;
-        private readonly IClientPretestStageRepository _clientPretestStageRepository;
         private readonly IClientStageRelationshipRepository _clientStageRelationshipRepository;
-        private readonly IContactsEncounterRepository _contactsEncounterRepository;
-        private readonly IClientTestingStageExtractor _clientTestingStageExtractor;
-        private readonly IClientFinalTestStageExtractor _clientFinalTestStageExtractor;
-        private readonly IClientReferralStageExtractor _clientReferralStageExtractor;
-        private readonly IClientTracingStageExtractor _clientTracingStageExtractor;
-        private readonly IClientLinkageStageExtractor _clientLinkageStageExtractor;
         private readonly IClientPartnerScreeningStageExtractor _clientPartnerScreeningStageExtractor;
         private readonly IClientPartnerTracingStageExtractor _clientPartnerTracingStageExtractor;
 
         public PartnerClientMessageLoader(IPracticeRepository practiceRepository,
-            IClientStageRepository clientStageRepository, IClientPretestStageRepository clientPretestStageRepository,
-            IClientTestingStageExtractor clientTestingStageExtractor,
-            IClientFinalTestStageExtractor clientFinalTestStageExtractor,
-            IClientReferralStageExtractor clientReferralStageExtractor,
-            IClientTracingStageExtractor clientTracingStageExtractor,
-            IClientLinkageStageExtractor clientLinkageStageExtractor,
+            IClientStageRepository clientStageRepository,
             IClientStageRelationshipRepository clientStageRelationshipRepository,
-            IContactsEncounterRepository contactsEncounterRepository,
             IClientPartnerScreeningStageExtractor clientPartnerScreeningStageExtractor,
             IClientPartnerTracingStageExtractor clientPartnerTracingStageExtractor)
         {
             _practiceRepository = practiceRepository;
             _clientStageRepository = clientStageRepository;
-            _clientPretestStageRepository = clientPretestStageRepository;
-            _clientTestingStageExtractor = clientTestingStageExtractor;
-            _clientFinalTestStageExtractor = clientFinalTestStageExtractor;
-            _clientReferralStageExtractor = clientReferralStageExtractor;
-            _clientTracingStageExtractor = clientTracingStageExtractor;
-            _clientLinkageStageExtractor = clientLinkageStageExtractor;
             _clientStageRelationshipRepository = clientStageRelationshipRepository;
-            _contactsEncounterRepository = contactsEncounterRepository;
             _clientPartnerScreeningStageExtractor = clientPartnerScreeningStageExtractor;
             _clientPartnerTracingStageExtractor = clientPartnerTracingStageExtractor;
         }
@@ -71,7 +51,7 @@ namespace LiveHAPI.Sync.Core.Loader
 
             //      NEWCLIENT
 
-            var fams = _clientStageRelationshipRepository.GetAll(x => !x.IsPartner);
+            var fams = _clientStageRelationshipRepository.GetAll(x => x.IsPartner);
 
             foreach (var fam in fams)
             {
@@ -80,7 +60,7 @@ namespace LiveHAPI.Sync.Core.Loader
                 {
                     #region PATIENT_IDENTIFICATION
 
-                    var pid = PARTNER_Partner_PATIENT_IDENTIFICATION.Create(stagedClient, fam.IndexClientId,fam.Relation);
+                    var pid = PARTNER_FAMILY_PATIENT_IDENTIFICATION.Create(stagedClient, fam.IndexClientId,fam.Relation);
 
                     #endregion
 
@@ -93,12 +73,12 @@ namespace LiveHAPI.Sync.Core.Loader
                     //  PLACER_DETAIL
                     var pd = PLACER_DETAIL.Create(1, pretest.Id);
 
-                    //  Partner_SCREENING
-                    var pr = Partner_SCREENING.Create(pretest);
+                    //  PARTNER_SCREENING
+                    var pr = PARTNER_SCREENING.Create(pretest);
 
                     //  Partner_TRACING
                     var allTracing = await _clientPartnerTracingStageExtractor.Extract();
-                    var tr = Partner_TRACING.Create(allTracing.ToList());
+                    var tr = PARTNER_TRACING.Create(allTracing.ToList());
 
                     #endregion
 
