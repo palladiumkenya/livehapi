@@ -12,6 +12,8 @@ namespace LiveHAPI.Core.Interfaces.Repository
         IEnumerable<PersonMatch> GetRelationsById(Guid id);
         IEnumerable<PersonMatch> Search(string searchItem);
         void UpdateIds(List<ClientIdentifier> identifiers);
-        void UpdateRelationships(List<ClientRelationship> relationships);
+        void UpdateTempRelations(List<ClientRelationship> identifiers);
+        void UpdateClientState(Guid clientId, List<ClientState> clientStates);
+        void UpdateRelationships();
     }
 }

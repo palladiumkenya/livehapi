@@ -42,11 +42,19 @@ namespace LiveHAPI.Core.Model.People
             IsIndex = isIndex;
         }
 
+        public ClientRelationship(Guid id, Guid relatedClientId, string relationshipTypeId, bool? isIndex, Guid clientId) : this( id,  relatedClientId, relationshipTypeId,  isIndex)
+        {
+            ClientId = clientId;
+        }
+
         public static ClientRelationship Create(RelationshipInfo address)
         {
             return new ClientRelationship(address.Id, address.RelatedClientId, address.RelationshipTypeId,address.IsIndex);
         }
-
+        public static ClientRelationship CreateNew(RelationshipInfo address)
+        {
+            return new ClientRelationship(address.Id, address.RelatedClientId, address.RelationshipTypeId, address.IsIndex,address.ClientId);
+        }
         public static List<ClientRelationship> Create(ClientInfo clientInfo)
         {
             var list = new List<ClientRelationship>();
@@ -54,6 +62,16 @@ namespace LiveHAPI.Core.Model.People
             foreach (var address in clientInfo.Relationships)
             {
                 list.Add(Create(address));
+            }
+            return list;
+        }
+        public static List<ClientRelationship> Create(List<RelationshipInfo> clientInfo)
+        {
+            var list = new List<ClientRelationship>();
+
+            foreach (var address in clientInfo)
+            {
+                list.Add(CreateNew(address));
             }
             return list;
         }

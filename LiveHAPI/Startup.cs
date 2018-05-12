@@ -203,6 +203,10 @@ namespace LiveHAPI
 
             AutoMapper.Mapper.Initialize(cfg =>
             {
+                cfg.CreateMap<ClientStateInfo, ClientState>();
+                cfg.CreateMap<TempClientRelationship, ClientRelationship>();
+                cfg.CreateMap<ClientRelationship, TempClientRelationship>();
+
                 cfg.CreateMap<County, CountyInfo>();
                 cfg.CreateMap<SubCounty, SubCountyInfo>();
 

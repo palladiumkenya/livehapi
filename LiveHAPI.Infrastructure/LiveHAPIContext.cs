@@ -131,6 +131,7 @@ namespace LiveHAPI.Infrastructure
         public DbSet<ClientPretestStage> ClientPretestStages { get; set; }
         public DbSet<ClientPretestDisabilityStage> ClientPretestDisabilityStages { get; set; }
         public DbSet<ClientStageRelationship> ClientStageRelationships { get; set; }
+        public DbSet<TempClientRelationship> TempClientRelationships { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -142,6 +143,11 @@ namespace LiveHAPI.Infrastructure
             DapperPlusManager.Entity<PersonContact>().Table("PersonContacts").Key(x => x.Id);
             DapperPlusManager.Entity<Provider>().Table("Providers").Key(x => x.Id);
             DapperPlusManager.Entity<SubscriberTranslation>().Table("SubscriberTranslations").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientRelationship>().Table("ClientRelationships").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientState>().Table("ClientStates").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientIdentifier>().Table("ClientIdentifiers").Key(x => x.Id);
+
+            DapperPlusManager.Entity<TempClientRelationship>().Table("TempClientRelationships").Key(x => x.Id);
             DapperPlusManager.Entity<ClientStage>().Table("ClientStages").Key(x => x.Id);
             DapperPlusManager.Entity<ClientPretestStage>().Table("ClientPretestStages").Key(x => x.Id);
             DapperPlusManager.Entity<ClientPretestDisabilityStage>().Table("ClientPretestDisabilityStages").Key(x => x.Id);

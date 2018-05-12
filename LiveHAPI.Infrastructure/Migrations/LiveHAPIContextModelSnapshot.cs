@@ -477,6 +477,8 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<int?>("TestedAs");
 
+                    b.Property<int>("UserId");
+
                     b.Property<bool>("Voided");
 
                     b.HasKey("Id");
@@ -522,6 +524,8 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<int>("SyncStatus");
 
                     b.Property<string>("SyncStatusInfo");
+
+                    b.Property<int>("UserId");
 
                     b.Property<bool>("Voided");
 
@@ -868,6 +872,8 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<bool?>("PreventEnroll");
 
+                    b.Property<Guid>("UserId");
+
                     b.Property<bool>("Voided");
 
                     b.HasKey("Id");
@@ -1170,6 +1176,29 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.HasIndex("ProviderTypeId");
 
                     b.ToTable("Providers");
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.People.TempClientRelationship", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("ClientId");
+
+                    b.Property<bool?>("IsIndex");
+
+                    b.Property<bool>("Preferred");
+
+                    b.Property<Guid>("RelatedClientId");
+
+                    b.Property<string>("RelationshipTypeId")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TempClientRelationships");
                 });
 
             modelBuilder.Entity("LiveHAPI.Core.Model.People.User", b =>

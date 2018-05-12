@@ -314,7 +314,7 @@ namespace LiveHAPI.Controllers
 
       try
       {
-        _clientService.SyncClient(client);
+        _clientService.SmartSync(client);
 
         //SyncEventDispatcher.Raise(new ClientSaved(client), _clientSavedHandler, _subscriberSystem);
 

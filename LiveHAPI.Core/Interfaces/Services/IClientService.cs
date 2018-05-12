@@ -16,5 +16,6 @@ namespace LiveHAPI.Core.Interfaces.Services
         IEnumerable<Encounter> LoadEncounters(Guid id);
         void Sync(Guid practiceId, ClientInfo clients);
         void SyncClient(ClientInfo client);
+        void SmartSync(ClientInfo client);
     }
 }

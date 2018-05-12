@@ -28,6 +28,7 @@ namespace LiveHAPI.Core.Model.People
         public bool? AlreadyTestedPos { get; set; }
         public Guid PracticeId { get; set; }
         public Guid PersonId { get; set; }
+        public Guid UserId { get; set; }
         public ICollection<ClientIdentifier> Identifiers { get; set; } = new List<ClientIdentifier>();
         public ICollection<ClientRelationship> Relationships { get; set; } = new List<ClientRelationship>();
         public ICollection<ClientAttribute> Attributes { get; set; } = new List<ClientAttribute>();
@@ -84,7 +85,7 @@ namespace LiveHAPI.Core.Model.People
 
             var states = ClientState.Create(clientInfo);
             client.AddClientStates(states);
-
+            client.UserId = clientInfo.UserId;
             return client;
         }
         public void Update(ClientInfo clientInfo)
@@ -96,6 +97,7 @@ namespace LiveHAPI.Core.Model.People
             OtherKeyPop = clientInfo.OtherKeyPop;
             PreventEnroll = clientInfo.PreventEnroll;
             AlreadyTestedPos = clientInfo.AlreadyTestedPos;
+            UserId = clientInfo.UserId;
 
             Identifiers.Clear();
             var identifiers = ClientIdentifier.Create(clientInfo);

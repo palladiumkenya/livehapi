@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using AutoMapper;
+using Dapper;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Shared;
+using LiveHAPI.Shared.ValueObject;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Z.Dapper.Plus;
 
 namespace LiveHAPI.Infrastructure.Repository
 {
@@ -186,26 +191,115 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public void UpdateIds(List<ClientIdentifier> identifiers)
         {
+            var updates = new List<ClientIdentifier>();
+            var inserts = new List<ClientIdentifier>();
+
             foreach (var clientIdentifier in identifiers)
             {
 
                 var id = Context.ClientIdentifiers.AsNoTracking().FirstOrDefault(x => x.Id == clientIdentifier.Id);
                 if (null != id)
                 {
-                    id.Identifier = id.Identifier;
-                    id.RegistrationDate = id.RegistrationDate;
-                    Context.ClientIdentifiers.Update(id);
+                    updates.Add(clientIdentifier);
                 }
                 else
                 {
-                    Context.ClientIdentifiers.Add(id);
+                    inserts.Add(clientIdentifier);
                 }
+            }
+            using (var con = GetDbConnection())
+            {
+                con.BulkUpdate(updates);
+                con.BulkInsert(inserts);
+            }
+        }
+        public void UpdateTempRelations(List<ClientRelationship> identifiers)
+        {
+            var updates = new List<TempClientRelationship>();
+            var inserts = new List<TempClientRelationship>();
+
+            var tempRelations =  Mapper.Map<List<TempClientRelationship>>(identifiers);
+            foreach (var clientIdentifier in tempRelations)
+            {
+
+                var id = Context.TempClientRelationships.AsNoTracking().FirstOrDefault(x => x.Id == clientIdentifier.Id);
+                if (null != id)
+                {
+                    updates.Add(clientIdentifier);
+                }
+                else
+                {
+                    inserts.Add(clientIdentifier);
+                }
+            }
+            using (var con = GetDbConnection())
+            {
+                con.BulkUpdate(updates);
+                con.BulkInsert(inserts);
             }
         }
 
-        public void UpdateRelationships(List<ClientRelationship> relationships)
+        public void UpdateClientState(Guid clientId, List<ClientState> clientStates)
+        {   var statses = Context.ClientStates.AsNoTracking().Where(x=>x.ClientId==clientId).ToList();
+            using (var con = GetDbConnection())
+            {
+                con.BulkDelete(statses);
+                con.BulkInsert(clientStates);
+            }
+        }
+
+        public void UpdateRelationships()
         {
-         
+            var updates = new List<ClientRelationship>();
+            var inserts = new List<ClientRelationship>();
+
+            var tempRelations = Context.TempClientRelationships.AsNoTracking().ToList();
+            var relations = Mapper.Map<List<ClientRelationship>>(tempRelations);
+            using (var con = GetDbConnection())
+            {
+                foreach (var clientRelationship in relations)
+                {
+                    var id = Context.ClientRelationships.AsNoTracking()
+                        .FirstOrDefault(x => x.Id == clientRelationship.Id);
+
+                    
+                        if (null != id)
+                        {
+
+                            updates.Add(id);
+                        }
+                        else
+                        {
+                            inserts.Add(clientRelationship);
+                        }
+                }
+            }
+
+            using (var con = GetDbConnection())
+            {
+                con.BulkUpdate(updates);
+                foreach (var clientRelationship in inserts)
+                {
+                    try
+                    {
+                        con.BulkInsert(clientRelationship);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug(new string('*', 30));
+                        Log.Debug($"{e}");
+                        Log.Debug(new string('*',30));
+                    }
+                  
+                }
+                con.Execute(@"
+                DELETE FROM 
+                    TempClientRelationships
+                FROM  
+                    TempClientRelationships INNER JOIN
+                    ClientRelationships ON TempClientRelationships.Id = ClientRelationships.Id
+                ");
+            }
         }
 
         private int GetHit(Guid personId, List<SearchHit> searchHits)

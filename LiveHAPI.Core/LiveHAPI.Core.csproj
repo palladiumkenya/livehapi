@@ -31,6 +31,7 @@
     <Compile Include="Model\Exchange\ClientStage.cs" />
     <Compile Include="Model\Lookup\MasterFacility.cs" />
     <Compile Include="Model\People\ClientState.cs" />
+    <Compile Include="Model\People\TempClientRelationship.cs" />
     <Compile Include="Model\People\UserSummary.cs" />
     <Compile Include="Model\People\ClientSummary.cs" />
     <Compile Include="Model\People\PersonMatch.cs" />
