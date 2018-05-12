@@ -18,7 +18,7 @@ namespace LiveHAPI.Core.Model.Exchange
 
         public int TracingOutcome { get; set; }
 
-        public int Consent { get; set; }
+        public int? Consent { get; set; }
 
         public DateTime? BookingDate { get; set; }
         public Guid ClientId { get; set; }

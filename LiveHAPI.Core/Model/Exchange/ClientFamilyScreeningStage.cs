@@ -12,7 +12,7 @@ namespace LiveHAPI.Core.Model.Exchange
 {
     public class ClientFamilyScreeningStage : Entity<Guid>
     {
-        public string ScreeningDate { get; set; }
+        public DateTime ScreeningDate { get; set; }
         public int HivStatus { get; set; }
         public int EligibleForHts { get; set; }
         public DateTime? BookingDate { get; set; }
@@ -38,6 +38,7 @@ namespace LiveHAPI.Core.Model.Exchange
                 {
                     var clientStage = new ClientFamilyScreeningStage();
                     clientStage.Id = screening.Id;
+                    clientStage.ScreeningDate = screening.ScreeningDate;
                     clientStage.HivStatus = subscriber.GetTranslation(screening.HivStatus, "ScreeningHivStatus", "ObsMemberScreening.HivStatus", "0").SafeConvert<int>();
                     clientStage.EligibleForHts = subscriber.GetTranslation(screening.Eligibility, "YesNo", "ObsMemberScreening.Eligibility", "0").SafeConvert<int>();
                     clientStage.BookingDate = screening.BookingDate;

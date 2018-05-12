@@ -37,14 +37,14 @@ namespace LiveHAPI.Sync.Core.Extractor
                 clients.Add(ClientStageRelationship.Create(relationship, subscriber));
             }
 
-            _clientStageRelationshipRepository.BulkInsert(clients);
-
-            return _clientStageRelationshipRepository.GetAll();
+            return clients;
         }
 
-        public Task<int> ExtractAndStage()
+        public async Task<int> ExtractAndStage()
         {
-            throw new NotImplementedException();
+            var clients = await Extract();
+            _clientStageRelationshipRepository.BulkInsert(clients);
+            return 1;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace LiveHAPI.Sync.Core.Exchange.Encounters
         public static NewLinkage Create(ClientLinkageStage stage1)
         {
            return new NewLinkage(
-               stage1.Facility,stage1.HealthWorker,stage1.Carde,stage1.DateEnrolled,stage1.CccNumber,stage1.Remarks
+               stage1.Facility,stage1.HealthWorker,stage1.Carde,stage1.DateEnrolled.ToIqDateOnly(),stage1.CccNumber,stage1.Remarks
                );
         }
     }

@@ -14,7 +14,7 @@ namespace LiveHAPI.Core.Model.Exchange
         public string Facility { get; set; }
         public string HealthWorker { get; set; }
         public string Carde { get; set; }
-        public string DateEnrolled { get; set; }
+        public DateTime? DateEnrolled { get; set; }
         public string CccNumber { get; set; }
         public string Remarks { get; set; }
         public Guid ClientId { get; set; }
@@ -43,7 +43,7 @@ namespace LiveHAPI.Core.Model.Exchange
                 clientStage.Facility = linkage.FacilityHandedTo;
                 clientStage.HealthWorker = linkage.HandedTo;
                 clientStage.Carde = linkage.WorkerCarde;
-                clientStage.DateEnrolled =linkage.DateEnrolled.ToIqDateOnly();
+                clientStage.DateEnrolled = linkage.DateEnrolled;
                 clientStage.CccNumber = linkage.EnrollmentId;
                 clientStage.Remarks = linkage.Remarks;
                 clientStage.ClientId = linkageEncounter.ClientId;

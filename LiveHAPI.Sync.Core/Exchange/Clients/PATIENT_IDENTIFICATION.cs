@@ -53,5 +53,20 @@ namespace LiveHAPI.Sync.Core.Exchange.Clients
                 clientStage.MaritalStatus,
                 clientStage.RegistrationDate.ToIqDateOnly());
         }
+        public static PATIENT_IDENTIFICATION CreateContact(ClientStage clientStage,Guid indexClientId)
+        {
+            return new PATIENT_IDENTIFICATION(
+
+                Clients.INTERNAL_PATIENT_ID.CreateContact(clientStage.ClientId, indexClientId),
+                PATIENT_NAME.Create(clientStage.FirstName, clientStage.MiddleName, clientStage.LastName),
+                clientStage.DateOfBirth.ToIqDateOnly(),
+                clientStage.DateOfBirthPrecision,
+                clientStage.Sex,
+                new List<int> { clientStage.KeyPop },
+                PATIENT_ADDRESS.Create(clientStage.Landmark),
+                clientStage.Phone,
+                clientStage.MaritalStatus,
+                clientStage.RegistrationDate.ToIqDateOnly());
+        }
     }
 }

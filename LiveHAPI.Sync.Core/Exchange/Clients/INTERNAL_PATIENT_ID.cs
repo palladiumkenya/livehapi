@@ -30,6 +30,10 @@ namespace LiveHAPI.Sync.Core.Exchange.Clients
             return new INTERNAL_PATIENT_ID(clientId.ToString(), "AFYA_MOBILE_ID", "AFYAMOBILE");
         }
 
+        public static INTERNAL_PATIENT_ID CreateContactAfyaId(Guid indexClientId)
+        {
+            return new INTERNAL_PATIENT_ID(indexClientId.ToString(), "INDEX_CLIENT_AFYAMOBILE_ID", "AFYAMOBILE");
+        }
         public static List<INTERNAL_PATIENT_ID> Create(Guid clientId, string serial)
         {
             return
@@ -37,6 +41,15 @@ namespace LiveHAPI.Sync.Core.Exchange.Clients
                 {
                     CreateAfyaId(clientId),
                     CreateSerial(serial)
+                };
+        }
+        public static List<INTERNAL_PATIENT_ID> CreateContact(Guid clientId, Guid indexClientId)
+        {
+            return
+                new List<INTERNAL_PATIENT_ID>
+                {
+                    CreateAfyaId(clientId),
+                    CreateContactAfyaId(indexClientId)
                 };
         }
     }
