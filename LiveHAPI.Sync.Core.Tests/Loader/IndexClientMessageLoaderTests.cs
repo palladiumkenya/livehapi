@@ -4,6 +4,7 @@ using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Sync.Core.Extractor;
 using LiveHAPI.Sync.Core.Interface.Loaders;
 using LiveHAPI.Sync.Core.Interface.Writers;
@@ -74,6 +75,27 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
             var indexClientMessages = _clientMessageLoader.Load().Result.ToList();
             Assert.True(indexClientMessages.Any());
             var r = indexClientMessages.First();
+            Console.WriteLine(JsonConvert.SerializeObject(r));
+        }
+        
+        [TestCase(LoadAction.RegistrationOnly)]
+        [TestCase(LoadAction.Pretest)]
+        [TestCase(LoadAction.Pretest,LoadAction.Testing)]
+        [TestCase(LoadAction.Pretest,LoadAction.Testing,LoadAction.Referral)]
+        [TestCase(LoadAction.Pretest,LoadAction.Testing,LoadAction.Referral,LoadAction.Linkage)]
+        [TestCase(LoadAction.Linkage)]
+        [TestCase(LoadAction.Tracing)]
+        public void should_Load_With_Actions_By_Client(params LoadAction[] actions)
+        {
+            var clients = _clientStageExtractor.ExtractAndStage().Result;
+            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
+            Assert.True(clients==1);
+            Assert.True(pretests == 1);
+
+            var indexClientMessages = _clientMessageLoader.Load(actions).Result.ToList();
+            Assert.True(indexClientMessages.Any());
+            var r = indexClientMessages.First();
+            //Assert.IsNull(r.CLIENTS.First().ENCOUNTER);
             Console.WriteLine(JsonConvert.SerializeObject(r));
         }
     }

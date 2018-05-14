@@ -17,6 +17,9 @@ namespace LiveHAPI.Sync.Core.Exchange.Clients
         public string PHONE_NUMBER { get; set; }
         public int MARITAL_STATUS { get; set; }
         public string REGISTRATION_DATE { get; set; }
+        
+        //TODO add user_id
+        public int USER_ID { get; set; } = 1;
 
         public PATIENT_IDENTIFICATION()
         {

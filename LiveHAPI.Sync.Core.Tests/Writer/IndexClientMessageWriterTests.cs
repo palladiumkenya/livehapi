@@ -3,6 +3,7 @@ using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Sync.Core.Extractor;
 using LiveHAPI.Sync.Core.Interface.Loaders;
 using LiveHAPI.Sync.Core.Interface.Writers;
@@ -18,7 +19,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
     [TestFixture]
     public class IndexClientMessageWriterTests
     {
-        private readonly string _baseUrl = "http://localhost:3333";
+        private readonly string _baseUrl = "http://192.168.1.78:3333";
 
         private LiveHAPIContext _context;
         private IPracticeRepository _practiceRepository;
@@ -84,7 +85,38 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             if (_clientMessageWriter.Errors.Any())
                 foreach (var e in _clientMessageWriter.Errors)
                 {
-                    Console.WriteLine(e.ErrorMessage);
+                    Console.WriteLine(e.Message);
+
+                    Console.WriteLine(new string('*', 40));
+                }
+
+            Console.WriteLine(_clientMessageWriter.Message);
+            Assert.True(clientsResponses.Any());
+            foreach (var response in clientsResponses)
+            {
+                Console.WriteLine(response);
+            }
+        }
+        
+        [TestCase(LoadAction.RegistrationOnly)]
+        [TestCase(LoadAction.Pretest)]
+        [TestCase(LoadAction.Pretest,LoadAction.Testing)]
+        [TestCase(LoadAction.Pretest,LoadAction.Testing,LoadAction.Referral)]
+        [TestCase(LoadAction.Pretest,LoadAction.Testing,LoadAction.Referral,LoadAction.Linkage)]
+        [TestCase(LoadAction.Linkage)]
+        [TestCase(LoadAction.Tracing)]
+        public void should_Write_Client_By_Actions(params LoadAction[] actions)
+        {
+            var clients = _clientStageExtractor.ExtractAndStage().Result;
+            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
+
+            var clientsResponses = _clientMessageWriter.Write(LoadAction.RegistrationOnly).Result.ToList();
+            Assert.False(string.IsNullOrWhiteSpace(_clientMessageWriter.Message));
+
+            if (_clientMessageWriter.Errors.Any())
+                foreach (var e in _clientMessageWriter.Errors)
+                {
+                    Console.WriteLine(e.Message);
 
                     Console.WriteLine(new string('*', 40));
                 }

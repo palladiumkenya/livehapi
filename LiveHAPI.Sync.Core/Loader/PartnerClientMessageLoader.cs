@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Repository;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Sync.Core.Exchange;
 using LiveHAPI.Sync.Core.Exchange.Clients;
 using LiveHAPI.Sync.Core.Exchange.Encounters;
@@ -35,7 +36,7 @@ namespace LiveHAPI.Sync.Core.Loader
             _clientPartnerTracingStageExtractor = clientPartnerTracingStageExtractor;
         }
 
-        public async Task<IEnumerable<PartnerClientMessage>> Load()
+        public async Task<IEnumerable<PartnerClientMessage>> Load(params LoadAction[] actions)
         {
             var messages = new List<PartnerClientMessage>();
 

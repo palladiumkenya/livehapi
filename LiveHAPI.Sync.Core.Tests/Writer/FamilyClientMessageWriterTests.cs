@@ -88,7 +88,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             if (_clientMessageWriter.Errors.Any())
                 foreach (var e in _clientMessageWriter.Errors)
                 {
-                    Console.WriteLine(e.ErrorMessage);
+                    Console.WriteLine(e.Message);
 
                     Console.WriteLine(new string('*', 40));
                 }
@@ -100,5 +100,33 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
                 Console.WriteLine(response);
             }
         }
+        
+        [Test]
+        public void should_Write_Clients_Registration_Only()
+        {
+            var clients = _clientStageExtractor.ExtractAndStage().Result;
+            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
+            var rels = _clientStageRelationshipExtractor.ExtractAndStage().Result;
+
+            var clientsResponses = _clientMessageWriter.Write().Result.ToList();
+            Assert.False(string.IsNullOrWhiteSpace(_clientMessageWriter.Message));
+
+            if (_clientMessageWriter.Errors.Any())
+                foreach (var e in _clientMessageWriter.Errors)
+                {
+                    Console.WriteLine(e.Message);
+
+                    Console.WriteLine(new string('*', 40));
+                }
+
+            Console.WriteLine(_clientMessageWriter.Message);
+            Assert.True(clientsResponses.Any());
+            foreach (var response in clientsResponses)
+            {
+                Console.WriteLine(response);
+            }
+        }
+        
+       
     }
 }

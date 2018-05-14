@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Repository;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Sync.Core.Exchange;
 using LiveHAPI.Sync.Core.Exchange.Clients;
 using LiveHAPI.Sync.Core.Exchange.Encounters;
@@ -35,9 +36,11 @@ namespace LiveHAPI.Sync.Core.Loader
             _clientFamilyTracingStageExtractor = clientFamilyTracingStageExtractor;
         }
 
-        public async Task<IEnumerable<FamilyClientMessage>> Load()
+        public async Task<IEnumerable<FamilyClientMessage>> Load(params LoadAction[] actions)
         {
             var messages = new List<FamilyClientMessage>();
+            if (!actions.Any())
+                actions = new[] {LoadAction.All};
 
             //  Set Facility
             var facility = _practiceRepository.GetDefault();
@@ -64,26 +67,38 @@ namespace LiveHAPI.Sync.Core.Loader
 
                     #endregion
 
+                    FAMILY_ENCOUNTER encounter = null;
+                    if (!actions.Contains(LoadAction.RegistrationOnly))
+                    {
 
-                    #region ENCOUNTERS
+                        #region ENCOUNTERS
 
-                    var screening = await _clientFamilyScreeningStageExtractor.Extract();
-                    var pretest = screening.ToList().LastOrDefault();
+                        var screening = await _clientFamilyScreeningStageExtractor.Extract();
+                        var pretest = screening.ToList().LastOrDefault();
 
-                    //  PLACER_DETAIL
-                    var pd = PLACER_DETAIL.Create(1, pretest.Id);
+                        //  PLACER_DETAIL
+                        var pd = PLACER_DETAIL.Create(1, pretest.Id);
 
-                    //  FAMILY_SCREENING
-                    var pr = FAMILY_SCREENING.Create(pretest);
+                        //  FAMILY_SCREENING
+                        FAMILY_SCREENING familyScreening = null;
+                        if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.ContactScreenig))
+                            familyScreening = FAMILY_SCREENING.Create(pretest);
 
-                    //  FAMILY_TRACING
-                    var allTracing = await _clientFamilyTracingStageExtractor.Extract();
-                    var tr = FAMILY_TRACING.Create(allTracing.ToList());
+                        //  FAMILY_TRACING
+                        List<FAMILY_TRACING> familyTracings=new List<FAMILY_TRACING>();
+                        if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.ContactTracing))
+                        {
+                            var allTracing = await _clientFamilyTracingStageExtractor.Extract();
+                            familyTracings = FAMILY_TRACING.Create(allTracing.ToList());
+                        }
 
-                    #endregion
+                        #endregion
+
+                        encounter = new FAMILY_ENCOUNTER(pd, familyScreening, familyTracings);
+                    }
 
                     messages.Add(new FamilyClientMessage(header,
-                        new List<FAMILY> {new FAMILY(pid, new FAMILY_ENCOUNTER(pd, pr, tr))}));
+                        new List<FAMILY> {new FAMILY(pid, encounter)}));
 
                 }
             }

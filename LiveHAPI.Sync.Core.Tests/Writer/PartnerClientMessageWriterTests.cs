@@ -86,7 +86,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             if (_clientMessageWriter.Errors.Any())
                 foreach (var e in _clientMessageWriter.Errors)
                 {
-                    Console.WriteLine(e.ErrorMessage);
+                    Console.WriteLine(e.Message);
 
                     Console.WriteLine(new string('*', 40));
                 }

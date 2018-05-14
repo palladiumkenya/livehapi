@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Sync.Core.Exchange;
 using LiveHAPI.Sync.Core.Exchange.Messages;
 using LiveHAPI.Sync.Core.Interface.Extractors;
@@ -20,9 +21,9 @@ namespace LiveHAPI.Sync.Core.Writer
         {
         }
 
-        public override Task<IEnumerable<SynchronizeClientsResponse>> Write()
+        public override Task<IEnumerable<SynchronizeClientsResponse>> Write(params LoadAction[] actions)
         {
-            return Write("api/Hts/partner");
+            return Write("api/Hts/partner",actions);
         }
     }
 }

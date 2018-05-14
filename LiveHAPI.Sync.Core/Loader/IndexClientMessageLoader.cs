@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Repository;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Sync.Core.Exchange;
 using LiveHAPI.Sync.Core.Exchange.Clients;
 using LiveHAPI.Sync.Core.Exchange.Encounters;
@@ -24,7 +25,13 @@ namespace LiveHAPI.Sync.Core.Loader
         private readonly IClientTracingStageExtractor _clientTracingStageExtractor;
         private readonly IClientLinkageStageExtractor _clientLinkageStageExtractor;
 
-        public IndexClientMessageLoader(IPracticeRepository practiceRepository, IClientStageRepository clientStageRepository, IClientPretestStageRepository clientPretestStageRepository, IClientTestingStageExtractor clientTestingStageExtractor, IClientFinalTestStageExtractor clientFinalTestStageExtractor, IClientReferralStageExtractor clientReferralStageExtractor, IClientTracingStageExtractor clientTracingStageExtractor, IClientLinkageStageExtractor clientLinkageStageExtractor)
+        public IndexClientMessageLoader(IPracticeRepository practiceRepository,
+            IClientStageRepository clientStageRepository, IClientPretestStageRepository clientPretestStageRepository,
+            IClientTestingStageExtractor clientTestingStageExtractor,
+            IClientFinalTestStageExtractor clientFinalTestStageExtractor,
+            IClientReferralStageExtractor clientReferralStageExtractor,
+            IClientTracingStageExtractor clientTracingStageExtractor,
+            IClientLinkageStageExtractor clientLinkageStageExtractor)
         {
             _practiceRepository = practiceRepository;
             _clientStageRepository = clientStageRepository;
@@ -36,9 +43,11 @@ namespace LiveHAPI.Sync.Core.Loader
             _clientLinkageStageExtractor = clientLinkageStageExtractor;
         }
 
-        public async Task<IEnumerable<IndexClientMessage>> Load()
+        public async Task<IEnumerable<IndexClientMessage>> Load(params LoadAction[] actions)
         {
-            var messages=new List<IndexClientMessage>();
+            var messages = new List<IndexClientMessage>();
+            if (!actions.Any())
+                actions = new[] {LoadAction.All};
 
             //  Set Facility
             var facility = _practiceRepository.GetDefault();
@@ -64,42 +73,67 @@ namespace LiveHAPI.Sync.Core.Loader
                 #endregion
 
 
-                #region ENCOUNTERS
-                
-                var pretests = _clientPretestStageRepository.GetByClientId(stagedClient.ClientId).ToList();
-                var pretest = pretests.OrderByDescending(x => x.EncounterDate).FirstOrDefault();
+                ENCOUNTERS encounter = null;
+                if (!actions.Contains(LoadAction.RegistrationOnly))
+                {
+                    #region ENCOUNTERS
 
-                //  PLACER_DETAIL
-                var pd = PLACER_DETAIL.Create(1, pretest.Id);
+                    var pretests = _clientPretestStageRepository.GetByClientId(stagedClient.ClientId).ToList();
+                    var pretest = pretests.OrderByDescending(x => x.EncounterDate).FirstOrDefault();
 
-                //  PRE_TEST
-                var pr = PRE_TEST.Create(pretest);
+                    //  PLACER_DETAIL
+                    var placerDetail = PLACER_DETAIL.Create(1, pretest.Id);
 
-                //  HIV_TESTS
-                var allfinalTests = await _clientFinalTestStageExtractor.Extract();
-                var finalTest = allfinalTests.ToList().LastOrDefault();
-                var alltests = await _clientTestingStageExtractor.Extract();
+                    //  PRE_TEST
+                    PRE_TEST preTest = null;
+                    if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Pretest))
+                        preTest = PRE_TEST.Create(pretest);
 
-                var ht = HIV_TESTS.Create(alltests.ToList(), finalTest);
-                //  NewReferral
-                var allReferrals = await _clientReferralStageExtractor.Extract();
-                var referrall = allReferrals.LastOrDefault();
-                var nr = NewReferral.Create(referrall);
+                    //  HIV_TESTS
+                    HIV_TESTS hivTests = null;
+                    if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Testing))
+                    {
+                        var allfinalTests = await _clientFinalTestStageExtractor.Extract();
+                        var finalTest = allfinalTests.ToList().LastOrDefault();
+                        var alltests = await _clientTestingStageExtractor.Extract();
 
-                //  NewTracing
-                var allTracing = await _clientTracingStageExtractor.Extract();
-                var tr = NewTracing.Create(allTracing.ToList());
+                        hivTests = HIV_TESTS.Create(alltests.ToList(), finalTest);
+                    }
 
-                // NewLinkage
-                var allLinkages = await _clientLinkageStageExtractor.Extract();
-                var linkage = allLinkages.LastOrDefault();
+                    //  NewReferral
+                    NewReferral newReferral = null;
+                    if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Referral))
+                    {
+                        var allReferrals = await _clientReferralStageExtractor.Extract();
+                        var referrall = allReferrals.LastOrDefault();
+                        newReferral = NewReferral.Create(referrall);
+                    }
 
-                var ln = NewLinkage.Create(linkage);
+                    //  NewTracing
+                    List<NewTracing> newTracings = new List<NewTracing>();
+                    if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Tracing))
+                    {
+                        var allTracing = await _clientTracingStageExtractor.Extract();
+                        newTracings = NewTracing.Create(allTracing.ToList());
+                    }
 
-                var en = ENCOUNTERS.Create(pd, pr, ht, nr, tr, ln);
-                #endregion
+                    // NewLinkage
+                    NewLinkage newLinkage = null;
+                    if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Linkage))
+                    {
+                        var allLinkages = await _clientLinkageStageExtractor.Extract();
+                        var linkage = allLinkages.LastOrDefault();
 
-                messages.Add(new IndexClientMessage(header,new List<NEWCLIENT>{NEWCLIENT.Create(pid,en)}));
+                        newLinkage = NewLinkage.Create(linkage);
+                    }
+
+                    encounter = ENCOUNTERS.Create(placerDetail, preTest, hivTests, newReferral, newTracings,
+                        newLinkage);
+
+                    #endregion
+                }
+
+                messages.Add(new IndexClientMessage(header, new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)}));
             }
 
             return messages;
