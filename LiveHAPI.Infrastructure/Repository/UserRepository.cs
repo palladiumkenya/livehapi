@@ -19,6 +19,17 @@ namespace LiveHAPI.Infrastructure.Repository
         {
         }
 
+        public int GetUserId(Guid id)
+        {
+            var user= Context.Users.AsNoTracking().SingleOrDefault(x => x.Id==id);
+            if (null != user)
+            {
+                int.TryParse(user.SourceRef,out var userId);
+                return userId;
+            }
+            return 1;
+        }
+
         public User GetByUsername(string username)
         {
             return Context.Users.FirstOrDefault(x => x.UserName.ToLower().Trim() == username.ToLower().Trim());

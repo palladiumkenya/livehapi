@@ -14,5 +14,6 @@ namespace LiveHAPI.Core.Interfaces.Repository
         IEnumerable<Encounter> GetTesting(Guid? clientId = null);
         IEnumerable<Encounter> GetFinalTesting(Guid? clientId = null);
         IEnumerable<Encounter> GetPretest(Guid? clientId = null);
+        Guid? GetPretestEncounterId(Guid clientId,DateTime encounterDate);
     }
 }

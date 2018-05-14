@@ -29,7 +29,10 @@ namespace LiveHAPI.Sync.Core.Extractor
             var encounters = _clientEncounterRepository.GetFinalTesting();
             foreach (var encounter in encounters)
             {
-                clients.AddRange(ClientFinalTestStage.Create(encounter, subscriber));
+                var pretestId =
+                    _clientEncounterRepository.GetPretestEncounterId(encounter.ClientId, encounter.EncounterDate);
+              
+                clients.AddRange(ClientFinalTestStage.Create(encounter, subscriber,pretestId));
             }
 
             return clients;

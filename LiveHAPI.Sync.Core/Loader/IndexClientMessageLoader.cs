@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Shared.Enum;
+using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Sync.Core.Exchange;
 using LiveHAPI.Sync.Core.Exchange.Clients;
 using LiveHAPI.Sync.Core.Exchange.Encounters;
@@ -81,7 +82,7 @@ namespace LiveHAPI.Sync.Core.Loader
                     var pretests = _clientPretestStageRepository.GetByClientId(stagedClient.ClientId).ToList();
                     var pretest = pretests.OrderByDescending(x => x.EncounterDate).FirstOrDefault();
 
-                    //  PLACER_DETAIL
+                   //  PLACER_DETAIL
                     var placerDetail = PLACER_DETAIL.Create(1, pretest.Id);
 
                     //  PRE_TEST

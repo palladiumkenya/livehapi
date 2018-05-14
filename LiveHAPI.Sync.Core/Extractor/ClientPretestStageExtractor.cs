@@ -13,6 +13,7 @@ namespace LiveHAPI.Sync.Core.Extractor
     public class ClientPretestStageExtractor : IClientPretestStageExtractor
     {
         private readonly IClientRepository _clientRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IClientEncounterRepository _clientEncounterRepository;
         private readonly IClientStageRepository _clientStageRepository;
 
@@ -20,13 +21,14 @@ namespace LiveHAPI.Sync.Core.Extractor
         private readonly ISubscriberSystemRepository _subscriberSystemRepository;
 
         public ClientPretestStageExtractor(IClientStageRepository clientStageRepository, IClientPretestStageRepository clientPretestStageRepository,
-            ISubscriberSystemRepository subscriberSystemRepository, IClientEncounterRepository clientEncounterRepository, IClientRepository clientRepository)
+            ISubscriberSystemRepository subscriberSystemRepository, IClientEncounterRepository clientEncounterRepository, IClientRepository clientRepository, IUserRepository userRepository)
         {
             _clientStageRepository = clientStageRepository;
             _clientPretestStageRepository = clientPretestStageRepository;
             _subscriberSystemRepository = subscriberSystemRepository;
             _clientEncounterRepository = clientEncounterRepository;
             _clientRepository = clientRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<IEnumerable<ClientPretestStage>> Extract()

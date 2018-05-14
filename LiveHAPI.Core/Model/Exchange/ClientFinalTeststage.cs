@@ -11,6 +11,7 @@ namespace LiveHAPI.Core.Model.Exchange
 {
     public class ClientFinalTestStage : Entity<Guid>
     {
+        public Guid PretestEncounterId { get; set; }
         public int ScreeningResult { get; set; }
         public int ConfirmatoryResult { get; set; }
         public int FinalResult { get; set; }
@@ -31,7 +32,7 @@ namespace LiveHAPI.Core.Model.Exchange
             StatusDate=DateTime.Now;
         }
 
-        public static List <ClientFinalTestStage> Create(Encounter testingEncounter, SubscriberSystem subscriber)
+        public static List <ClientFinalTestStage> Create(Encounter testingEncounter, SubscriberSystem subscriber,Guid? pretestEncounterId)
         {
             var stages=new List<ClientFinalTestStage>();
 
@@ -40,6 +41,8 @@ namespace LiveHAPI.Core.Model.Exchange
                 var clientStage = new ClientFinalTestStage();
                 var testResult = testingEncounter.ObsFinalTestResults.First();
                 clientStage.Id = testResult.Id;
+                clientStage.PretestEncounterId =
+                    pretestEncounterId.IsNullOrEmpty() ? testResult.Id : pretestEncounterId.Value;
                 clientStage.ScreeningResult = subscriber.GetTranslation(testResult.FirstTestResult, "HIVResults", "ObsFinalTestResult.FirstTestResult", "0").SafeConvert<int>();
                 clientStage.ConfirmatoryResult = subscriber.GetTranslation(testResult.SecondTestResult, "HIVResults", "ObsFinalTestResult.SecondTestResult", "0").SafeConvert<int>();
                 clientStage.FinalResult = subscriber.GetTranslation(testResult.FinalResult, "HIVFinalResults", "ObsFinalTestResult.FinalResult", "0").SafeConvert<int>();

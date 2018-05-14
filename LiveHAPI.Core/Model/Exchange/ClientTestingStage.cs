@@ -11,6 +11,7 @@ namespace LiveHAPI.Core.Model.Exchange
 {
     public class ClientTestingStage : Entity<Guid>
     {
+        public Guid PretestEncounterId { get; set; }
         public HtsTestType HtsTestType { get; set; }
         public int KitType { get; set; }
         public string KitOther { get; set; }
@@ -30,7 +31,7 @@ namespace LiveHAPI.Core.Model.Exchange
             StatusDate=DateTime.Now;
         }
 
-        public static List <ClientTestingStage> Create(Encounter testingEncounter, SubscriberSystem subscriber)
+        public static List <ClientTestingStage> Create(Encounter testingEncounter, SubscriberSystem subscriber, Guid? pretestEncounterId)
         {
             var clientTestingStages=new List<ClientTestingStage>();
 
@@ -41,6 +42,8 @@ namespace LiveHAPI.Core.Model.Exchange
                     var clientTestingStage = new ClientTestingStage();
 
                     clientTestingStage.Id = testResult.Id;
+                    clientTestingStage.PretestEncounterId =
+                        pretestEncounterId.IsNullOrEmpty() ? testResult.Id : pretestEncounterId.Value;
                     clientTestingStage.HtsTestType = GetTestType(testResult.TestName);
                     clientTestingStage.KitType = subscriber.GetTranslation(testResult.Kit, "HIVTestKits", "ObsTestResult.Kit", "0").SafeConvert<int>();
                     clientTestingStage.KitOther = testResult.KitOther;

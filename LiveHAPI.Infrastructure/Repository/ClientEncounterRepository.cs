@@ -85,6 +85,15 @@ namespace LiveHAPI.Infrastructure.Repository
             return encounters;
         }
 
+        public Guid? GetPretestEncounterId(Guid clientId, DateTime encounterDate)
+        {
+            var encounter = Context.Encounters.AsNoTracking()
+                .FirstOrDefault(x => x.ClientId == clientId &&
+                                     x.EncounterTypeId == GetEncounterTypeId("HTS Initial") &&
+                                     x.EncounterDate == encounterDate);
+            return encounter?.Id;
+        }
+
         private Guid GetEncounterTypeId(string name)
         {
 
