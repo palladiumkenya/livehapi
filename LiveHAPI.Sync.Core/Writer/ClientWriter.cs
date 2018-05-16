@@ -57,7 +57,7 @@ namespace LiveHAPI.Sync.Core.Writer
                     }
                     else
                     {
-                        _errors = result.ErrorResponses;
+                        _errors = result.Errors;
                         throw new Exception($"Error processing request: {string.Join(",",_errors)}");
                     }
                 }
