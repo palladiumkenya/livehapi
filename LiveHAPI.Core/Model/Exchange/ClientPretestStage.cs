@@ -54,7 +54,8 @@ namespace LiveHAPI.Core.Model.Exchange
             var clientStage=new ClientPretestStage();
 
             if (obsEncounter.Obses.Any())
-            {             
+            {
+                clientStage.UserId = subscriber.GetEmrUserId(obsEncounter.UserId);
                 var obses = obsEncounter.Obses.ToList();
                 clientStage.Id = obsEncounter.Id;
                 clientStage.EncounterDate = obsEncounter.EncounterDate;

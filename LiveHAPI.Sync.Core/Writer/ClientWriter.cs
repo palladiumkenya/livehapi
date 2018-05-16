@@ -65,6 +65,7 @@ namespace LiveHAPI.Sync.Core.Writer
                 {
                     Log.Error($"error posting to endpint [{endpoint}] for {typeof(T).Name}");
                     Log.Error($"{e}");
+                    _errors.Add(new ErrorResponse($"{endpoint} || {e.Message}"));
                 }
 
             }

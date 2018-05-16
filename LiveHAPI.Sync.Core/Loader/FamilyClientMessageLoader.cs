@@ -73,11 +73,11 @@ namespace LiveHAPI.Sync.Core.Loader
 
                         #region ENCOUNTERS
 
-                        var screening = await _clientFamilyScreeningStageExtractor.Extract();
+                        var screening = await _clientFamilyScreeningStageExtractor.Extract(stagedClient.ClientId);
                         var pretest = screening.ToList().LastOrDefault();
 
                         //  PLACER_DETAIL
-                        var pd = PLACER_DETAIL.Create(1, pretest.Id);
+                        var pd = PLACER_DETAIL.Create(pretest.UserId, pretest.Id);
 
                         //  FAMILY_SCREENING
                         FAMILY_SCREENING familyScreening = null;
@@ -88,7 +88,7 @@ namespace LiveHAPI.Sync.Core.Loader
                         List<FAMILY_TRACING> familyTracings=new List<FAMILY_TRACING>();
                         if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.ContactTracing))
                         {
-                            var allTracing = await _clientFamilyTracingStageExtractor.Extract();
+                            var allTracing = await _clientFamilyTracingStageExtractor.Extract(stagedClient.ClientId);
                             familyTracings = FAMILY_TRACING.Create(allTracing.ToList());
                         }
 

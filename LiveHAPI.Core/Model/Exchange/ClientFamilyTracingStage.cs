@@ -38,7 +38,7 @@ namespace LiveHAPI.Core.Model.Exchange
                 foreach (var traceResult in tracingEncounter.ObsFamilyTraceResults)
                 {
                     var tracingStage = new ClientFamilyTracingStage();
-
+                    tracingStage.UserId = subscriber.GetEmrUserId(tracingEncounter.UserId);
                     tracingStage.Id = traceResult.Id;
                     tracingStage.TracingDate = traceResult.Date;
                     tracingStage.ReminderDate = traceResult.Reminder;

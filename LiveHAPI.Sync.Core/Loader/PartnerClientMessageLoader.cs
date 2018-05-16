@@ -68,17 +68,17 @@ namespace LiveHAPI.Sync.Core.Loader
 
                     #region ENCOUNTERS
 
-                    var screening = await _clientPartnerScreeningStageExtractor.Extract();
+                    var screening = await _clientPartnerScreeningStageExtractor.Extract(stagedClient.ClientId);
                     var pretest = screening.ToList().LastOrDefault();
 
                     //  PLACER_DETAIL
-                    var pd = PLACER_DETAIL.Create(1, pretest.Id);
+                    var pd = PLACER_DETAIL.Create(pretest.UserId, pretest.Id);
 
                     //  PARTNER_SCREENING
                     var pr = PARTNER_SCREENING.Create(pretest);
 
                     //  Partner_TRACING
-                    var allTracing = await _clientPartnerTracingStageExtractor.Extract();
+                    var allTracing = await _clientPartnerTracingStageExtractor.Extract(stagedClient.ClientId);
                     var tr = PARTNER_TRACING.Create(allTracing.ToList());
 
                     #endregion

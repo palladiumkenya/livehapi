@@ -38,6 +38,7 @@ namespace LiveHAPI.Core.Model.Exchange
                 {
                     var clientStage = new ClientFamilyScreeningStage();
                     clientStage.Id = screening.Id;
+                    clientStage.UserId = subscriber.GetEmrUserId(encounter.UserId);
                     clientStage.ScreeningDate = screening.ScreeningDate;
                     clientStage.HivStatus = subscriber.GetTranslation(screening.HivStatus, "ScreeningHivStatus", "ObsMemberScreening.HivStatus", "0").SafeConvert<int>();
                     clientStage.EligibleForHts = subscriber.GetTranslation(screening.Eligibility, "YesNo", "ObsMemberScreening.Eligibility", "0").SafeConvert<int>();

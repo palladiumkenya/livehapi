@@ -18,7 +18,7 @@ namespace LiveHAPI.Sync.Core.Extractor
             _subscriberSystemRepository = subscriberSystemRepository;
         }
 
-        public async Task<IEnumerable<ClientFinalTestStage>> Extract()
+        public async Task<IEnumerable<ClientFinalTestStage>> Extract(Guid? htsClientId = null)
         {
             var subscriber = await _subscriberSystemRepository.GetDefaultAsync();
 
@@ -26,7 +26,7 @@ namespace LiveHAPI.Sync.Core.Extractor
                 throw new Exception("Default EMR NOT SET");
             var clients = new List<ClientFinalTestStage>();
 
-            var encounters = _clientEncounterRepository.GetFinalTesting();
+            var encounters = _clientEncounterRepository.GetFinalTesting(htsClientId);
             foreach (var encounter in encounters)
             {
                 var pretestId =

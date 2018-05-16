@@ -18,7 +18,7 @@ namespace LiveHAPI.Sync.Core.Extractor
             _subscriberSystemRepository = subscriberSystemRepository;
         }
 
-        public async Task<IEnumerable<ClientPartnerScreeningStage>> Extract()
+        public async Task<IEnumerable<ClientPartnerScreeningStage>> Extract(Guid? htsClientId = null)
         {
             var subscriber = await _subscriberSystemRepository.GetDefaultAsync();
 
@@ -26,7 +26,7 @@ namespace LiveHAPI.Sync.Core.Extractor
                 throw new Exception("Default EMR NOT SET");
             var clients = new List<ClientPartnerScreeningStage>();
 
-            var encounters = _clientEncounterRepository.GetPartnerScreening();
+            var encounters = _clientEncounterRepository.GetPartnerScreening(htsClientId);
             foreach (var encounter in encounters)
             {
                 clients.AddRange(ClientPartnerScreeningStage.Create(encounter, subscriber));

@@ -9,6 +9,20 @@ namespace LiveHAPI.Shared.Custom
 {
     public static class TypeExtentions
     {
+        public static bool IsNullOrEmpty(this DateTime? guid)
+        {
+            if (null == guid)
+                return true;
+
+            if (guid.HasValue && guid.Value==DateTime.MinValue)
+                return true;
+
+            if (!guid.HasValue)
+                return true;
+
+            return false;
+        }
+        
         /// <summary>
         /// Determines if a nullable Guid (Guid?) is null or Guid.Empty
         /// </summary>
@@ -97,7 +111,7 @@ namespace LiveHAPI.Shared.Custom
         {
             try
             {
-                return dateTime.HasValue ? dateTime.Value.ToIqDate() : defaultDate;
+                return dateTime.IsNullOrEmpty() ? defaultDate :  dateTime.Value.ToIqDate();
             }
             catch
             {
@@ -108,7 +122,7 @@ namespace LiveHAPI.Shared.Custom
         {
             try
             {
-                return dateTime.HasValue ? dateTime.Value.ToIqDateOnly() : defaultDate;
+                return dateTime.IsNullOrEmpty() ? defaultDate :  dateTime.Value.ToIqDateOnly();
             }
             catch
             {

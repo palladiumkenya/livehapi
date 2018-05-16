@@ -32,22 +32,23 @@ namespace LiveHAPI.Infrastructure.Repository
             return sub;
         }
 
-        public Task<SubscriberSystem> GetDefaultAsync()
+        public async Task<SubscriberSystem> GetDefaultAsync()
         {
             var sub = Context.SubscriberSystems
-                .Include(x => x.Translations)
-                .Include(x => x.Maps)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.IsDefault);
+                          .Include(x => x.Translations)
+                          .Include(x => x.Maps)
+                          .AsNoTracking()
+                          .FirstOrDefaultAsync(x => x.IsDefault) ?? Context.SubscriberSystems
+                          .Include(x => x.Translations)
+                          .Include(x=>x.Maps)
+                          .AsNoTracking()
+                          .FirstOrDefaultAsync();
 
-            if(null==sub)
-                sub=Context.SubscriberSystems
-                    .Include(x => x.Translations)
-                    .Include(x=>x.Maps)
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync();
-
-            return sub;
+            var subscriber = await sub;
+            if (null != subscriber)
+                subscriber.Users = Context.Users.ToList();
+           
+            return subscriber;
         }
     }
 }

@@ -40,12 +40,12 @@ namespace LiveHAPI.Sync.Core.Exchange.Encounters
         {
             return new SUMMARY(
                 stage.ScreeningResult,
-                stage.ConfirmatoryResult,
+                stage.ConfirmatoryResult.Value,
                 stage.FinalResult,
                 stage.FinalResultGiven,
-                stage.CoupleDiscordant,
-                stage.PnsAccepted,
-                stage.PnsDeclineReason,stage.Remarks
+                stage.CoupleDiscordant.Value,
+                stage.PnsAccepted.Value,
+                stage.PnsDeclineReason.Value,stage.Remarks
                 );
         }
     }

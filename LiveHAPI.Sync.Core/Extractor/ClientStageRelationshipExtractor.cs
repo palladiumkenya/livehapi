@@ -21,7 +21,7 @@ namespace LiveHAPI.Sync.Core.Extractor
             _subscriberSystemRepository = subscriberSystemRepository;
         }
 
-        public async Task<IEnumerable<ClientStageRelationship>> Extract()
+        public async Task<IEnumerable<ClientStageRelationship>> Extract(Guid? htsClientId = null)
         {
             _clientStageRelationshipRepository.Clear();
 

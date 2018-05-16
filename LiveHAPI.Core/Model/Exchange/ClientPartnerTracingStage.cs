@@ -44,6 +44,7 @@ namespace LiveHAPI.Core.Model.Exchange
                     var tracingStage = new ClientPartnerTracingStage();
 
                     tracingStage.Id = traceResult.Id;
+                    tracingStage.UserId = subscriber.GetEmrUserId(tracingEncounter.UserId);
                     tracingStage.TracingDate = traceResult.Date;
                     tracingStage.TracingMode = subscriber.GetTranslation(traceResult.Mode, "TracingMode", "ObsPartnerTraceResult.Mode", "0").SafeConvert<int>();
                     tracingStage.TracingOutcome = subscriber.GetTranslation(traceResult.Outcome, "PnsTracingOutcome", "ObsPartnerTraceResult.Outcomee", "0").SafeConvert<int>();

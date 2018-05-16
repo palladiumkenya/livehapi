@@ -13,7 +13,7 @@ namespace LiveHAPI.Sync.Core.Extractor
         private readonly IPersonRepository _personRepository;
         private readonly IClientStageRepository _clientStageRepository;
         private readonly ISubscriberSystemRepository _subscriberSystemRepository;
-
+        
         public ClientStageExtractor(IPersonRepository personRepository, IClientStageRepository clientStageRepository,
             ISubscriberSystemRepository subscriberSystemRepository)
         {
@@ -22,7 +22,7 @@ namespace LiveHAPI.Sync.Core.Extractor
             _subscriberSystemRepository = subscriberSystemRepository;
         }
 
-        public async Task<IEnumerable<ClientStage>> Extract()
+        public async Task<IEnumerable<ClientStage>> Extract(Guid? htsClientId = null)
         {
             _clientStageRepository.Clear();
 
@@ -30,6 +30,8 @@ namespace LiveHAPI.Sync.Core.Extractor
 
             if (null == subscriber)
                 throw new Exception("Default EMR NOT SET");
+            
+           
             var clients = new List<ClientStage>();
 
             var persons = _personRepository.GetAllClients();

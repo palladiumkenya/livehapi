@@ -62,5 +62,14 @@ namespace LiveHAPI.Shared.Tests.Custom
                 Console.WriteLine($"{obs.Id} | {obs.EncounterId} | {obs.ValueText}");
             }
         }
+        
+        [Test]
+        public void should_Determin_Null_Date_if_min()
+        {
+            DateTime? dateTime = DateTime.MinValue;
+            Assert.IsTrue(dateTime.IsNullOrEmpty());
+            Console.WriteLine(dateTime.ToString());
+
+        }
     }
 }

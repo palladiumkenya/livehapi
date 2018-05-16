@@ -36,7 +36,7 @@ namespace LiveHAPI.Core.Model.Exchange
                     var clientStage = new ClientReferralStage();
                     clientStage.Id = linkage.Id;
                     clientStage.ReferredTo = linkage.ReferredTo;
-                    clientStage.DateToBeEnrolled = linkage.DateEnrolled;
+                    clientStage.DateToBeEnrolled = linkage.DatePromised;
                     clientStage.ClientId = linkageEncounter.ClientId;
                     clientStages.Add(clientStage);
                 }

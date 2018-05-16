@@ -127,10 +127,15 @@ namespace LiveHAPI.Infrastructure
         public DbSet<SubscriberMap> SubscriberMaps { get; set; }
         public DbSet<SubscriberTranslation> SubscriberTranslations { get; set; }
         public DbSet<SubscriberCohort> SubscriberCohorts { get; set; }
+        
         public DbSet<ClientStage> ClientStages { get; set; }
         public DbSet<ClientPretestStage> ClientPretestStages { get; set; }
         public DbSet<ClientPretestDisabilityStage> ClientPretestDisabilityStages { get; set; }
+        
         public DbSet<ClientStageRelationship> ClientStageRelationships { get; set; }
+        
+        
+        
         public DbSet<TempClientRelationship> TempClientRelationships { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

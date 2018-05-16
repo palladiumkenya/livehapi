@@ -83,7 +83,7 @@ namespace LiveHAPI.Sync.Core.Loader
                     var pretest = pretests.OrderByDescending(x => x.EncounterDate).FirstOrDefault();
 
                    //  PLACER_DETAIL
-                    var placerDetail = PLACER_DETAIL.Create(1, pretest.Id);
+                    var placerDetail = PLACER_DETAIL.Create(pretest.UserId, pretest.Id);
 
                     //  PRE_TEST
                     PRE_TEST preTest = null;
@@ -94,7 +94,7 @@ namespace LiveHAPI.Sync.Core.Loader
                     HIV_TESTS hivTests = null;
                     if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Testing))
                     {
-                        var allfinalTests = await _clientFinalTestStageExtractor.Extract();
+                        var allfinalTests = await _clientFinalTestStageExtractor.Extract(stagedClient.ClientId);
                         var finalTest = allfinalTests.ToList().LastOrDefault();
                         var alltests = await _clientTestingStageExtractor.Extract();
 
@@ -105,7 +105,7 @@ namespace LiveHAPI.Sync.Core.Loader
                     NewReferral newReferral = null;
                     if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Referral))
                     {
-                        var allReferrals = await _clientReferralStageExtractor.Extract();
+                        var allReferrals = await _clientReferralStageExtractor.Extract(stagedClient.ClientId);
                         var referrall = allReferrals.LastOrDefault();
                         newReferral = NewReferral.Create(referrall);
                     }
@@ -114,7 +114,7 @@ namespace LiveHAPI.Sync.Core.Loader
                     List<NewTracing> newTracings = new List<NewTracing>();
                     if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Tracing))
                     {
-                        var allTracing = await _clientTracingStageExtractor.Extract();
+                        var allTracing = await _clientTracingStageExtractor.Extract(stagedClient.ClientId);
                         newTracings = NewTracing.Create(allTracing.ToList());
                     }
 
@@ -122,7 +122,7 @@ namespace LiveHAPI.Sync.Core.Loader
                     NewLinkage newLinkage = null;
                     if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Linkage))
                     {
-                        var allLinkages = await _clientLinkageStageExtractor.Extract();
+                        var allLinkages = await _clientLinkageStageExtractor.Extract(stagedClient.ClientId);
                         var linkage = allLinkages.LastOrDefault();
 
                         newLinkage = NewLinkage.Create(linkage);

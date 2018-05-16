@@ -40,7 +40,7 @@ namespace LiveHAPI.Core.Model.Exchange
                 foreach (var testResult in testingEncounter.ObsTestResults)
                 {
                     var clientTestingStage = new ClientTestingStage();
-
+                    clientTestingStage.UserId = subscriber.GetEmrUserId(testingEncounter.UserId);
                     clientTestingStage.Id = testResult.Id;
                     clientTestingStage.PretestEncounterId =
                         pretestEncounterId.IsNullOrEmpty() ? testResult.Id : pretestEncounterId.Value;

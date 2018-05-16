@@ -13,12 +13,12 @@ namespace LiveHAPI.Core.Model.Exchange
     {
         public Guid PretestEncounterId { get; set; }
         public int ScreeningResult { get; set; }
-        public int ConfirmatoryResult { get; set; }
+        public int? ConfirmatoryResult { get; set; }
         public int FinalResult { get; set; }
         public int FinalResultGiven { get; set; }
-        public int CoupleDiscordant { get; set; }
-        public int PnsAccepted { get; set; }
-        public int PnsDeclineReason { get; set; }
+        public int? CoupleDiscordant { get; set; }
+        public int? PnsAccepted { get; set; }
+        public int? PnsDeclineReason { get; set; }
         public string Remarks { get; set; }
         public Guid ClientId { get; set; }
         public SyncStatus SyncStatus { get; set; }
@@ -39,6 +39,8 @@ namespace LiveHAPI.Core.Model.Exchange
             if (testingEncounter.ObsFinalTestResults.Any())
             {
                 var clientStage = new ClientFinalTestStage();
+                clientStage.UserId = subscriber.GetEmrUserId(testingEncounter.UserId);
+                
                 var testResult = testingEncounter.ObsFinalTestResults.First();
                 clientStage.Id = testResult.Id;
                 clientStage.PretestEncounterId =

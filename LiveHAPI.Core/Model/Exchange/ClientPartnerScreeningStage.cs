@@ -48,6 +48,7 @@ namespace LiveHAPI.Core.Model.Exchange
                 {
                     var clientStage = new ClientPartnerScreeningStage();
                     clientStage.Id = screening.Id;
+                    clientStage.UserId = subscriber.GetEmrUserId(encounter.UserId);
                     clientStage.ScreeningDate = screening.ScreeningDate;
                     clientStage.PnsAccepted = subscriber.GetTranslation(screening.PnsAccepted, "YesNo", "ObsPartnerScreening.PnsAccepted", "0").SafeConvert<int>();
                     clientStage.IpvScreeningDone = subscriber.GetTranslation(screening.IPVScreening, "YesNoNA", "ObsPartnerScreening.IPVScreening", "0").SafeConvert<int>();

@@ -3,6 +3,7 @@ using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
+using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Enum;
 using LiveHAPI.Sync.Core.Extractor;
 using LiveHAPI.Sync.Core.Interface.Loaders;
@@ -41,7 +42,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:livehAPIConnection"];
+            var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;
@@ -110,7 +111,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             var clients = _clientStageExtractor.ExtractAndStage().Result;
             var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
 
-            var clientsResponses = _clientMessageWriter.Write(LoadAction.RegistrationOnly).Result.ToList();
+            var clientsResponses = _clientMessageWriter.Write(actions).Result.ToList();
             Assert.False(string.IsNullOrWhiteSpace(_clientMessageWriter.Message));
 
             if (_clientMessageWriter.Errors.Any())

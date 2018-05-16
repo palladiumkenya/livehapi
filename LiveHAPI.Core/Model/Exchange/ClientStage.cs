@@ -74,6 +74,8 @@ namespace LiveHAPI.Core.Model.Exchange
                     subscriber.GetTranslation(clientt.KeyPop, "HTSKeyPopulation", "0").SafeConvert<int>();
                 clientStage.MaritalStatus = subscriber.GetTranslation(clientt.MaritalStatus, "HTSMaritalStatus", "0")
                     .SafeConvert<int>();
+                
+                clientStage.UserId = subscriber.GetEmrUserId(clientt.UserId);
             }
 
             clientStage.IsIndex = person.IsHtsClient;
@@ -91,6 +93,7 @@ namespace LiveHAPI.Core.Model.Exchange
             {
                 clientStage.RegistrationDate = person.ContactRegDate;
             }
+           
             return clientStage;
         }
 

@@ -4,6 +4,7 @@ using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Sync.Core.Extractor;
 using LiveHAPI.Sync.Core.Interface.Loaders;
 using LiveHAPI.Sync.Core.Interface.Writers;
@@ -75,6 +76,26 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
             Assert.True(rels==1);
 
             var clientMessages = _clientMessageLoader.Load().Result.ToList();
+            Assert.True(clientMessages.Any());
+            var r = clientMessages.First();
+            Console.WriteLine(JsonConvert.SerializeObject(r));
+        }
+        
+        [TestCase(LoadAction.RegistrationOnly)]
+        [TestCase(LoadAction.ContactScreenig)]
+        [TestCase(LoadAction.ContactScreenig,LoadAction.ContactTracing)]
+        [TestCase(LoadAction.ContactTracing)]
+        public void should_Load_Client_By_Actions(params LoadAction[] actions)
+        {
+            var clients = _clientStageExtractor.ExtractAndStage().Result;
+            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
+            var rels = _clientStageRelationshipExtractor.ExtractAndStage().Result;
+
+            Assert.True(clients==1);
+            Assert.True(pretests == 1);
+            Assert.True(rels==1);
+
+            var clientMessages = _clientMessageLoader.Load(actions).Result.ToList();
             Assert.True(clientMessages.Any());
             var r = clientMessages.First();
             Console.WriteLine(JsonConvert.SerializeObject(r));
