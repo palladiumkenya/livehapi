@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Repository;
+using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Enum;
 using LiveHAPI.Sync.Core.Exchange;
 using LiveHAPI.Sync.Core.Exchange.Clients;
@@ -36,7 +37,7 @@ namespace LiveHAPI.Sync.Core.Loader
             _clientFamilyTracingStageExtractor = clientFamilyTracingStageExtractor;
         }
 
-        public async Task<IEnumerable<FamilyClientMessage>> Load(params LoadAction[] actions)
+        public async Task<IEnumerable<FamilyClientMessage>> Load(Guid? htsClientId = null, params LoadAction[] actions)
         {
             var messages = new List<FamilyClientMessage>();
             if (!actions.Any())
@@ -52,49 +53,67 @@ namespace LiveHAPI.Sync.Core.Loader
             var facilityCode = facility.Code;
             var header = MESSAGE_HEADER.Create(facilityCode);
 
-            //      NEWCLIENT
+            //      CLIENT
 
-            var fams = _clientStageRelationshipRepository.GetAll(x => !x.IsPartner);
+            var familyMembers = _clientStageRelationshipRepository.GetAll(x => !x.IsPartner);
 
-            foreach (var fam in fams)
+            if (!htsClientId.IsNullOrEmpty())
+                familyMembers = familyMembers.Where(x => x.SecondaryClientId == htsClientId);
+
+            foreach (var familyMember in familyMembers)
             {
-                var stagedClient = _clientStageRepository.Get(fam.SecondaryClientId);
+                var stagedClient = _clientStageRepository.Get(familyMember.SecondaryClientId);
                 if (null != stagedClient && !stagedClient.IsIndex)
                 {
                     #region PATIENT_IDENTIFICATION
 
-                    var pid = PARTNER_FAMILY_PATIENT_IDENTIFICATION.Create(stagedClient, fam.IndexClientId,fam.Relation);
+                    var pid = PARTNER_FAMILY_PATIENT_IDENTIFICATION.Create(stagedClient, familyMember.IndexClientId,
+                        familyMember.Relation);
 
                     #endregion
 
                     FAMILY_ENCOUNTER encounter = null;
+
                     if (!actions.Contains(LoadAction.RegistrationOnly))
                     {
+
+                        PLACER_DETAIL placerDetail = null;
+                        FAMILY_SCREENING familyScreening = null;
+                        List<FAMILY_TRACING> familyTracings = new List<FAMILY_TRACING>();
 
                         #region ENCOUNTERS
 
                         var screening = await _clientFamilyScreeningStageExtractor.Extract(stagedClient.ClientId);
-                        var pretest = screening.ToList().LastOrDefault();
+                        var screeningStage = screening.OrderBy(x=>x.ScreeningDate).LastOrDefault();
 
                         //  PLACER_DETAIL
-                        var pd = PLACER_DETAIL.Create(pretest.UserId, pretest.Id);
 
-                        //  FAMILY_SCREENING
-                        FAMILY_SCREENING familyScreening = null;
-                        if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.ContactScreenig))
-                            familyScreening = FAMILY_SCREENING.Create(pretest);
+                        if (null != screeningStage)
+                        {
+                            placerDetail = PLACER_DETAIL.Create(screeningStage.UserId, screeningStage.Id);
+
+                            //  FAMILY_SCREENING
+
+                            if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.ContactScreenig))
+                            {
+                                familyScreening = FAMILY_SCREENING.Create(screeningStage);
+                            }
+                        }
 
                         //  FAMILY_TRACING
-                        List<FAMILY_TRACING> familyTracings=new List<FAMILY_TRACING>();
+
                         if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.ContactTracing))
                         {
                             var allTracing = await _clientFamilyTracingStageExtractor.Extract(stagedClient.ClientId);
-                            familyTracings = FAMILY_TRACING.Create(allTracing.ToList());
+                            if (allTracing.Any())
+                            {
+                                familyTracings = FAMILY_TRACING.Create(allTracing.ToList());
+                            }
                         }
 
                         #endregion
 
-                        encounter = new FAMILY_ENCOUNTER(pd, familyScreening, familyTracings);
+                        encounter = new FAMILY_ENCOUNTER(placerDetail, familyScreening, familyTracings);
                     }
 
                     messages.Add(new FamilyClientMessage(header,

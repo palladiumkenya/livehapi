@@ -22,6 +22,7 @@ namespace LiveHAPI.Core.Model.Exchange
         public DateTime StatusDate { get; set; }
         public string SyncStatusInfo { get; set; }
         public int UserId { get; set; }
+        public int Rank { get; set; }
         public ClientFamilyScreeningStage()
         {
             SyncStatus = SyncStatus.Staged;

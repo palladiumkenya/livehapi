@@ -36,10 +36,12 @@ namespace LiveHAPI.Sync.Core.Loader
             _clientPartnerTracingStageExtractor = clientPartnerTracingStageExtractor;
         }
 
-        public async Task<IEnumerable<PartnerClientMessage>> Load(params LoadAction[] actions)
+        public async Task<IEnumerable<PartnerClientMessage>> Load(Guid? htsClientId, params LoadAction[] actions)
         {
             var messages = new List<PartnerClientMessage>();
-
+            if (!actions.Any())
+                actions = new[] {LoadAction.All};
+            
             //  Set Facility
             var facility = _practiceRepository.GetDefault();
             if (null == facility)
@@ -65,26 +67,49 @@ namespace LiveHAPI.Sync.Core.Loader
 
                     #endregion
 
+                    PARTNER_ENCOUNTER encounter = null;
+                  
+                    if (!actions.Contains(LoadAction.RegistrationOnly))
+                    {
+                        PLACER_DETAIL placerDetail = null;
+                        PARTNER_SCREENING partnerScreening = null;
+                        List<PARTNER_TRACING> partnerTracings=new List<PARTNER_TRACING>();
+                        
+                        #region ENCOUNTERS
 
-                    #region ENCOUNTERS
+                        var screening = await _clientPartnerScreeningStageExtractor.Extract(stagedClient.ClientId);
+                        var screeningStage = screening.OrderBy(x=>x.ScreeningDate).LastOrDefault();
 
-                    var screening = await _clientPartnerScreeningStageExtractor.Extract(stagedClient.ClientId);
-                    var pretest = screening.ToList().LastOrDefault();
+                        //  PLACER_DETAIL
 
-                    //  PLACER_DETAIL
-                    var pd = PLACER_DETAIL.Create(pretest.UserId, pretest.Id);
+                        if (null != screeningStage)
+                        {
+                            placerDetail = PLACER_DETAIL.Create(screeningStage.UserId, screeningStage.Id);
 
-                    //  PARTNER_SCREENING
-                    var pr = PARTNER_SCREENING.Create(pretest);
+                            //  PARTNER_SCREENING
+                            if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.ContactScreenig))
+                            {
+                                partnerScreening = PARTNER_SCREENING.Create(screeningStage);
+                            }
+                        }
 
-                    //  Partner_TRACING
-                    var allTracing = await _clientPartnerTracingStageExtractor.Extract(stagedClient.ClientId);
-                    var tr = PARTNER_TRACING.Create(allTracing.ToList());
+                        //  Partner_TRACING
+                        if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.ContactTracing))
+                        {
+                            var allTracing = await _clientPartnerTracingStageExtractor.Extract(stagedClient.ClientId);
+                            if (allTracing.Any())
+                            {
+                                partnerTracings = PARTNER_TRACING.Create(allTracing.ToList());
+                            }
+                        }
 
-                    #endregion
+                        #endregion
+                        
+                        encounter = new PARTNER_ENCOUNTER(placerDetail, partnerScreening,partnerTracings);
+                    }
 
                     messages.Add(new PartnerClientMessage(header,
-                        new List<PARTNER> { new PARTNER(pid, new PARTNER_ENCOUNTER(pd, pr, tr)) }));
+                        new List<PARTNER> { new PARTNER(pid,encounter) }));
 
                 }
             }

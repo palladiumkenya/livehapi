@@ -44,7 +44,7 @@ namespace LiveHAPI.Sync.Core.Loader
             _clientLinkageStageExtractor = clientLinkageStageExtractor;
         }
 
-        public async Task<IEnumerable<IndexClientMessage>> Load(params LoadAction[] actions)
+        public async Task<IEnumerable<IndexClientMessage>> Load(Guid? htsClientId, params LoadAction[] actions)
         {
             var messages = new List<IndexClientMessage>();
             if (!actions.Any())

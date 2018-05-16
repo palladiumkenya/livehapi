@@ -43,7 +43,7 @@ namespace LiveHAPI.Sync.Core.Writer
         {
             _errors =new List<ErrorResponse>();
             var results = new List<SynchronizeClientsResponse>();
-            var htsClients =await _loader.Load(actions);
+            var htsClients =await _loader.Load(null, actions);
             foreach (var htsClient in htsClients)
             {
                 _message = JsonConvert.SerializeObject(htsClient);

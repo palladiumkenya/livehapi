@@ -75,7 +75,7 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
             Assert.True(pretests == 1);
             Assert.True(rels==1);
 
-            var clientMessages = _clientMessageLoader.Load().Result.ToList();
+            var clientMessages = _clientMessageLoader.Load(null).Result.ToList();
             Assert.True(clientMessages.Any());
             var r = clientMessages.First();
             Console.WriteLine(JsonConvert.SerializeObject(r));
@@ -95,7 +95,7 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
             Assert.True(pretests == 1);
             Assert.True(rels==1);
 
-            var clientMessages = _clientMessageLoader.Load(actions).Result.ToList();
+            var clientMessages = _clientMessageLoader.Load(null, actions).Result.ToList();
             Assert.True(clientMessages.Any());
             var r = clientMessages.First();
             Console.WriteLine(JsonConvert.SerializeObject(r));
