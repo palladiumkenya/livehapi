@@ -63,6 +63,7 @@ namespace LiveHAPI.Sync.Core.Loader
             foreach (var familyMember in familyMembers)
             {
                 var stagedClient = _clientStageRepository.Get(familyMember.SecondaryClientId);
+                
                 if (null != stagedClient && !stagedClient.IsIndex)
                 {
                     #region PATIENT_IDENTIFICATION

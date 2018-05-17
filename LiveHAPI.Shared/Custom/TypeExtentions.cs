@@ -136,11 +136,12 @@ namespace LiveHAPI.Shared.Custom
             {
                 return dateTime.Date.ToString("yyyyMMddHHmmss");
             }
-            catch (Exception e)
+            catch
             {
                 return string.Empty;
             }
         }
+
         public static string ToIqDateOnly(this DateTime dateTime)
         {
             try
@@ -148,7 +149,7 @@ namespace LiveHAPI.Shared.Custom
                 return dateTime.Date.ToString("yyyyMMdd");
 
             }
-            catch (Exception e)
+            catch 
             {
                 return string.Empty;
             }

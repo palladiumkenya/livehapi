@@ -30,7 +30,5 @@ namespace LiveHAPI.Sync.Core.Exchange
         {
             return new ENCOUNTERS(placerDetail,preTest,hivTests,referral,tracing,linkage);
         }
-
-
     }
 }

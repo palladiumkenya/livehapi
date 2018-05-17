@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Repository;
+using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Enum;
 using LiveHAPI.Sync.Core.Exchange;
 using LiveHAPI.Sync.Core.Exchange.Clients;
@@ -36,12 +37,12 @@ namespace LiveHAPI.Sync.Core.Loader
             _clientPartnerTracingStageExtractor = clientPartnerTracingStageExtractor;
         }
 
-        public async Task<IEnumerable<PartnerClientMessage>> Load(Guid? htsClientId, params LoadAction[] actions)
+        public async Task<IEnumerable<PartnerClientMessage>> Load(Guid? htsClientId = null, params LoadAction[] actions)
         {
             var messages = new List<PartnerClientMessage>();
             if (!actions.Any())
                 actions = new[] {LoadAction.All};
-            
+
             //  Set Facility
             var facility = _practiceRepository.GetDefault();
             if (null == facility)
@@ -52,33 +53,39 @@ namespace LiveHAPI.Sync.Core.Loader
             var facilityCode = facility.Code;
             var header = MESSAGE_HEADER.Create(facilityCode);
 
-            //      NEWCLIENT
+            //      CLIENT
 
-            var fams = _clientStageRelationshipRepository.GetAll(x => x.IsPartner);
+            var clientPartners = _clientStageRelationshipRepository.GetAll(x => x.IsPartner);
 
-            foreach (var fam in fams)
+            if (!htsClientId.IsNullOrEmpty())
+                clientPartners = clientPartners.Where(x => x.SecondaryClientId == htsClientId);
+
+            foreach (var clientPartner in clientPartners)
             {
-                var stagedClient = _clientStageRepository.Get(fam.SecondaryClientId);
+                var stagedClient = _clientStageRepository.Get(clientPartner.SecondaryClientId);
+
                 if (null != stagedClient && !stagedClient.IsIndex)
                 {
                     #region PATIENT_IDENTIFICATION
-
-                    var pid = PARTNER_FAMILY_PATIENT_IDENTIFICATION.Create(stagedClient, fam.IndexClientId,fam.Relation);
-
+                    
+                    var pid = PARTNER_FAMILY_PATIENT_IDENTIFICATION.Create(stagedClient, clientPartner.IndexClientId,
+                        clientPartner.Relation);
+                    
                     #endregion
-
+                    
                     PARTNER_ENCOUNTER encounter = null;
-                  
+
                     if (!actions.Contains(LoadAction.RegistrationOnly))
                     {
+                    
                         PLACER_DETAIL placerDetail = null;
                         PARTNER_SCREENING partnerScreening = null;
-                        List<PARTNER_TRACING> partnerTracings=new List<PARTNER_TRACING>();
-                        
+                        List<PARTNER_TRACING> partnerTracings = new List<PARTNER_TRACING>();
+
                         #region ENCOUNTERS
 
                         var screening = await _clientPartnerScreeningStageExtractor.Extract(stagedClient.ClientId);
-                        var screeningStage = screening.OrderBy(x=>x.ScreeningDate).LastOrDefault();
+                        var screeningStage = screening.OrderBy(x => x.ScreeningDate).LastOrDefault();
 
                         //  PLACER_DETAIL
 
@@ -87,6 +94,7 @@ namespace LiveHAPI.Sync.Core.Loader
                             placerDetail = PLACER_DETAIL.Create(screeningStage.UserId, screeningStage.Id);
 
                             //  PARTNER_SCREENING
+                            
                             if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.ContactScreenig))
                             {
                                 partnerScreening = PARTNER_SCREENING.Create(screeningStage);
@@ -104,12 +112,12 @@ namespace LiveHAPI.Sync.Core.Loader
                         }
 
                         #endregion
-                        
-                        encounter = new PARTNER_ENCOUNTER(placerDetail, partnerScreening,partnerTracings);
+
+                        encounter = new PARTNER_ENCOUNTER(placerDetail, partnerScreening, partnerTracings);
                     }
 
                     messages.Add(new PartnerClientMessage(header,
-                        new List<PARTNER> { new PARTNER(pid,encounter) }));
+                        new List<PARTNER> {new PARTNER(pid, encounter)}));
 
                 }
             }

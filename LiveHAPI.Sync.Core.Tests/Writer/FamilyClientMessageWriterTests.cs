@@ -20,7 +20,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
     [TestFixture]
     public class FamilyClientMessageWriterTests
     {
-        private readonly string _baseUrl = "http://192.168.1.78:3333";
+        private readonly string _baseUrl = "http://localhost:3333";
 
         private LiveHAPIContext _context;
         private IPracticeRepository _practiceRepository;
