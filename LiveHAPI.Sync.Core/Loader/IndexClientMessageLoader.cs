@@ -90,14 +90,13 @@ namespace LiveHAPI.Sync.Core.Loader
                     foreach (var pretest in pretests)
                     {
                         var pretestEncounter =
-                            await CreateNonPretestEncounters(header, pid, stagedClient, lastPretest, actions);
+                            await CreatePretestEncounters(header, pid, stagedClient, pretest, actions);
                         messages.Add(pretestEncounter);
                     }
 
                     var nonPretest = await CreateNonPretestEncounters(header, pid, stagedClient, lastPretest, actions);
-
-                    messages.Add(nonPretest);
-                    
+                    if (null != nonPretest)
+                        messages.Add(nonPretest);
                 }
                 else
                 {
@@ -130,9 +129,10 @@ namespace LiveHAPI.Sync.Core.Loader
             {
                 var allfinalTests = await _clientFinalTestStageExtractor.Extract(stagedClient.ClientId);
                 var alltests = await _clientTestingStageExtractor.Extract();
-
+            
                 var finalTest = allfinalTests.Where(x => x.PretestEncounterId == pretest.Id).ToList()
                     .LastOrDefault();
+            
                 var tests = alltests.Where(x => x.PretestEncounterId == pretest.Id).ToList();
 
                 if (null != finalTest && tests.Any())
@@ -142,7 +142,7 @@ namespace LiveHAPI.Sync.Core.Loader
             // GET THE LAST ONE
 
 
-            encounter = ENCOUNTERS.Create(placerDetail, preTest, hivTests, null, null, null);
+            encounter = ENCOUNTERS.Create(placerDetail, preTest, hivTests, null, new List<NewTracing>(), null);
 
             return new IndexClientMessage(header,
                 new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)});
@@ -162,16 +162,20 @@ namespace LiveHAPI.Sync.Core.Loader
             if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Referral))
             {
                 var allReferrals = await _clientReferralStageExtractor.Extract(stagedClient.ClientId);
-                var referrall = allReferrals.LastOrDefault();
-                newReferral = NewReferral.Create(referrall);
+                if (allReferrals.Any())
+                {
+                    var referrall = allReferrals.LastOrDefault();
+                    newReferral = NewReferral.Create(referrall);
+                }
             }
 
             //  NewTracing
-            List<NewTracing> newTracings = new List<NewTracing>();
+            var newTracings = new List<NewTracing>();
             if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Tracing))
             {
                 var allTracing = await _clientTracingStageExtractor.Extract(stagedClient.ClientId);
-                newTracings = NewTracing.Create(allTracing.ToList());
+                if(allTracing.Any())
+                    newTracings = NewTracing.Create(allTracing.ToList());
             }
 
             // NewLinkage
@@ -179,10 +183,16 @@ namespace LiveHAPI.Sync.Core.Loader
             if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Linkage))
             {
                 var allLinkages = await _clientLinkageStageExtractor.Extract(stagedClient.ClientId);
-                var linkage = allLinkages.LastOrDefault();
-                newLinkage = NewLinkage.Create(linkage);
+                if (allLinkages.Any())
+                {
+                    var linkage = allLinkages.LastOrDefault();
+                    newLinkage = NewLinkage.Create(linkage);
+                }
             }
-                    
+
+            if (null == newReferral && !newTracings.Any() && null == newLinkage)
+                return null;
+            
             encounter = ENCOUNTERS.Create(lastplacerDetail,null, null,newReferral,newTracings,newLinkage);
 
             return new IndexClientMessage(header,

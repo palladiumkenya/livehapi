@@ -20,8 +20,9 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
     [TestFixture]
     public class IndexClientMessageWriterTests
     {
-        private readonly string _baseUrl = "http://localhost:3333";
-
+      //  private readonly string _baseUrl = "http://localhost:3333";
+        private readonly string _baseUrl = "http://192.168.1.78:3333";
+        private readonly bool goLive = true;
         private LiveHAPIContext _context;
         private IPracticeRepository _practiceRepository;
         private IClientStageRepository _clientStageRepository;
@@ -42,7 +43,16 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
+            
+            string connectionString=string.Empty;
+
+            if (goLive)
+                connectionString = config["connectionStrings:livehAPIConnection"];
+            else
+                connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#",
+                    TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
+                
+            
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;
@@ -81,7 +91,8 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
 
             var clientsResponses = _clientMessageWriter.Write().Result.ToList();
-            Assert.False(string.IsNullOrWhiteSpace(_clientMessageWriter.Message));
+            foreach (var message in _clientMessageWriter.Messages)
+                Assert.False(string.IsNullOrWhiteSpace(message));
 
             if (_clientMessageWriter.Errors.Any())
                 foreach (var e in _clientMessageWriter.Errors)
@@ -91,7 +102,12 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
                     Console.WriteLine(new string('*', 40));
                 }
 
-            Console.WriteLine(_clientMessageWriter.Message);
+            foreach (var message in _clientMessageWriter.Messages)
+            {
+                Console.WriteLine(message);
+                Console.WriteLine(new string('|', 40));
+            }
+
             Assert.True(clientsResponses.Any());
             foreach (var response in clientsResponses)
             {
@@ -112,7 +128,8 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
 
             var clientsResponses = _clientMessageWriter.Write(actions).Result.ToList();
-            Assert.False(string.IsNullOrWhiteSpace(_clientMessageWriter.Message));
+            foreach (var message in _clientMessageWriter.Messages)
+                Assert.False(string.IsNullOrWhiteSpace(message));
 
             if (_clientMessageWriter.Errors.Any())
                 foreach (var e in _clientMessageWriter.Errors)
@@ -122,7 +139,8 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
                     Console.WriteLine(new string('*', 40));
                 }
 
-            Console.WriteLine(_clientMessageWriter.Message);
+            foreach (var message in _clientMessageWriter.Messages)
+                Console.WriteLine(message);
             Assert.True(clientsResponses.Any());
             foreach (var response in clientsResponses)
             {

@@ -60,32 +60,35 @@ namespace LiveHAPI.Core.Model.Exchange
                 clientStage.Id = obsEncounter.Id;
                 clientStage.EncounterDate = obsEncounter.EncounterDate;
                 clientStage.EncounterType = encounterType;
-                clientStage.TestedAs = GetObsValue(obses, "TestedAs", subscriber, "B260401E-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
-                clientStage.TbScreening = GetObsValue(obses, "TbScreening", subscriber, "B2605F54-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
+                clientStage.TestedAs = GetObsValue(obses, "TestedAs", subscriber, "B260401E-852F-11E7-BB31-BE2E44B06B34",true,"0").SafeConvert<int>();
+                clientStage.TbScreening = GetObsValue(obses, "TbScreening", subscriber, "B2605F54-852F-11E7-BB31-BE2E44B06B34",true,"0").SafeConvert<int>();
                 clientStage.Remarks = GetObsValue(obses, "B260665C-852F-11E7-BB31-BE2E44B06B34");
-                clientStage.DisabilityIndicator = GetObsValue(obses, "YesNo", subscriber, "B260695C-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
+                clientStage.DisabilityIndicator = GetObsValue(obses, "YesNo", subscriber, "B260695C-852F-11E7-BB31-BE2E44B06B34",true,"0").SafeConvert<int>();
                 clientStage.Disabilities = GetDisabilityStages(obses, "B2603C5E-852F-11E7-BB31-BE2E44B06B34", subscriber, clientStage.Id);
-                clientStage.EverTested = GetObsValue(obses, "YesNo", subscriber, "B2603772-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
-                clientStage.SelfTest12Months = GetObsValue(obses, "YesNo", subscriber, "B2603773-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
-                clientStage.Strategy = GetObsValue(obses, "Strategy", subscriber, "B260417C-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
-                clientStage.ServicePoint = GetObsValue(obses, "HTSEntryPoints", subscriber, "B26039A1-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
+                clientStage.EverTested = GetObsValue(obses, "YesNo", subscriber, "B2603772-852F-11E7-BB31-BE2E44B06B34",true,"0").SafeConvert<int>();
+                clientStage.SelfTest12Months = GetObsValue(obses, "YesNo", subscriber, "B2603773-852F-11E7-BB31-BE2E44B06B34",true,"0").SafeConvert<int>();
+                clientStage.Strategy = GetObsValue(obses, "Strategy", subscriber, "B260417C-852F-11E7-BB31-BE2E44B06B34",true,"0").SafeConvert<int>();
+                clientStage.ServicePoint = GetObsValue(obses, "HTSEntryPoints", subscriber, "B26039A1-852F-11E7-BB31-BE2E44B06B34",true,"0").SafeConvert<int>();
                 clientStage.MonthsSinceLastTest = GetObsValue(obses, "B26039A2-852F-11E7-BB31-BE2E44B06B34", true,"0").SafeConvert<decimal>();
-                clientStage.Consent = GetObsValue(obses, "YesNo", subscriber, "B2603DC6-852F-11E7-BB31-BE2E44B06B34").SafeConvert<int>();
+                clientStage.Consent = GetObsValue(obses, "YesNo", subscriber, "B2603DC6-852F-11E7-BB31-BE2E44B06B34",true,"0").SafeConvert<int>();
                 clientStage.ClientId = obsEncounter.ClientId;
             }
 
             return clientStage;
         }
 
-        private static string GetObsValue(List<Obs> obses,string field, SubscriberSystem subscriber,string question,bool coded=true)
+        private static string GetObsValue(List<Obs> obses, string field, SubscriberSystem subscriber, string question,
+            bool coded = true, string defaultValue = "0")
         {
             var obs = obses.FirstOrDefault(x => x.QuestionId == new Guid(question));
             if (null != obs && coded)
             {
                 return subscriber.GetTranslation(obs.ValueCoded, field, obs.QuestionId.ToString(), "0");
             }
-            return string.Empty;
+
+            return string.IsNullOrWhiteSpace(defaultValue) ? string.Empty : defaultValue;
         }
+
 
         private static string GetObsValue(List<Obs> obses, string question, bool numeric = false,
             string defaultValue = "")

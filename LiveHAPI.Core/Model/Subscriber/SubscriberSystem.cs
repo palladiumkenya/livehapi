@@ -26,6 +26,13 @@ namespace LiveHAPI.Core.Model.Subscriber
             Id = LiveGuid.NewGuid();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="subref"></param>
+        /// <param name="def"></param>
+        /// <returns></returns>
         public string GetTranslation(object code, string subref, string def)
         {
             if (null == code)
@@ -41,6 +48,15 @@ namespace LiveHAPI.Core.Model.Subscriber
             return def;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="subref"></param>
+        /// <param name="hapiRef"></param>
+        /// <param name="def"></param>
+        /// <returns></returns>
+        
         public string GetTranslation(object code, string subref, string hapiRef, string def)
         {
             if (null == code)

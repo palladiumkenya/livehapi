@@ -83,7 +83,8 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             var rels = _clientStageRelationshipExtractor.ExtractAndStage().Result;
 
             var clientsResponses = _clientMessageWriter.Write().Result.ToList();
-            Assert.False(string.IsNullOrWhiteSpace(_clientMessageWriter.Message));
+            foreach (var message in _clientMessageWriter.Messages)
+               Assert.False(string.IsNullOrWhiteSpace(message));
 
             if (_clientMessageWriter.Errors.Any())
                 foreach (var e in _clientMessageWriter.Errors)
@@ -93,7 +94,8 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
                     Console.WriteLine(new string('*', 40));
                 }
 
-            Console.WriteLine(_clientMessageWriter.Message);
+            foreach (var message in _clientMessageWriter.Messages)
+                Console.WriteLine(message);
             Assert.True(clientsResponses.Any());
             foreach (var response in clientsResponses)
             {
@@ -112,7 +114,8 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             var rels = _clientStageRelationshipExtractor.ExtractAndStage().Result;
 
             var clientsResponses = _clientMessageWriter.Write(actions).Result.ToList();
-            Assert.False(string.IsNullOrWhiteSpace(_clientMessageWriter.Message));
+            foreach (var message in _clientMessageWriter.Messages)
+                Assert.False(string.IsNullOrWhiteSpace(message));
 
             if (_clientMessageWriter.Errors.Any())
                 foreach (var e in _clientMessageWriter.Errors)
@@ -122,7 +125,9 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
                     Console.WriteLine(new string('*', 40));
                 }
 
-            Console.WriteLine(_clientMessageWriter.Message);
+            foreach (var message in _clientMessageWriter.Messages)
+                Console.WriteLine(message);
+            
             Assert.True(clientsResponses.Any());
             foreach (var response in clientsResponses)
             {

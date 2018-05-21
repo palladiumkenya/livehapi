@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Shared.Custom;
@@ -60,7 +61,19 @@ namespace LiveHAPI.Core.Model.Exchange
                 clientStage.FirstName = person.PersonName.FirstName;
                 clientStage.MiddleName = person.PersonName.MiddleName;
                 clientStage.LastName = person.PersonName.LastName;
+
+                if (person.Addresses.Any())
+                {
+                    clientStage.Landmark = person.Addresses.First().Landmark;
+                }
+                if (person.Contacts.Any())
+                {
+                    clientStage.Phone = person.Contacts.First().Phone.HasValue
+                        ? person.Contacts.First().Phone.Value.ToString()
+                        : string.Empty;
+                }
             }
+            
             clientStage.DateOfBirth = person.HasDOB() ? person.BirthDate.Value : new DateTime(1900, 1, 1);
             clientStage.DateOfBirthPrecision = person.HasDOBEstimate()
                 ? (person.BirthDateEstimated.Value ? "EXACT" : "ESTIMATED")

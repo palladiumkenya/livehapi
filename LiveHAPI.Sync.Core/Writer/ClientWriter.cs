@@ -21,7 +21,7 @@ namespace LiveHAPI.Sync.Core.Writer
     {
         private readonly HttpClient _httpClient;
         private readonly IMessageLoader<T> _loader;
-        private string _message;
+        private List<string> _messages=new List<string>();
         private List<ErrorResponse> _errors=new List<ErrorResponse>();
 
         protected ClientWriter(IRestClient restClient, IMessageLoader<T> loader)
@@ -30,7 +30,7 @@ namespace LiveHAPI.Sync.Core.Writer
             _loader = loader;
         }
 
-        public string Message => _message;
+        public List<string> Messages => _messages;
 
         public List<ErrorResponse> Errors => _errors;
 
@@ -46,7 +46,7 @@ namespace LiveHAPI.Sync.Core.Writer
             var htsClients =await _loader.Load(null, actions);
             foreach (var htsClient in htsClients)
             {
-                _message = JsonConvert.SerializeObject(htsClient);
+                _messages.Add(JsonConvert.SerializeObject(htsClient));
                 try
                 {
                     var response = await _httpClient.PostAsJsonAsync(endpoint, htsClient);

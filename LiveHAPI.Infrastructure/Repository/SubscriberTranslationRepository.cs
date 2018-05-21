@@ -20,27 +20,27 @@ namespace LiveHAPI.Infrastructure.Repository
         {
         }
 
-        public SubscriberTranslation GetByLookupItem(string masterName,string itemName)
+        public IEnumerable<SubscriberTranslation> GetByLookupItem(string masterName,string itemName)
         {
             return GetDbConnection().GetAll<SubscriberTranslation>()
-                .FirstOrDefault(x => x.SubRef.ToLower() == masterName.ToLower() &&
+                .Where(x => x.SubRef.ToLower() == masterName.ToLower() &&
                                      x.SubDisplay.ToLower() == itemName.ToLower() &&
                                      x.SubscriberSystemId==_defaultSystem.Id);
         }
-
+        
         public void Sync(IEnumerable<SubscriberTranslation> translations)
         {
             _defaultSystem = GetDbConnection().GetAll<SubscriberSystem>().FirstOrDefault(x => x.IsDefault);
 
             var updateList = new List<SubscriberTranslation>();
 
-            foreach (var practice in updateList)
+            foreach (var translation in translations)
             {
-                var exisitngPractice = GetByLookupItem(practice.SubRef, practice.SubDisplay);
-                if (null != exisitngPractice)
+                var exisitngTranslation = GetByLookupItem(translation.SubRef, translation.SubDisplay);
+                foreach (var subscriberTranslation in exisitngTranslation)
                 {
-                    exisitngPractice.UpdateTo(practice);
-                    updateList.Add(exisitngPractice);
+                    subscriberTranslation.UpdateTo(translation);
+                    updateList.Add(subscriberTranslation);
                 }
             }
             GetDbConnection().BulkUpdate(updateList);

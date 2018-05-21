@@ -7,7 +7,7 @@ namespace LiveHAPI.Sync.Core.Interface.Writers
 {
     public interface IClientWriter<T>
     {
-        string Message { get; }
+        List<string> Messages { get; }
         List<ErrorResponse> Errors { get; }
         Task<IEnumerable<SynchronizeClientsResponse>> Write(params LoadAction[] actions);
     }

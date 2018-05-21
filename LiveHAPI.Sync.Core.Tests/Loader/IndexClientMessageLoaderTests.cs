@@ -19,6 +19,7 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
     [TestFixture]
     public class IndexClientMessageLoaderTests
     {
+        private readonly bool goLive = true;
         private LiveHAPIContext _context;
         private IPracticeRepository _practiceRepository;
         private IClientStageRepository _clientStageRepository;
@@ -37,7 +38,13 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
+            string connectionString=string.Empty;
+
+            if (goLive)
+                connectionString = config["connectionStrings:livehAPIConnection"];
+            else
+                connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#",
+                    TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;
@@ -74,8 +81,13 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
 
             var indexClientMessages = _clientMessageLoader.Load(null).Result.ToList();
             Assert.True(indexClientMessages.Any());
-            var r = indexClientMessages.First();
-            Console.WriteLine(JsonConvert.SerializeObject(r));
+            foreach (var m in indexClientMessages)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(m));
+                Console.WriteLine(new string('=',50));
+            }
+//            var r = indexClientMessages.First();
+//            Console.WriteLine(JsonConvert.SerializeObject(r));
         }
         
         [TestCase(LoadAction.RegistrationOnly)]

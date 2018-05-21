@@ -46,6 +46,12 @@ namespace LiveHAPI.Infrastructure.Repository
             using (var con = GetDbConnection())
             {
                 con.BulkInsert(clientStages);
+                if (clientStages.Any())
+                {
+                    var clientPretestDisabilityStages = clientStages.SelectMany(x => x.Disabilities);
+                    if (clientPretestDisabilityStages.Any())
+                        con.BulkInsert(clientPretestDisabilityStages);
+                }
             }
         }
     }
