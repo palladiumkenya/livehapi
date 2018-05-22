@@ -81,7 +81,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
                 );
 
             _clientMessageWriter =
-                new IndexClientMessageWriter(new RestClient(_baseUrl), _clientMessageLoader);
+                new IndexClientMessageWriter(new RestClient(_baseUrl), _clientMessageLoader,_clientStageRepository);
         }
 
         [Test]

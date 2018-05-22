@@ -69,7 +69,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
                     new ClientPartnerTracingStageExtractor(_contactsEncounterRepository, _subscriberSystemRepository));
 
             _clientMessageWriter =
-                new PartnerClientMessageWriter(new RestClient(_baseUrl), _clientMessageLoader);
+                new PartnerClientMessageWriter(new RestClient(_baseUrl), _clientMessageLoader,_clientStageRepository);
             _clientStageRelationshipExtractor = new ClientStageRelationshipExtractor(new ClientRelationshipRepository(_context), new ClientStageRelationshipRepository(_context), _subscriberSystemRepository);
 
 

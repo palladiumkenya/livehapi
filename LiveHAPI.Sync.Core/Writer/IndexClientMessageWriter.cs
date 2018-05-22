@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Enum;
@@ -17,10 +18,10 @@ namespace LiveHAPI.Sync.Core.Writer
 {
     public class IndexClientMessageWriter : ClientWriter<IndexClientMessage>, IIndexClientMessageWriter
     {
-        public IndexClientMessageWriter(IRestClient restClient, IIndexClientMessageLoader loader) : base(restClient, loader)
+        public IndexClientMessageWriter(IRestClient restClient, IIndexClientMessageLoader loader,
+            IClientStageRepository clientStageRepository) : base(restClient, loader, clientStageRepository)
         {
         }
-
         public override Task<IEnumerable<SynchronizeClientsResponse>> Write(params LoadAction[] actions)
         {
             return Write("api/Hts/indexclient",actions);

@@ -3,9 +3,8 @@ using LiveHAPI.Sync.Core.Exchange.Family;
 
 namespace LiveHAPI.Sync.Core.Exchange.Messages
 {
-    public class FamilyClientMessage
+    public class FamilyClientMessage:ClientMessage
     {
-        public MESSAGE_HEADER MESSAGE_HEADER { get; set; }
         public List<FAMILY> FAMILY { get; set; }
 
         public FamilyClientMessage()

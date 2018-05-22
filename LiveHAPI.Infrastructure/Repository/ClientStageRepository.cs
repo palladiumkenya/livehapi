@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.ExpressionVisitors.Internal;
 using Dapper;
 using LiveHAPI.Core.Model.Exchange;
+using LiveHAPI.Shared.Enum;
 using Z.Dapper.Plus;
 
 namespace LiveHAPI.Infrastructure.Repository
@@ -37,10 +38,36 @@ namespace LiveHAPI.Infrastructure.Repository
                 con.BulkInsert(clientStages);
             }
         }
+        
+        
 
         public IEnumerable<ClientStage> GetIndexClients()
         {
-            return GetAll(x => x.IsIndex);
+            return GetAll(x => x.IsIndex && x.SyncStatus != SyncStatus.SentSuccess);
+        }
+
+        public ClientStage GetQueued(Guid clientId)
+        {
+            return DbSet.AsNoTracking()
+                .FirstOrDefault(x => x.ClientId == clientId && x.SyncStatus != SyncStatus.SentSuccess);
+        }
+
+        public void UpdateSyncStatus(Guid clientId, SyncStatus syncStatus, string statusInfo="")
+        {
+            string sql = $@"
+                            UPDATE {nameof(ClientStage)}s 
+                            SET 
+                                {nameof(ClientStage.SyncStatus)} = @SyncStatus,
+                                {nameof(ClientStage.SyncStatusInfo)} = @SyncStatusInfo,
+                                {nameof(ClientStage.StatusDate)}=@StatusDate
+                            WHERE 
+                                {nameof(ClientStage.ClientId)} = @ClientId;
+                          ";
+
+            using (var con = GetDbConnection())
+            {
+                con.Execute(sql,new {ClientId = clientId, SyncStatus =syncStatus, SyncStatusInfo=statusInfo, StatusDate=DateTime.Now});
+            }
         }
     }
 }

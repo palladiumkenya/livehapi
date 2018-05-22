@@ -62,7 +62,7 @@ namespace LiveHAPI.Sync.Core.Loader
 
             foreach (var clientPartner in clientPartners)
             {
-                var stagedClient = _clientStageRepository.Get(clientPartner.SecondaryClientId);
+                var stagedClient = _clientStageRepository.GetQueued(clientPartner.SecondaryClientId);
 
                 if (null != stagedClient && !stagedClient.IsIndex)
                 {

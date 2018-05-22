@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Enum;
@@ -17,7 +18,8 @@ namespace LiveHAPI.Sync.Core.Writer
 {
     public class PartnerClientMessageWriter : ClientWriter<PartnerClientMessage>, IPartnerClientMessageWriter
     {
-        public PartnerClientMessageWriter(IRestClient restClient, IPartnerClientMessageLoader loader) : base(restClient, loader)
+        public PartnerClientMessageWriter(IRestClient restClient, IPartnerClientMessageLoader loader,
+            IClientStageRepository clientStageRepository) : base(restClient, loader, clientStageRepository)
         {
         }
 
