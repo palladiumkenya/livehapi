@@ -11,13 +11,24 @@ namespace LiveHAPI.Sync.Schedulers
 {
     public class SyncConfigScheduler : ISyncConfigScheduler
     {
-        private readonly int _interval;
+        private readonly int _configInterval;
+        private readonly int _clientInterval;
         private IScheduler _scheduler;
 
-        public SyncConfigScheduler(string period)
+        public SyncConfigScheduler(string configPeriod, string clientPeriod)
         {
-            bool result = Int32.TryParse(period, out var number);
-            _interval = result ? number : 15;
+            if (configPeriod.EndsWith("hrs"))
+            {
+                bool result = Int32.TryParse(configPeriod.Replace("hrs", "").Trim(), out var number);
+                _configInterval = result ? number : 24;
+
+            }
+
+            if (clientPeriod.EndsWith("secs"))
+            {
+                bool result2 = Int32.TryParse(configPeriod.Replace("secs", "").Trim(), out var number2);
+                _clientInterval = result2 ? number2 : 15;
+            }
         }
 
         public async void Run()
@@ -33,7 +44,9 @@ namespace LiveHAPI.Sync.Schedulers
             {
                 typeof(SyncFacilitiesJob),
                 typeof(SyncUsersJob),
-                typeof(SyncLookupsJob)
+                typeof(SyncLookupsJob),
+                typeof(ExtractClientsJob),
+                typeof(SyncClientsJob)
             };
 
             foreach (var job in jobs)
@@ -56,15 +69,26 @@ namespace LiveHAPI.Sync.Schedulers
             string triggerName = $"t{jobType.Name}";
             string triggerGroup = $"t{jobType.Name}group";
 
-            var trigger = TriggerBuilder.Create()
-                .WithIdentity($"{triggerName}", $"{triggerGroup}")
-                .StartNow()
-                .WithSimpleSchedule(x => x
-                    .WithIntervalInSeconds(_interval)
-                    .RepeatForever())
-                .Build();
-
-            return trigger;
+            if (jobType == typeof(SyncClientsJob)||jobType ==typeof(ExtractClientsJob))
+            {
+                return TriggerBuilder.Create()
+                    .WithIdentity($"{triggerName}", $"{triggerGroup}")
+                    .StartNow()
+                    .WithSimpleSchedule(x => x
+                        .WithIntervalInSeconds(_clientInterval)
+                        .RepeatForever())
+                    .Build();
+            }
+            else
+            {
+                return TriggerBuilder.Create()
+                    .WithIdentity($"{triggerName}", $"{triggerGroup}")
+                    .StartNow()
+                    .WithSimpleSchedule(x => x
+                        .WithIntervalInHours(_configInterval)
+                        .RepeatForever())
+                    .Build();
+            }
         }
 
         public async void Shutdown()

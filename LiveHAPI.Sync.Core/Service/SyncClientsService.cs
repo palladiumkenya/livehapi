@@ -4,31 +4,37 @@ using System.Threading.Tasks;
 using AutoMapper;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.People;
+using LiveHAPI.Sync.Core.Interface.Extractors;
 using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Interface.Services;
+using LiveHAPI.Sync.Core.Interface.Writers;
 
 namespace LiveHAPI.Sync.Core.Service
 {
     public class SyncClientsService : ISyncClientsService
     {
-        private readonly IClientUserReader _clientUserReader;
-        private readonly IUserRepository _userRepository;
+        private readonly IIndexClientMessageWriter _clientMessageWriter;
+        private readonly IPartnerClientMessageWriter _partnerClientMessageWriter;
+        private readonly IFamilyClientMessageWriter _familyClientMessageWriter;
 
-
-        public SyncClientsService(IClientUserReader clientUserReader, IUserRepository userRepository)
+        public SyncClientsService(IIndexClientMessageWriter clientMessageWriter, IPartnerClientMessageWriter partnerClientMessageWriter, IFamilyClientMessageWriter familyClientMessageWriter)
         {
-            _userRepository = userRepository;
-            _clientUserReader = clientUserReader;
+            _clientMessageWriter = clientMessageWriter;
+            _partnerClientMessageWriter = partnerClientMessageWriter;
+            _familyClientMessageWriter = familyClientMessageWriter;
         }
+
 
         public async Task<int> Sync()
         {
-            var clientUsers = await _clientUserReader.Read();
-
-            var users = Mapper.Map<List<User>>(clientUsers);
-            int count = users.Count;
-            _userRepository.Sync(users);
-            return count;
+            
+            await _clientMessageWriter.Write();
+            
+            await _partnerClientMessageWriter.Write();
+            
+            await _familyClientMessageWriter.Write();
+            
+            return 1;
         }
     }
 }

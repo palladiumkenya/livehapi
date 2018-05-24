@@ -10,28 +10,23 @@ namespace LiveHAPI.Sync.Core.Service
         private readonly IClientStageExtractor _clientStageExtractor;
         private readonly IClientStageRelationshipExtractor _clientStageRelationshipExtractor;
         private readonly IClientPretestStageExtractor _clientPretestStageExtractor;
-        
-        
-        private readonly IIndexClientMessageWriter _clientMessageWriter;
-        private readonly IPartnerClientMessageWriter _partnerClientMessageWriter;
-        private readonly IFamilyClientMessageWriter _familyClientMessageWriter;
 
-        public ExtractClientsService(IIndexClientMessageWriter clientMessageWriter, IPartnerClientMessageWriter partnerClientMessageWriter, IFamilyClientMessageWriter familyClientMessageWriter)
+        public ExtractClientsService(IClientStageExtractor clientStageExtractor, IClientStageRelationshipExtractor clientStageRelationshipExtractor, IClientPretestStageExtractor clientPretestStageExtractor)
         {
-            _clientMessageWriter = clientMessageWriter;
-            _partnerClientMessageWriter = partnerClientMessageWriter;
-            _familyClientMessageWriter = familyClientMessageWriter;
+            _clientStageExtractor = clientStageExtractor;
+            _clientStageRelationshipExtractor = clientStageRelationshipExtractor;
+            _clientPretestStageExtractor = clientPretestStageExtractor;
         }
 
 
         public async Task<int> Sync()
         {
             
-            await _clientMessageWriter.Write();
+            await _clientStageExtractor.ExtractAndStage();
             
-            await _partnerClientMessageWriter.Write();
+            await _clientStageRelationshipExtractor.ExtractAndStage();
             
-            await _familyClientMessageWriter.Write();
+            await _clientPretestStageExtractor.ExtractAndStage();
             
             return 1;
         }

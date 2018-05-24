@@ -8,18 +8,18 @@ using Serilog;
 namespace LiveHAPI.Sync.Jobs
 {
     [DisallowConcurrentExecution]
-    public class SyncClientsJob : IJob
+    public class ExtractClientsJob : IJob
     {
         public async Task Execute(IJobExecutionContext context)
         {
             try
             {
-                var service = Program.ServiceProvider.GetService<ISyncClientsService>();
+                var service = Program.ServiceProvider.GetService<IExtractClientsService>();
                 var count = await service.Sync();
             }
             catch (Exception ex)
             {
-                Log.Error($"error executing {nameof(SyncClientsJob)} job");
+                Log.Error($"error executing {nameof(ExtractClientsJob)} job");
                 Log.Error($"{ex}");
                 JobExecutionException qe = new JobExecutionException(ex);
                 qe.RefireImmediately = true; // this job will refire immediately

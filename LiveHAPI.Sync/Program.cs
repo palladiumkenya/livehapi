@@ -47,7 +47,8 @@ namespace LiveHAPI.Sync
             IConfigurationRoot configuration = builder.Build();
             var endpoint = configuration["endpoints:iqcare"];
             var connectionString = configuration.GetConnectionString("hAPIConnection");
-            var syncInterval = configuration["syncInterval:config"];
+            var syncConfigInterval = configuration["syncInterval:config"];
+            var syncClientInterval = configuration["syncInterval:clients"];
             var bulkConfigName = configuration["bulkConfig:name"];
             var bulkConfigCode = configuration["bulkConfig:code"];
 
@@ -94,7 +95,7 @@ namespace LiveHAPI.Sync
                 .AddScoped<ISyncFacilityService, SyncFacilityService>()
                 .AddScoped<ISyncLookupService, SyncLookupService>()
 
-                .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(syncInterval))
+                .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(syncConfigInterval,syncClientInterval))
               
 
                 .BuildServiceProvider();

@@ -14,12 +14,12 @@ namespace LiveHAPI.Sync.Jobs
         {
             try
             {
-                var service = Program.ServiceProvider.GetService<ISyncFacilityService>();
+                var service = Program.ServiceProvider.GetService<ISyncClientsService>();
                 var count = await service.Sync();
             }
             catch (Exception ex)
             {
-                Log.Error($"error executing {nameof(SyncFacilitiesJob)} job");
+                Log.Error($"error executing {nameof(SyncClientsJob)} job");
                 Log.Error($"{ex}");
                 JobExecutionException qe = new JobExecutionException(ex);
                 qe.RefireImmediately = true; // this job will refire immediately
