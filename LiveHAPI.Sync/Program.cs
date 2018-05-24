@@ -94,6 +94,9 @@ namespace LiveHAPI.Sync
                 .AddScoped<ISyncUserService, SyncUserService>()
                 .AddScoped<ISyncFacilityService, SyncFacilityService>()
                 .AddScoped<ISyncLookupService, SyncLookupService>()
+                .AddScoped<ISyncUserService, SyncUserService>()
+                .AddScoped<IExtractClientsService, ExtractClientsService>()
+            
 
                 .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(syncConfigInterval,syncClientInterval))
               
