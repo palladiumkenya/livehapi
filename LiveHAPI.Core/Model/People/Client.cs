@@ -90,10 +90,14 @@ namespace LiveHAPI.Core.Model.People
             var states = ClientState.Create(clientInfo);
             client.AddClientStates(states);
             client.UserId = clientInfo.UserId;
+            client.SyncStatus = Shared.Enum.SyncStatus.Staged;
+            client.SyncStatusDate=DateTime.Now;
             return client;
         }
         public void Update(ClientInfo clientInfo)
         {
+            SyncStatus = Shared.Enum.SyncStatus.Staged;
+            SyncStatusDate=DateTime.Now;
             IsFamilyMember = clientInfo.IsFamilyMember;
             IsPartner = clientInfo.IsPartner;
             MaritalStatus = clientInfo.MaritalStatus;

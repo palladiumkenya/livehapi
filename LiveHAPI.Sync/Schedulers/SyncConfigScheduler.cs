@@ -44,9 +44,10 @@ namespace LiveHAPI.Sync.Schedulers
             {
                 typeof(SyncFacilitiesJob),
                 typeof(SyncUsersJob),
-                typeof(SyncLookupsJob),
-                typeof(ExtractClientsJob),
-                typeof(SyncClientsJob)
+                typeof(SyncLookupsJob)
+//                ,
+//                typeof(ExtractClientsJob),
+//                typeof(SyncClientsJob)
             };
 
             foreach (var job in jobs)

@@ -28,7 +28,7 @@ namespace LiveHAPI.Sync.Core.Reader
             try
             {
                 var response = await _httpClient.GetAsync(endpoint);
-                var data=await response.Content.ReadAsJsonAsync<T[]>();
+                var data=await response.Content.ReadAsJsonAsync<List<T>>();
                 result = data.ToList();
             }
             catch (Exception e)

@@ -177,6 +177,8 @@ namespace LiveHAPI.Core.Service
 
                 //client
                 var cient = Client.Create(client, client.PracticeId.Value, person.Id);
+              
+               
                 _clientRepository.Insert(cient);
                 _clientRepository.Save();
             }
@@ -197,6 +199,7 @@ namespace LiveHAPI.Core.Service
                 else
                 {
                     var cient = Client.Create(client, client.PracticeId.Value, exisitngPerson.Id);
+                    
                     _clientRepository.Insert(cient);
                     _clientRepository.Save();
                 }
