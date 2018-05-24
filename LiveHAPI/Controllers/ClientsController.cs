@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Hangfire;
 using LiveHAPI.Core.Dispatcher;
 using LiveHAPI.Core.Events;
 using LiveHAPI.Core.Interfaces.Handler;
@@ -314,10 +315,9 @@ namespace LiveHAPI.Controllers
 
       try
       {
-        _clientService.SmartSync(client);
+          BackgroundJob.Enqueue(()=>_clientService.SmartSync(client));
 
-        //SyncEventDispatcher.Raise(new ClientSaved(client), _clientSavedHandler, _subscriberSystem);
-
+          //SyncEventDispatcher.Raise(new ClientSaved(client), _clientSavedHandler, _subscriberSystem);
         return Ok();
       }
       catch (Exception e)
@@ -326,7 +326,7 @@ namespace LiveHAPI.Controllers
         return StatusCode(500, $"{e.Message}");
       }
     }
-    
+
     [HttpPost("encounters")]
     public IActionResult CreateEncounters([FromBody] List<EncounterInfo> encounters)
     {
@@ -335,10 +335,9 @@ namespace LiveHAPI.Controllers
 
       try
       {
-        _encounterService.Sync(encounters);
+          BackgroundJob.Enqueue(()=>_encounterService.Sync(encounters));
 
         //SyncEventDispatcher.Raise(new EncounterSaved(encounters), _encounterSavedHandler, _subscriberSystem);
-
         return Ok();
       }
       catch (Exception e)
@@ -354,19 +353,17 @@ namespace LiveHAPI.Controllers
       if (null == encounters)
         return BadRequest();
 
-      try
-      {
-        _pSmartStoreService.Sync(encounters);
-
-        //SyncEventDispatcher.Raise(new EncounterSaved(encounters), _encounterSavedHandler, _subscriberSystem);
-
-        return Ok();
-      }
-      catch (Exception e)
-      {
-        Log.Error($"{e}");
-        return StatusCode(500, $"{e.Message}");
-      }
+        try
+        {
+            BackgroundJob.Enqueue(() => _pSmartStoreService.Sync(encounters));
+            //SyncEventDispatcher.Raise(new EncounterSaved(encounters), _encounterSavedHandler, _subscriberSystem);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Log.Error($"{e}");
+            return StatusCode(500, $"{e.Message}");
+        }
     }
   }
 }

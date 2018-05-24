@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Linq;
+using Hangfire;
+using Hangfire.SqlServer;
 using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
@@ -12,6 +14,7 @@ using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Core.Service;
+using LiveHAPI.Filters;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
 using LiveHAPI.IQCare.Core.Handlers;
@@ -70,6 +73,14 @@ namespace LiveHAPI
             var emrconnectionString = Startup.Configuration["connectionStrings:EMRConnection"];
             services.AddDbContext<EMRContext>(o => o.UseSqlServer(emrconnectionString));
 
+
+//            var opts=new SqlServerStorageOptions
+//            {
+//
+//                }
+            services.AddHangfire(config =>
+                config.UseSqlServerStorage(Startup.Configuration["connectionStrings:EMRConnection"]));
+
             services.AddScoped<IMasterFacilityRepository, MasterFacilityRepository>();
             services.AddScoped<IObsRepository, ObsRepository>();
 
@@ -120,6 +131,7 @@ namespace LiveHAPI
             services.AddScoped<ISetupService, SetupService>();
             services.AddScoped<ISetupFacilty, SetupFacilty>();
             services.AddScoped<ISummaryService, SummaryService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -137,6 +149,11 @@ namespace LiveHAPI
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
+
+            app.UseHangfireDashboard("/api/hangfire", new DashboardOptions() {
+                Authorization = new[] { new CustomAuthorizeFilter() }
+            });
+            app.UseHangfireServer();
 
             app.Use(async (context, next) =>
             {
@@ -271,15 +288,15 @@ namespace LiveHAPI
 
             Log.Debug(@"
                             ╔═╗┌─┐┬ ┬┌─┐  ╔╦╗┌─┐┌┐ ┬ ┬  ┌─┐
-                            ╠═╣├┤ └┬┘├─┤  ║║║│ │├┴┐│ │  ├┤ 
+                            ╠═╣├┤ └┬┘├─┤  ║║║│ │├┴┐│ │  ├┤
                             ╩ ╩└   ┴ ┴ ┴  ╩ ╩└─┘└─┘┴ ┴─┘└─┘
                       ");
             Log.Debug("");
             Log.Debug(@"
-                                  _        _    ____ ___ 
+                                  _        _    ____ ___
                                  | |__    / \  |  _ \_ _|
-                                 | '_ \  / _ \ | |_) | | 
-                                 | | | |/ ___ \|  __/| | 
+                                 | '_ \  / _ \ | |_) | |
+                                 | | | |/ ___ \|  __/| |
                                  |_| |_/_/   \_\_|  |___|
                     ");
 

@@ -1,5 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
@@ -7,31 +6,25 @@
     <AssemblyVersion>1.0.0.1</AssemblyVersion>
     <FileVersion>1.0.0.1</FileVersion>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>TRACE;RELEASE;NETCOREAPP2_0;RELEASE;NETCOREAPP2_0;RELEASE;NETCOREAPP2_0;RELEASE;NETCOREAPP2_0;RELEASE;NETCOREAPP2_0;RELEASE;NETCOREAPP2_0;RELEASE;NETCOREAPP2_0</DefineConstants>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>DEBUG;TRACE;NETCOREAPP2_0;NETCOREAPP2_0</DefineConstants>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="logs\**" />
     <Content Remove="logs\**" />
     <EmbeddedResource Remove="logs\**" />
     <None Remove="logs\**" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Remove="Controllers\SubCountiesController.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="hapistart.bat" />
     <None Remove="htchapi001.sql" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="hapistart.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -40,13 +33,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.6.19" />
+    <PackageReference Include="HangFire.SqlServer" Version="1.6.19" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
     <PackageReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
@@ -56,11 +49,9 @@
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
     <PackageReference Include="Z.Dapper.Plus" Version="1.3.17" />
   </ItemGroup>
-
   <ItemGroup>
-     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="wwwroot\3rdpartylicenses.txt" />
     <None Include="wwwroot\assets\layout\css\layout-dark-green.css" />
@@ -146,5 +137,4 @@
       <HintPath>..\libs\IQCare.Security.dll</HintPath>
     </Reference>
   </ItemGroup>
-
 </Project>
