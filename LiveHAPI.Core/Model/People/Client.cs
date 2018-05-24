@@ -9,6 +9,7 @@ using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
 using Encounter = LiveHAPI.Core.Model.Encounters.Encounter;
 using LiveHAPI.Core.Model.Encounters;
+using LiveHAPI.Shared.Enum;
 
 namespace LiveHAPI.Core.Model.People
 {
@@ -29,6 +30,8 @@ namespace LiveHAPI.Core.Model.People
         public Guid PracticeId { get; set; }
         public Guid PersonId { get; set; }
         public Guid UserId { get; set; }
+        public SyncStatus? SyncStatus { get; set; }
+        public DateTime? SyncStatusDate { get; set; }
         public ICollection<ClientIdentifier> Identifiers { get; set; } = new List<ClientIdentifier>();
         public ICollection<ClientRelationship> Relationships { get; set; } = new List<ClientRelationship>();
         public ICollection<ClientAttribute> Attributes { get; set; } = new List<ClientAttribute>();

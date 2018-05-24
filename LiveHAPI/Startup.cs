@@ -73,11 +73,6 @@ namespace LiveHAPI
             var emrconnectionString = Startup.Configuration["connectionStrings:EMRConnection"];
             services.AddDbContext<EMRContext>(o => o.UseSqlServer(emrconnectionString));
 
-
-//            var opts=new SqlServerStorageOptions
-//            {
-//
-//                }
             services.AddHangfire(config =>
                 config.UseSqlServerStorage(Startup.Configuration["connectionStrings:EMRConnection"]));
 

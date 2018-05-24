@@ -7,6 +7,7 @@ using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Subscriber;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Service
@@ -118,6 +119,8 @@ namespace LiveHAPI.Core.Service
 
                 //client
                 var cient = Client.Create(client, client.PracticeId.Value, person.Id);
+                cient.SyncStatus = SyncStatus.Staged;
+                cient.SyncStatusDate = DateTime.Now;
                 _clientRepository.Insert(cient);
                 _clientRepository.Save();
             }
@@ -134,6 +137,8 @@ namespace LiveHAPI.Core.Service
                     existingClient.Update(client);
                     var clientToUpdate = existingClient;
                     clientToUpdate.Identifiers = new List<ClientIdentifier>();
+                    clientToUpdate.SyncStatus = SyncStatus.Staged;
+                    clientToUpdate.SyncStatusDate = DateTime.Now;
                     _clientRepository.Update(clientToUpdate);
                     _clientRepository.UpdateIds(existingClient.Identifiers.ToList());
                 }
