@@ -9,6 +9,8 @@ using AutoMapper;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
+using LiveHAPI.Sync.Core.Extractor;
+using LiveHAPI.Sync.Core.Interface.Extractors;
 using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Interface.Schedulers;
 using LiveHAPI.Sync.Core.Interface.Services;
@@ -90,6 +92,13 @@ namespace LiveHAPI.Sync
                 .AddScoped<IClientUserReader, ClientUserReader>()
                 .AddScoped<IClientFacilityReader, ClientFacilityReader>()
                 .AddScoped<IClientLookupReader, ClientLookupReader>()
+
+
+                .AddScoped<IClientStageExtractor, ClientStageExtractor>()
+                .AddScoped<IClientPretestStageExtractor, ClientPretestStageExtractor>()
+                .AddScoped<IClientStageRelationshipExtractor, ClientStageRelationshipExtractor>()
+                
+
 
                 .AddScoped<ISyncUserService, SyncUserService>()
                 .AddScoped<ISyncFacilityService, SyncFacilityService>()
