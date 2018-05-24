@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Core.Model.People;
+using LiveHAPI.Shared.Enum;
 
 namespace LiveHAPI.Core.Interfaces.Repository
 {
@@ -15,5 +17,6 @@ namespace LiveHAPI.Core.Interfaces.Repository
         void UpdateTempRelations(List<ClientRelationship> identifiers);
         void UpdateClientState(Guid clientId, List<ClientState> clientStates);
         void UpdateRelationships();
+        void UpdateSyncStatus(IEnumerable<ClientStage> clientStages);
     }
 }

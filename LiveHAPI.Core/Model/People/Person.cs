@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
@@ -63,6 +64,22 @@ namespace LiveHAPI.Core.Model.People
                 return false;
             }
         }
+
+        [NotMapped]
+        public bool NotSynced
+        {
+            get
+            {
+                if (Clients.Any())
+                {
+                    return (null == Clients.First().SyncStatus) ||
+                           (null != Clients.First().SyncStatus && Clients.First().SyncStatus != SyncStatus.Synced);
+                }
+
+                return true;
+            }
+        }
+
 
         [NotMapped]
         public DateTime ContactRegDate

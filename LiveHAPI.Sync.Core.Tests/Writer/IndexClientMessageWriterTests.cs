@@ -66,7 +66,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             _practiceRepository = new PracticeRepository(_context);
             _clientStageRepository = new ClientStageRepository(_context);
 
-            _clientStageExtractor = new ClientStageExtractor(new PersonRepository(_context), _clientStageRepository, _subscriberSystemRepository);
+            _clientStageExtractor = new ClientStageExtractor(new PersonRepository(_context), _clientStageRepository, _subscriberSystemRepository,new ClientRepository(_context));
             _clientPretestStageExtractor = new ClientPretestStageExtractor(_clientStageRepository, _clientPretestStageRepository, _subscriberSystemRepository, _clientEncounterRepository, new ClientRepository(_context));
 
 

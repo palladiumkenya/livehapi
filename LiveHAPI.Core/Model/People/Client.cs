@@ -32,6 +32,7 @@ namespace LiveHAPI.Core.Model.People
         public Guid UserId { get; set; }
         public SyncStatus? SyncStatus { get; set; }
         public DateTime? SyncStatusDate { get; set; }
+        public string SyncStatusInfo { get; set; }
         public ICollection<ClientIdentifier> Identifiers { get; set; } = new List<ClientIdentifier>();
         public ICollection<ClientRelationship> Relationships { get; set; } = new List<ClientRelationship>();
         public ICollection<ClientAttribute> Attributes { get; set; } = new List<ClientAttribute>();

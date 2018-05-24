@@ -184,7 +184,7 @@ namespace LiveHAPI.Infrastructure.Repository
                 .ThenInclude(y => y.Identifiers)
                 .Include(x => x.Clients)
                 .ThenInclude(y => y.ClientStates).AsNoTracking().ToList()
-                .Where(x => x.IsClient);
+                .Where(x => x.IsClient&&x.NotSynced);
         }
 
         public IEnumerable<Person> GetAllIndexClients()

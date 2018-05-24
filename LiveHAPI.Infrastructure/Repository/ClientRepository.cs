@@ -6,9 +6,11 @@ using AutoMapper;
 using Dapper;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model;
+using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Shared;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Shared.ValueObject;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -302,6 +304,27 @@ namespace LiveHAPI.Infrastructure.Repository
             }
         }
 
+        
+        public void UpdateSyncStatus(IEnumerable<ClientStage> clientStages)
+        {
+
+            using (var con = GetDbConnection())
+            {
+                foreach (var c in clientStages)
+                {
+                    string sql = $@"
+                            UPDATE {nameof(Client)}s 
+                            SET 
+                                {nameof(Client.SyncStatus)} = @SyncStatus,
+                                {nameof(Client.SyncStatusDate)}=@StatusDate
+                            WHERE 
+                                {nameof(Client.Id)} = @ClientId;";
+                        
+                    con.Execute(sql,new {ClientId = c.ClientId, SyncStatus =SyncStatus.Synced,StatusDate=DateTime.Now});
+                }
+            }
+        }
+        
         private int GetHit(Guid personId, List<SearchHit> searchHits)
         {
             var found = searchHits.FirstOrDefault(x => x.ItemId == personId);

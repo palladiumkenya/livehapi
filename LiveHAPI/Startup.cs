@@ -74,7 +74,7 @@ namespace LiveHAPI
             services.AddDbContext<EMRContext>(o => o.UseSqlServer(emrconnectionString));
 
             services.AddHangfire(config =>
-                config.UseSqlServerStorage(Startup.Configuration["connectionStrings:EMRConnection"]));
+                config.UseSqlServerStorage(connectionString));
 
             services.AddScoped<IMasterFacilityRepository, MasterFacilityRepository>();
             services.AddScoped<IObsRepository, ObsRepository>();
@@ -148,6 +148,8 @@ namespace LiveHAPI
             app.UseHangfireDashboard("/api/hangfire", new DashboardOptions() {
                 Authorization = new[] { new CustomAuthorizeFilter() }
             });
+
+
             app.UseHangfireServer();
 
             app.Use(async (context, next) =>

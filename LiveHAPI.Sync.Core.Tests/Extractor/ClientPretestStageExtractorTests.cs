@@ -49,10 +49,12 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
 
 
             var x=new ClientStageExtractor(new PersonRepository(_context), _clientStageRepository,
-                _subscriberSystemRepository).Extract().Result;
+                _subscriberSystemRepository,
+                new ClientRepository(_context)
+                ).Extract().Result;
 
            _clientStageExtractor= new ClientStageExtractor(new PersonRepository(_context), _clientStageRepository,
-                _subscriberSystemRepository);
+                _subscriberSystemRepository,new ClientRepository(_context));
         }
 
         [Test]
