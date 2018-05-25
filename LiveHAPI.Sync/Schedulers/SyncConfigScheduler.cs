@@ -17,10 +17,10 @@ namespace LiveHAPI.Sync.Schedulers
 
         public SyncConfigScheduler(string configPeriod, string clientPeriod)
         {
-            if (configPeriod.EndsWith("hrs"))
+            if (configPeriod.EndsWith("secs"))
             {
-                bool result = Int32.TryParse(configPeriod.Replace("hrs", "").Trim(), out var number);
-                _configInterval = result ? number : 24;
+                bool result = Int32.TryParse(configPeriod.Replace("secs", "").Trim(), out var number);
+                _configInterval = result ? number : 60;
 
             }
 
@@ -85,7 +85,7 @@ namespace LiveHAPI.Sync.Schedulers
                     .WithIdentity($"{triggerName}", $"{triggerGroup}")
                     .StartNow()
                     .WithSimpleSchedule(x => x
-                        .WithIntervalInHours(_configInterval)
+                        .WithIntervalInSeconds(_configInterval)
                         .RepeatForever())
                     .Build();
             }

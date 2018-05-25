@@ -49,7 +49,7 @@ namespace LiveHAPI.Core.Model.Exchange
                     clientTestingStage.KitOther = testResult.KitOther;
                     clientTestingStage.LotNumber = testResult.LotNumber;
                     clientTestingStage.ExpiryDate = testResult.Expiry.ToIqDateOnly();
-                    clientTestingStage.Result = subscriber.GetTranslation(testResult.Kit, "HIVResults", "ObsTestResult.Result", "0").SafeConvert<int>();
+                    clientTestingStage.Result = subscriber.GetTranslation(testResult.Result, "HIVResults", "ObsTestResult.Result", "0").SafeConvert<int>();
                     clientTestingStage.TestRound = (int)clientTestingStage.HtsTestType;
                     clientTestingStage.ClientId = testingEncounter.ClientId;
 

@@ -31,7 +31,7 @@ namespace LiveHAPI.Sync.Core.Extractor
 
         public async Task<IEnumerable<ClientPretestStage>> Extract(Guid? htsClientId = null)
         {
-            _clientPretestStageRepository.Clear();
+           _clientPretestStageRepository.Clear();
 
             var subscriber = await _subscriberSystemRepository.GetDefaultAsync();
 

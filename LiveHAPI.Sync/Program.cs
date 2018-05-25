@@ -84,60 +84,60 @@ namespace LiveHAPI.Sync
             ServiceProvider = new ServiceCollection()
 
                 .AddSingleton<IRestClient>(new RestClient(endpoint))
-
                 .AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString))
-
-                .AddScoped<IUserRepository, UserRepository>()
-                .AddScoped<IPracticeRepository, PracticeRepository>()
-                .AddScoped<IPersonRepository, PersonRepository>()
-                .AddScoped<ISubscriberTranslationRepository, SubscriberTranslationRepository>()
-                .AddScoped<IClientRepository, ClientRepository>()
-                .AddScoped<IClientRelationshipRepository, ClientRelationshipRepository>()
-
-                .AddScoped<IClientStageRepository, ClientStageRepository>()
-                .AddScoped<IClientStageRelationshipRepository, ClientStageRelationshipRepository>()
-                .AddScoped<IClientPretestStageRepository, ClientPretestStageRepository>()
-                .AddScoped<IContactsEncounterRepository, ContactsEncounterRepository>()
-                .AddScoped<ISubscriberSystemRepository, SubscriberSystemRepository>()
-                .AddScoped<IClientEncounterRepository, ClientEncounterRepository>()
-                .AddScoped<IClientEncounterRepository, ClientEncounterRepository>()
-
-
-                .AddScoped<IClientUserReader, ClientUserReader>()
-                .AddScoped<IClientFacilityReader, ClientFacilityReader>()
-                .AddScoped<IClientLookupReader, ClientLookupReader>()
-
-                .AddScoped<IIndexClientMessageWriter, IndexClientMessageWriter>()
-                .AddScoped<IFamilyClientMessageWriter, FamilyClientMessageWriter>()
-                .AddScoped<IPartnerClientMessageWriter, PartnerClientMessageWriter>()
-
-                .AddScoped<IClientStageExtractor, ClientStageExtractor>()
-                .AddScoped<IClientPretestStageExtractor, ClientPretestStageExtractor>()
-                .AddScoped<IClientStageRelationshipExtractor, ClientStageRelationshipExtractor>()
-
-                .AddScoped<IClientFamilyScreeningStageExtractor, ClientFamilyScreeningStageExtractor>()
-                .AddScoped<IClientFamilyTracingStageExtractor, ClientFamilyTracingStageExtractor>()
-
-                .AddScoped<IClientPartnerScreeningStageExtractor, ClientPartnerScreeningStageExtractor>()
-                .AddScoped<IClientPartnerTracingStageExtractor, ClientPartnerTracingStageExtractor>()
                 
-                .AddScoped<IClientTracingStageExtractor, ClientTracingStageExtractor>()
-                .AddScoped<IClientTestingStageExtractor, ClientTestingStageExtractor>()
-                .AddScoped<IClientFinalTestStageExtractor, ClientFinalTestStageExtractor>()
-                .AddScoped<IClientLinkageStageExtractor, ClientLinkageStageExtractor>()
-                .AddScoped<IClientReferralStageExtractor, ClientReferralStageExtractor>()
+                .AddTransient<LiveHAPIContext>()
+                .AddTransient<IUserRepository, UserRepository>()
+                .AddTransient<IPracticeRepository, PracticeRepository>()
+                .AddTransient<IPersonRepository, PersonRepository>()
+                .AddTransient<ISubscriberTranslationRepository, SubscriberTranslationRepository>()
+                .AddTransient<IClientRepository, ClientRepository>()
+                .AddTransient<IClientRelationshipRepository, ClientRelationshipRepository>()
+
+                .AddTransient<IClientStageRepository, ClientStageRepository>()
+                .AddTransient<IClientStageRelationshipRepository, ClientStageRelationshipRepository>()
+                .AddTransient<IClientPretestStageRepository, ClientPretestStageRepository>()
+                .AddTransient<IContactsEncounterRepository, ContactsEncounterRepository>()
+                .AddTransient<ISubscriberSystemRepository, SubscriberSystemRepository>()
+                .AddTransient<IClientEncounterRepository, ClientEncounterRepository>()
+                .AddTransient<IClientEncounterRepository, ClientEncounterRepository>()
 
 
-                .AddScoped<IIndexClientMessageLoader, IndexClientMessageLoader>()
-                .AddScoped<IFamilyClientMessageLoader, FamilyClientMessageLoader>()
-                .AddScoped<IPartnerClientMessageLoader, PartnerClientMessageLoader>()
+                .AddTransient<IClientUserReader, ClientUserReader>()
+                .AddTransient<IClientFacilityReader, ClientFacilityReader>()
+                .AddTransient<IClientLookupReader, ClientLookupReader>()
 
-                .AddScoped<ISyncUserService, SyncUserService>()
-                .AddScoped<ISyncFacilityService, SyncFacilityService>()
-                .AddScoped<ISyncLookupService, SyncLookupService>()
-                .AddScoped<ISyncUserService, SyncUserService>()
-                .AddScoped<ISyncClientsService, SyncClientsService>()
-                .AddScoped<IExtractClientsService, ExtractClientsService>()
+                .AddTransient<IIndexClientMessageWriter, IndexClientMessageWriter>()
+                .AddTransient<IFamilyClientMessageWriter, FamilyClientMessageWriter>()
+                .AddTransient<IPartnerClientMessageWriter, PartnerClientMessageWriter>()
+
+                .AddTransient<IClientStageExtractor, ClientStageExtractor>()
+                .AddTransient<IClientPretestStageExtractor, ClientPretestStageExtractor>()
+                .AddTransient<IClientStageRelationshipExtractor, ClientStageRelationshipExtractor>()
+
+                .AddTransient<IClientFamilyScreeningStageExtractor, ClientFamilyScreeningStageExtractor>()
+                .AddTransient<IClientFamilyTracingStageExtractor, ClientFamilyTracingStageExtractor>()
+
+                .AddTransient<IClientPartnerScreeningStageExtractor, ClientPartnerScreeningStageExtractor>()
+                .AddTransient<IClientPartnerTracingStageExtractor, ClientPartnerTracingStageExtractor>()
+                
+                .AddTransient<IClientTracingStageExtractor, ClientTracingStageExtractor>()
+                .AddTransient<IClientTestingStageExtractor, ClientTestingStageExtractor>()
+                .AddTransient<IClientFinalTestStageExtractor, ClientFinalTestStageExtractor>()
+                .AddTransient<IClientLinkageStageExtractor, ClientLinkageStageExtractor>()
+                .AddTransient<IClientReferralStageExtractor, ClientReferralStageExtractor>()
+
+
+                .AddTransient<IIndexClientMessageLoader, IndexClientMessageLoader>()
+                .AddTransient<IFamilyClientMessageLoader, FamilyClientMessageLoader>()
+                .AddTransient<IPartnerClientMessageLoader, PartnerClientMessageLoader>()
+
+                .AddTransient<ISyncUserService, SyncUserService>()
+                .AddTransient<ISyncFacilityService, SyncFacilityService>()
+                .AddTransient<ISyncLookupService, SyncLookupService>()
+                .AddTransient<ISyncUserService, SyncUserService>()
+                .AddTransient<ISyncClientsService, SyncClientsService>()
+                .AddTransient<IExtractClientsService, ExtractClientsService>()
             
                 .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(syncConfigInterval,syncClientInterval))
             

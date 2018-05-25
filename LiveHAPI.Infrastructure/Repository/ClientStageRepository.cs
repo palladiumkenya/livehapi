@@ -30,6 +30,21 @@ namespace LiveHAPI.Infrastructure.Repository
                 con.Execute($"DELETE FROM {nameof(ClientStage)}s");
             }
         }
+        
+        public void Clear(Guid clientId)
+        {
+            string sql = $@"
+                            DELETE 
+                                FROM {nameof(ClientStage)}s 
+                            WHERE 
+                                {nameof(ClientStage.ClientId)} = @ClientId;
+                          ";
+            
+            using (var con = GetDbConnection())
+            {
+                con.Execute(sql,new {ClientId = clientId});
+            }
+        }
 
         public void BulkInsert(IEnumerable<ClientStage> clientStages)
         {
@@ -38,8 +53,15 @@ namespace LiveHAPI.Infrastructure.Repository
                 con.BulkInsert(clientStages);
             }
         }
-        
-        
+
+        public void BulkUpdate(IEnumerable<ClientStage> clientStages)
+        {
+            using (var con = GetDbConnection())
+            {
+                con.BulkUpdate(clientStages);
+            }
+        }
+
 
         public IEnumerable<ClientStage> GetIndexClients()
         {
@@ -68,6 +90,12 @@ namespace LiveHAPI.Infrastructure.Repository
             {
                 con.Execute(sql,new {ClientId = clientId, SyncStatus =syncStatus, SyncStatusInfo=statusInfo, StatusDate=DateTime.Now});
             }
+        }
+
+        public bool ClientExisits(Guid clientId)
+        {
+            return null != DbSet.AsNoTracking()
+                       .FirstOrDefault(x => x.ClientId == clientId);
         }
     }
 }

@@ -34,8 +34,8 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
-         
+            //var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
+            var connectionString = config["connectionStrings:livehAPIConnection"];
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;

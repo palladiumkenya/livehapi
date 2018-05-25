@@ -21,7 +21,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
     public class IndexClientMessageWriterTests
     {
       //  private readonly string _baseUrl = "http://localhost:3333";
-        private readonly string _baseUrl = "http://192.168.1.78:3333";
+        private readonly string _baseUrl = "http://localhost:3333";
         private readonly bool goLive = true;
         private LiveHAPIContext _context;
         private IPracticeRepository _practiceRepository;
