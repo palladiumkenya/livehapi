@@ -11,12 +11,16 @@ using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
 using LiveHAPI.Sync.Core.Extractor;
 using LiveHAPI.Sync.Core.Interface.Extractors;
+using LiveHAPI.Sync.Core.Interface.Loaders;
 using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Interface.Schedulers;
 using LiveHAPI.Sync.Core.Interface.Services;
+using LiveHAPI.Sync.Core.Interface.Writers;
+using LiveHAPI.Sync.Core.Loader;
 using LiveHAPI.Sync.Core.Profiles;
 using LiveHAPI.Sync.Core.Reader;
 using LiveHAPI.Sync.Core.Service;
+using LiveHAPI.Sync.Core.Writer;
 using LiveHAPI.Sync.Schedulers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -88,28 +92,55 @@ namespace LiveHAPI.Sync
                 .AddScoped<IPersonRepository, PersonRepository>()
                 .AddScoped<ISubscriberTranslationRepository, SubscriberTranslationRepository>()
                 .AddScoped<IClientRepository, ClientRepository>()
+                .AddScoped<IClientRelationshipRepository, ClientRelationshipRepository>()
+
+                .AddScoped<IClientStageRepository, ClientStageRepository>()
+                .AddScoped<IClientStageRelationshipRepository, ClientStageRelationshipRepository>()
+                .AddScoped<IClientPretestStageRepository, ClientPretestStageRepository>()
+                .AddScoped<IContactsEncounterRepository, ContactsEncounterRepository>()
+                .AddScoped<ISubscriberSystemRepository, SubscriberSystemRepository>()
+                .AddScoped<IClientEncounterRepository, ClientEncounterRepository>()
+                .AddScoped<IClientEncounterRepository, ClientEncounterRepository>()
+
 
                 .AddScoped<IClientUserReader, ClientUserReader>()
                 .AddScoped<IClientFacilityReader, ClientFacilityReader>()
                 .AddScoped<IClientLookupReader, ClientLookupReader>()
 
+                .AddScoped<IIndexClientMessageWriter, IndexClientMessageWriter>()
+                .AddScoped<IFamilyClientMessageWriter, FamilyClientMessageWriter>()
+                .AddScoped<IPartnerClientMessageWriter, PartnerClientMessageWriter>()
 
                 .AddScoped<IClientStageExtractor, ClientStageExtractor>()
                 .AddScoped<IClientPretestStageExtractor, ClientPretestStageExtractor>()
                 .AddScoped<IClientStageRelationshipExtractor, ClientStageRelationshipExtractor>()
-                
 
+                .AddScoped<IClientFamilyScreeningStageExtractor, ClientFamilyScreeningStageExtractor>()
+                .AddScoped<IClientFamilyTracingStageExtractor, ClientFamilyTracingStageExtractor>()
+
+                .AddScoped<IClientPartnerScreeningStageExtractor, ClientPartnerScreeningStageExtractor>()
+                .AddScoped<IClientPartnerTracingStageExtractor, ClientPartnerTracingStageExtractor>()
+                
+                .AddScoped<IClientTracingStageExtractor, ClientTracingStageExtractor>()
+                .AddScoped<IClientTestingStageExtractor, ClientTestingStageExtractor>()
+                .AddScoped<IClientFinalTestStageExtractor, ClientFinalTestStageExtractor>()
+                .AddScoped<IClientLinkageStageExtractor, ClientLinkageStageExtractor>()
+                .AddScoped<IClientReferralStageExtractor, ClientReferralStageExtractor>()
+
+
+                .AddScoped<IIndexClientMessageLoader, IndexClientMessageLoader>()
+                .AddScoped<IFamilyClientMessageLoader, FamilyClientMessageLoader>()
+                .AddScoped<IPartnerClientMessageLoader, PartnerClientMessageLoader>()
 
                 .AddScoped<ISyncUserService, SyncUserService>()
                 .AddScoped<ISyncFacilityService, SyncFacilityService>()
                 .AddScoped<ISyncLookupService, SyncLookupService>()
                 .AddScoped<ISyncUserService, SyncUserService>()
+                .AddScoped<ISyncClientsService, SyncClientsService>()
                 .AddScoped<IExtractClientsService, ExtractClientsService>()
             
-
                 .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(syncConfigInterval,syncClientInterval))
-              
-
+            
                 .BuildServiceProvider();
 
             Mapper.Initialize(cfg => { cfg.AddProfile<ClientProfile>(); });
