@@ -300,9 +300,9 @@ fda25a82-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.IPVOutcome|a577c694-005
 fda25bc2-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.IPVOutcome|a577c7de-0052-11e8-aa69-0ed5f89f718b|Sexual|1528|Sexual|IpvOutcome|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda25ce4-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.IPVOutcome|a577c914-0052-11e8-aa69-0ed5f89f718b|No IPV|1529|No IPV|IpvOutcome|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda25e74-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.IPVOutcome|a577cda6-0052-11e8-aa69-0ed5f89f718b|NA-CHILD|1530|NA-CHILD|IpvOutcome|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
-fda25f96-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|749076e2-0053-11e8-ba89-0ed5f89f718b|S|444|S|PNSRealtionship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
+fda25f96-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|749076e2-0053-11e8-ba89-0ed5f89f718b|S|444|S|PNSRelationship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda262ac-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|74907a98-0053-11e8-ba89-0ed5f89f718b|P|1531|P|PNSRelationship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
-fda263ce-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|74907dae-0053-11e8-ba89-0ed5f89f718b|Sexual Partner(SP)|1532|Sexual Partner (SP)|PNSRelationship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
+fda263ce-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|74907dae-0053-11e8-ba89-0ed5f89f718b|Sexual Partner (SP)|1532|Sexual Partner (SP)|PNSRelationship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda264f0-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|749080ce-0053-11e8-ba89-0ed5f89f718b|Injectable Drug User (IDU)|1533|Injectable Drug User (IDU)|PNSRelationship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda26612-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|7490840c-0053-11e8-ba89-0ed5f89f718b|Child - C|1534|Child - C|PNSRelationship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda26734-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.LivingWithClient|B25ECCD4-852F-11E7-BB31-BE2E44B06B34|Yes|104|Yes|YesNoDeclined|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
@@ -321,8 +321,6 @@ fda111c0-4edb-11e8-9c2d-fa7ae01bbebc|B26039A1-852F-11E7-BB31-BE2E44B06B34|cdeaef
 7331d2a2-4ee4-11e8-9c2d-fa7ae01bbebc|ObsFinalTestResult.PnsDeclineds|CDEAED95-0055-11E8-BA89-0ED5F89F718B|Dec|1511|Declined|ReasonsPartner|1|6|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 7331d3ce-4ee4-11e8-9c2d-fa7ae01bbebc|ObsFinalTestResult.PnsDeclineds|CDEAEF96-0055-11E8-BA89-0ED5F89F718B|IPV|1512|Positive IPV Outcome|ReasonsPartner|1|6|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 6661d3ce-4ee4-11e8-9c2d-fa7ae01bbebc|ObsFinalTestResult.PnsDeclineds|CDEAEF97-0055-11E8-BA89-0ED5F89F718B|F|1513|Fear losing partner|ReasonsPartner|1|6|16e23877-9D69-11E7-ABC4-CEC278B6B50A
-
 fda7242e-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.Eligibility|B25ECCD4-852F-11E7-BB31-BE2E44B06B34|Yes|104|Yes|YesNoNA|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda7355a-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.Eligibility|B25ED04E-852F-11E7-BB31-BE2E44B06B34|No|105|No|YesNoNA|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda7467c-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.Eligibility|B25ED1C0-852F-11E7-BB31-BE2E44B06B34|NA: Not Applicable|106|N/A|YesNoNA|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
-
