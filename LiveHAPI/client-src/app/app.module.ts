@@ -6,6 +6,9 @@ import { TopBarComponent } from './top-bar/top-bar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {AppRoutes} from './app.routes';
 import {RouterModule} from '@angular/router';
+import { ConfigComponent } from './config/config.component';
+import {ButtonModule} from 'primeng/button';
+import {InputTextModule, MessageModule} from 'primeng/primeng';
 
 
 @NgModule({
@@ -13,12 +16,16 @@ import {RouterModule} from '@angular/router';
     AppComponent,
     FooterComponent,
     TopBarComponent,
-    DashboardComponent
+    DashboardComponent,
+    ConfigComponent
   ],
   imports: [
     BrowserModule,
     RouterModule,
     AppRoutes,
+      ButtonModule,
+      InputTextModule,
+     MessageModule,
    ],
   providers: [],
   bootstrap: [AppComponent]

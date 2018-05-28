@@ -43,6 +43,10 @@
     <Compile Include="Model\People\ClientAttribute.cs" />
     <Compile Include="Model\People\ClientIdentifier.cs" />
     <Compile Include="Model\People\ClientRelationship.cs" />
+    <Compile Include="Model\Setting\Endpoints.cs" />
+    <Compile Include="Model\Setting\ConnectionStrings.cs" />
+    <Compile Include="Model\Setting\DbProtocol.cs" />
+    <Compile Include="Model\Setting\RestProtocol.cs" />
     <Compile Include="Model\Studio\Concept.cs" />
     <Compile Include="Model\Studio\ConceptType.cs" />
     <Compile Include="Model\QModel\Condition.cs" />
@@ -92,10 +96,20 @@
 
   <ItemGroup>
     <PackageReference Include="Serilog" Version="2.6.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LiveHAPI.Shared\LiveHAPI.Shared.csproj" />
   </ItemGroup>
 
-</Project>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
+      <HintPath>C:\Users\koskedk\.nuget\packages\microsoft.aspnetcore.hosting.abstractions\2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  </Project>

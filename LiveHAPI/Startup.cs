@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Hangfire;
 using Hangfire.SqlServer;
+using LiveHAPI.Core.Interfaces;
 using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
@@ -11,9 +12,11 @@ using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.QModel;
+using LiveHAPI.Core.Model.Setting;
 using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Core.Service;
+using LiveHAPI.Custom;
 using LiveHAPI.Filters;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
@@ -126,6 +129,9 @@ namespace LiveHAPI
             services.AddScoped<ISetupService, SetupService>();
             services.AddScoped<ISetupFacilty, SetupFacilty>();
             services.AddScoped<ISummaryService, SummaryService>();
+
+            services.AddScoped<IDbManager, DbManager>();
+            services.ConfigureWritable<ConnectionStrings>(Configuration.GetSection("connectionStrings"));
 
         }
 
