@@ -36,7 +36,7 @@ namespace LiveHAPI
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
                 .UseSerilog()
-                .UseUrls("http://0.0.0.0:4700")
+                //.UseUrls("http://0.0.0.0:4700")
                 .Build();
             return host;
         }
