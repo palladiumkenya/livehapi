@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using LiveHAPI.Shared.Custom;
 using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Reader;
 using NUnit.Framework;
@@ -9,7 +10,7 @@ namespace LiveHAPI.Sync.Core.Tests.Reader
     [TestFixture]
     public class ClientLookupReaderTests
     {
-        private readonly string _baseUrl = "http://localhost:3333";
+        private readonly string _baseUrl = "http://192.168.1.217/iqcareapi";
         private IClientLookupReader _reader;
 
         [SetUp]

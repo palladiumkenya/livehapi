@@ -9,7 +9,7 @@ namespace LiveHAPI.Sync.Core.Tests.Reader
     [TestFixture]
     public class ClientFacilityReaderTests
     {
-        private readonly string _baseUrl = "http://localhost:3333";
+        private readonly string _baseUrl = "http://192.168.1.217/iqcareapi";
         private IClientFacilityReader _reader;
 
         [SetUp]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using LiveHAPI.Shared.Custom;
 using LiveHAPI.Sync.Core.Interface.Readers;
 
 namespace LiveHAPI.Sync.Core.Reader
@@ -10,7 +11,7 @@ namespace LiveHAPI.Sync.Core.Reader
 
         public RestClient(string baseUrl)
         {
-            Client = new HttpClient {BaseAddress = new Uri(baseUrl)};
+            Client = new HttpClient {BaseAddress = new Uri(baseUrl.HasToEndWith(@"/"))};
         }
     }
 }

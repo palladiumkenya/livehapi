@@ -44,7 +44,7 @@ namespace LiveHAPI.Sync
                 .WriteTo.RollingFile("logs\\hapisync-{Date}.txt")
                 .CreateLogger();
 
-            Log.Debug("initializing Sync...");
+            Log.Debug("initializing Sync v[1.0.0.0] ...");
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
