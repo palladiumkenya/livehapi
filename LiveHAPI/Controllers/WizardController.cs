@@ -1,13 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces;
-using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Setting;
-using LiveHAPI.Custom;
 using LiveHAPI.Shared.Interfaces;
-using LiveHAPI.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -16,7 +10,6 @@ namespace LiveHAPI.Controllers
     [Route("api/wizard")]
     public class WizardController : Controller
     {
-        private readonly IWizardService _wizardService;
         private IDbManager _dbManager;
         private readonly IWritableOptions<ConnectionStrings> _options;
 
@@ -31,6 +24,7 @@ namespace LiveHAPI.Controllers
         [HttpGet("db")]
         public virtual IActionResult GetDb()
         {
+
             try
             {
                 var dbProtocol = _dbManager.ReadConnection(_options.Value.HapiConnection);
@@ -83,7 +77,6 @@ namespace LiveHAPI.Controllers
                     opt.HapiConnection = _dbManager.BuildConncetion(dbProtocol);
                 });
 
-                //Startup.ServiceCollection.ConfigureWritable<ConnectionStrings>(Startup.Configuration.GetSection("connectionStrings"));
                 return Ok(true);
             }
             catch (Exception e)
@@ -97,6 +90,7 @@ namespace LiveHAPI.Controllers
         [HttpGet("url")]
         public virtual IActionResult GetUrl()
         {
+
             try
             {
                 Endpoints endpoints = null;

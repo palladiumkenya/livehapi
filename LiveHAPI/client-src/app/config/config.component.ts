@@ -19,6 +19,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
     public saveDatabase$: Subscription;
 
     public dbProtocol: DbProtocol;
+    public sysMessages: Message[];
     public dbMessages: Message[];
     public apiMessages: Message[];
     public canConnect: boolean;
@@ -77,6 +78,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
 
     public saveDatabase(): void {
         this.dbMessages = [];
+        this.sysMessages = [];
         this.getDatabase$ = this._configService.saveDatabase(this.databaseForm.value)
             .subscribe(
                 p => {
@@ -88,6 +90,10 @@ export class ConfigComponent implements OnInit, OnDestroy {
                 () => {
                     if (this.dbSaved) {
                         this.dbMessages.push({severity: 'success', summary: 'saved successfully'});
+                        this.sysMessages.push({
+                            severity: 'error',
+                            summary: 'Restart the LiveHAPI service inorder to effect the changes made to the system settings'
+                        });
                     }
                 }
             );

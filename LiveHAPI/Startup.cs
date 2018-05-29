@@ -2,14 +2,11 @@ using System;
 using System.IO;
 using System.Linq;
 using Hangfire;
-using Hangfire.SqlServer;
 using LiveHAPI.Core.Interfaces;
-using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.Lookup;
-using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Setting;
@@ -20,11 +17,6 @@ using LiveHAPI.Custom;
 using LiveHAPI.Filters;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
-using LiveHAPI.IQCare.Core.Handlers;
-using LiveHAPI.IQCare.Core.Interfaces.Repository;
-using LiveHAPI.IQCare.Core.Model;
-using LiveHAPI.IQCare.Infrastructure;
-using LiveHAPI.IQCare.Infrastructure.Repository;
 using LiveHAPI.Shared.Interfaces;
 using LiveHAPI.Shared.ValueObject;
 using LiveHAPI.Shared.ValueObject.Meta;
@@ -39,15 +31,16 @@ using Serilog;
 using Z.Dapper.Plus;
 using Action = LiveHAPI.Core.Model.QModel.Action;
 using Encounter = LiveHAPI.Core.Model.Encounters.Encounter;
-using User = LiveHAPI.IQCare.Core.Model.User;
 
 namespace LiveHAPI
 {
     public class Startup
     {
 
+        public static IConfigurationBuilder ConfigurationBuilder;
         public static IConfiguration Configuration;
         public static IServiceCollection ServiceCollection;
+        public static IServiceProvider ServiceProvider;
 
         public Startup(IHostingEnvironment env)
         {
@@ -59,7 +52,9 @@ namespace LiveHAPI
                 .AddJsonFile($"appSettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
-            Configuration = builder.Build();
+            ConfigurationBuilder = builder;
+
+            Configuration = ConfigurationBuilder.Build();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -71,14 +66,20 @@ namespace LiveHAPI
                 .AddJsonOptions(o =>
                     o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
-            services.AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString));
+            services.ConfigureWritable<ConnectionStrings>(Configuration.GetSection("connectionStrings"));
 
-            var emrconnectionString = Startup.Configuration["connectionStrings:EMRConnection"];
-            services.AddDbContext<EMRContext>(o => o.UseSqlServer(emrconnectionString));
+            try
+            {
+                var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
+                services.AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString));
 
-            services.AddHangfire(config =>
-                config.UseSqlServerStorage(connectionString));
+                services.AddHangfire(config =>
+                    config.UseSqlServerStorage(connectionString));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex,"Startup Error");
+            }
 
             services.AddScoped<IMasterFacilityRepository, MasterFacilityRepository>();
             services.AddScoped<IObsRepository, ObsRepository>();
@@ -118,29 +119,20 @@ namespace LiveHAPI
             services.AddScoped<IFormsService, FormsService>();
             services.AddScoped<IPSmartStoreService, PSmartStoreService>();
 
-            services.AddScoped<IClientSavedHandler, ClientSavedHandler>();
-            services.AddScoped<IEncounterSavedHandler, EncounterSavedHandler>();
-
-            services.AddScoped<IConfigRepository, ConfigRepository>();
-            services.AddScoped<IPatientRepository, PatientRepository>();
-            services.AddScoped<IPatientEncounterRepository, PatientEncounterRepository>();
-            services.AddScoped<IPStoreRepository, PStoreRepository>();
-            services.AddScoped<IPatientFamilyRepository, PatientFamilyRepository>();
-
             services.AddScoped<ISetupService, SetupService>();
-            services.AddScoped<ISetupFacilty, SetupFacilty>();
             services.AddScoped<ISummaryService, SummaryService>();
 
             services.AddScoped<IDbManager, DbManager>();
-            services.ConfigureWritable<ConnectionStrings>(Configuration.GetSection("connectionStrings"));
+       
             ServiceCollection = services;
-
+            ServiceProvider = ServiceCollection.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, LiveHAPIContext dbcontext,
-            EMRContext emrContext, ISetupFacilty setupFacilty)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, LiveHAPIContext dbcontext, IServiceProvider serviceProvider)
         {
+
+            bool imHapi = true;
 
             if (env.IsDevelopment())
             {
@@ -153,12 +145,21 @@ namespace LiveHAPI
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-            app.UseHangfireDashboard("/api/hangfire", new DashboardOptions() {
+            try
+            {
+                app.UseHangfireDashboard("/api/hangfire", new DashboardOptions() {
                 Authorization = new[] { new CustomAuthorizeFilter() }
             });
 
-
-            app.UseHangfireServer();
+            
+                app.UseHangfireServer();
+            }
+            catch (Exception e)
+            {
+                Log.Fatal(e,"Hangfire is down !");
+                imHapi = false;
+            }
+            
 
             app.Use(async (context, next) =>
             {
@@ -194,35 +195,23 @@ namespace LiveHAPI
                 Log.Debug($"{e}");
                 throw;
             }
+            
 
-
-      bool imHapi = true;
+          
             string herror = "";
             try
             {
-                dbcontext.EnsureSeeded();
+                EnsureMigrationOfContext<LiveHAPIContext>(serviceProvider);
             }
             catch (Exception e)
             {
-                herror = "Seeding";
                 imHapi = false;
                 Log.Error(new string('<', 30));
                 Log.Error($"{e}");
                 Log.Error(new string('>', 30));
             }
 
-            Log.Debug($"database initializing... [Views]");
-            try
-            {
-                dbcontext.CreateViews();
-            }
-            catch (Exception e)
-            {
-                herror = "Views";
-                imHapi = false;
-                Log.Error($"{e}");
-            }
-
+            
             AutoMapper.Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<ClientStateInfo, ClientState>();
@@ -265,15 +254,6 @@ namespace LiveHAPI
 
                 cfg.CreateMap<ClientSummaryInfo, ClientSummary>();
 
-                cfg.CreateMap<Location, Practice>()
-                    .ForMember(x => x.Code, o => o.MapFrom(s => s.PosID))
-                    .ForMember(x => x.IsDefault, o => o.MapFrom(s => s.Preferred.HasValue && s.Preferred == 1))
-                    .ForMember(x => x.Name, o => o.MapFrom(s => s.FacilityName));
-
-                cfg.CreateMap<User, Core.Model.People.User>()
-                    .ForMember(x => x.Source, o => o.MapFrom(s => s.UserFirstName))
-                    .ForMember(x => x.SourceSys, o => o.MapFrom(s => s.UserLastName))
-                    .ForMember(x => x.SourceRef, o => o.MapFrom(s => s.UserId));
                 int userId;
                 cfg.CreateMap<Core.Model.People.User, UserDTO>()
                     .ForMember(x => x.Password, o => o.MapFrom(s => s.DecryptedPassword))
@@ -313,6 +293,28 @@ namespace LiveHAPI
             {
                 Log.Error($"im NOT hAPI    >*|*< ");
                 Log.Error($"cause: {herror}");
+            }
+
+           
+
+
+        }
+
+        public static void EnsureMigrationOfContext<T>(IServiceProvider app) where T : LiveHAPIContext
+        {
+            var contextName = typeof(T).Name;
+            Log.Debug($"initializing Database context: {contextName}");
+            var context = app.GetService<T>();
+            try
+            {
+                context.Database.Migrate();
+                context.EnsureSeeded();
+                context.CreateViews();
+                Log.Debug($"initializing Database context: {contextName} [OK]");
+            }
+            catch (Exception e)
+            {
+                Log.Fatal(e,$"initializing Database context: {contextName} Error");
             }
 
         }

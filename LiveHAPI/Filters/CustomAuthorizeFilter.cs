@@ -1,4 +1,3 @@
-﻿using Hangfire.Annotations;
 using Hangfire.Dashboard;
 
 namespace LiveHAPI.Filters

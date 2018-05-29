@@ -1,3 +1,4 @@
+using System.Linq;
 using LiveHAPI.Shared.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,14 @@ namespace LiveHAPI.Custom
                 var options = provider.GetService<IOptionsMonitor<T>>();
                 return new WritableOptions<T>(environment, options, section.Key, file);
             });
+        }
+
+        public static IServiceCollection Remove<T>(this IServiceCollection services)
+        {
+            var serviceDescriptor = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(T));
+            if (serviceDescriptor != null) services.Remove(serviceDescriptor);
+
+            return services;
         }
     }
 }

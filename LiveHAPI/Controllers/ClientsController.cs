@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Hangfire;
-using LiveHAPI.Core.Dispatcher;
-using LiveHAPI.Core.Events;
 using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
@@ -355,8 +353,11 @@ namespace LiveHAPI.Controllers
 
         try
         {
-            BackgroundJob.Enqueue(() => _pSmartStoreService.Sync(encounters));
-            //SyncEventDispatcher.Raise(new EncounterSaved(encounters), _encounterSavedHandler, _subscriberSystem);
+            //TODO: CHECK SHR Info
+
+            // BackgroundJob.Enqueue(() => _pSmartStoreService.Sync(encounters));
+
+            // SyncEventDispatcher.Raise(new EncounterSaved(encounters), _encounterSavedHandler, _subscriberSystem);
             return Ok();
         }
         catch (Exception e)

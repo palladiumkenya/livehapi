@@ -1,8 +1,8 @@
+using System;
 using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-
 using Serilog;
 using Serilog.Events;
 
@@ -10,6 +10,8 @@ namespace LiveHAPI
 {
     public class Program
     {
+        private static IWebHost host;
+
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
@@ -20,7 +22,20 @@ namespace LiveHAPI
                 .WriteTo.RollingFile("logs\\log-{Date}.txt", LogEventLevel.Error)
                 .CreateLogger();
 
-            BuildWebHost(args).Run();
+            try
+            {
+                Log.Information("Starting LiveHapie...");
+                host = BuildWebHost(args);
+                host.Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IWebHost BuildWebHost(string[] args)
@@ -30,7 +45,7 @@ namespace LiveHAPI
                 .AddCommandLine(args)
                 .Build();
 
-            var host= WebHost.CreateDefaultBuilder(args)
+            var host = WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
                 .UseConfiguration(config)
                 .UseContentRoot(Directory.GetCurrentDirectory())

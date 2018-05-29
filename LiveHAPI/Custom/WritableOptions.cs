@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using LiveHAPI.Core.Service;
 using LiveHAPI.Shared.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;

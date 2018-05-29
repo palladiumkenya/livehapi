@@ -1,8 +1,15 @@
 <div class="ui-g">
     <div class="ui-g-12">
+        <div class="ui-g-12" *ngIf="dbSaved">
+            <div class="card card-w-title">
+                <h1>LiveHAPI Notifications</h1>
+            <p-messages [(value)]="sysMessages"></p-messages>
+            </div>
+        </div>
+
         <div class="ui-g-6">
             <div class="card card-w-title">
-                <h1>Database Connection</h1>
+                <h1>LiveHAPI Database Connection</h1>
                 <p-messages [(value)]="dbMessages"></p-messages>
                 <form [formGroup]="databaseForm" (ngSubmit)="saveDatabase()">
                     <div class="ui-g form-group">
