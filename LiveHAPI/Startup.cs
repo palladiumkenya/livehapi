@@ -67,7 +67,7 @@ namespace LiveHAPI
                     o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.ConfigureWritable<ConnectionStrings>(Configuration.GetSection("connectionStrings"));
-
+            services.ConfigureWritable<Endpoints>(Configuration.GetSection("endpoints"));
             try
             {
                 var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
@@ -123,7 +123,8 @@ namespace LiveHAPI
             services.AddScoped<ISummaryService, SummaryService>();
 
             services.AddScoped<IDbManager, DbManager>();
-       
+            services.AddScoped<IRestManager, RestManger > ();
+
             ServiceCollection = services;
             ServiceProvider = ServiceCollection.BuildServiceProvider();
         }
@@ -151,7 +152,7 @@ namespace LiveHAPI
                 Authorization = new[] { new CustomAuthorizeFilter() }
             });
 
-            
+
                 app.UseHangfireServer();
             }
             catch (Exception e)
@@ -159,7 +160,7 @@ namespace LiveHAPI
                 Log.Fatal(e,"Hangfire is down !");
                 imHapi = false;
             }
-            
+
 
             app.Use(async (context, next) =>
             {
@@ -195,9 +196,9 @@ namespace LiveHAPI
                 Log.Debug($"{e}");
                 throw;
             }
-            
 
-          
+
+
             string herror = "";
             try
             {
@@ -211,7 +212,7 @@ namespace LiveHAPI
                 Log.Error(new string('>', 30));
             }
 
-            
+
             AutoMapper.Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<ClientStateInfo, ClientState>();
@@ -295,7 +296,7 @@ namespace LiveHAPI
                 Log.Error($"cause: {herror}");
             }
 
-           
+
 
 
         }

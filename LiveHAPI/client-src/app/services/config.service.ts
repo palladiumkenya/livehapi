@@ -6,6 +6,7 @@ import {Endpoint} from '../model/endpoint';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {DbView} from '../model/db-view';
+import {Facility} from "../model/facility";
 
 @Injectable()
 export class ConfigService {
@@ -33,17 +34,17 @@ export class ConfigService {
     }
 
     public getEndpoint(): Observable<Endpoint> {
-        return this._http.get<number>(this._url + '/count')
+        return this._http.get<Endpoint>('./api/sync')
             .catch(this.handleError);
     }
 
-    public verifyEndpoint(entity: Endpoint): Observable<boolean> {
-        return this._http.post<boolean>(this._url, entity)
+    public verifyEndpoint(entity: Endpoint): Observable<Facility> {
+        return this._http.post<Facility>('./api/sync', entity)
             .catch(this.handleError);
     }
 
     public saveEndpoint(entity: Endpoint): Observable<boolean> {
-        return this._http.post<boolean>(this._url, entity)
+        return this._http.post<boolean>('./api/sync/url', entity)
             .catch(this.handleError);
     }
 

@@ -1,8 +1,8 @@
 <div class="ui-g">
     <div class="ui-g-12">
-        <div class="ui-g-12" >
+        <div class="ui-g-12" *ngIf="dbSaved||epSaved" >
             <div class="card card-w-title">
-                <h1>LiveHAPI Notifications</h1>
+
             <p-messages [(value)]="sysMessages"></p-messages>
             </div>
         </div>
@@ -37,31 +37,28 @@
                         </div>
                     </div>
                     <button pButton type="button" label="Verify" (click)="verifyDatabase()" [disabled]="databaseForm.invalid"></button>
-                    <button pButton type="button" label="Save" (click)="saveDatabase()" [disabled]="databaseForm.invalid" class="green-btn"></button>
+                    <button pButton type="submit" label="Save" [disabled]="databaseForm.invalid" class="green-btn"></button>
                 </form>
             </div>
         </div>
         <div class="ui-g-6">
             <div class="card card-w-title">
-                <h1>Facility</h1>
-            </div>
-            <div class="card card-w-title">
-                <h1>EMR</h1>
-            </div>
-
-            <div class="card card-w-title">
                 <h1>IQCareAPI Endpoint</h1>
                 <p-messages [(value)]="apiMessages"></p-messages>
+                <form [formGroup]="synForm" (ngSubmit)="saveEndpoint()">
                 <div class="ui-g form-group">
                     <div class="ui-g-12">
                     <span class="md-inputfield" style="width: 80%">
-                        <input type="text" pInputText style="width: 80%">
+                        <input type="text" formControlName="iqcare" pInputText style="width: 80%">
                         <label>Url</label>
                     </span>
                     </div>
+                    <div *ngIf="faclity">{{faclity?.facilityName}} - {{faclity?.posID}}</div>
+
                 </div>
-                <button pButton type="button" label="Verify"></button>
-                <button pButton type="button" label="Save" class="green-btn"></button>
+                <button pButton type="button" (click)="verifyEndpoint()"  label="Verify"></button>
+                <button pButton type="submit" label="Save" class="green-btn"></button>
+                </form>
             </div>
         </div>
     </div>

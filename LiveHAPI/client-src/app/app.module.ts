@@ -12,6 +12,7 @@ import {ConfirmationService, InputTextModule, MessageModule, MessagesModule} fro
 import {HttpClientModule} from '@angular/common/http';
 import {ConfigService} from './services/config.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { SyncConfigComponent } from './sync-config/sync-config.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     FooterComponent,
     TopBarComponent,
     DashboardComponent,
-    ConfigComponent
+    ConfigComponent,
+    SyncConfigComponent
   ],
   imports: [
     BrowserModule,

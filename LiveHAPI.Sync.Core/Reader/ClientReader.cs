@@ -11,7 +11,7 @@ namespace LiveHAPI.Sync.Core.Reader
 {
     public abstract class ClientReader<T>:IClientReader<T>
     {
-        private readonly HttpClient _httpClient;
+        protected readonly HttpClient _httpClient;
         protected ClientReader(IRestClient restClient)
         {
             _httpClient = restClient.Client;
