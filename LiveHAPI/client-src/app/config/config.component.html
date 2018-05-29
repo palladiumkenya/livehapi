@@ -1,6 +1,6 @@
 <div class="ui-g">
     <div class="ui-g-12">
-        <div class="ui-g-12" *ngIf="dbSaved">
+        <div class="ui-g-12" >
             <div class="card card-w-title">
                 <h1>LiveHAPI Notifications</h1>
             <p-messages [(value)]="sysMessages"></p-messages>
@@ -42,6 +42,13 @@
             </div>
         </div>
         <div class="ui-g-6">
+            <div class="card card-w-title">
+                <h1>Facility</h1>
+            </div>
+            <div class="card card-w-title">
+                <h1>EMR</h1>
+            </div>
+
             <div class="card card-w-title">
                 <h1>IQCareAPI Endpoint</h1>
                 <p-messages [(value)]="apiMessages"></p-messages>

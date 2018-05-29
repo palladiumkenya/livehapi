@@ -91,7 +91,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
                     if (this.dbSaved) {
                         this.dbMessages.push({severity: 'success', summary: 'saved successfully'});
                         this.sysMessages.push({
-                            severity: 'error',
+                            severity: 'warn',
                             summary: 'Restart the LiveHAPI service inorder to effect the changes made to the system settings'
                         });
                     }
