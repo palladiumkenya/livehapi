@@ -19,7 +19,7 @@ namespace LiveHAPI.Controllers
             _options = options;
         }
 
-
+      
         // GET: api/wizard/db
         [HttpGet("db")]
         public virtual IActionResult GetDb()
