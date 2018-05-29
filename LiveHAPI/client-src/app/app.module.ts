@@ -8,7 +8,10 @@ import {AppRoutes} from './app.routes';
 import {RouterModule} from '@angular/router';
 import { ConfigComponent } from './config/config.component';
 import {ButtonModule} from 'primeng/button';
-import {InputTextModule, MessageModule} from 'primeng/primeng';
+import {ConfirmationService, InputTextModule, MessageModule, MessagesModule} from 'primeng/primeng';
+import {HttpClientModule} from '@angular/common/http';
+import {ConfigService} from './services/config.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -26,8 +29,14 @@ import {InputTextModule, MessageModule} from 'primeng/primeng';
       ButtonModule,
       InputTextModule,
      MessageModule,
+      MessagesModule,
+      HttpClientModule,
+      FormsModule,
+      ReactiveFormsModule
    ],
-  providers: [],
+  providers: [
+      ConfigService,  ConfirmationService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

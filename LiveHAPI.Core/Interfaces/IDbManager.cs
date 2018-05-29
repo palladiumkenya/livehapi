@@ -6,6 +6,6 @@ namespace LiveHAPI.Core.Interfaces
     {
         bool Verfiy(DbProtocol dbProtocol);
         string BuildConncetion(DbProtocol dbProtocol);
-        string GetConncetion(string connectionString, DbProtocol dbProtocol);
+        DbProtocol ReadConnection(string connectionString);
     }
 }

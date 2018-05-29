@@ -44,12 +44,14 @@ namespace LiveHAPI.Infrastructure.Tests
         }
 
         [Test]
-        public void should_Generate_Connection()
+        public void should_Read_Connection()
         {
-            var con = _dbManager.GetConncetion(_connection,_dbProtocol);
-            Assert.False(string.IsNullOrWhiteSpace(con));
-            Assert.AreEqual(@"Data Source=192.168.1.10\sqlexpress;Initial Catalog=iqcare;Persist Security Info=True;User ID=sa;Password=c0nstella;Pooling=True;MultipleActiveResultSets=True",con);
-            Console.WriteLine(con);
+            var dbProtocol = _dbManager.ReadConnection(_connection);
+            Assert.NotNull(dbProtocol);
+            Assert.AreEqual(@".\\KOSKE14", dbProtocol.Server);
+            Assert.AreEqual(@"LiveHAPI", dbProtocol.Database);
+            Assert.AreEqual(@"sa", dbProtocol.User);
+            Assert.AreEqual(@"maun", dbProtocol.Password);
         }
     }
 }

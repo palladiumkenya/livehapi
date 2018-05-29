@@ -47,6 +47,7 @@ namespace LiveHAPI
     {
 
         public static IConfiguration Configuration;
+        public static IServiceCollection ServiceCollection;
 
         public Startup(IHostingEnvironment env)
         {
@@ -132,6 +133,7 @@ namespace LiveHAPI
 
             services.AddScoped<IDbManager, DbManager>();
             services.ConfigureWritable<ConnectionStrings>(Configuration.GetSection("connectionStrings"));
+            ServiceCollection = services;
 
         }
 

@@ -42,13 +42,11 @@ namespace LiveHAPI.Infrastructure
             return sb.ConnectionString;
         }
 
-        public string GetConncetion(string connectionString,DbProtocol dbProtocol)
-        {   var sb = new SqlConnectionStringBuilder(connectionString);
-            sb.DataSource = dbProtocol.Server;
-            sb.UserID = dbProtocol.User;
-            sb.Password = dbProtocol.Password;
-            sb.InitialCatalog = dbProtocol.Database;
-            return sb.ConnectionString;
+        public DbProtocol ReadConnection(string connectionString)
+        {
+            var sb=new SqlConnectionStringBuilder(connectionString);
+
+            return new DbProtocol(sb.DataSource,sb.InitialCatalog,sb.UserID,sb.Password);
         }
     }
 }

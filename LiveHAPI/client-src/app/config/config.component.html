@@ -3,39 +3,41 @@
         <div class="ui-g-6">
             <div class="card card-w-title">
                 <h1>Database Connection</h1>
-                <p-message></p-message>
-                <div class="ui-g form-group">
-                    <div class="ui-g-12">
-                    <span class="md-inputfield" style="width: 80%">
-                        <input type="text" pInputText style="width: 80%">
-                        <label>Server</label>
-                    </span>
+                <p-messages [(value)]="dbMessages"></p-messages>
+                <form [formGroup]="databaseForm" (ngSubmit)="saveDatabase()">
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12">
+                        <span class="md-inputfield" style="width: 80%">
+                            <input type="text" formControlName="server" pInputText style="width: 80%">
+                            <label>Server</label>
+                        </span>
+                        </div>
+                     </div>
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12">
+                        <span class="md-inputfield" style="width: 80%">
+                            <input type="text" formControlName="user" pInputText style="width: 80%">
+                            <label>User</label>
+                        </span>
+                        </div>
                     </div>
-                 </div>
-                <div class="ui-g form-group">
-                    <div class="ui-g-12">
-                    <span class="md-inputfield" style="width: 80%">
-                        <input type="text" pInputText style="width: 80%">
-                        <label>User</label>
-                    </span>
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12">
+                        <span class="md-inputfield" style="width: 80%">
+                            <input type="text" formControlName="password" pInputText style="width: 80%">
+                            <label>Password</label>
+                        </span>
+                        </div>
                     </div>
-                </div>
-                <div class="ui-g form-group">
-                    <div class="ui-g-12">
-                    <span class="md-inputfield" style="width: 80%">
-                        <input type="text" pInputText style="width: 80%">
-                        <label>Password</label>
-                    </span>
-                    </div>
-                </div>
-                <button pButton type="button" label="Verify"></button>
-                <button pButton type="button" label="Save"></button>
+                    <button pButton type="button" label="Verify" (click)="verifyDatabase()" [disabled]="databaseForm.invalid"></button>
+                    <button pButton type="button" label="Save" (click)="saveDatabase()" [disabled]="databaseForm.invalid" class="green-btn"></button>
+                </form>
             </div>
         </div>
         <div class="ui-g-6">
             <div class="card card-w-title">
                 <h1>IQCareAPI Endpoint</h1>
-                <p-message></p-message>
+                <p-messages [(value)]="apiMessages"></p-messages>
                 <div class="ui-g form-group">
                     <div class="ui-g-12">
                     <span class="md-inputfield" style="width: 80%">
@@ -45,7 +47,7 @@
                     </div>
                 </div>
                 <button pButton type="button" label="Verify"></button>
-                <button pButton type="button" label="Save"></button>
+                <button pButton type="button" label="Save" class="green-btn"></button>
             </div>
         </div>
     </div>

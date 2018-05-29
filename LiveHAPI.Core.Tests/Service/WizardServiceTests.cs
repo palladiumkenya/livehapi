@@ -22,7 +22,7 @@ namespace LiveHAPI.Core.Tests.Service
             var syncconfig = new ConfigurationBuilder()
                 .AddJsonFile(@"apps\sync\appSettings.json").Build();
 
-            _service = new WizardService(hapiconfig,syncconfig);
+           // _service = new WizardService(hapiconfig,syncconfig);
         }
         
         [Test]

@@ -44,7 +44,7 @@ namespace LiveHAPI.Core.Service
 
         public bool UpdateDatabase(string connectionString, DbProtocol dbprotocol)
         {
-            var updatedConncetion = _dbManager.GetConncetion(connectionString, dbprotocol);
+           // var updatedConncetion = _dbManager.GetConncetion(connectionString, dbprotocol);
             // var sb = new SqlConnectionStringBuilder();
             throw new System.NotImplementedException();
         }
@@ -52,7 +52,7 @@ namespace LiveHAPI.Core.Service
         public bool UpdateDatabase(DbProtocol dbprotocol)
         {
             var emrConn = ReadConnectionStrings().EmrConnection;
-            var connectionString = _dbManager.GetConncetion(emrConn, dbprotocol);
+          //  var connectionString = _dbManager.GetConncetion(emrConn, dbprotocol);
            // var sb = new SqlConnectionStringBuilder();
             throw new System.NotImplementedException();
         }
