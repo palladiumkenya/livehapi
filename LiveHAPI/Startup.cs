@@ -72,9 +72,6 @@ namespace LiveHAPI
             {
                 var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
                 services.AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString));
-
-                services.AddHangfire(config =>
-                    config.UseSqlServerStorage(connectionString));
             }
             catch (Exception ex)
             {
@@ -146,21 +143,7 @@ namespace LiveHAPI
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-            try
-            {
-                app.UseHangfireDashboard("/api/hangfire", new DashboardOptions() {
-                Authorization = new[] { new CustomAuthorizeFilter() }
-            });
-
-
-                app.UseHangfireServer();
-            }
-            catch (Exception e)
-            {
-                Log.Fatal(e,"Hangfire is down !");
-                imHapi = false;
-            }
-
+          
 
             app.Use(async (context, next) =>
             {
@@ -203,6 +186,7 @@ namespace LiveHAPI
             try
             {
                 EnsureMigrationOfContext<LiveHAPIContext>(serviceProvider);
+
             }
             catch (Exception e)
             {
@@ -211,6 +195,31 @@ namespace LiveHAPI
                 Log.Error($"{e}");
                 Log.Error(new string('>', 30));
             }
+
+            #region HangFire
+            try
+            {
+                var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
+                ServiceCollection.AddHangfire(config =>
+                    config.UseSqlServerStorage(connectionString));
+
+                app.UseHangfireDashboard("/api/hangfire", new DashboardOptions()
+                {
+                    Authorization = new[] { new CustomAuthorizeFilter() }
+                });
+
+                app.UseHangfireServer();
+            }
+            catch (Exception e)
+            {
+                Log.Fatal(e, "Hangfire is down !");
+                imHapi = false;
+            }
+
+
+            #endregion
+
+
 
 
             AutoMapper.Mapper.Initialize(cfg =>
