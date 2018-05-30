@@ -50,7 +50,8 @@ namespace LiveHAPI.Sync.Core.Writer
             var htsClients =await _loader.Load(null, actions);
             foreach (var htsClient in htsClients)
             {
-                _messages.Add(JsonConvert.SerializeObject(htsClient));
+                var msg = JsonConvert.SerializeObject(htsClient);
+                _messages.Add(msg);
                 try
                 {
                     var response = await _httpClient.PostAsJsonAsync(endpoint, htsClient);
@@ -63,7 +64,12 @@ namespace LiveHAPI.Sync.Core.Writer
                     else
                     {
                         _errors = result.Errors;
-                        throw new Exception($"Error processing request: {string.Join(",",_errors)}");
+                        Log.Debug(_messages.FirstOrDefault());
+                        Log.Debug(new string('_',50));
+                        Log.Debug(msg);
+                        Log.Debug(new string('-',50));
+                        throw new Exception($"Error processing request: {result?.ErrorMessage}");
+                        
                     }
                 }
                 catch (Exception e)
@@ -72,6 +78,7 @@ namespace LiveHAPI.Sync.Core.Writer
                     Log.Error($"{e}");
                     _errors.Add(new ErrorResponse($"{endpoint} || {e.Message}"));
                     _clientStageRepository.UpdateSyncStatus(htsClient.ClientId,SyncStatus.SentFail,e.Message);
+                    
                 }
             }
             return results;
