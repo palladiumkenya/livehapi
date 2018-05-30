@@ -29,6 +29,11 @@ namespace LiveHAPI.Infrastructure
             return isConnected;
         }
 
+        public bool Verfiy(string connectionString)
+        {
+            return Verfiy(ReadConnection(connectionString));
+        }
+
         public string BuildConncetion(DbProtocol dbProtocol)
         {
             var sb = new SqlConnectionStringBuilder();

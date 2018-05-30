@@ -38,6 +38,12 @@ namespace LiveHAPI.Core.Service
             return null;
         }
 
+        public async Task<bool> VerfiyUrl(string url)
+        {
+            var fac = await VerfiyUrl(new Endpoints(url));
+            return null != fac;
+        }
+
         public Endpoints ReadUrl(string endpoints)
         {
             return new Endpoints(endpoints);

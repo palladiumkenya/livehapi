@@ -19,17 +19,19 @@ namespace LiveHAPI.Controllers
         private readonly IRestManager _manager;
         private readonly IWritableOptions<Endpoints> _options;
         private readonly IWritableOptions<ConnectionStrings> _optionsb;
+        private readonly IDbManager _dbManager;
 
-        public SyncController(IRestManager manager, IWritableOptions<Endpoints> options, IWritableOptions<ConnectionStrings> optionsb)
+        public SyncController(IRestManager manager, IWritableOptions<Endpoints> options, IWritableOptions<ConnectionStrings> optionsb, IDbManager dbManager)
         {
             _manager = manager;
             _options = options;
             _optionsb = optionsb;
+            _dbManager = dbManager;
         }
 
         // GET: api/sync
         [HttpGet("hapi")]
-        public virtual IActionResult ReadSetting()
+        public async Task<IActionResult> ReadSetting()
         {
 
             try
@@ -38,9 +40,9 @@ namespace LiveHAPI.Controllers
 
                 h.Connection = _optionsb.Value.HapiConnection;
                 h.Url = _options.Value.Iqcare;
-
-
-
+                var dbOk = _dbManager.Verfiy(h.Connection);
+                var urlOk= await _manager.VerfiyUrl(h.Url);
+                h.IsVerifed = dbOk && urlOk;
                 return Ok(h);
             }
             catch (Exception e)

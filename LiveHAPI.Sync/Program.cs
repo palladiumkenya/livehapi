@@ -5,11 +5,15 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Threading;
 using AutoMapper;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
+using LiveHAPI.Shared.ValueObject;
+using LiveHAPI.Sync.Core;
 using LiveHAPI.Sync.Core.Extractor;
+using LiveHAPI.Sync.Core.Interface;
 using LiveHAPI.Sync.Core.Interface.Extractors;
 using LiveHAPI.Sync.Core.Interface.Loaders;
 using LiveHAPI.Sync.Core.Interface.Readers;
@@ -32,10 +36,15 @@ namespace LiveHAPI.Sync
 {
     class Program
     {
+        private static IStartup _startup;
         public static IServiceProvider ServiceProvider { get; private set; }
         public  static ISyncConfigScheduler SyncConfigScheduler { get; private set; }
+        public static HapiSettingsView HapiSettingsView { get; private set; }
+        
         static void Main(string[] args)
         {
+            bool hapiOffline = true;
+            
             System.AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
 
             Log.Logger = new LoggerConfiguration()
@@ -51,8 +60,52 @@ namespace LiveHAPI.Sync
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
             IConfigurationRoot configuration = builder.Build();
-            var endpoint = configuration["endpoints:iqcare"];
-            var connectionString = configuration.GetConnectionString("hAPIConnection");
+
+            var hapiendpoint = configuration["endpoints:hapi"];
+            _startup = new SyncStartup(hapiendpoint);
+            
+            Log.Debug($"connecting to LiveHAPI on [{hapiendpoint}]");
+            while (hapiOffline)
+            {
+                try
+                {
+                    HapiSettingsView = _startup.LoadSettings().Result;
+                    if (null != HapiSettingsView)
+                    {
+                        Log.Debug($"LiveHAPI CONNECTED");
+                        Log.Debug($"verifying LiveHAPI settings...");
+                        if (HapiSettingsView.IsVerifed)
+                        {
+                            Log.Debug($"LiveHAPI settings [OK]");
+                            Log.Debug($"starting sync...");
+                            hapiOffline = false;
+                        }
+                        else
+                        {
+                            Log.Error($"invalid LiveHAPI settings ! please open {hapiendpoint} and verify and save all settings");
+                            Log.Error($"Sync will retry in 30 secs...");
+                            Thread.Sleep(30000);    
+                        }
+                    }
+                    else
+                    {
+                        Log.Error($"LiveHAPI connection FAILED");
+                        Log.Error($"Sync will retry in 30 secs...");
+                        Thread.Sleep(30000);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Fatal(new string('*', 50));
+                    Log.Fatal(e, "Sync Requires LiveHAPI to be online!");
+                    Log.Fatal(new string('*', 50));
+                }
+            }
+
+            var endpoint = HapiSettingsView.Url;
+            //var endpoint = configuration["endpoints:iqcare"];
+            var connectionString = HapiSettingsView.Connection;
+            //var connectionString = configuration.GetConnectionString("hAPIConnection");
             var syncConfigInterval = configuration["syncInterval:config"];
             var syncClientInterval = configuration["syncInterval:clients"];
             var bulkConfigName = configuration["bulkConfig:name"];
@@ -77,7 +130,7 @@ namespace LiveHAPI.Sync
             }
             catch (Exception e)
             {
-                Log.Debug($"{e}");
+                Log.Fatal($"{e}");
                 throw;
             }
 
@@ -145,7 +198,7 @@ namespace LiveHAPI.Sync
 
             Mapper.Initialize(cfg => { cfg.AddProfile<ClientProfile>(); });
 
-            Log.Debug("starting Sync...");
+            Log.Debug("loading Sync...");
 
             try
             {
@@ -154,12 +207,12 @@ namespace LiveHAPI.Sync
             }
             catch (Exception e)
             {
-                Log.Error("Sync startup error");
-                Log.Error($"{e}");
+                Log.Fatal(e,"Sync startup error");
             }
 
             Console.ReadLine();
         }
+        
 
         private static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
