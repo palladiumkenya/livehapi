@@ -24,25 +24,16 @@ namespace LiveHAPI.Controllers
     private readonly IClientService _clientService;
     private readonly IEncounterService _encounterService;
     private readonly IPSmartStoreService _pSmartStoreService;
-    private readonly IClientSavedHandler _clientSavedHandler;
-    private readonly IEncounterSavedHandler _encounterSavedHandler;
-    private readonly ISubscriberSystemRepository _subscriberSystemRepository;
-    private readonly SubscriberSystem _subscriberSystem;
     private readonly ISummaryService _summaryService;
 
     public ClientsController(IClientService clientService, IEncounterService encounterService,
-      IClientSavedHandler clientSavedHandler, IEncounterSavedHandler encounterSavedHandler,
-      ISubscriberSystemRepository subscriberSystemRepository, ISummaryService summaryService,
+       ISummaryService summaryService,
       IPSmartStoreService pSmartStoreService)
     {
       _clientService = clientService;
       _encounterService = encounterService;
-      _clientSavedHandler = clientSavedHandler;
-      _encounterSavedHandler = encounterSavedHandler;
-      _subscriberSystemRepository = subscriberSystemRepository;
       _summaryService = summaryService;
       _pSmartStoreService = pSmartStoreService;
-     _subscriberSystem = _subscriberSystemRepository.GetDefault();
     }
 
     [Route("name/{name}")]
