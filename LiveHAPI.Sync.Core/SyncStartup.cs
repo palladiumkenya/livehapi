@@ -23,6 +23,7 @@ namespace LiveHAPI.Sync.Core
             try
             {
                 var response = await _client.GetAsync("api/sync/hapi");
+                response.EnsureSuccessStatusCode();
                 var data=await response.Content.ReadAsJsonAsync<HapiSettingsView>();
                 return data;
             }

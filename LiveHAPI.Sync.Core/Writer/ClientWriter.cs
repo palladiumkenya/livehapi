@@ -26,6 +26,7 @@ namespace LiveHAPI.Sync.Core.Writer
         private List<string> _messages=new List<string>();
         private List<ErrorResponse> _errors=new List<ErrorResponse>();
         private readonly IClientStageRepository _clientStageRepository;
+        
 
         protected ClientWriter(IRestClient restClient, IMessageLoader<T> loader, IClientStageRepository clientStageRepository)
         {
@@ -50,32 +51,49 @@ namespace LiveHAPI.Sync.Core.Writer
             var htsClients =await _loader.Load(null, actions);
             foreach (var htsClient in htsClients)
             {
-                var msg = JsonConvert.SerializeObject(htsClient);
-                _messages.Add(msg);
+                SynchronizeClientsResponse result = null;
+           
                 try
                 {
+                    var msg = JsonConvert.SerializeObject(htsClient);
+                    _messages.Add(msg);
+
                     var response = await _httpClient.PostAsJsonAsync(endpoint, htsClient);
-                    var result = await response.Content.ReadAsJsonAsync<SynchronizeClientsResponse>();
+
                     if (response.IsSuccessStatusCode)
                     {
+                        result = await response.Content.ReadAsJsonAsync<SynchronizeClientsResponse>();
                         results.Add(result);
                         _clientStageRepository.UpdateSyncStatus(htsClient.ClientId,SyncStatus.SentSuccess);
                     }
                     else
                     {
-                        _errors = result.Errors;
-                        Log.Debug(_messages.FirstOrDefault());
-                        Log.Debug(new string('_',50));
-                        Log.Debug(msg);
-                        Log.Debug(new string('-',50));
-                        throw new Exception($"Error processing request: {result?.ErrorMessage}");
+                        try
+                        {
+                            result = await response.Content.ReadAsJsonAsync<SynchronizeClientsResponse>();
+                        }
+                        catch
+                        {
+                        }
                         
+                        Log.Debug(new string('_', 50));
+                        Log.Debug(msg);
+                        Log.Debug(new string('-', 50));
+
+                        if (null != result)
+                        {
+                            _errors = result?.Errors;
+                            throw new Exception($"Error processing request: {result?.ErrorMessage}");
+                        }
+                        else
+                        {
+                            response.EnsureSuccessStatusCode();
+                        }
                     }
                 }
                 catch (Exception e)
                 {
-                    Log.Error($"error posting to endpint [{endpoint}] for {typeof(T).Name}");
-                    Log.Error($"{e}");
+                    Log.Error(e,$"error posting to endpint [{endpoint}] for {typeof(T).Name}");
                     _errors.Add(new ErrorResponse($"{endpoint} || {e.Message}"));
                     _clientStageRepository.UpdateSyncStatus(htsClient.ClientId,SyncStatus.SentFail,e.Message);
                     

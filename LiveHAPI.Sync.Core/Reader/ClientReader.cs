@@ -28,8 +28,17 @@ namespace LiveHAPI.Sync.Core.Reader
             try
             {
                 var response = await _httpClient.GetAsync(endpoint);
-                var data=await response.Content.ReadAsJsonAsync<List<T>>();
-                result = data.ToList();
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsJsonAsync<List<T>>();
+                    result = data.ToList();
+                }
+                else
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    throw new Exception(error);
+                }
+                
             }
             catch (Exception e)
             {
