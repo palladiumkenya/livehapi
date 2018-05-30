@@ -19,7 +19,7 @@ namespace LiveHAPI.Controllers
             _options = options;
         }
 
-      
+
         // GET: api/wizard/db
         [HttpGet("db")]
         public virtual IActionResult GetDb()
@@ -40,6 +40,28 @@ namespace LiveHAPI.Controllers
                 Log.Error(msg);
                 Log.Error($"{e}");
                 return StatusCode(500, msg);
+            }
+        }
+
+        [HttpPost("verifyserver")]
+        public IActionResult VerifyServer([FromBody] DbProtocol dbProtocol)
+        {
+            if (null == dbProtocol)
+                return BadRequest();
+
+            try
+            {
+                var connected = _dbManager.VerfiyServer(dbProtocol);
+
+                if (connected)
+                    return Ok(true);
+
+                throw new Exception("Database could not connect");
+            }
+            catch (Exception e)
+            {
+                Log.Error($"{e}");
+                return StatusCode(500, $"{e.Message}");
             }
         }
 

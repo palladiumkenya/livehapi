@@ -7,6 +7,28 @@ namespace LiveHAPI.Infrastructure
 {
     public class DbManager:IDbManager
     {
+        public bool VerfiyServer(DbProtocol dbProtocol)
+        {
+            bool isConnected = false;
+
+            var sb = new SqlConnectionStringBuilder();
+            sb.DataSource = dbProtocol.Server;
+            sb.UserID = dbProtocol.User;
+            sb.Password = dbProtocol.Password;
+            sb.InitialCatalog = "master";
+            sb.MultipleActiveResultSets = true;
+            sb.PersistSecurityInfo = true;
+            sb.Pooling = true;
+
+            using (var cn=new SqlConnection(sb.ConnectionString))
+            {
+                cn.Open();
+                isConnected = cn.State == ConnectionState.Open;
+            }
+
+            return isConnected;
+        }
+
         public bool Verfiy(DbProtocol dbProtocol)
         {
             bool isConnected = false;

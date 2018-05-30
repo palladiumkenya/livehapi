@@ -18,6 +18,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
 
     public getDatabase$: Subscription;
     public getEndpoint$: Subscription;
+    public verifyServer$: Subscription;
     public verifyDatabase$: Subscription;
     public saveDatabase$: Subscription;
     public verifyEndpoint$: Subscription;
@@ -86,6 +87,24 @@ export class ConfigComponent implements OnInit, OnDestroy {
             );
     }
 
+    public verifyServer(): void {
+        this.dbMessages = [];
+        this.verifyServer$ = this._configService.verifyServer(this.databaseForm.value)
+            .subscribe(
+                p => {
+                    this.canConnect = p;
+                },
+                e => {
+                    this.dbMessages.push({severity: 'error', summary: 'Error verifying', detail: <any>e});
+                },
+                () => {
+                    if (this.canConnect) {
+                        this.dbMessages.push({severity: 'success', summary: 'connection successful to server ok.'});
+                    }
+                }
+            );
+    }
+
     public verifyDatabase(): void {
         this.dbMessages = [];
         this.verifyDatabase$ = this._configService.verifyDatabase(this.databaseForm.value)
@@ -98,11 +117,12 @@ export class ConfigComponent implements OnInit, OnDestroy {
                 },
                 () => {
                     if (this.canConnect) {
-                        this.dbMessages.push({severity: 'success', summary: 'connection successful'});
+                        this.dbMessages.push({severity: 'success', summary: 'connection successful to database ok'});
                     }
                 }
             );
     }
+
 
     public saveDatabase(): void {
         this.dbMessages = [];
@@ -177,6 +197,9 @@ export class ConfigComponent implements OnInit, OnDestroy {
 
         if (this.getDatabase$) {
             this.getDatabase$.unsubscribe();
+        }
+        if (this.verifyServer$) {
+            this.verifyServer$.unsubscribe();
         }
         if (this.verifyDatabase$) {
             this.verifyDatabase$.unsubscribe();

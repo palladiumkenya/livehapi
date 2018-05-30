@@ -23,6 +23,11 @@ export class ConfigService {
             .catch(this.handleError);
     }
 
+    public verifyServer(entity: DbProtocol): Observable<boolean> {
+        return this._http.post<boolean>(`${this._url}/verifyserver`, entity)
+            .catch(this.handleError);
+    }
+
     public verifyDatabase(entity: DbProtocol): Observable<boolean> {
         return this._http.post<boolean>(`${this._url}/verifydb`, entity)
             .catch(this.handleError);
@@ -50,7 +55,7 @@ export class ConfigService {
 
     private handleError(err: HttpErrorResponse) {
         if (err.status === 404) {
-            return Observable.throw('settings not found');
+            return Observable.throw('could not be found');
     }
         return Observable.throw(err.error);
     }

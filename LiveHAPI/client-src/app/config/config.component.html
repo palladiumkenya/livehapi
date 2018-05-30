@@ -31,12 +31,13 @@
                     <div class="ui-g form-group">
                         <div class="ui-g-12">
                         <span class="md-inputfield" style="width: 80%">
-                            <input type="text" formControlName="password" pInputText style="width: 80%">
+                            <input type="password" formControlName="password" pInputText style="width: 80%">
                             <label>Password</label>
                         </span>
                         </div>
                     </div>
-                    <button pButton type="button" label="Verify" (click)="verifyDatabase()" [disabled]="databaseForm.invalid"></button>
+                    <button pButton type="button" label="Verify" (click)="verifyServer()" [disabled]="databaseForm.invalid"></button>
+                    <!--<button pButton type="button" label="Verify Database" (click)="verifyDatabase()" [disabled]="databaseForm.invalid"></button>-->
                     <button pButton type="submit" label="Save" [disabled]="databaseForm.invalid" class="green-btn"></button>
                 </form>
             </div>
@@ -61,7 +62,7 @@
                         <label>Url</label>
                     </span>
                     </div>
-                    <div *ngIf="faclity">{{faclity?.facilityName}} - {{faclity?.posID}}</div>
+                    <div *ngIf="faclity" style="color: #ff8423;font-weight: bold">{{faclity?.facilityName}} - <span style="color: #3f51b5">{{faclity?.posID}}</span></div>
 
                 </div>
                 <button pButton type="button" (click)="verifyEndpoint()"  label="Verify"></button>
