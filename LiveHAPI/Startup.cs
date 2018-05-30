@@ -68,10 +68,12 @@ namespace LiveHAPI
 
             services.ConfigureWritable<ConnectionStrings>(Configuration.GetSection("connectionStrings"));
             services.ConfigureWritable<Endpoints>(Configuration.GetSection("endpoints"));
+            var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
+
             try
             {
-                var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
                 services.AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString));
+                services.AddHangfire(o =>o.UseSqlServerStorage(connectionString));
             }
             catch (Exception ex)
             {
@@ -199,10 +201,7 @@ namespace LiveHAPI
             #region HangFire
             try
             {
-                var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
-                ServiceCollection.AddHangfire(config =>
-                    config.UseSqlServerStorage(connectionString));
-
+              
                 app.UseHangfireDashboard("/api/hangfire", new DashboardOptions()
                 {
                     Authorization = new[] { new CustomAuthorizeFilter() }
