@@ -47,6 +47,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
         });
 
         this.synForm = this.fb.group({
+            emr:[{value: 'IQCARE', disabled: true}, [Validators.required]],
             iqcare: ['', [Validators.required]],
         });
     }

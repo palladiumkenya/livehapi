@@ -17,7 +17,7 @@ namespace LiveHAPI.Core.Service
         
         public async Task<EmrFacility> VerfiyUrl(Endpoints endpoints)
         {
-            var http = new HttpClient {BaseAddress = new Uri(endpoints.Iqcare)};
+            var http = new HttpClient {BaseAddress = new Uri(endpoints.Iqcare.HasToEndWith(@"/"))};
             try
             {
                 var response = await http.GetAsync(fac);

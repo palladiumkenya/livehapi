@@ -43,9 +43,17 @@
         </div>
         <div class="ui-g-6">
             <div class="card card-w-title">
-                <h1>IQCareAPI Endpoint</h1>
+                <h1>EMR Endpoint</h1>
                 <p-messages [(value)]="apiMessages"></p-messages>
                 <form [formGroup]="synForm" (ngSubmit)="saveEndpoint()">
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12">
+                    <span class="md-inputfield" style="width: 80%">
+                        <input type="text" formControlName="emr" pInputText style="width: 80%;color: green;opacity: 1">
+                        <label>Emr</label>
+                    </span>
+                        </div>
+                    </div>
                 <div class="ui-g form-group">
                     <div class="ui-g-12">
                     <span class="md-inputfield" style="width: 80%">
