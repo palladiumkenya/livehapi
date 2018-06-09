@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LiveHAPI.Core.Model.Encounters;
+using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
@@ -7,16 +8,17 @@ using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Studio;
 using LiveHAPI.Core.Model.Subscriber;
 using Microsoft.EntityFrameworkCore;
+using Z.Dapper.Plus;
 
 
 namespace LiveHAPI.Infrastructure
 {
     public class LiveHAPIContext : DbContext
     {
-        public LiveHAPIContext(DbContextOptions<LiveHAPIContext> options) 
+        public LiveHAPIContext(DbContextOptions<LiveHAPIContext> options)
             : base(options)
         {
-          Database.Migrate();
+            //Database.Migrate();
         }
 
         #region Geo
@@ -45,38 +47,47 @@ namespace LiveHAPI.Infrastructure
         #endregion
 
         #region Practice
+
         public DbSet<Practice> Practices { get; set; }
         public DbSet<PracticeActivation> PracticeActivations { get; set; }
 
         #endregion
 
         #region Person
+
         public DbSet<Person> Persons { get; set; }
         public DbSet<PersonName> PersonNames { get; set; }
         public DbSet<PersonAddress> PersonAddresss { get; set; }
         public DbSet<PersonContact> PersonContacts { get; set; }
+
         #endregion
 
         #region Provider
+
         public DbSet<Provider> Providers { get; set; }
-        
+
         #endregion
 
         #region User
+
         public DbSet<User> Users { get; set; }
         public DbSet<UserSummary> UserSummaries { get; set; }
+
         #endregion
 
         #region Client
+
         public DbSet<Client> Clients { get; set; }
         public DbSet<ClientAttribute> ClientAttributes { get; set; }
         public DbSet<ClientIdentifier> ClientIdentifiers { get; set; }
         public DbSet<ClientRelationship> ClientRelationships { get; set; }
         public DbSet<ClientState> ClientStates { get; set; }
         public DbSet<ClientSummary> ClientSummaries { get; set; }
+
         #endregion
 
         #region Encounter
+
         public DbSet<PSmartStore> PSmartStores { get; set; }
         public DbSet<Encounter> Encounters { get; set; }
         public DbSet<Obs> Obses { get; set; }
@@ -89,10 +100,11 @@ namespace LiveHAPI.Infrastructure
         public DbSet<ObsMemberScreening> ObsMemberScreenings { get; set; }
         public DbSet<ObsPartnerScreening> ObsPartnerScreenings { get; set; }
         public DbSet<ObsPartnerTraceResult> ObsPartnerTraceResults { get; set; }
+
         #endregion
 
         public DbSet<Category> Categories { get; set; }
-        public DbSet<CategoryItem> CategoryItems { get; set; } 
+        public DbSet<CategoryItem> CategoryItems { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Concept> Concepts { get; set; }
 
@@ -115,7 +127,36 @@ namespace LiveHAPI.Infrastructure
         public DbSet<SubscriberMap> SubscriberMaps { get; set; }
         public DbSet<SubscriberTranslation> SubscriberTranslations { get; set; }
         public DbSet<SubscriberCohort> SubscriberCohorts { get; set; }
+        
+        public DbSet<ClientStage> ClientStages { get; set; }
+        public DbSet<ClientPretestStage> ClientPretestStages { get; set; }
+        public DbSet<ClientPretestDisabilityStage> ClientPretestDisabilityStages { get; set; }
+        
+        public DbSet<ClientStageRelationship> ClientStageRelationships { get; set; }
+        
+        
+        
+        public DbSet<TempClientRelationship> TempClientRelationships { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            DapperPlusManager.Entity<Practice>().Table("Practices").Key(x => x.Id);
+            DapperPlusManager.Entity<User>().Table("Users").Key(x => x.Id);
+            DapperPlusManager.Entity<Person>().Table("Persons").Key(x => x.Id);
+            DapperPlusManager.Entity<PersonName>().Table("PersonNames").Key(x => x.Id);
+            DapperPlusManager.Entity<PersonAddress>().Table("PersonAddresss").Key(x => x.Id);
+            DapperPlusManager.Entity<PersonContact>().Table("PersonContacts").Key(x => x.Id);
+            DapperPlusManager.Entity<Provider>().Table("Providers").Key(x => x.Id);
+            DapperPlusManager.Entity<SubscriberTranslation>().Table("SubscriberTranslations").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientRelationship>().Table("ClientRelationships").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientState>().Table("ClientStates").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientIdentifier>().Table("ClientIdentifiers").Key(x => x.Id);
 
-      
+            DapperPlusManager.Entity<TempClientRelationship>().Table("TempClientRelationships").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientStage>().Table("ClientStages").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientPretestStage>().Table("ClientPretestStages").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientPretestDisabilityStage>().Table("ClientPretestDisabilityStages").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientStageRelationship>().Table("ClientStageRelationships").Key(x => x.Id);
+        }
     }
 }

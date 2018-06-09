@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
+using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Infrastructure.Repository;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Shared.Tests.TestHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +16,7 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
     {
         private LiveHAPIContext _context;
         private IClientRepository _clientRepository;
+        private IClientStageRepository _clientStageRepository;
 
         [SetUp]
         public void SetUp()
@@ -21,17 +24,18 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
              var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:hAPIConnection"];
+            var connectionString = config["connectionStrings:livehAPIConnection"];
 
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;
 
             _context = new LiveHAPIContext(options);
-            TestData.Init();
-            TestDataCreator.Init(_context);
+            //TestData.Init();
+            //TestDataCreator.Init(_context);
 
             _clientRepository = new ClientRepository(_context);
+            _clientStageRepository=new ClientStageRepository(_context);
         }
 
        
@@ -46,6 +50,18 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
                 Assert.IsTrue(personMatch.Person.Clients.Count>0);
                 Console.WriteLine(personMatch.Person.Clients.First());
             }
+        }
+        
+        [Test]
+        public void should_UpdateSync()
+        {
+            var stages = _clientStageRepository.GetAll().ToList();
+            
+            _clientRepository.UpdateSyncStatus(stages);
+            
+            _clientRepository=new ClientRepository(_context);
+            var syncedClients = _clientRepository.GetAll().ToList();
+            Assert.True(syncedClients.First().SyncStatus==SyncStatus.Synced);
         }
     }
 }

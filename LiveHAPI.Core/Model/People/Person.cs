@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
@@ -23,6 +25,101 @@ namespace LiveHAPI.Core.Model.People
         public  ICollection<User> Users { get; set; } = new List<User>();
         public ICollection<Provider> Providers { get; set; }=new List<Provider>();        
         public ICollection<Client> Clients { get; set; } = new List<Client>();
+
+        [NotMapped]
+        public bool IsClientEnrolled
+        {
+            get
+            {
+                if (Clients.Any())
+                {
+                    var client = Clients.FirstOrDefault();
+                    return null != client && client.IsInState(LiveState.HtsEnrolled);
+                } 
+                return false;
+            }
+        }
+
+        [NotMapped]
+        public bool IsClient
+        {
+            get
+            {
+                if (Clients.Any())
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        [NotMapped]
+        public bool IsHtsClient
+        {
+            get
+            {
+                if (Clients.Any())
+                {
+                    return Clients.First().IsInState(LiveState.HtsEnrolled)|| Clients.First().Identifiers.Any();
+                }
+                return false;
+            }
+        }
+
+        [NotMapped]
+        public bool NotSynced
+        {
+            get
+            {
+                if (Clients.Any())
+                {
+                    return (null == Clients.First().SyncStatus) ||
+                           (null != Clients.First().SyncStatus && Clients.First().SyncStatus != SyncStatus.Synced);
+                }
+
+                return true;
+            }
+        }
+
+
+        [NotMapped]
+        public DateTime ContactRegDate
+        {
+            get
+            {
+                if (Clients.Any())
+                {
+                    var clientStates = Clients.First().ClientStates.OrderBy(x => x.StatusDate).ToList();
+                    if (clientStates.Any())
+                        return clientStates.First().StatusDate;
+                }
+                return new DateTime(1900,1,1);
+            }
+        }
+
+        [NotMapped]
+        public PersonName PersonName
+        {
+            get
+            {
+                if (Names.Any())
+                    return Names.First();
+
+                return null;
+            }
+        }
+
+        [NotMapped]
+        public Client PersonClient
+        {
+            get
+            {
+                if (Clients.Any())
+                    return Clients.First();
+
+                return null;
+            }
+        }
+
 
         public Person()
         {

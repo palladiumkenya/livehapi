@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces.Model;
@@ -8,6 +9,7 @@ using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
 using Encounter = LiveHAPI.Core.Model.Encounters.Encounter;
 using LiveHAPI.Core.Model.Encounters;
+using LiveHAPI.Shared.Enum;
 
 namespace LiveHAPI.Core.Model.People
 {
@@ -27,12 +29,30 @@ namespace LiveHAPI.Core.Model.People
         public bool? AlreadyTestedPos { get; set; }
         public Guid PracticeId { get; set; }
         public Guid PersonId { get; set; }
+        public Guid UserId { get; set; }
+        public SyncStatus? SyncStatus { get; set; }
+        public DateTime? SyncStatusDate { get; set; }
+        public string SyncStatusInfo { get; set; }
         public ICollection<ClientIdentifier> Identifiers { get; set; } = new List<ClientIdentifier>();
         public ICollection<ClientRelationship> Relationships { get; set; } = new List<ClientRelationship>();
         public ICollection<ClientAttribute> Attributes { get; set; } = new List<ClientAttribute>();
         public ICollection<Encounter> Encounters { get; set; } = new List<Encounter>();
         public ICollection<ClientState> ClientStates { get; set; }=new List<ClientState>();
         private ICollection<ClientSummary> ClientSummaries { get; set; }=new List<ClientSummary>();
+
+        [NotMapped]
+        public ClientIdentifier HtsEnrollment
+        {
+            get
+            {
+                if (Identifiers.Any())
+                {
+                    return Identifiers.FirstOrDefault(x => x.IdentifierTypeId.IsSameAs("Serial"));
+                }
+                return null;
+            }
+
+        }
 
         public Client()
         {
@@ -69,11 +89,15 @@ namespace LiveHAPI.Core.Model.People
 
             var states = ClientState.Create(clientInfo);
             client.AddClientStates(states);
-
+            client.UserId = clientInfo.UserId;
+            client.SyncStatus = Shared.Enum.SyncStatus.Staged;
+            client.SyncStatusDate=DateTime.Now;
             return client;
         }
         public void Update(ClientInfo clientInfo)
         {
+            SyncStatus = Shared.Enum.SyncStatus.Staged;
+            SyncStatusDate=DateTime.Now;
             IsFamilyMember = clientInfo.IsFamilyMember;
             IsPartner = clientInfo.IsPartner;
             MaritalStatus = clientInfo.MaritalStatus;
@@ -81,6 +105,7 @@ namespace LiveHAPI.Core.Model.People
             OtherKeyPop = clientInfo.OtherKeyPop;
             PreventEnroll = clientInfo.PreventEnroll;
             AlreadyTestedPos = clientInfo.AlreadyTestedPos;
+            UserId = clientInfo.UserId;
 
             Identifiers.Clear();
             var identifiers = ClientIdentifier.Create(clientInfo);
@@ -197,6 +222,15 @@ namespace LiveHAPI.Core.Model.People
             return false;
         }
 
+        public List<ClientState> GetStates(params LiveState[] states)
+        {
+            if (null != ClientStates && ClientStates.Any() && states.Length > 0)
+            {
+                return ClientStates.Where(x => states.Contains(x.Status)).ToList();
+            }
+
+            return new List<ClientState>();
+        }
         public bool IsInState(Guid indexId, params LiveState[] states)
         {
             if (null != ClientStates && ClientStates.Any(x => null != x.IndexClientId && x.IndexClientId == indexId) &&

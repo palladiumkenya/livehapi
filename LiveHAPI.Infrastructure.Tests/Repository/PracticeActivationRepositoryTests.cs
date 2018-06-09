@@ -28,8 +28,8 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
                 .Options;
 
             _context = new LiveHAPIContext(options);
-            TestData.Init();
-            TestDataCreator.Init(_context);
+           // TestData.Init();
+            //TestDataCreator.Init(_context);
 
             _practiceActivationRepository = new PracticeActivationRepository(_context);
         }

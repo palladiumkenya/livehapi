@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using LiveHAPI.Core.Interfaces.Repository;
@@ -13,6 +15,7 @@ namespace LiveHAPI.Infrastructure.Repository
 
         internal LiveHAPIContext Context;
         internal DbSet<T> DbSet;
+        private SqlConnection _connection;
 
         protected BaseRepository(LiveHAPIContext context)
         {
@@ -31,7 +34,7 @@ namespace LiveHAPI.Infrastructure.Repository
             return DbSet;
         }
 
-        public virtual  IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, bool voided = false)
+        public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, bool voided = false)
         {
             return DbSet.Where(predicate);
         }
@@ -102,6 +105,24 @@ namespace LiveHAPI.Infrastructure.Repository
         public virtual void Save()
         {
             Context.SaveChanges();
+        }
+
+        public IDbConnection GetDbConnection(bool open = true)
+        {
+           _connection = new SqlConnection(Context.Database.GetDbConnection().ConnectionString);
+
+            if (open)
+            {
+                if (_connection.State != ConnectionState.Open)
+                    _connection.Open();
+                return _connection;
+            }
+            return _connection;
+        }
+
+        public void CloseDbConnection()
+        {
+            _connection?.Dispose();
         }
     }
 }

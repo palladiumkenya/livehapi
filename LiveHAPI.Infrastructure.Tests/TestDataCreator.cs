@@ -18,6 +18,8 @@ namespace LiveHAPI.Infrastructure.Tests
             var relationshipTypes = TestData.TestRelationshipTypes();
             var conceptTypes = TestData.TestConceptTypes();
             var encounterTypes = TestData.TestEncounterTypes();
+            var systems = TestData.TestSubscriberSystem();
+            var translations = TestData.TestSubscriberTranslations();
 
             var modules = TestData.TestModules();
             var forms = TestData.TestForms();
@@ -51,6 +53,7 @@ namespace LiveHAPI.Infrastructure.Tests
             Create(context,
                 counties, facs, subCounties, practiceTypes, relationshipTypes, providerTypes, identifierTypes,
                 conceptTypes, encounterTypes,
+                systems,translations,
                 modules, forms, concepts, questions,
                 practices, practiceActivations,
                 persons, personNames, personAddresses, personContacts,
@@ -98,6 +101,10 @@ namespace LiveHAPI.Infrastructure.Tests
             context.RemoveRange(context.SubCounties);
             context.RemoveRange(context.MasterFacilities);
             context.RemoveRange(context.Counties);
+            
+            context.RemoveRange(context.SubscriberSystems);
+            context.RemoveRange(context.SubscriberTranslations);
+
             context.SaveChanges();
         }
     }

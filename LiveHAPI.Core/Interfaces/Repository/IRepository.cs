@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq.Expressions;
 using LiveHAPI.Shared.Model;
 
@@ -22,5 +23,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
         void Void(TId id);
 
         void Save();
+        IDbConnection GetDbConnection(bool open = true);
+        void CloseDbConnection();
     }
 }

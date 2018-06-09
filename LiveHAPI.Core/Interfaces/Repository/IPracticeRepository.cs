@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using LiveHAPI.Core.Dispatcher;
 using LiveHAPI.Core.Model.Network;
 
@@ -8,7 +9,12 @@ namespace LiveHAPI.Core.Interfaces.Repository
     {
         Practice GetDefault();
         Practice GetByCode(string code);
+        Practice GetByFacilityCode(string code);
         void Sync(Practice practice);
         void ResetDefault(Guid practiceId);
+
+        void Sync(IEnumerable<Practice> practices);
+        void ResetDefault(List<Guid> practiceIds);
+
     }
 }

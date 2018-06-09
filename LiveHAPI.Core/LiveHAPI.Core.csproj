@@ -1,23 +1,35 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Model\**" />
     <EmbeddedResource Remove="Model\**" />
     <None Remove="Model\**" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Include="Model\Encounters\ObsFamilyTraceResult.cs" />
     <Compile Include="Model\Encounters\ObsMemberScreening.cs" />
     <Compile Include="Model\Encounters\ObsPartnerScreening.cs" />
     <Compile Include="Model\Encounters\ObsPartnerTraceResult.cs" />
     <Compile Include="Model\Encounters\PSmartStore.cs" />
+    <Compile Include="Model\Exchange\EmrFacility.cs" />
+    <Compile Include="Model\Exchange\ClientFamilyScreeningStage.cs" />
+    <Compile Include="Model\Exchange\ClientPartnerScreeningStage.cs" />
+    <Compile Include="Model\Exchange\ClientPartnerTracingStage.cs" />
+    <Compile Include="Model\Exchange\ClientStageRelationship.cs" />
+    <Compile Include="Model\Exchange\ClientFinalTestStage.cs" />
+    <Compile Include="Model\Exchange\ClientTestingStage.cs" />
+    <Compile Include="Model\Exchange\ClientFamilyTracingStage.cs" />
+    <Compile Include="Model\Exchange\ClientTracingStage.cs" />
+    <Compile Include="Model\Exchange\ClientReferralStage.cs" />
+    <Compile Include="Model\Exchange\ClientPretestDisabilityStage.cs" />
+    <Compile Include="Model\Exchange\ClientLinkageStage.cs" />
+    <Compile Include="Model\Exchange\ClientPretestStage.cs" />
+    <Compile Include="Model\Exchange\ClientStage.cs" />
     <Compile Include="Model\Lookup\MasterFacility.cs" />
     <Compile Include="Model\People\ClientState.cs" />
+    <Compile Include="Model\People\TempClientRelationship.cs" />
     <Compile Include="Model\People\UserSummary.cs" />
     <Compile Include="Model\People\ClientSummary.cs" />
     <Compile Include="Model\People\PersonMatch.cs" />
@@ -29,6 +41,10 @@
     <Compile Include="Model\People\ClientAttribute.cs" />
     <Compile Include="Model\People\ClientIdentifier.cs" />
     <Compile Include="Model\People\ClientRelationship.cs" />
+    <Compile Include="Model\Setting\Endpoints.cs" />
+    <Compile Include="Model\Setting\ConnectionStrings.cs" />
+    <Compile Include="Model\Setting\DbProtocol.cs" />
+    <Compile Include="Model\Setting\RestProtocol.cs" />
     <Compile Include="Model\Studio\Concept.cs" />
     <Compile Include="Model\Studio\ConceptType.cs" />
     <Compile Include="Model\QModel\Condition.cs" />
@@ -75,13 +91,19 @@
     <Compile Include="Model\Subscriber\SubscriberConfig.cs" />
     <Compile Include="Model\Subscriber\SubscriberSystem.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Serilog" Version="2.6.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\LiveHAPI.Shared\LiveHAPI.Shared.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
+      <HintPath>C:\Users\koskedk\.nuget\packages\microsoft.aspnetcore.hosting.abstractions\2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

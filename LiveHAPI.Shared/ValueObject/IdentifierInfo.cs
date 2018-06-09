@@ -24,5 +24,7 @@ namespace LiveHAPI.Shared.ValueObject
             RegistrationDate = registrationDate;
             ClientId = clientId;
         }
+
+        
     }
 }

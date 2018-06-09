@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -16,16 +16,14 @@ namespace LiveHAPI.Controllers
     [Route("api/setup")]
     public class SetupController : Controller
     {
-        private readonly IPracticeRepository _configRepository;
+        private readonly IPracticeRepository _practiceRepository;
         private readonly IUserRepository _userRepository;
         private readonly IPersonRepository _personRepository;
-        private readonly ISetupFacilty _setupFacilty;
-        public SetupController(IPracticeRepository configRepository, IUserRepository userRepository, IPersonRepository personRepository, ISetupFacilty setupFacilty)
+        public SetupController(IPracticeRepository practiceRepository, IUserRepository userRepository, IPersonRepository personRepository)
         {
-            _configRepository = configRepository;
+            _practiceRepository = practiceRepository;
             _userRepository = userRepository;
             _personRepository = personRepository;
-            _setupFacilty = setupFacilty;
         }
 
         [HttpGet("fac")]
@@ -33,7 +31,7 @@ namespace LiveHAPI.Controllers
         {
             try
             {
-                var practice = _configRepository.GetDefault();
+                var practice = _practiceRepository.GetDefault();
                 return Ok(practice);
             }
             catch (Exception e)
@@ -49,7 +47,7 @@ namespace LiveHAPI.Controllers
             try
             {
                 Log.Debug("loading users from emr");
-                _setupFacilty.SyncUsers();
+                //_setupFacilty.SyncUsers();
             }
             catch (Exception e)
             {

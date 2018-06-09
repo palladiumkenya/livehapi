@@ -1,0 +1,74 @@
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="ui-g-12" *ngIf="dbSaved||epSaved" >
+            <div class="card card-w-title">
+
+            <p-messages [(value)]="sysMessages"></p-messages>
+            </div>
+        </div>
+
+        <div class="ui-g-6">
+            <div class="card card-w-title">
+                <h1>LiveHAPI Database Connection</h1>
+                <p-messages [(value)]="dbMessages"></p-messages>
+                <form [formGroup]="databaseForm" (ngSubmit)="saveDatabase()">
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12">
+                        <span class="md-inputfield" style="width: 80%">
+                            <input type="text" formControlName="server" pInputText style="width: 80%">
+                            <label>Server</label>
+                        </span>
+                        </div>
+                     </div>
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12">
+                        <span class="md-inputfield" style="width: 80%">
+                            <input type="text" formControlName="user" pInputText style="width: 80%">
+                            <label>User</label>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12">
+                        <span class="md-inputfield" style="width: 80%">
+                            <input type="password" formControlName="password" pInputText style="width: 80%">
+                            <label>Password</label>
+                        </span>
+                        </div>
+                    </div>
+                    <button pButton type="button" label="Verify" (click)="verifyServer()" [disabled]="databaseForm.invalid"></button>
+                    <!--<button pButton type="button" label="Verify Database" (click)="verifyDatabase()" [disabled]="databaseForm.invalid"></button>-->
+                    <button pButton type="submit" label="Save" [disabled]="databaseForm.invalid" class="green-btn"></button>
+                </form>
+            </div>
+        </div>
+        <div class="ui-g-6">
+            <div class="card card-w-title">
+                <h1>EMR Endpoint</h1>
+                <p-messages [(value)]="apiMessages"></p-messages>
+                <form [formGroup]="synForm" (ngSubmit)="saveEndpoint()">
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12">
+                    <span class="md-inputfield" style="width: 80%">
+                        <input type="text" formControlName="emr" pInputText style="width: 80%;color: green;opacity: 1">
+                        <label>Emr</label>
+                    </span>
+                        </div>
+                    </div>
+                <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                    <span class="md-inputfield" style="width: 80%">
+                        <input type="text" formControlName="iqcare" pInputText style="width: 80%">
+                        <label>Url</label>
+                    </span>
+                    </div>
+                    <div *ngIf="faclity" style="color: #ff8423;font-weight: bold">{{faclity?.facilityName}} - <span style="color: #3f51b5">{{faclity?.posID}}</span></div>
+
+                </div>
+                <button pButton type="button" (click)="verifyEndpoint()"  label="Verify"></button>
+                <button pButton type="submit" label="Save" class="green-btn"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

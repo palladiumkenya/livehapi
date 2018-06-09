@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using LiveHAPI.Core.Dispatcher;
-using LiveHAPI.Core.Events;
+using Hangfire;
 using LiveHAPI.Core.Interfaces.Handler;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
@@ -25,26 +24,16 @@ namespace LiveHAPI.Controllers
     private readonly IClientService _clientService;
     private readonly IEncounterService _encounterService;
     private readonly IPSmartStoreService _pSmartStoreService;
-    private readonly IClientSavedHandler _clientSavedHandler;
-    private readonly IEncounterSavedHandler _encounterSavedHandler;
-    private readonly ISubscriberSystemRepository _subscriberSystemRepository;
-    private readonly SubscriberSystem _subscriberSystem;
     private readonly ISummaryService _summaryService;
 
     public ClientsController(IClientService clientService, IEncounterService encounterService,
-      IClientSavedHandler clientSavedHandler, IEncounterSavedHandler encounterSavedHandler,
-      ISubscriberSystemRepository subscriberSystemRepository, ISummaryService summaryService,
+       ISummaryService summaryService,
       IPSmartStoreService pSmartStoreService)
     {
       _clientService = clientService;
       _encounterService = encounterService;
-      _clientSavedHandler = clientSavedHandler;
-      _encounterSavedHandler = encounterSavedHandler;
-      _subscriberSystemRepository = subscriberSystemRepository;
       _summaryService = summaryService;
       _pSmartStoreService = pSmartStoreService;
-
-      _subscriberSystem = _subscriberSystemRepository.GetDefault();
     }
 
     [Route("name/{name}")]
@@ -315,10 +304,9 @@ namespace LiveHAPI.Controllers
 
       try
       {
-        _clientService.SyncClient(client);
+          BackgroundJob.Enqueue(()=>_clientService.SmartSync(client));
 
-        SyncEventDispatcher.Raise(new ClientSaved(client), _clientSavedHandler, _subscriberSystem);
-
+          //SyncEventDispatcher.Raise(new ClientSaved(client), _clientSavedHandler, _subscriberSystem);
         return Ok();
       }
       catch (Exception e)
@@ -327,7 +315,7 @@ namespace LiveHAPI.Controllers
         return StatusCode(500, $"{e.Message}");
       }
     }
-    
+
     [HttpPost("encounters")]
     public IActionResult CreateEncounters([FromBody] List<EncounterInfo> encounters)
     {
@@ -336,10 +324,9 @@ namespace LiveHAPI.Controllers
 
       try
       {
-        _encounterService.Sync(encounters);
+          BackgroundJob.Enqueue(()=>_encounterService.Sync(encounters));
 
-        SyncEventDispatcher.Raise(new EncounterSaved(encounters), _encounterSavedHandler, _subscriberSystem);
-
+        //SyncEventDispatcher.Raise(new EncounterSaved(encounters), _encounterSavedHandler, _subscriberSystem);
         return Ok();
       }
       catch (Exception e)
@@ -355,19 +342,20 @@ namespace LiveHAPI.Controllers
       if (null == encounters)
         return BadRequest();
 
-      try
-      {
-        _pSmartStoreService.Sync(encounters);
+        try
+        {
+            //TODO: CHECK SHR Info
 
-        //SyncEventDispatcher.Raise(new EncounterSaved(encounters), _encounterSavedHandler, _subscriberSystem);
+            // BackgroundJob.Enqueue(() => _pSmartStoreService.Sync(encounters));
 
-        return Ok();
-      }
-      catch (Exception e)
-      {
-        Log.Error($"{e}");
-        return StatusCode(500, $"{e.Message}");
-      }
+            // SyncEventDispatcher.Raise(new EncounterSaved(encounters), _encounterSavedHandler, _subscriberSystem);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Log.Error($"{e}");
+            return StatusCode(500, $"{e.Message}");
+        }
     }
   }
 }

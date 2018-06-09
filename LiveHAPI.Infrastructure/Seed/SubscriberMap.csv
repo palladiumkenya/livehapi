@@ -71,3 +71,15 @@ f6ece9ca-3cd2-11e8-b467-0ed5f89f718b|PSmartStore|Status|Text|Psmart_Store|Status
 f6eceb82-3cd2-11e8-b467-0ed5f89f718b|PSmartStore|uuid|Text|Psmart_Store|uuid|Text|1|Single|||16E23866-9D69-11E7-ABC4-CEC278B6B50A
 f6eced4e-3cd2-11e8-b467-0ed5f89f718b|PSmartStore|Status_date|Date|Psmart_Store|Status_date|Date|1|Single|||16E23866-9D69-11E7-ABC4-CEC278B6B50A
 f6ecef56-3cd2-11e8-b467-0ed5f89f718b|PSmartStore|Date_created|Date|Psmart_Store|Date_created|Date|1|Single|||16E23866-9D69-11E7-ABC4-CEC278B6B50A
+
+02b80db6-5371-11e8-9c2d-fa7ae01bbebc|Obs|B260401E-852F-11E7-BB31-BE2E44B06B34|Concept|ClientPretestStage|TestedAs|Single|5||||16e23877-9d69-11e7-abc4-cec278b6b50a
+02b814fa-5371-11e8-9c2d-fa7ae01bbebc|Obs|B2605F54-852F-11E7-BB31-BE2E44B06B34|Concept|ClientPretestStage|TbScreening|Single|5||||16e23877-9d69-11e7-abc4-cec278b6b50a
+02b8177a-5371-11e8-9c2d-fa7ae01bbebc|Obs|B260665C-852F-11E7-BB31-BE2E44B06B34|Concept|ClientPretestStage|Remarks|Text|5||||16e23877-9d69-11e7-abc4-cec278b6b50a
+02b819e6-5371-11e8-9c2d-fa7ae01bbebc|Obs|B2603C5E-852F-11E7-BB31-BE2E44B06B34|Concept|ClientPretestDisabilityStage|Disabilities|Multi|5||||16e23877-9d69-11e7-abc4-cec278b6b50a
+02b81c3e-5371-11e8-9c2d-fa7ae01bbebc|Obs|B2603772-852F-11E7-BB31-BE2E44B06B34|Concept|ClientPretestStage|EverTested|Single|5||||16e23877-9d69-11e7-abc4-cec278b6b50a
+02b81e96-5371-11e8-9c2d-fa7ae01bbebc|Obs|B260417C-852F-11E7-BB31-BE2E44B06B34|Concept|ClientPretestStage|Strategy|Single|5||||16e23877-9d69-11e7-abc4-cec278b6b50a
+02b820da-5371-11e8-9c2d-fa7ae01bbebc|Obs|B26039A2-852F-11E7-BB31-BE2E44B06B34|Concept|ClientPretestStage|MonthsSinceLastTest|Numeric|5||||16e23877-9d69-11e7-abc4-cec278b6b50a
+02b827ba-5371-11e8-9c2d-fa7ae01bbebc|Obs|B2603DC6-852F-11E7-BB31-BE2E44B06B34|Concept|ClientPretestStage|Consent|Single|5||||16e23877-9d69-11e7-abc4-cec278b6b50a
+02b82b3e-5371-11e8-9c2d-fa7ae01bbebc|Obs|B26039A1-852F-11E7-BB31-BE2E44B06B34|Concept|ClientPretestStage|ServicePoint|Single|5||||16e23877-9d69-11e7-abc4-cec278b6b50a
+02b82dc8-5371-11e8-9c2d-fa7ae01bbebc|Obs|B2603773-852F-11E7-BB31-BE2E44B06B34|Concept|ClientPretestStage|SelfTest12Months|Single|5||||16e23877-9d69-11e7-abc4-cec278b6b50a
+02b83020-5371-11e8-9c2d-fa7ae01bbebc|Obs|B260695C-852F-11E7-BB31-BE2E44B06B34|Concept|ClientPretestStage|DisabilityIndicator|Single|5||||16e23877-9d69-11e7-abc4-cec278b6b50a

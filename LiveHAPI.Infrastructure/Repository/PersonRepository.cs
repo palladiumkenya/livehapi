@@ -35,6 +35,7 @@ namespace LiveHAPI.Infrastructure.Repository
                 .Include(x => x.Addresses)
                 .Include(x => x.Contacts)
                 .Include(x => x.Names)
+                .Include(x=>x.Providers)
                 .FirstOrDefault(x => x.Id == id);
         }
 
@@ -171,6 +172,50 @@ namespace LiveHAPI.Infrastructure.Repository
             }
 
             return personMatches;
+        }
+
+        public IEnumerable<Person> GetAllClients()
+        {
+            return Context.Persons
+                .Include(x => x.Names)
+                .Include(x => x.Addresses)
+                .Include(x => x.Contacts)
+                .Include(x => x.Clients)
+                .ThenInclude(y => y.Identifiers)
+                .Include(x => x.Clients)
+                .ThenInclude(y => y.ClientStates).AsNoTracking().ToList()
+                .Where(x => x.IsClient&&x.NotSynced);
+        }
+
+        public IEnumerable<Person> GetAllIndexClients()
+        {
+            return Context.Persons
+                .Include(x => x.Names)
+                .Include(x => x.Addresses)
+                .Include(x => x.Contacts)
+                .Include(x => x.Clients)
+                .ThenInclude(y => y.Identifiers)
+                .Include(x => x.Clients)
+                .ThenInclude(y => y.ClientStates).AsNoTracking().ToList()
+                .Where(x => x.IsHtsClient);
+        }
+
+        public IEnumerable<Person> GetAllSecondaryClients()
+        {
+            return Context.Persons
+                .Include(x => x.Names)
+                .Include(x => x.Addresses)
+                .Include(x => x.Contacts)
+                .Include(x => x.Clients)
+                .ThenInclude(y => y.Identifiers)
+                .Include(x => x.Clients)
+                .ThenInclude(y => y.ClientStates).AsNoTracking().ToList()
+                .Where(x =>x.IsClient&& !x.IsHtsClient);
+        }
+
+        public IEnumerable<Person> GetContacts(Guid clientId)
+        {
+            throw new NotImplementedException();
         }
 
         private int GetHit(Guid personId, List<SearchHit> searchHits)

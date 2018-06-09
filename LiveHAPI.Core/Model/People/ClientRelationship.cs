@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
@@ -17,6 +18,18 @@ namespace LiveHAPI.Core.Model.People
         public Guid ClientId { get; set; }
         public bool? IsIndex { get; set; }
 
+        [NotMapped]
+        public bool IsPartner
+        {
+            get { return RelationshipTypeId.IsSameAs("Cowife") || RelationshipTypeId.IsSameAs("Partner") || RelationshipTypeId.IsSameAs("Spouse"); }
+        }
+
+        [NotMapped]
+        public bool ClientIsIndex
+        {
+            get { return null != IsIndex && !IsIndex.Value; }
+        }
+
         public ClientRelationship()
         {
             Id = LiveGuid.NewGuid();
@@ -29,11 +42,19 @@ namespace LiveHAPI.Core.Model.People
             IsIndex = isIndex;
         }
 
+        public ClientRelationship(Guid id, Guid relatedClientId, string relationshipTypeId, bool? isIndex, Guid clientId) : this( id,  relatedClientId, relationshipTypeId,  isIndex)
+        {
+            ClientId = clientId;
+        }
+
         public static ClientRelationship Create(RelationshipInfo address)
         {
             return new ClientRelationship(address.Id, address.RelatedClientId, address.RelationshipTypeId,address.IsIndex);
         }
-
+        public static ClientRelationship CreateNew(RelationshipInfo address)
+        {
+            return new ClientRelationship(address.Id, address.RelatedClientId, address.RelationshipTypeId, address.IsIndex,address.ClientId);
+        }
         public static List<ClientRelationship> Create(ClientInfo clientInfo)
         {
             var list = new List<ClientRelationship>();
@@ -41,6 +62,16 @@ namespace LiveHAPI.Core.Model.People
             foreach (var address in clientInfo.Relationships)
             {
                 list.Add(Create(address));
+            }
+            return list;
+        }
+        public static List<ClientRelationship> Create(List<RelationshipInfo> clientInfo)
+        {
+            var list = new List<ClientRelationship>();
+
+            foreach (var address in clientInfo)
+            {
+                list.Add(CreateNew(address));
             }
             return list;
         }

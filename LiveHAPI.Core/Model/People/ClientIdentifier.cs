@@ -23,6 +23,12 @@ namespace LiveHAPI.Core.Model.People
             Id = LiveGuid.NewGuid();
         }
 
+        private ClientIdentifier(Guid id, string identifierTypeId, string identifier, DateTime registrationDate,  Guid clientId) : this(id,  identifierTypeId,  identifier,  registrationDate)
+        {
+            
+            ClientId = clientId;
+        }
+
         private ClientIdentifier(Guid id, string identifierTypeId, string identifier, DateTime registrationDate):base(id)
         {
             IdentifierTypeId = identifierTypeId;
@@ -39,14 +45,28 @@ namespace LiveHAPI.Core.Model.People
         {
             return new ClientIdentifier(address.Id, address.IdentifierTypeId, address.Identifier, address.RegistrationDate);
         }
-
+        public static ClientIdentifier CreateNew(IdentifierInfo address)
+        {
+            return new ClientIdentifier(address.Id, address.IdentifierTypeId, address.Identifier, address.RegistrationDate,address.ClientId);
+        }
         public static List<ClientIdentifier> Create(ClientInfo clientInfo)
         {
             var list = new List<ClientIdentifier>();
 
             foreach (var address in clientInfo.Identifiers)
             {
-                list.Add(Create(address));
+                list.Add(CreateNew(address));
+            }
+            return list;
+        }
+
+        public static List<ClientIdentifier> Create(List<IdentifierInfo> clientInfo)
+        {
+            var list = new List<ClientIdentifier>();
+
+            foreach (var address in clientInfo)
+            {
+                list.Add(CreateNew(address));
             }
             return list;
         }

@@ -43,59 +43,95 @@ namespace LiveHAPI.Infrastructure
 
         public static void EnsureSeeded(this LiveHAPIContext context)
         {
-            var x= new CsvHelper.Configuration.CsvConfiguration();
+            var x = new CsvHelper.Configuration.CsvConfiguration();
             x.Delimiter = "|";
             x.TrimFields = true;
             x.TrimHeaders = true;
             x.WillThrowOnMissingField = false;
 
-
             using (var transaction = context.Database.BeginTransaction())
             {
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<County>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubCounty>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<PracticeType>());
+                if (!context.Counties.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<County>());
+                if (!context.SubCounties.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<SubCounty>());
+                if (!context.PracticeTypes.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<PracticeType>());
+                if (!context.MasterFacilities.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<MasterFacility>());
+                if (!context.Practices.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<Practice>());
 
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<MasterFacility>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Practice>());
+                if (!context.Actions.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<Core.Model.QModel.Action>());
+                if (!context.Conditions.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<Condition>());
+                if (!context.KeyPops.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<KeyPop>());
+                if (!context.MaritalStatuses.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<MaritalStatus>());
+                if (!context.ProviderTypes.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<ProviderType>());
+                if (!context.RelationshipTypes.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<RelationshipType>());
+                if (!context.ConceptTypes.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<ConceptType>());
+                if (!context.EncounterTypes.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<EncounterType>());
+                if (!context.IdentifierTypes.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<IdentifierType>());
+                if (!context.ValidatorTypes.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<ValidatorType>());
+                if (!context.Validators.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<Validator>());
 
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Core.Model.QModel.Action>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Condition>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<KeyPop>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<MaritalStatus>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<ProviderType>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<RelationshipType>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<ConceptType>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<EncounterType>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<IdentifierType>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<ValidatorType>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Validator>());
+                if (!context.Categories.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<Category>());
+                if (!context.Items.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<Item>());
+                if (!context.CategoryItems.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<CategoryItem>());
+                if (!context.Persons.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<Person>());
+                if (!context.PersonNames.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<PersonName>());
+                if (!context.Providers.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<Provider>());
+                if (!context.Users.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<User>());
 
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Category>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Item>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<CategoryItem>());
-                
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Person>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<PersonName>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Provider>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<User>());
+                if (!context.Modules.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<Module>());
+                if (!context.Forms.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<Form>());
+                if (!context.Programs.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<FormProgram>());
+                if (!context.Concepts.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<Concept>());
+                if (!context.Questions.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<Question>());
+                if (!context.QuestionBranches.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<QuestionBranch>());
+                if (!context.QuestionRemoteTransformations.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<QuestionRemoteTransformation>());
+                if (!context.QuestionReValidations.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<QuestionReValidation>());
+                if (!context.QuestionTransformation.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<QuestionTransformation>());
+                if (!context.QuestionValidations.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<QuestionValidation>());
 
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Module>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Form>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<FormProgram>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Concept>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Question>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<QuestionBranch>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<QuestionRemoteTransformation>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<QuestionReValidation>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<QuestionTransformation>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<QuestionValidation>());
+                if (!context.SubscriberSystems.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<SubscriberSystem>());
+                if (!context.SubscriberConfigs.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<SubscriberConfig>());
+                if (!context.SubscriberMaps.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<SubscriberMap>());
+                if (!context.SubscriberTranslations.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<SubscriberTranslation>());
+                if (!context.SubscriberCohorts.Any())
+                    context.BulkInsert(InitialSeeder.ReadCsv<SubscriberCohort>());
 
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberSystem>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberConfig>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberMap>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberTranslation>());
-                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberCohort>());
                 transaction.Commit();
             }
         }

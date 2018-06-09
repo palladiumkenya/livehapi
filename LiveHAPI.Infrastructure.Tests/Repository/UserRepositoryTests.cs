@@ -83,6 +83,41 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
         }
 
         [Test]
+        public void should_Sync_Mulitiple_New_User()
+        {
+            var practice = TestData.TestPractices().First();
+
+            var users = Builder<User>.CreateListOfSize(3).All()
+                .With(x => x.UserName = DateTime.Now.Ticks.ToString())
+                .With(x => x.PracticeId = practice.Id)
+                .Build();
+
+            _userRepository.Sync(users);
+
+            _userRepository=new UserRepository(_context);
+            _personRepository=new PersonRepository(_context);
+
+            foreach (var user in users)
+            {
+                var newUser = _userRepository.Get(user.Id);
+                Assert.IsNotNull(newUser);
+                Assert.IsNotNull(newUser.PersonId);
+                Assert.AreEqual(user.UserName, newUser.UserName);
+
+                var p = _personRepository.GetDemographics(newUser.PersonId);
+                Assert.NotNull(p);
+                Assert.AreEqual(user.Source, p.Names.First().FirstName);
+                Assert.AreEqual(user.SourceSys, p.Names.First().LastName);
+                Assert.True(p.HasDOB());
+                Assert.True(p.HasGender());
+                Assert.True(p.HasDOBEstimate());
+                Assert.True(p.Providers.Count > 0);
+                Assert.True(p.Users.Count > 0);
+                Console.WriteLine(newUser);
+            }
+        }
+
+        [Test]
         public void should_Sync_Updated_User()
         {
             var user = TestData.TestUsers().First();
