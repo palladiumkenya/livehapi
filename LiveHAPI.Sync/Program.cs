@@ -74,7 +74,7 @@ namespace LiveHAPI.Sync
                 try
                 {
                     HapiSettingsView = _startup.LoadSettings().Result;
-                    if (null != HapiSettingsView)
+                    if (null != HapiSettingsView) 
                     {
                         Log.Debug($"LiveHAPI CONNECTED");
                         Log.Debug($"verifying LiveHAPI settings...");
