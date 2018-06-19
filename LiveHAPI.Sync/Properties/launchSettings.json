@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "LiveHAPI.Sync": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

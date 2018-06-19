@@ -20,8 +20,8 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
     [TestFixture]
     public class IndexClientMessageWriterTests
     {
-      //  private readonly string _baseUrl = "http://localhost:3333";
-        private readonly string _baseUrl = "http://localhost:3333";
+        //  private readonly string _baseUrl = "http://localhost:3333";
+        private readonly string _baseUrl = "http://localhost/iqcareapi";
         private readonly bool goLive = true;
         private LiveHAPIContext _context;
         private IPracticeRepository _practiceRepository;
@@ -91,8 +91,19 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
 
             var clientsResponses = _clientMessageWriter.Write().Result.ToList();
+            
             foreach (var message in _clientMessageWriter.Messages)
+            {
+                    
                 Assert.False(string.IsNullOrWhiteSpace(message));
+               
+            }
+
+            var stagedIndexClients = _clientStageRepository.GetIndexClients();
+            Assert.False(stagedIndexClients.Any());
+
+          
+
 
             if (_clientMessageWriter.Errors.Any())
                 foreach (var e in _clientMessageWriter.Errors)

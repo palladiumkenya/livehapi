@@ -72,7 +72,7 @@ namespace LiveHAPI.Sync.Core.Loader
 
             foreach (var stagedClient in stagedIndexClients)
             {
-
+              
                 #region PATIENT_IDENTIFICATION
 
                 var pid = PATIENT_IDENTIFICATION.Create(stagedClient);
@@ -101,7 +101,7 @@ namespace LiveHAPI.Sync.Core.Loader
                 else
                 {
                     messages.Add(new IndexClientMessage(header,
-                        new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)}));
+                        new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)}, stagedClient.ClientId));
                 }
             }
 
@@ -145,7 +145,7 @@ namespace LiveHAPI.Sync.Core.Loader
             encounter = ENCOUNTERS.Create(placerDetail, preTest, hivTests, null, new List<NewTracing>(), null);
 
             return new IndexClientMessage(header,
-                new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)});
+                new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)},stagedClient.ClientId);
 
         }
 
@@ -196,7 +196,7 @@ namespace LiveHAPI.Sync.Core.Loader
             encounter = ENCOUNTERS.Create(lastplacerDetail,null, null,newReferral,newTracings,newLinkage);
 
             return new IndexClientMessage(header,
-                new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)});
+                new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)},stagedClient.ClientId);
         }
         
     }

@@ -81,6 +81,7 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
 
             var indexClientMessages = _clientMessageLoader.Load(null).Result.ToList();
             Assert.True(indexClientMessages.Any());
+            Assert.False(indexClientMessages.Any(x=>x.ClientId.IsNullOrEmpty()));
             foreach (var m in indexClientMessages)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(m));

@@ -20,7 +20,7 @@ namespace LiveHAPI.Sync.Core.Tests.Service
     [TestFixture]
     public class SyncClientServiceTest
     {
-        private readonly string _baseUrl = "http://localhost:3333";
+        private readonly string _baseUrl = "http://localhost/iqcareapi";
         private LiveHAPIContext _context;
         private IUserRepository _repository;
         private ISyncClientsService _service;
