@@ -87,8 +87,8 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
         [Test]
         public void should_Write_Clients()
         {
-            var clients = _clientStageExtractor.ExtractAndStage().Result;
-            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
+//            var clients = _clientStageExtractor.ExtractAndStage().Result;
+//            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
 
             var clientsResponses = _clientMessageWriter.Write().Result.ToList();
             
@@ -135,8 +135,8 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
         [TestCase(LoadAction.Tracing)]
         public void should_Write_Client_By_Actions(params LoadAction[] actions)
         {
-            var clients = _clientStageExtractor.ExtractAndStage().Result;
-            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
+//            var clients = _clientStageExtractor.ExtractAndStage().Result;
+//            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
 
             var clientsResponses = _clientMessageWriter.Write(actions).Result.ToList();
             foreach (var message in _clientMessageWriter.Messages)

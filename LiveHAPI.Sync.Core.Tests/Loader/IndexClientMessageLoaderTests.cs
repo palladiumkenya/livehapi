@@ -74,10 +74,10 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
         [Test]
         public void should_Load_By_Client()
         {
-            var clients = _clientStageExtractor.ExtractAndStage().Result;
-            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
-            Assert.True(clients==1);
-            Assert.True(pretests == 1);
+//            var clients = _clientStageExtractor.ExtractAndStage().Result;
+//            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
+//            Assert.True(clients==1);
+//            Assert.True(pretests == 1);
 
             var indexClientMessages = _clientMessageLoader.Load(null).Result.ToList();
             Assert.True(indexClientMessages.Any());

@@ -94,9 +94,13 @@ namespace LiveHAPI.Sync.Core.Loader
                         messages.Add(pretestEncounter);
                     }
 
-                    var nonPretest = await CreateNonPretestEncounters(header, pid, stagedClient, lastPretest, actions);
-                    if (null != nonPretest)
-                        messages.Add(nonPretest);
+                    if (null != lastPretest)
+                    {
+                        var nonPretest =
+                            await CreateNonPretestEncounters(header, pid, stagedClient, lastPretest, actions);
+                        if (null != nonPretest)
+                            messages.Add(nonPretest);
+                    }
                 }
                 else
                 {
