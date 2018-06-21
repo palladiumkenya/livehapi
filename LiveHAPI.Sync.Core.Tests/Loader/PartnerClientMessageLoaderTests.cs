@@ -39,7 +39,7 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
+            var connectionString = config["connectionStrings:livehAPIConnection"];
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;
@@ -66,6 +66,20 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
                 new ClientRepository(_context));
             _clientStageRelationshipExtractor = new ClientStageRelationshipExtractor(new ClientRelationshipRepository(_context), new ClientStageRelationshipRepository(_context), _subscriberSystemRepository);
 
+        }
+
+        [Test]
+        [Category("live")]
+        public void should_Load()
+        {
+            var indexClientMessages = _clientMessageLoader.Load(null).Result.ToList();
+            Assert.True(indexClientMessages.Any());
+            Assert.False(indexClientMessages.Any(x => x.ClientId.IsNullOrEmpty()));
+            foreach (var m in indexClientMessages)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(m, Formatting.Indented));
+                Console.WriteLine(new string('=', 50));
+            }
         }
 
         [Test]

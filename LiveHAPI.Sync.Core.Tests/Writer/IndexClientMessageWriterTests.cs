@@ -85,10 +85,46 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
         }
 
         [Test]
+        [Category("live")]
         public void should_Write_Clients()
         {
-//            var clients = _clientStageExtractor.ExtractAndStage().Result;
-//            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
+            var clientsResponses = _clientMessageWriter.Write().Result.ToList();
+
+            foreach (var message in _clientMessageWriter.Messages)
+            {
+
+                Assert.False(string.IsNullOrWhiteSpace(message));
+
+            }
+
+            var stagedIndexClients = _clientStageRepository.GetIndexClients();
+            Assert.False(stagedIndexClients.Any());
+            if (_clientMessageWriter.Errors.Any())
+                foreach (var e in _clientMessageWriter.Errors)
+                {
+                    Console.WriteLine(e.Message);
+
+                    Console.WriteLine(new string('*', 40));
+                }
+
+            foreach (var message in _clientMessageWriter.Messages)
+            {
+                Console.WriteLine(message);
+                Console.WriteLine(new string('|', 40));
+            }
+
+            Assert.True(clientsResponses.Any());
+            foreach (var response in clientsResponses)
+            {
+                Console.WriteLine(response);
+            }
+        }
+
+        [Test]
+        public void should_Load_Write_Clients()
+        {
+            var clients = _clientStageExtractor.ExtractAndStage().Result;
+            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
 
             var clientsResponses = _clientMessageWriter.Write().Result.ToList();
             

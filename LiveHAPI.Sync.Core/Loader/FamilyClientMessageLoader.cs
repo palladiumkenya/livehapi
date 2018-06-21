@@ -118,7 +118,7 @@ namespace LiveHAPI.Sync.Core.Loader
                     }
 
                     messages.Add(new FamilyClientMessage(header,
-                        new List<FAMILY> {new FAMILY(pid, encounter)}));
+                        new List<FAMILY> {new FAMILY(pid, encounter)}, stagedClient.ClientId));
 
                 }
             }

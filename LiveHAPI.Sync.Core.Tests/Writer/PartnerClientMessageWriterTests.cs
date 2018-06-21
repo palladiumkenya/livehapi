@@ -20,7 +20,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
     [TestFixture]
     public class PartnerClientMessageWriterTests
     {
-        private readonly string _baseUrl = "http://localhost:3333";
+        private readonly string _baseUrl = "http://localhost/iqcareapi";
 
         private LiveHAPIContext _context;
         private IPracticeRepository _practiceRepository;
@@ -44,7 +44,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
+            var connectionString = config["connectionStrings:livehAPIConnection"];
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;
@@ -76,7 +76,32 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
         }
 
         [Test]
+        [Category("live")]
         public void should_Write_Clients()
+        {
+            var clientsResponses = _clientMessageWriter.Write().Result.ToList();
+            foreach (var message in _clientMessageWriter.Messages)
+                Assert.False(string.IsNullOrWhiteSpace(message));
+
+            if (_clientMessageWriter.Errors.Any())
+                foreach (var e in _clientMessageWriter.Errors)
+                {
+                    Console.WriteLine(e.Message);
+
+                    Console.WriteLine(new string('*', 40));
+                }
+
+            foreach (var message in _clientMessageWriter.Messages)
+                Console.WriteLine(message);
+            Assert.True(clientsResponses.Any());
+            foreach (var response in clientsResponses)
+            {
+                Console.WriteLine(response);
+            }
+        }
+
+        [Test]
+        public void should_Load_Write_Clients()
         {
             var clients = _clientStageExtractor.ExtractAndStage().Result;
             var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;

@@ -72,25 +72,40 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
         }
 
         [Test]
+        [Category("live")]
         public void should_Load_By_Client()
         {
-//            var clients = _clientStageExtractor.ExtractAndStage().Result;
-//            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
-//            Assert.True(clients==1);
-//            Assert.True(pretests == 1);
+            var indexClientMessages = _clientMessageLoader.Load(null).Result.ToList();
+            Assert.True(indexClientMessages.Any());
+            Assert.False(indexClientMessages.Any(x => x.ClientId.IsNullOrEmpty()));
+            foreach (var m in indexClientMessages)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(m,Formatting.Indented));
+                Console.WriteLine(new string('=', 50));
+            }
+        }
+
+
+        [Test]
+        public void should_Extract_Load_By_Client()
+        {
+            var clients = _clientStageExtractor.ExtractAndStage().Result;
+            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
+            Assert.True(clients == 1);
+            Assert.True(pretests == 1);
 
             var indexClientMessages = _clientMessageLoader.Load(null).Result.ToList();
             Assert.True(indexClientMessages.Any());
-            Assert.False(indexClientMessages.Any(x=>x.ClientId.IsNullOrEmpty()));
+            Assert.False(indexClientMessages.Any(x => x.ClientId.IsNullOrEmpty()));
             foreach (var m in indexClientMessages)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(m));
-                Console.WriteLine(new string('=',50));
+                Console.WriteLine(new string('=', 50));
             }
-//            var r = indexClientMessages.First();
-//            Console.WriteLine(JsonConvert.SerializeObject(r));
+            var r = indexClientMessages.First();
+            Console.WriteLine(JsonConvert.SerializeObject(r));
         }
-        
+
         [TestCase(LoadAction.RegistrationOnly)]
         [TestCase(LoadAction.Pretest)]
         [TestCase(LoadAction.Pretest,LoadAction.Testing)]
