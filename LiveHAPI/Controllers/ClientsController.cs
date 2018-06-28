@@ -296,44 +296,40 @@ namespace LiveHAPI.Controllers
       }
     }
 
-    [HttpPost("demographics")]
-    public IActionResult CreateClients([FromBody] ClientInfo client)
-    {
-      if (null == client)
-        return BadRequest();
-
-      try
+      [HttpPost("demographics")]
+      public IActionResult CreateClients([FromBody] ClientInfo client)
       {
-          BackgroundJob.Enqueue(()=>_clientService.SmartSync(client));
+          if (null == client)
+              return BadRequest();
 
-          //SyncEventDispatcher.Raise(new ClientSaved(client), _clientSavedHandler, _subscriberSystem);
-        return Ok();
+          try
+          {
+              BackgroundJob.Enqueue(() => _clientService.SmartSync(client));
+              return Ok();
+          }
+          catch (Exception e)
+          {
+              Log.Error($"{e}");
+              return StatusCode(500, $"{e.Message}");
+          }
       }
-      catch (Exception e)
-      {
-        Log.Error($"{e}");
-        return StatusCode(500, $"{e.Message}");
-      }
-    }
 
-    [HttpPost("encounters")]
+      [HttpPost("encounters")]
     public IActionResult CreateEncounters([FromBody] List<EncounterInfo> encounters)
     {
       if (null == encounters)
         return BadRequest();
 
-      try
-      {
-          BackgroundJob.Enqueue(()=>_encounterService.Sync(encounters));
-
-        //SyncEventDispatcher.Raise(new EncounterSaved(encounters), _encounterSavedHandler, _subscriberSystem);
-        return Ok();
-      }
-      catch (Exception e)
-      {
-        Log.Error($"{e}");
-        return StatusCode(500, $"{e.Message}");
-      }
+        try
+        {
+            BackgroundJob.Enqueue(() => _encounterService.Sync(encounters));
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Log.Error($"{e}");
+            return StatusCode(500, $"{e.Message}");
+        }
     }
 
     [HttpPost("shrs")]

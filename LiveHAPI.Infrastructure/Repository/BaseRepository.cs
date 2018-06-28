@@ -44,7 +44,7 @@ namespace LiveHAPI.Infrastructure.Repository
             DbSet.Add(entity);
         }
 
-        public void Insert(IEnumerable<T> entities)
+        public virtual void Insert(IEnumerable<T> entities)
         {
             DbSet.AddRange(entities);
         }

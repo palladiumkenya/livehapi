@@ -137,6 +137,10 @@ namespace LiveHAPI.Infrastructure
         
         
         public DbSet<TempClientRelationship> TempClientRelationships { get; set; }
+
+
+        public DbSet<InvalidMessage> InvalidMessages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -157,6 +161,7 @@ namespace LiveHAPI.Infrastructure
             DapperPlusManager.Entity<ClientPretestStage>().Table("ClientPretestStages").Key(x => x.Id);
             DapperPlusManager.Entity<ClientPretestDisabilityStage>().Table("ClientPretestDisabilityStages").Key(x => x.Id);
             DapperPlusManager.Entity<ClientStageRelationship>().Table("ClientStageRelationships").Key(x => x.Id);
+            DapperPlusManager.Entity<InvalidMessage>().Table("InvalidMessages").Key(x => x.Id);
         }
     }
 }

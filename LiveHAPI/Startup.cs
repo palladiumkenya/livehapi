@@ -109,6 +109,7 @@ namespace LiveHAPI
             services.AddScoped<IClientSummaryRepository, ClientSummaryRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<IPSmartStoreRepository, PSmartStoreRepository>();
+            services.AddScoped<IInvalidMessageRepository, InvalidMessageRepository>();
 
             services.AddScoped<IMetaService, MetaService>();
             services.AddScoped<IStaffService, StaffService>();

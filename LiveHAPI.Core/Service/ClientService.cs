@@ -5,10 +5,13 @@ using AutoMapper;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Encounters;
+using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Shared.Enum;
 using LiveHAPI.Shared.ValueObject;
+using Newtonsoft.Json;
+using Serilog;
 
 namespace LiveHAPI.Core.Service
 {
@@ -17,13 +20,14 @@ namespace LiveHAPI.Core.Service
         private readonly IPracticeRepository _practiceRepository;
         private readonly IPersonRepository _personRepository;
         private readonly IClientRepository _clientRepository;
+        private readonly IInvalidMessageRepository _invalidMessageRepository;
         
-        
-        public ClientService(IPracticeRepository practiceRepository, IPersonRepository personRepository, IClientRepository clientRepository)
+        public ClientService(IPracticeRepository practiceRepository, IPersonRepository personRepository, IClientRepository clientRepository, IInvalidMessageRepository invalidMessageRepository)
         {
             _practiceRepository = practiceRepository;
             _personRepository = personRepository;
             _clientRepository = clientRepository;
+            _invalidMessageRepository = invalidMessageRepository;
         }
 
         public IEnumerable<PersonMatch> FindById(Guid id)
@@ -169,41 +173,50 @@ namespace LiveHAPI.Core.Service
             var personInfo = client.Person;
             var exisitngPerson = _personRepository.GetDemographics(personInfo.Id);
 
-            if (null == exisitngPerson)
+            try
             {
-                var person = Person.CreateClient(personInfo);
-                _personRepository.Insert(person);
-                _personRepository.Save();
-
-                //client
-                var cient = Client.Create(client, client.PracticeId.Value, person.Id);
-              
-               
-                _clientRepository.Insert(cient);
-                _clientRepository.Save();
-            }
-            else
-            {
-                exisitngPerson.UpdateClient(personInfo);
-                _personRepository.Update(exisitngPerson);
-                _personRepository.Save();
-
-                var existingClient = _clientRepository.GetClient(client.Id, false);
-
-                if (null != existingClient)
+                if (null == exisitngPerson)
                 {
-                    existingClient.Update(client);
-                    _clientRepository.Update(existingClient);
+                    var person = Person.CreateClient(personInfo);
+                    _personRepository.Insert(person);
+                    _personRepository.Save();
+
+                    //client
+                    var cient = Client.Create(client, client.PracticeId.Value, person.Id);
+
+
+                    _clientRepository.Insert(cient);
                     _clientRepository.Save();
                 }
                 else
                 {
-                    var cient = Client.Create(client, client.PracticeId.Value, exisitngPerson.Id);
-                    
-                    _clientRepository.Insert(cient);
-                    _clientRepository.Save();
+                    exisitngPerson.UpdateClient(personInfo);
+                    _personRepository.Update(exisitngPerson);
+                    _personRepository.Save();
+
+                    var existingClient = _clientRepository.GetClient(client.Id, false);
+
+                    if (null != existingClient)
+                    {
+                        existingClient.Update(client);
+                        _clientRepository.Update(existingClient);
+                        _clientRepository.Save();
+                    }
+                    else
+                    {
+                        var cient = Client.Create(client, client.PracticeId.Value, exisitngPerson.Id);
+
+                        _clientRepository.Insert(cient);
+                        _clientRepository.Save();
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                Log.Error(e, "Error saving encounter");
+                Preserve(client);
+            }
+            
            
             //STATES
             var allstates = Mapper.Map<List<ClientState>>(states);
@@ -222,6 +235,20 @@ namespace LiveHAPI.Core.Service
                 _clientRepository.UpdateTempRelations(clientRelationships);
                 _clientRepository.UpdateRelationships();
              }
+        }
+
+        public void Preserve(ClientInfo client)
+        {
+            try
+            {
+                _invalidMessageRepository.Insert(new InvalidMessage(client.Id, MessageType.Client, JsonConvert.SerializeObject(client), client.PracticeId));
+                _invalidMessageRepository.Save();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "Preserve error");
+            }
+            
         }
     }
 }

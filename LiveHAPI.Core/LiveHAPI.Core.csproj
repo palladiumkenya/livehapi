@@ -13,6 +13,7 @@
     <Compile Include="Model\Encounters\ObsPartnerScreening.cs" />
     <Compile Include="Model\Encounters\ObsPartnerTraceResult.cs" />
     <Compile Include="Model\Encounters\PSmartStore.cs" />
+    <Compile Include="Model\Exchange\InvalidMessage.cs" />
     <Compile Include="Model\Exchange\EmrFacility.cs" />
     <Compile Include="Model\Exchange\ClientFamilyScreeningStage.cs" />
     <Compile Include="Model\Exchange\ClientPartnerScreeningStage.cs" />

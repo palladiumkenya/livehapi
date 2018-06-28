@@ -17,5 +17,6 @@ namespace LiveHAPI.Core.Interfaces.Services
         void Sync(Guid practiceId, ClientInfo clients);
         void SyncClient(ClientInfo client);
         void SmartSync(ClientInfo client);
+        void Preserve(ClientInfo client);
     }
 }
