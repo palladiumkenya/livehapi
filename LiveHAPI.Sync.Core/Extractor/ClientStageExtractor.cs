@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.Exchange;
+using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Enum;
 using LiveHAPI.Sync.Core.Interface.Extractors;
 
@@ -43,7 +44,7 @@ namespace LiveHAPI.Sync.Core.Extractor
                 clients.Add(ClientStage.Create(person, subscriber));
             }
 
-            return clients;
+            return clients.Where(x => !x.Id.IsNullOrEmpty());
         }
 
         public async Task<int> ExtractAndStage()

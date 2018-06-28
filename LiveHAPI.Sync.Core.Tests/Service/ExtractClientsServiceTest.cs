@@ -70,8 +70,8 @@ namespace LiveHAPI.Sync.Core.Tests.Service
             var clientStages = _clientStageRepository.GetAll();
             Assert.True(clientStages.Any(x=>x.SyncStatus == SyncStatus.Staged));
             
-//            var clientRelStages = _clientStageRelationshipRepository.GetAll();
-//            Assert.True(clientRelStages.Any());
+            var clientRelStages = _clientStageRelationshipRepository.GetAll();
+            Assert.True(clientRelStages.Any());
             
             var clients = _clientRepository.GetAll();
             Assert.True(clients.Any(x=>x.SyncStatus==SyncStatus.Synced));

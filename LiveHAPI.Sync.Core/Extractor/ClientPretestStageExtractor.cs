@@ -63,7 +63,9 @@ namespace LiveHAPI.Sync.Core.Extractor
                 {
                     foreach (var finalResult in pretests)
                     {
-                        pretestStages.Add(ClientPretestStage.Create(encounterType,finalResult, subscriber));
+                        var stage = ClientPretestStage.Create(encounterType, finalResult, subscriber);
+                        if (null != stage)
+                            pretestStages.Add(stage);
                     }
                 }
             }
