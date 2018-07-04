@@ -121,14 +121,14 @@ namespace LiveHAPI.Infrastructure
                 if (!context.QuestionValidations.Any())
                     context.BulkInsert(InitialSeeder.ReadCsv<QuestionValidation>());
 
-                if (!context.SubscriberSystems.Any())
-                    context.BulkInsert(InitialSeeder.ReadCsv<SubscriberSystem>());
+                // Update
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberSystem>());
                 if (!context.SubscriberConfigs.Any())
                     context.BulkInsert(InitialSeeder.ReadCsv<SubscriberConfig>());
-                if (!context.SubscriberMaps.Any())
-                    context.BulkInsert(InitialSeeder.ReadCsv<SubscriberMap>());
-                if (!context.SubscriberTranslations.Any())
-                    context.BulkInsert(InitialSeeder.ReadCsv<SubscriberTranslation>());
+                // Update
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberMap>());
+                // Update
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberTranslation>());
                 if (!context.SubscriberCohorts.Any())
                     context.BulkInsert(InitialSeeder.ReadCsv<SubscriberCohort>());
 

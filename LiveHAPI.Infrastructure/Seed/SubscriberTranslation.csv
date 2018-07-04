@@ -166,6 +166,7 @@ fda1764e-4edb-11e8-9c2d-fa7ae01bbebc|MaritalStatus|W|Widowed|1437|Widowed|HTSMar
 fda17770-4edb-11e8-9c2d-fa7ae01bbebc|MaritalStatus|MP|Married Polygamous|60|Married Polygamous|HTSMaritalStatus|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda17892-4edb-11e8-9c2d-fa7ae01bbebc|MaritalStatus|MM|Married Monogamous|57|Married Monogamous|HTSMaritalStatus|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda179b4-4edb-11e8-9c2d-fa7ae01bbebc|MaritalStatus|SP|Separated|61|Separated|HTSMaritalStatus|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
+fda179b9-4edb-11e8-9c2d-fa7ae01bbebc|MaritalStatus|NA|Not Applicable|1552|Not Applicable|HTSMaritalStatus|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda17cb6-4edb-11e8-9c2d-fa7ae01bbebc|ObsTraceResult.Outcome|b25f0a50-852f-11e7-bb31-be2e44b06b34|Contacted|1522|Contacted|TracingOutcome|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda17df6-4edb-11e8-9c2d-fa7ae01bbebc|ObsTraceResult.Outcome|b25f0a51-852f-11e7-bb31-be2e44b06b34|Contacted and Linked|1523|Contacted and Linked|TracingOutcome|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda17f18-4edb-11e8-9c2d-fa7ae01bbebc|ObsTraceResult.Outcome|b25f102c-852f-11e7-bb31-be2e44b06b34|Not Contacted|1524|Not Contacted|TracingOutcome|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
