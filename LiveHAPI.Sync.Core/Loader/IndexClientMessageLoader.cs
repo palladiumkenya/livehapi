@@ -204,7 +204,7 @@ namespace LiveHAPI.Sync.Core.Loader
                 if (allLinkages.Any())
                 {
                     var linkage = allLinkages.LastOrDefault();
-                    newLinkage = NewLinkage.Create(linkage);
+                    newLinkage = linkage.HasData ? NewLinkage.Create(linkage) : null;
                 }
             }
 

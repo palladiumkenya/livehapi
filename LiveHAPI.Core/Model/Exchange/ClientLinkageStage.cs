@@ -30,7 +30,8 @@ namespace LiveHAPI.Core.Model.Exchange
             StatusDate=DateTime.Now;
         }
 
-      
+        public bool HasData => !string.IsNullOrWhiteSpace(Facility) && !string.IsNullOrWhiteSpace(HealthWorker);
+
 
         public static ClientLinkageStage Create(Encounter linkageEncounter, SubscriberSystem subscriber)
         {
