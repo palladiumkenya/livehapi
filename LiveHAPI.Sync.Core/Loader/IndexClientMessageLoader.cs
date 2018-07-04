@@ -83,23 +83,32 @@ namespace LiveHAPI.Sync.Core.Loader
                 if (!actions.Contains(LoadAction.RegistrationOnly))
                 {
                     var pretests = _clientPretestStageRepository.GetByClientId(stagedClient.ClientId).ToList();
-                    var lastPretest = pretests.OrderByDescending(x => x.EncounterDate).FirstOrDefault();
 
                     //    PRETEST AND TESTING
 
-                    foreach (var pretest in pretests)
+                    if (pretests.Any())
                     {
-                        var pretestEncounter =
-                            await CreatePretestEncounters(header, pid, stagedClient, pretest, actions);
-                        messages.Add(pretestEncounter);
-                    }
+                        var lastPretest = pretests.OrderByDescending(x => x.EncounterDate).FirstOrDefault();
+                    
+                        foreach (var pretest in pretests)
+                        {
+                            var pretestEncounter =
+                                await CreatePretestEncounters(header, pid, stagedClient, pretest, actions);
+                            messages.Add(pretestEncounter);
+                        }
 
-                    if (null != lastPretest)
+                        if (null != lastPretest)
+                        {
+                            var nonPretest =
+                                await CreateNonPretestEncounters(header, pid, stagedClient, lastPretest, actions);
+                            if (null != nonPretest)
+                                messages.Add(nonPretest);
+                        }
+                    }
+                    else
                     {
-                        var nonPretest =
-                            await CreateNonPretestEncounters(header, pid, stagedClient, lastPretest, actions);
-                        if (null != nonPretest)
-                            messages.Add(nonPretest);
+                        var registration = CreateRegistration(header, pid, stagedClient, encounter);
+                        messages.Add(registration);
                     }
                 }
                 else
@@ -110,6 +119,11 @@ namespace LiveHAPI.Sync.Core.Loader
             }
 
             return messages;
+        }
+
+        private IndexClientMessage CreateRegistration(MESSAGE_HEADER header,PATIENT_IDENTIFICATION pid, ClientStage stagedClient, ENCOUNTERS encounter)
+        {
+            return new IndexClientMessage(header,new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)}, stagedClient.ClientId);
         }
 
         private async Task<IndexClientMessage> CreatePretestEncounters(MESSAGE_HEADER header,
