@@ -68,7 +68,7 @@ namespace LiveHAPI
 
             services.ConfigureWritable<ConnectionStrings>(Configuration.GetSection("connectionStrings"));
             services.ConfigureWritable<Endpoints>(Configuration.GetSection("endpoints"));
-            var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
+            var connectionString = Startup.Configuration["connectionStrings:HapiConnection"];
 
             try
             {
