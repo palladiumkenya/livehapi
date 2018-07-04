@@ -22,7 +22,15 @@ namespace LiveHAPI.Shared.Custom
 
             return false;
         }
-        
+
+        public static bool IsNullOrEmpty(this DateTime guid)
+        {
+            if (guid == DateTime.MinValue)
+                return true;
+
+            return false;
+        }
+
         /// <summary>
         /// Determines if a nullable Guid (Guid?) is null or Guid.Empty
         /// </summary>
@@ -134,7 +142,7 @@ namespace LiveHAPI.Shared.Custom
         {
             try
             {
-                return dateTime.Date.ToString("yyyyMMddHHmmss");
+                return dateTime.IsNullOrEmpty() ? "" : dateTime.Date.ToString("yyyyMMddHHmmss");
             }
             catch
             {
@@ -146,7 +154,7 @@ namespace LiveHAPI.Shared.Custom
         {
             try
             {
-                return dateTime.Date.ToString("yyyyMMdd");
+                return dateTime.IsNullOrEmpty() ? "" : dateTime.Date.ToString("yyyyMMdd");
 
             }
             catch 
