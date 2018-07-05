@@ -44,7 +44,7 @@ namespace LiveHAPI.Sync.Core.Extractor
                 clients.Add(ClientStage.Create(person, subscriber));
             }
 
-            return clients.Where(x => !x.Id.IsNullOrEmpty());
+            return clients.Where(x => !x.ClientId.IsNullOrEmpty());
         }
 
         public async Task<int> ExtractAndStage()
