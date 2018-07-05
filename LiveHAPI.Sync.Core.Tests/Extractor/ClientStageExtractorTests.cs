@@ -86,6 +86,7 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
             Assert.True(clients.Count>0);
             foreach (var clientStage in clients)
             {
+                Assert.True(clientStage.RegistrationDate>DateTime.MinValue);
                 Console.WriteLine(clientStage);
             }
         }

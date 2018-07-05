@@ -1,4 +1,5 @@
 ﻿using System;
+using LiveHAPI.Shared;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 
@@ -25,6 +26,11 @@ namespace LiveHAPI.Core.Model.Subscriber
         public SubscriberTranslation()
         {
             Id = LiveGuid.NewGuid();
+        }
+
+        public bool IsUpdated()
+        {
+            return Id == new Guid("ab88ad8c-88b8-11e7-abc4-cec278b6b50a") && Code.IsSameAs(Defualts.SyncVersion);
         }
 
         public bool HasSub()
