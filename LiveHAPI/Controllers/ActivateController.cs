@@ -1,5 +1,10 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using AutoMapper;
 using LiveHAPI.Core.Interfaces.Services;
+using LiveHAPI.Core.Model.Network;
+using LiveHAPI.Shared;
+using LiveHAPI.Shared.ValueObject;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -18,6 +23,22 @@ namespace LiveHAPI.Controllers
         {
             _activationService = activationService;
         }
+
+        [Route("version")]
+        [HttpGet]
+        public IActionResult GetVersionCentral()
+        {
+            try
+            {
+                return Ok(Defualts.SyncVersion);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
         [Route("central")]
         [HttpGet]
         public IActionResult FindCentral()
@@ -78,6 +99,23 @@ namespace LiveHAPI.Controllers
             {
                 Log.Debug($"Error loading Practice: {e}");
                 return StatusCode(500, "Error loading Practice");
+            }
+        }
+
+        [Route("enroll")]
+        [HttpPost]
+        public IActionResult Enroll([FromBody] List<PracticeDTO> practices)
+        {
+            try
+            {
+                var devicePractices= Mapper.Map<List<Practice>>(practices);
+                _activationService.EnrollDevicePractice(devicePractices);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"Error enrolling Practice: {e}");
+                return StatusCode(500, "Error enrolling Practice");
             }
         }
     }

@@ -213,11 +213,12 @@ namespace LiveHAPI.Core.Service
             }
             catch (Exception e)
             {
-                Log.Error(e, "Error saving encounter");
+                Log.Error(e, "Error saving Client");
                 Preserve(client);
+                return;
             }
-            
-           
+
+
             //STATES
             var allstates = Mapper.Map<List<ClientState>>(states);
             _clientRepository.UpdateClientState(client.Id, allstates);

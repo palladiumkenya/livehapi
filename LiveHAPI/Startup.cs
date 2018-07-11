@@ -7,6 +7,7 @@ using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.Lookup;
+using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Setting;
@@ -224,6 +225,7 @@ namespace LiveHAPI
 
             AutoMapper.Mapper.Initialize(cfg =>
             {
+                cfg.CreateMap<PracticeDTO, Practice>();
                 cfg.CreateMap<ClientStateInfo, ClientState>();
                 cfg.CreateMap<TempClientRelationship, ClientRelationship>();
                 cfg.CreateMap<ClientRelationship, TempClientRelationship>();

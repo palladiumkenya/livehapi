@@ -43,16 +43,26 @@ namespace LiveHAPI.Core.Model.Network
             CountyId = countyId;
         }
 
+        private Practice(Guid id, string code, string name, string practiceTypeId, int? countyId) : this(code,name,practiceTypeId, countyId)
+        {
+            Id = id;
+        }
+
         public static Practice CreateFacility(MasterFacility facility)
         {
             return new Practice(facility.Id.ToString(),facility.Name,"Facility",facility.AreaCode);
+        }
+
+        public static Practice Enroll(Guid id, string code, string name)
+        {
+            return new Practice(id,code,name, "Facility", null);
         }
 
         public bool IsDeviceActivated(string device)
         {
             return Activations.Any(x => x.Device.ToLower() == device.ToLower() &&  x.IsActive());
         }
-
+         
         public bool IsDeviceExpired(string device)
         {
             return Activations.Any(x => x.Device.ToLower() == device.ToLower() && x.IsExpired());
