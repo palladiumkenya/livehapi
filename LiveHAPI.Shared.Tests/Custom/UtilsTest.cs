@@ -71,5 +71,59 @@ namespace LiveHAPI.Shared.Tests.Custom
             Console.WriteLine(dateTime.ToString());
 
         }
+
+
+
+        [Test]
+        public void should_convert_NullDate_To_IQDate()
+        {
+            DateTime? dateTime = DateTime.MinValue;
+            Assert.IsTrue(string.IsNullOrEmpty(dateTime.ToIqDate()));
+            Console.WriteLine($"{dateTime:F} >> {dateTime.ToIqDate()}");
+
+            dateTime = null;
+            Assert.IsTrue(string.IsNullOrEmpty(dateTime.ToIqDate()));
+            Console.WriteLine($"{dateTime:F} >> {dateTime.ToIqDate()}");
+        }
+
+        [Test]
+        public void should_convert_NullDate_ToIqDateOnly()
+        {
+
+            DateTime? dateTime = DateTime.MinValue;
+            Assert.IsTrue(string.IsNullOrEmpty(dateTime.ToIqDateOnly()));
+            Console.WriteLine($"{dateTime:d} >> {dateTime.ToIqDateOnly()}");
+
+            dateTime = null;
+            Assert.IsTrue(string.IsNullOrEmpty(dateTime.ToIqDateOnly()));
+            Console.WriteLine($"{dateTime:F} >> {dateTime.ToIqDateOnly()}");
+
+
+        }
+
+        [Test]
+        public void should_convert_ToIqDate()
+        {
+            DateTime dateTime = DateTime.Today.AddYears(3);
+            Assert.False(string.IsNullOrEmpty(dateTime.ToIqDate()));
+            Console.WriteLine($"{dateTime:F} >> {dateTime.ToIqDate()}");
+
+            DateTime dateTime2 = DateTime.MinValue;
+            Assert.IsTrue(string.IsNullOrEmpty(dateTime2.ToIqDate()));
+            Console.WriteLine($"{dateTime2:F} >> {dateTime2.ToIqDate()}");
+        }
+
+        [Test]
+        public void should_convert_ToIqDateOnly()
+        {
+            DateTime dateTime = DateTime.Today.AddYears(3);
+            Assert.False(string.IsNullOrEmpty(dateTime.ToIqDateOnly()));
+            Console.WriteLine($"{dateTime:d} >> {dateTime.ToIqDateOnly()}");
+
+            DateTime dateTime2 = DateTime.MinValue;
+            Assert.IsTrue(string.IsNullOrEmpty(dateTime2.ToIqDateOnly()));
+            Console.WriteLine($"{dateTime2:d} >> {dateTime2.ToIqDateOnly()}");
+        }
+
     }
 }

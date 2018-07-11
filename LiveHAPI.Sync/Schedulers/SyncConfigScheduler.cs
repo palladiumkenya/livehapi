@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Reflection;
 using LiveHAPI.Sync.Core.Interface.Schedulers;
 using LiveHAPI.Sync.Jobs;
@@ -32,7 +33,17 @@ namespace LiveHAPI.Sync.Schedulers
 
         public async void Run()
         {
-            StdSchedulerFactory factory = new StdSchedulerFactory();
+            NameValueCollection props = new NameValueCollection
+            {
+                { "quartz.scheduler.instanceName","LiveHAPI" },
+                { "quartz.threadPool.type","Quartz.Simpl.SimpleThreadPool, Quartz" },
+                { "quartz.threadPool.threadCount","1" },
+                { "quartz.threadPool.threadPriority","Normal" },
+                { "quartz.jobStore.type","Quartz.Simpl.RAMJobStore, Quartz" },
+                { "quartz.jobStore.misfireThreshold","60000" }
+            };
+
+            StdSchedulerFactory factory = new StdSchedulerFactory(props);
            _scheduler = await factory.GetScheduler();
 
             await _scheduler.Start();

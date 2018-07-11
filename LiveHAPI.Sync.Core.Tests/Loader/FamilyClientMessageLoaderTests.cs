@@ -39,7 +39,8 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
+            var connectionString = config["connectionStrings:livehAPIConnection"];
+            //var connectionString = config["connectionStrings:livehAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;
@@ -65,7 +66,22 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
         }
 
         [Test]
+        [Category("live")]
         public void should_Load_By_Client()
+        {
+            var clientMessages = _clientMessageLoader.Load(null).Result.ToList();
+            Assert.True(clientMessages.Any());
+            Assert.False(clientMessages.Any(x => x.ClientId.IsNullOrEmpty()));
+            foreach (var m in clientMessages)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(m, Formatting.Indented));
+                Console.WriteLine(new string('=', 50));
+            }
+        }
+
+
+        [Test]
+        public void should_Extract_Load_By_Client()
         {
             var clients = _clientStageExtractor.ExtractAndStage().Result;
             var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;

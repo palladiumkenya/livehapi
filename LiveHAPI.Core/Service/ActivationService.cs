@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Shared.ValueObject;
+using Serilog;
 
 namespace LiveHAPI.Core.Service
 {
@@ -74,6 +76,22 @@ namespace LiveHAPI.Core.Service
                 return practice;
             }
             return null;
+        }
+
+        public void EnrollDevicePractice(List<Practice> practices)
+        {
+            foreach (var practice in practices)
+            {
+                var existingPractice = _practiceRepository.Get(practice.Id);
+
+                if (null == existingPractice)
+                {
+                    Log.Debug($"Enrolling new practice {practice}");
+                    _practiceRepository.InsertOrUpdate(practice);
+                    _practiceRepository.Save();
+
+                }
+            }
         }
 
         public string GetActivationCode(string code, DeviceInfo info, DeviceLocationInfo locationInfo=null)

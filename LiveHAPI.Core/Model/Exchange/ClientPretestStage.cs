@@ -51,10 +51,11 @@ namespace LiveHAPI.Core.Model.Exchange
 
         public static ClientPretestStage Create(HtsEncounterType encounterType, Encounter obsEncounter, SubscriberSystem subscriber)
         {
-            var clientStage=new ClientPretestStage();
+            ClientPretestStage clientStage = null;
 
             if (obsEncounter.Obses.Any())
             {
+                clientStage = new ClientPretestStage();
                 clientStage.UserId = subscriber.GetEmrUserId(obsEncounter.UserId);
                 var obses = obsEncounter.Obses.ToList();
                 clientStage.Id = obsEncounter.Id;

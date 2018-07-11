@@ -1,4 +1,6 @@
-﻿namespace LiveHAPI.Sync.Core.Exchange
+﻿using System;
+
+namespace LiveHAPI.Sync.Core.Exchange
 {
     public class ErrorResponse
     {
@@ -12,6 +14,18 @@
         public ErrorResponse(string message)
         {
             Message = message;
+        }
+
+        public override string ToString()
+        {
+            try
+            {
+                return $"{Message} (Code:{Code})";
+            }
+            catch 
+            {
+                return string.Empty;
+            }
         }
     }
 }

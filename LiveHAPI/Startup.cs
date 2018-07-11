@@ -7,6 +7,7 @@ using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.Lookup;
+using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.QModel;
 using LiveHAPI.Core.Model.Setting;
@@ -68,7 +69,7 @@ namespace LiveHAPI
 
             services.ConfigureWritable<ConnectionStrings>(Configuration.GetSection("connectionStrings"));
             services.ConfigureWritable<Endpoints>(Configuration.GetSection("endpoints"));
-            var connectionString = Startup.Configuration["connectionStrings:hAPIConnection"];
+            var connectionString = Startup.Configuration["connectionStrings:HapiConnection"];
 
             try
             {
@@ -109,6 +110,7 @@ namespace LiveHAPI
             services.AddScoped<IClientSummaryRepository, ClientSummaryRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<IPSmartStoreRepository, PSmartStoreRepository>();
+            services.AddScoped<IInvalidMessageRepository, InvalidMessageRepository>();
 
             services.AddScoped<IMetaService, MetaService>();
             services.AddScoped<IStaffService, StaffService>();
@@ -223,6 +225,7 @@ namespace LiveHAPI
 
             AutoMapper.Mapper.Initialize(cfg =>
             {
+                cfg.CreateMap<PracticeDTO, Practice>();
                 cfg.CreateMap<ClientStateInfo, ClientState>();
                 cfg.CreateMap<TempClientRelationship, ClientRelationship>();
                 cfg.CreateMap<ClientRelationship, TempClientRelationship>();

@@ -7,5 +7,6 @@ namespace LiveHAPI.Core.Interfaces.Services
     {
         void Sync(List<EncounterInfo> encounterInfos);
         void Sync(EncounterInfo encounterInfo);
+        void Preserve(EncounterInfo encounterInfo);
     }
 }

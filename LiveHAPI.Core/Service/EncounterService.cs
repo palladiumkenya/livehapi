@@ -5,7 +5,11 @@ using System.Security.Cryptography.X509Certificates;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Encounters;
+using LiveHAPI.Core.Model.Exchange;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Shared.ValueObject;
+using Newtonsoft.Json;
+using Serilog;
 
 namespace LiveHAPI.Core.Service
 {
@@ -25,9 +29,9 @@ namespace LiveHAPI.Core.Service
         private readonly IObsFamilyTraceResultRepository _obsFamilyTraceResultRepository;
         private readonly IObsPartnerScreeningRepository _obsPartnerScreeningRepository;
         private readonly IObsPartnerTraceResultRepository _obsPartnerTraceResultRepository;
-        
+        private readonly IInvalidMessageRepository _invalidMessageRepository;
 
-        public EncounterService(IClientRepository clientRepository, IPracticeRepository practiceRepository, IEncounterRepository encounterRepository, IObsRepository obsRepository, IObsFinalTestResultRepository obsFinalTestResultRepository, IObsLinkageRepository obsLinkageRepository, IObsTestResultRepository obsTestResultRepository, IObsTraceResultRepository obsTraceResultRepository, IObsMemberScreeningRepository obsMemberScreeningRepository, IObsFamilyTraceResultRepository obsFamilyTraceResultRepository, IObsPartnerScreeningRepository obsPartnerScreeningRepository, IObsPartnerTraceResultRepository obsPartnerTraceResultRepository)
+        public EncounterService(IClientRepository clientRepository, IPracticeRepository practiceRepository, IEncounterRepository encounterRepository, IObsRepository obsRepository, IObsFinalTestResultRepository obsFinalTestResultRepository, IObsLinkageRepository obsLinkageRepository, IObsTestResultRepository obsTestResultRepository, IObsTraceResultRepository obsTraceResultRepository, IObsMemberScreeningRepository obsMemberScreeningRepository, IObsFamilyTraceResultRepository obsFamilyTraceResultRepository, IObsPartnerScreeningRepository obsPartnerScreeningRepository, IObsPartnerTraceResultRepository obsPartnerTraceResultRepository, IInvalidMessageRepository invalidMessageRepository)
         {
             _clientRepository = clientRepository;
             _practiceRepository = practiceRepository;
@@ -41,136 +45,155 @@ namespace LiveHAPI.Core.Service
             _obsFamilyTraceResultRepository = obsFamilyTraceResultRepository;
             _obsPartnerScreeningRepository = obsPartnerScreeningRepository;
             _obsPartnerTraceResultRepository = obsPartnerTraceResultRepository;
+            _invalidMessageRepository = invalidMessageRepository;
         }
 
         public void Sync(List<EncounterInfo> encounterInfos)
         {
             foreach (var encounterInfo in encounterInfos)
             {
-                //Check client
-                var client = _clientRepository.Get(encounterInfo.ClientId);
-                if (null != client)
+                try
                 {
-                    var encounter = _encounterRepository.Get(encounterInfo.Id);
-
-                    if (null == encounter)
+                    //Check client
+                    var client = _clientRepository.Get(encounterInfo.ClientId);
+                    if (null != client)
                     {
-                        encounter = Encounter.Create(encounterInfo);
-                        _encounterRepository.Insert(encounter);
-                        _encounterRepository.Save();
-                        
-                        var obs = Obs.Create(encounterInfo);
-                        _obsRepository.Insert(obs);
-                        _obsRepository.Save();
+                        var encounter = _encounterRepository.Get(encounterInfo.Id);
 
-                        var obsTestResult = ObsTestResult.Create(encounterInfo);
-                        _obsTestResultRepository.Insert(obsTestResult);
-                        _obsTestResultRepository.Save();
-
-                        var obsFinalTestResults = ObsFinalTestResult.Create(encounterInfo);
-                        _obsFinalTestResultRepository.Insert(obsFinalTestResults);
-                        _obsFinalTestResultRepository.Save();
-
-                        var bsLinkages = ObsLinkage.Create(encounterInfo);
-                        _obsLinkageRepository.Insert(bsLinkages);
-                        _obsLinkageRepository.Save();
-
-                        var obsTraceResults = ObsTraceResult.Create(encounterInfo);
-                        _obsTraceResultRepository.Insert(obsTraceResults);
-                        _obsTraceResultRepository.Save();
-
-                        var obsMemberScreening = ObsMemberScreening.Create(encounterInfo);
-                        _obsMemberScreeningRepository.Insert(obsMemberScreening);
-                        _obsMemberScreeningRepository.Save();
-
-                        var obsFamilyTraceResults = ObsFamilyTraceResult.Create(encounterInfo);
-                        _obsFamilyTraceResultRepository.Insert(obsFamilyTraceResults);
-                        _obsFamilyTraceResultRepository.Save();
-                        if (obsFamilyTraceResults.Count > 0)
+                        if (null == encounter)
                         {
-                            var met = obsFamilyTraceResults.FirstOrDefault(x => null != x.Outcome && x.Outcome == new Guid("b25f9a81-852f-11e7-bb31-be2e44b06b34"));
-                            if (null != met)
+                            encounter = Encounter.Create(encounterInfo);
+                            _encounterRepository.Insert(encounter);
+                            _encounterRepository.Save();
+
+                            var obs = Obs.Create(encounterInfo);
+                            _obsRepository.Insert(obs);
+                            _obsRepository.Save();
+
+                            var obsTestResult = ObsTestResult.Create(encounterInfo);
+                            _obsTestResultRepository.Insert(obsTestResult);
+                            _obsTestResultRepository.Save();
+
+                            var obsFinalTestResults = ObsFinalTestResult.Create(encounterInfo);
+                            _obsFinalTestResultRepository.Insert(obsFinalTestResults);
+                            _obsFinalTestResultRepository.Save();
+
+                            var bsLinkages = ObsLinkage.Create(encounterInfo);
+                            _obsLinkageRepository.Insert(bsLinkages);
+                            _obsLinkageRepository.Save();
+
+                            var obsTraceResults = ObsTraceResult.Create(encounterInfo);
+                            _obsTraceResultRepository.Insert(obsTraceResults);
+                            _obsTraceResultRepository.Save();
+
+                            var obsMemberScreening = ObsMemberScreening.Create(encounterInfo);
+                            _obsMemberScreeningRepository.Insert(obsMemberScreening);
+                            _obsMemberScreeningRepository.Save();
+
+                            var obsFamilyTraceResults = ObsFamilyTraceResult.Create(encounterInfo);
+                            _obsFamilyTraceResultRepository.Insert(obsFamilyTraceResults);
+                            _obsFamilyTraceResultRepository.Save();
+                            if (obsFamilyTraceResults.Count > 0)
                             {
-                                _obsFamilyTraceResultRepository.UpdateBooking(encounter, met);
+                                var met = obsFamilyTraceResults.FirstOrDefault(x =>
+                                    null != x.Outcome && x.Outcome == new Guid("b25f9a81-852f-11e7-bb31-be2e44b06b34"));
+                                if (null != met)
+                                {
+                                    _obsFamilyTraceResultRepository.UpdateBooking(encounter, met);
+                                }
+                            }
+
+                            var obsPartnerScreenings = ObsPartnerScreening.Create(encounterInfo);
+                            _obsPartnerScreeningRepository.Insert(obsPartnerScreenings);
+                            _obsPartnerScreeningRepository.Save();
+
+                            var obsPartnerTraceResults = ObsPartnerTraceResult.Create(encounterInfo);
+                            _obsPartnerTraceResultRepository.Insert(obsPartnerTraceResults);
+                            _obsPartnerTraceResultRepository.Save();
+                            if (obsPartnerTraceResults.Count > 0)
+                            {
+                                var met = obsPartnerTraceResults.FirstOrDefault(x =>
+                                    null != x.Outcome && x.Outcome == new Guid("b25f9a81-852f-11e7-bb31-be2e44b06b34"));
+                                if (null != met)
+                                {
+                                    _obsPartnerTraceResultRepository.UpdateBooking(encounter, met);
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            encounter.Update(encounterInfo);
+                            _encounterRepository.Update(encounter);
+                            _encounterRepository.Save();
+
+                            var obs = Obs.Create(encounterInfo);
+                            _obsRepository.ReplaceAll(encounter.Id, obs);
+                            _obsRepository.Save();
+
+                            var obsTestResult = ObsTestResult.Create(encounterInfo);
+                            _obsTestResultRepository.ReplaceAll(encounter.Id, obsTestResult);
+                            _obsTestResultRepository.Save();
+
+                            var obsFinalTestResults = ObsFinalTestResult.Create(encounterInfo);
+                            _obsFinalTestResultRepository.ReplaceAll(encounter.Id, obsFinalTestResults);
+                            _obsFinalTestResultRepository.Save();
+
+                            var bsLinkages = ObsLinkage.Create(encounterInfo);
+                            _obsLinkageRepository.ReplaceAll(encounter.Id, bsLinkages);
+                            _obsLinkageRepository.Save();
+
+                            var obsTraceResults = ObsTraceResult.Create(encounterInfo);
+                            _obsTraceResultRepository.ReplaceAll(encounter.Id, obsTraceResults);
+                            _obsTraceResultRepository.Save();
+
+                            var obsMemberScreening = ObsMemberScreening.Create(encounterInfo);
+                            _obsMemberScreeningRepository.ReplaceAll(encounter.Id, obsMemberScreening);
+                            _obsMemberScreeningRepository.Save();
+
+                            var obsFamilyTraceResults = ObsFamilyTraceResult.Create(encounterInfo);
+                            _obsFamilyTraceResultRepository.ReplaceAll(encounter.Id, obsFamilyTraceResults);
+                            _obsFamilyTraceResultRepository.Save();
+                            if (obsFamilyTraceResults.Count > 0)
+                            {
+                                var met = obsFamilyTraceResults.FirstOrDefault(x =>
+                                    null != x.Outcome && x.Outcome == new Guid("b25f9a81-852f-11e7-bb31-be2e44b06b34"));
+                                if (null != met)
+                                {
+                                    _obsFamilyTraceResultRepository.UpdateBooking(encounter, met);
+                                }
+                            }
+
+                            var obsPartnerScreenings = ObsPartnerScreening.Create(encounterInfo);
+                            _obsPartnerScreeningRepository.ReplaceAll(encounter.Id, obsPartnerScreenings);
+                            _obsPartnerScreeningRepository.Save();
+
+                            var obsPartnerTraceResults = ObsPartnerTraceResult.Create(encounterInfo);
+                            _obsPartnerTraceResultRepository.ReplaceAll(encounter.Id, obsPartnerTraceResults);
+                            _obsPartnerTraceResultRepository.Save();
+                            if (obsPartnerTraceResults.Count > 0)
+                            {
+                                var met = obsPartnerTraceResults.FirstOrDefault(x =>
+                                    null != x.Outcome && x.Outcome == new Guid("b25f9a81-852f-11e7-bb31-be2e44b06b34"));
+                                if (null != met)
+                                {
+                                    _obsPartnerTraceResultRepository.UpdateBooking(encounter, met);
+                                }
                             }
                         }
-
-                        var obsPartnerScreenings = ObsPartnerScreening.Create(encounterInfo);
-                        _obsPartnerScreeningRepository.Insert(obsPartnerScreenings);
-                        _obsPartnerScreeningRepository.Save();
-
-                        var obsPartnerTraceResults = ObsPartnerTraceResult.Create(encounterInfo);
-                        _obsPartnerTraceResultRepository.Insert(obsPartnerTraceResults);
-                        _obsPartnerTraceResultRepository.Save();
-                        if (obsPartnerTraceResults.Count > 0)
-                        {
-                            var met = obsPartnerTraceResults.FirstOrDefault(x => null != x.Outcome && x.Outcome == new Guid("b25f9a81-852f-11e7-bb31-be2e44b06b34"));
-                            if (null != met)
-                            {
-                                _obsPartnerTraceResultRepository.UpdateBooking(encounter, met);
-                            }
-                        }
-
                     }
                     else
                     {
-                        encounter.Update(encounterInfo);
-                        _encounterRepository.Update(encounter);
-                        _encounterRepository.Save();
-
-                        var obs = Obs.Create(encounterInfo);
-                        _obsRepository.ReplaceAll(encounter.Id, obs);
-                        _obsRepository.Save();
-
-                        var obsTestResult = ObsTestResult.Create(encounterInfo);
-                        _obsTestResultRepository.ReplaceAll(encounter.Id,obsTestResult);
-                        _obsTestResultRepository.Save();
-
-                        var obsFinalTestResults = ObsFinalTestResult.Create(encounterInfo);
-                        _obsFinalTestResultRepository.ReplaceAll(encounter.Id, obsFinalTestResults);
-                        _obsFinalTestResultRepository.Save();
-
-                        var bsLinkages = ObsLinkage.Create(encounterInfo);
-                        _obsLinkageRepository.ReplaceAll(encounter.Id, bsLinkages);
-                        _obsLinkageRepository.Save();
-
-                        var obsTraceResults = ObsTraceResult.Create(encounterInfo);
-                        _obsTraceResultRepository.ReplaceAll(encounter.Id, obsTraceResults);
-                        _obsTraceResultRepository.Save();
-
-                        var obsMemberScreening = ObsMemberScreening.Create(encounterInfo);
-                        _obsMemberScreeningRepository.ReplaceAll(encounter.Id, obsMemberScreening);
-                        _obsMemberScreeningRepository.Save();
-
-                        var obsFamilyTraceResults = ObsFamilyTraceResult.Create(encounterInfo);
-                        _obsFamilyTraceResultRepository.ReplaceAll(encounter.Id,obsFamilyTraceResults);
-                        _obsFamilyTraceResultRepository.Save();
-                        if (obsFamilyTraceResults.Count > 0)
-                        {
-                            var met = obsFamilyTraceResults.FirstOrDefault(x =>null != x.Outcome && x.Outcome == new Guid("b25f9a81-852f-11e7-bb31-be2e44b06b34"));
-                            if (null != met)
-                            {
-                                _obsFamilyTraceResultRepository.UpdateBooking(encounter, met);
-                            }
-                        }
-
-                        var obsPartnerScreenings = ObsPartnerScreening.Create(encounterInfo);
-                        _obsPartnerScreeningRepository.ReplaceAll(encounter.Id, obsPartnerScreenings);
-                        _obsPartnerScreeningRepository.Save();
-
-                        var obsPartnerTraceResults = ObsPartnerTraceResult.Create(encounterInfo);
-                        _obsPartnerTraceResultRepository.ReplaceAll(encounter.Id, obsPartnerTraceResults);
-                        _obsPartnerTraceResultRepository.Save();
-                        if (obsPartnerTraceResults.Count > 0)
-                        {
-                            var met = obsPartnerTraceResults.FirstOrDefault(x => null != x.Outcome && x.Outcome == new Guid("b25f9a81-852f-11e7-bb31-be2e44b06b34"));
-                            if (null != met)
-                            {
-                                _obsPartnerTraceResultRepository.UpdateBooking(encounter, met);
-                            }
-                        }
+                        Log.Error("Missing client in encounter");
+                        Preserve(encounterInfo);
                     }
                 }
+                catch (Exception e)
+                {
+                    Log.Error(e,"Error saving encounter");
+                    Preserve(encounterInfo);
+                }
+
             }
         }
 
@@ -210,6 +233,20 @@ namespace LiveHAPI.Core.Service
                 _obsRepository.ReplaceAll(encounter.Id, obs);
                 _obsRepository.Save();
             }
+        }
+
+        public void Preserve(EncounterInfo encounterInfo)
+        {
+            try
+            {
+                _invalidMessageRepository.Insert(new InvalidMessage(encounterInfo.ClientId, MessageType.Encounter, JsonConvert.SerializeObject(encounterInfo),encounterInfo.PracticeId));
+                _invalidMessageRepository.Save();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "Preserve EncounterInfo error");
+            }
+
         }
     }
 }

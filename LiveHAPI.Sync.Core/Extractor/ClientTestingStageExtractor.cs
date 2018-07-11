@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.Exchange;
+using LiveHAPI.Shared.Custom;
 using LiveHAPI.Sync.Core.Interface.Extractors;
 
 namespace LiveHAPI.Sync.Core.Extractor
@@ -34,7 +36,7 @@ namespace LiveHAPI.Sync.Core.Extractor
                 clients.AddRange(ClientTestingStage.Create(encounter, subscriber,pretestId));
             }
 
-            return clients;
+            return clients.Where(x => !x.Id.IsNullOrEmpty());
         }
 
         public Task<int> ExtractAndStage()

@@ -117,7 +117,7 @@ namespace LiveHAPI.Sync.Core.Loader
                     }
 
                     messages.Add(new PartnerClientMessage(header,
-                        new List<PARTNER> {new PARTNER(pid, encounter)}));
+                        new List<PARTNER> {new PARTNER(pid, encounter)}, stagedClient.ClientId));
 
                 }
             }

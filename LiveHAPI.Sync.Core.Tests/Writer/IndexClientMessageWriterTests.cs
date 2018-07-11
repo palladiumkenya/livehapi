@@ -20,8 +20,8 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
     [TestFixture]
     public class IndexClientMessageWriterTests
     {
-      //  private readonly string _baseUrl = "http://localhost:3333";
-        private readonly string _baseUrl = "http://localhost:3333";
+        //  private readonly string _baseUrl = "http://localhost:3333";
+        private readonly string _baseUrl = "http://localhost/iqcareapi";
         private readonly bool goLive = true;
         private LiveHAPIContext _context;
         private IPracticeRepository _practiceRepository;
@@ -85,14 +85,61 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
         }
 
         [Test]
+        [Category("live")]
         public void should_Write_Clients()
+        {
+            var clientsResponses = _clientMessageWriter.Write().Result.ToList();
+
+            foreach (var message in _clientMessageWriter.Messages)
+            {
+
+                Assert.False(string.IsNullOrWhiteSpace(message));
+
+            }
+
+            var stagedIndexClients = _clientStageRepository.GetIndexClients();
+            Assert.False(stagedIndexClients.Any());
+            if (_clientMessageWriter.Errors.Any())
+                foreach (var e in _clientMessageWriter.Errors)
+                {
+                    Console.WriteLine(e.Message);
+
+                    Console.WriteLine(new string('*', 40));
+                }
+
+            foreach (var message in _clientMessageWriter.Messages)
+            {
+                Console.WriteLine(message);
+                Console.WriteLine(new string('|', 40));
+            }
+
+            Assert.True(clientsResponses.Any());
+            foreach (var response in clientsResponses)
+            {
+                Console.WriteLine(response);
+            }
+        }
+
+        [Test]
+        public void should_Load_Write_Clients()
         {
             var clients = _clientStageExtractor.ExtractAndStage().Result;
             var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
 
             var clientsResponses = _clientMessageWriter.Write().Result.ToList();
+            
             foreach (var message in _clientMessageWriter.Messages)
+            {
+                    
                 Assert.False(string.IsNullOrWhiteSpace(message));
+               
+            }
+
+            var stagedIndexClients = _clientStageRepository.GetIndexClients();
+            Assert.False(stagedIndexClients.Any());
+
+          
+
 
             if (_clientMessageWriter.Errors.Any())
                 foreach (var e in _clientMessageWriter.Errors)
@@ -124,8 +171,8 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
         [TestCase(LoadAction.Tracing)]
         public void should_Write_Client_By_Actions(params LoadAction[] actions)
         {
-            var clients = _clientStageExtractor.ExtractAndStage().Result;
-            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
+//            var clients = _clientStageExtractor.ExtractAndStage().Result;
+//            var pretests = _clientPretestStageExtractor.ExtractAndStage().Result;
 
             var clientsResponses = _clientMessageWriter.Write(actions).Result.ToList();
             foreach (var message in _clientMessageWriter.Messages)

@@ -31,7 +31,7 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
+            var connectionString = config["connectionStrings:livehAPIConnection"];
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;
@@ -62,6 +62,7 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
         {
             var clients = _clientPretestStageExtractor.Extract().Result.ToList();
             Assert.True(clients.Any());
+            Assert.False(clients.Any(x=>x.ClientId.IsNullOrEmpty()));
             foreach (var clientStage in clients)
             {
                 Console.WriteLine(clientStage);

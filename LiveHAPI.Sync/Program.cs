@@ -43,8 +43,10 @@ namespace LiveHAPI.Sync
         
         static void Main(string[] args)
         {
+
             bool hapiOffline = true;
-            
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
             System.AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
 
             Log.Logger = new LoggerConfiguration()
@@ -57,7 +59,9 @@ namespace LiveHAPI.Sync
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
 
             IConfigurationRoot configuration = builder.Build();
 
@@ -70,7 +74,7 @@ namespace LiveHAPI.Sync
                 try
                 {
                     HapiSettingsView = _startup.LoadSettings().Result;
-                    if (null != HapiSettingsView)
+                    if (null != HapiSettingsView) 
                     {
                         Log.Debug($"LiveHAPI CONNECTED");
                         Log.Debug($"verifying LiveHAPI settings...");

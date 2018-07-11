@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LiveHAPI.Sync.Core.Exchange.Partner;
 
 namespace LiveHAPI.Sync.Core.Exchange.Messages
@@ -11,10 +12,11 @@ namespace LiveHAPI.Sync.Core.Exchange.Messages
         {
         }
 
-        public PartnerClientMessage(MESSAGE_HEADER messageHeader, List<PARTNER> partners)
+        public PartnerClientMessage(MESSAGE_HEADER messageHeader, List<PARTNER> partners, Guid clientId)
         {
             MESSAGE_HEADER = messageHeader;
             PARTNERS = partners;
+            ClientId = clientId;
         }
     }
 }

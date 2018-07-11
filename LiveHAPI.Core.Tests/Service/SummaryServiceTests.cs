@@ -46,7 +46,7 @@ namespace LiveHAPI.Core.Tests.Service
             _personRepository = new PersonRepository(_context);
             _clientRepository = new ClientRepository(_context);
             _clientService = new ClientService(_practiceRepository, new PersonRepository(_context),
-                new ClientRepository(_context));
+                new ClientRepository(_context), new InvalidMessageRepository(_context));
 
             _summaryService=new SummaryService(new ItemRepository(_context),new ClientSummaryRepository(_context),new UserSummaryRepository(_context),new EncounterRepository(_context) );
         }

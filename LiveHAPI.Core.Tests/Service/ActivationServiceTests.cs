@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FizzWare.NBuilder;
 using LiveHAPI.Core.Interfaces.Services;
@@ -26,16 +27,16 @@ namespace LiveHAPI.Core.Tests.Service
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:hAPIConnection"];
+            var connectionString = config["connectionStrings:realConnection"];
 
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;
 
             _context = new LiveHAPIContext(options);
-            TestDataCreator.Init(_context);
-            var pr = new PracticeRepository(_context);
-            _practice = pr.GetAll().First();
+           // TestDataCreator.Init(_context);
+          //  var pr = new PracticeRepository(_context);
+//            _practice = pr.GetAll().First();
             
             _activationService = new ActivationService(new PracticeRepository(_context),new PracticeActivationRepository(_context),new MasterFacilityRepository(_context));
         }
@@ -58,6 +59,21 @@ namespace LiveHAPI.Core.Tests.Service
             var practice = _activationService.EnrollPractice("13080");
             Assert.IsNotNull(practice);
             Console.WriteLine(practice);
+        }
+
+        [Test]
+        public void should_Enroll_Device_Site()
+        {
+            var p1 = Practice.Enroll(Guid.NewGuid(), "1", "Fac1");
+            var p2 = Practice.Enroll(Guid.NewGuid(), "2", "Fac2");
+
+            var practices = new List<Practice> {p1, p2};
+
+            _activationService.EnrollDevicePractice(practices);
+            var ids = practices.Select(x => x.Id);
+            var pr = new PracticeRepository(_context);
+            var ps = pr.GetAll().Where(x => ids.Contains(x.Id)).ToList();
+            Assert.True(ps.Count == 2);
         }
 
 

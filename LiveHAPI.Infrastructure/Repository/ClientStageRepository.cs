@@ -23,6 +23,7 @@ namespace LiveHAPI.Infrastructure.Repository
         public ClientStageRepository(LiveHAPIContext context) : base(context)
         {
         }
+
         public void Clear()
         {
             using (var con = GetDbConnection())

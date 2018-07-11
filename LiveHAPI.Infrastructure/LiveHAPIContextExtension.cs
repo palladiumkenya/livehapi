@@ -127,8 +127,18 @@ namespace LiveHAPI.Infrastructure
                     context.BulkInsert(InitialSeeder.ReadCsv<SubscriberConfig>());
                 if (!context.SubscriberMaps.Any())
                     context.BulkInsert(InitialSeeder.ReadCsv<SubscriberMap>());
+
                 if (!context.SubscriberTranslations.Any())
                     context.BulkInsert(InitialSeeder.ReadCsv<SubscriberTranslation>());
+
+                if (!context.SubscriberTranslations.Any(s => s.IsUpdated()))
+                {
+                    context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberTranslation>());
+                    Log.Error(new string('*',50));
+                    Log.Error($"        {Shared.Defualts.SyncVersion}   ");
+                    Log.Error(new string('*', 50));
+                }
+
                 if (!context.SubscriberCohorts.Any())
                     context.BulkInsert(InitialSeeder.ReadCsv<SubscriberCohort>());
 

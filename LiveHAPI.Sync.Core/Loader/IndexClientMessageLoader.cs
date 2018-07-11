@@ -72,7 +72,7 @@ namespace LiveHAPI.Sync.Core.Loader
 
             foreach (var stagedClient in stagedIndexClients)
             {
-
+              
                 #region PATIENT_IDENTIFICATION
 
                 var pid = PATIENT_IDENTIFICATION.Create(stagedClient);
@@ -83,29 +83,47 @@ namespace LiveHAPI.Sync.Core.Loader
                 if (!actions.Contains(LoadAction.RegistrationOnly))
                 {
                     var pretests = _clientPretestStageRepository.GetByClientId(stagedClient.ClientId).ToList();
-                    var lastPretest = pretests.OrderByDescending(x => x.EncounterDate).FirstOrDefault();
 
                     //    PRETEST AND TESTING
 
-                    foreach (var pretest in pretests)
+                    if (pretests.Any())
                     {
-                        var pretestEncounter =
-                            await CreatePretestEncounters(header, pid, stagedClient, pretest, actions);
-                        messages.Add(pretestEncounter);
-                    }
+                        var lastPretest = pretests.OrderByDescending(x => x.EncounterDate).FirstOrDefault();
+                    
+                        foreach (var pretest in pretests)
+                        {
+                            var pretestEncounter =
+                                await CreatePretestEncounters(header, pid, stagedClient, pretest, actions);
+                            messages.Add(pretestEncounter);
+                        }
 
-                    var nonPretest = await CreateNonPretestEncounters(header, pid, stagedClient, lastPretest, actions);
-                    if (null != nonPretest)
-                        messages.Add(nonPretest);
+                        if (null != lastPretest)
+                        {
+                            var nonPretest =
+                                await CreateNonPretestEncounters(header, pid, stagedClient, lastPretest, actions);
+                            if (null != nonPretest)
+                                messages.Add(nonPretest);
+                        }
+                    }
+                    else
+                    {
+                        var registration = CreateRegistration(header, pid, stagedClient, encounter);
+                        messages.Add(registration);
+                    }
                 }
                 else
                 {
                     messages.Add(new IndexClientMessage(header,
-                        new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)}));
+                        new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)}, stagedClient.ClientId));
                 }
             }
 
             return messages;
+        }
+
+        private IndexClientMessage CreateRegistration(MESSAGE_HEADER header,PATIENT_IDENTIFICATION pid, ClientStage stagedClient, ENCOUNTERS encounter)
+        {
+            return new IndexClientMessage(header,new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)}, stagedClient.ClientId);
         }
 
         private async Task<IndexClientMessage> CreatePretestEncounters(MESSAGE_HEADER header,
@@ -145,7 +163,7 @@ namespace LiveHAPI.Sync.Core.Loader
             encounter = ENCOUNTERS.Create(placerDetail, preTest, hivTests, null, new List<NewTracing>(), null);
 
             return new IndexClientMessage(header,
-                new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)});
+                new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)},stagedClient.ClientId);
 
         }
 
@@ -186,7 +204,7 @@ namespace LiveHAPI.Sync.Core.Loader
                 if (allLinkages.Any())
                 {
                     var linkage = allLinkages.LastOrDefault();
-                    newLinkage = NewLinkage.Create(linkage);
+                    newLinkage = linkage.HasData ? NewLinkage.Create(linkage) : null;
                 }
             }
 
@@ -196,7 +214,7 @@ namespace LiveHAPI.Sync.Core.Loader
             encounter = ENCOUNTERS.Create(lastplacerDetail,null, null,newReferral,newTracings,newLinkage);
 
             return new IndexClientMessage(header,
-                new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)});
+                new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)},stagedClient.ClientId);
         }
         
     }
