@@ -212,6 +212,8 @@ namespace LiveHAPI
 
                 app.UseHangfireServer();
                 GlobalJobFilters.Filters.Add(new ProlongExpirationTimeAttribute());
+                GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute(){Attempts = 3});
+
             }
             catch (Exception e)
             {
