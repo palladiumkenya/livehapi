@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using Hangfire;
+using Hangfire.SqlServer;
 using LiveHAPI.Core.Interfaces;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
@@ -74,7 +75,7 @@ namespace LiveHAPI
             try
             {
                 services.AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString));
-                services.AddHangfire(o =>o.UseSqlServerStorage(connectionString));
+                services.AddHangfire(o => o.UseSqlServerStorage(connectionString));
             }
             catch (Exception ex)
             {
@@ -210,6 +211,7 @@ namespace LiveHAPI
                 });
 
                 app.UseHangfireServer();
+                GlobalJobFilters.Filters.Add(new ProlongExpirationTimeAttribute());
             }
             catch (Exception e)
             {
