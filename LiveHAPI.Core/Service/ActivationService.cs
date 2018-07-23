@@ -87,6 +87,7 @@ namespace LiveHAPI.Core.Service
                 if (null == existingPractice)
                 {
                     Log.Debug($"Enrolling new practice {practice}");
+                    practice.MakeFacility();
                     _practiceRepository.InsertOrUpdate(practice);
                     _practiceRepository.Save();
 

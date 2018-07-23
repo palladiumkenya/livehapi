@@ -109,6 +109,7 @@ namespace LiveHAPI.Controllers
             try
             {
                 var devicePractices= Mapper.Map<List<Practice>>(practices);
+                
                 _activationService.EnrollDevicePractice(devicePractices);
                 return Ok();
             }

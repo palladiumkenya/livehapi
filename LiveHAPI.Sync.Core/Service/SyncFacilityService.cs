@@ -28,6 +28,12 @@ namespace LiveHAPI.Sync.Core.Service
 
             var practices = Mapper.Map<List<Practice>>(clientFacilities);
             int count = practices.Count;
+
+            foreach (var practice in practices)
+            {
+                practice.MakeFacility();
+            }
+
             _practiceRepository.Sync(practices);
             return count;
         }
