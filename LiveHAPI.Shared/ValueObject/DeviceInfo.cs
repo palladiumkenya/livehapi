@@ -7,9 +7,17 @@ namespace LiveHAPI.Shared.ValueObject
         public string Serial { get; set; }
         public string Model { get; set; }
         public string Code { get; set; }
+        public Guid PracticeId { get; set; }
 
         public DeviceInfo()
         {
+        }
+
+        public DeviceInfo(string serial, string model, Guid practiceId)
+        {
+            Serial = serial;
+            Model = model;
+            PracticeId = practiceId;
         }
 
         public DeviceInfo(string serial, string model, string code)

@@ -5,5 +5,6 @@ namespace LiveHAPI.Core.Interfaces.Repository
 {
     public interface IPracticeActivationRepository : IRepository<PracticeActivation,Guid>
     {
+        
     }
 }

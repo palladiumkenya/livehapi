@@ -13,6 +13,7 @@ namespace LiveHAPI.Core.Interfaces.Services
         MasterFacility Verify(int code);
         Practice EnrollPractice(string code);
         void EnrollDevicePractice(List<Practice>  practices);
+        string EnrollDevice(DeviceInfo info);
         string GetActivationCode(string code, DeviceInfo info, DeviceLocationInfo locationInfo=null);
     }
 }

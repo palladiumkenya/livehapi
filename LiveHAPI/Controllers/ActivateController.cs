@@ -12,12 +12,12 @@ using Serilog;
 
 namespace LiveHAPI.Controllers
 {
-    
+
     [Route("api/activate")]
     public class ActivateController : Controller
     {
         private readonly IActivationService _activationService;
-        
+
 
         public ActivateController(IActivationService activationService)
         {
@@ -86,6 +86,22 @@ namespace LiveHAPI.Controllers
                 return StatusCode(500, "Error loading counties");
             }
         }
+        [Route("device")]
+        [HttpPost]
+        public IActionResult EnrollSiteDevice([FromBody] DeviceInfo deviceInfo)
+        {
+            try
+            {
+                var idprefix = _activationService.EnrollDevice(deviceInfo);
+                return Ok(idprefix);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"Error activating Device: {e}");
+                return StatusCode(500, "Error activating Device");
+            }
+        }
+
         [Route("enroll/{code}")]
         [HttpGet]
         public IActionResult EnrollSite(string code)
@@ -109,7 +125,7 @@ namespace LiveHAPI.Controllers
             try
             {
                 var devicePractices= Mapper.Map<List<Practice>>(practices);
-                
+
                 _activationService.EnrollDevicePractice(devicePractices);
                 return Ok();
             }
