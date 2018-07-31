@@ -8,6 +8,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
     public interface IPracticeRepository : IRepository<Practice,Guid>
     {
         Practice GetDefault();
+        IEnumerable<Practice> GetAllDefault();
         Practice GetByCode(string code);
         Practice GetByFacilityCode(string code);
         void Sync(Practice practice);

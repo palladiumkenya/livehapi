@@ -5,7 +5,7 @@ using AutoMapper;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Shared.Interfaces;
 using LiveHAPI.Shared.ValueObject;
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -32,6 +32,21 @@ namespace LiveHAPI.Controllers
             try
             {
                 var practice = _practiceRepository.GetDefault();
+                return Ok(practice);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet("facall")]
+        public IActionResult GetFacilities()
+        {
+            try
+            {
+                var practice = _practiceRepository.GetAllDefault();
                 return Ok(practice);
             }
             catch (Exception e)

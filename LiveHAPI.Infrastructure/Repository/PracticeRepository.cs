@@ -24,6 +24,11 @@ namespace LiveHAPI.Infrastructure.Repository
             return Context.Practices.FirstOrDefault(x => x.IsDefault && x.PracticeTypeId == "Facility");
         }
 
+        public IEnumerable<Practice> GetAllDefault()
+        {
+            return Context.Practices.Where(x => x.PracticeTypeId == "Facility");
+        }
+
         public Practice GetByCode(string code)
         {
             return Context.Practices.FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
