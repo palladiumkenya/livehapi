@@ -53,8 +53,10 @@ namespace LiveHAPI.Sync.Core.Loader
             if (!actions.Any())
                 actions = new[] {LoadAction.All};
 
+            var facs = _practiceRepository.GetAllDefault().ToList();
+
             //  Set Facility
-            var facility = _practiceRepository.GetDefault();
+            var facility = facs.FirstOrDefault(x => x.IsDefault);
             if (null == facility)
                 throw new Exception($"Default Faciltity Not found");
 

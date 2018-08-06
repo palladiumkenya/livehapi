@@ -35,6 +35,11 @@ namespace LiveHAPI.Sync.Core.Exchange
             return Create(sendingFacility,DateTime.Now);
         }
 
+        public void UpdateMfl(string mfl)
+        {
+            SENDING_FACILITY = mfl;
+        }
+
         public static MESSAGE_HEADER Create(string sendingFacility, DateTime? messageDatetime)
         {
             return new MESSAGE_HEADER(

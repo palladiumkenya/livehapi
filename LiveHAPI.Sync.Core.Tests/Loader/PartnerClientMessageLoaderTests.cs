@@ -60,7 +60,7 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
                     new ClientPartnerTracingStageExtractor(_contactsEncounterRepository, _subscriberSystemRepository));
 
             _clientStageExtractor = new ClientStageExtractor(new PersonRepository(_context), _clientStageRepository,
-                _subscriberSystemRepository,new ClientRepository(_context));
+                _subscriberSystemRepository,new ClientRepository(_context), new PracticeRepository(_context));
             _clientPretestStageExtractor = new ClientPretestStageExtractor(_clientStageRepository,
                 _clientPretestStageRepository, _subscriberSystemRepository, _clientEncounterRepository,
                 new ClientRepository(_context));
