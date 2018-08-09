@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
@@ -25,6 +26,22 @@ namespace LiveHAPI.Core.Model.Network
         public decimal? Lat { get; set; }
         [MaxLength(150)]
         public string Notes { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Identifier { get; set; }
+        [NotMapped]
+        public string IdentifierPrefix
+        {
+            get
+            {
+                var idLength = Identifier.ToString().Length;
+
+                if (idLength > 3)
+                    return $"A{Identifier.ToString($"D{idLength}")}";
+
+                return $"A{Identifier:D3}";
+            }
+        }
+
         public Guid PracticeId { get; set; }
 
         public bool IsActive()
@@ -45,13 +62,19 @@ namespace LiveHAPI.Core.Model.Network
         {
             Id = LiveGuid.NewGuid();
         }
-        private PracticeActivation(Guid practiceId,string device, string model, string deviceCode) : this()
+        private PracticeActivation(Guid practiceId, string device, string model) : this()
         {
             Device = device;
             Model = model;
-            DeviceCode = deviceCode;
             PracticeId = practiceId;
         }
+
+        private PracticeActivation(Guid practiceId, string device, string model, string deviceCode) : this(practiceId,
+            device, model)
+        {
+            DeviceCode = deviceCode;
+        }
+
         private PracticeActivation(Guid practiceId, string device, string model, string deviceCode, string ipAddress, decimal? lng, decimal? lat):this(practiceId,device,  model,  deviceCode)
         {
             IPAddress = ipAddress;
@@ -59,7 +82,19 @@ namespace LiveHAPI.Core.Model.Network
             Lat = lat;
         }
 
-     
+        public static PracticeActivation Create(DeviceInfo deviceInfo, bool activate = true)
+        {
+            PracticeActivation activation = null;
+            
+            activation = new PracticeActivation(deviceInfo.PracticeId, deviceInfo.Serial, deviceInfo.Model);
+
+            if (activate)
+                activation.Activate();
+
+            return activation;
+        }
+
+
         public static PracticeActivation Create(Guid practiceId, DeviceInfo deviceInfo, DeviceLocationInfo deviceLocationInfo = null,bool activate=true)
         {
             PracticeActivation activation = null;

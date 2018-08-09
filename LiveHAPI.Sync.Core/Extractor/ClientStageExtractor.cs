@@ -16,14 +16,16 @@ namespace LiveHAPI.Sync.Core.Extractor
         private readonly IClientStageRepository _clientStageRepository;
         private readonly IClientRepository _clientRepository;
         private readonly ISubscriberSystemRepository _subscriberSystemRepository;
+        private readonly IPracticeRepository _practiceRepository;
         
         public ClientStageExtractor(IPersonRepository personRepository, IClientStageRepository clientStageRepository,
-            ISubscriberSystemRepository subscriberSystemRepository, IClientRepository clientRepository)
+            ISubscriberSystemRepository subscriberSystemRepository, IClientRepository clientRepository, IPracticeRepository practiceRepository)
         {
             _personRepository = personRepository;
             _clientStageRepository = clientStageRepository;
             _subscriberSystemRepository = subscriberSystemRepository;
             _clientRepository = clientRepository;
+            _practiceRepository = practiceRepository;
         }
 
         public async Task<IEnumerable<ClientStage>> Extract(Guid? htsClientId = null)
@@ -34,14 +36,21 @@ namespace LiveHAPI.Sync.Core.Extractor
 
             if (null == subscriber)
                 throw new Exception("Default EMR NOT SET");
-            
+
+            var practices = _practiceRepository.GetAllDefault().ToList();
            
             var clients = new List<ClientStage>();
 
             var persons = _personRepository.GetAllClients();
             foreach (var person in persons)
             {
-                clients.Add(ClientStage.Create(person, subscriber));
+                var client = ClientStage.Create(person, subscriber);
+                var practice= practices.FirstOrDefault(x => x.Id == client.PracticeId);
+
+                if (null != practice)
+                    client.SiteCode = practice.Code;
+                
+                clients.Add(client);
             }
 
             return clients.Where(x => !x.ClientId.IsNullOrEmpty());

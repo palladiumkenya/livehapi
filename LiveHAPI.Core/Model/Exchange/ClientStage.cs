@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Subscriber;
@@ -33,6 +34,8 @@ namespace LiveHAPI.Core.Model.Exchange
         public DateTime StatusDate { get; set; }
         public string SyncStatusInfo { get; set; }
         public int UserId { get; set; }
+        public Guid PracticeId { get; set; }
+        public string SiteCode { get; set; }
 
 
         public ClientStage()
@@ -83,6 +86,7 @@ namespace LiveHAPI.Core.Model.Exchange
             var clientt = person.PersonClient;
             if (null != clientt)
             {
+                clientStage.PracticeId = clientt.PracticeId;
                 clientStage.KeyPop =
                     subscriber.GetTranslation(clientt.KeyPop, "HTSKeyPopulation", "0").SafeConvert<int>();
                 clientStage.MaritalStatus = subscriber.GetTranslation(clientt.MaritalStatus, "HTSMaritalStatus", "0")

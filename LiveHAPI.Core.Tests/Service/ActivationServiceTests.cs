@@ -35,8 +35,8 @@ namespace LiveHAPI.Core.Tests.Service
 
             _context = new LiveHAPIContext(options);
            // TestDataCreator.Init(_context);
-          //  var pr = new PracticeRepository(_context);
-//            _practice = pr.GetAll().First();
+            var pr = new PracticeRepository(_context);
+            _practice = pr.GetAll().First();
             
             _activationService = new ActivationService(new PracticeRepository(_context),new PracticeActivationRepository(_context),new MasterFacilityRepository(_context));
         }
@@ -80,9 +80,29 @@ namespace LiveHAPI.Core.Tests.Service
         [Test]
         public void should_Get_Activation_Code_New()
         {
-            var device=new DeviceInfo("1XY1","LG G6","192");
+            var device=new DeviceInfo(Guid.NewGuid().ToString(),"LG G6","192");
 
             var code= _activationService.GetActivationCode(_practice.Code, device);
+            Assert.IsTrue(!string.IsNullOrWhiteSpace(code));
+            Console.WriteLine($"{device}>>>{code}");
+        }
+        
+        [Test]
+        public void should_Enroll_Device_New()
+        {
+            var device=new DeviceInfo(Guid.NewGuid().ToString(),"LG G6",_practice.Id);
+
+            var code= _activationService.EnrollDevice(device);
+            Assert.IsTrue(!string.IsNullOrWhiteSpace(code));
+            Console.WriteLine($"{device}>>>{code}");
+        }
+        
+        [Test]
+        public void should_Enroll_Device_Existing()
+        {
+            var device=new DeviceInfo("1XY1","LG G6",_practice.Id);
+
+            var code= _activationService.EnrollDevice(device);
             Assert.IsTrue(!string.IsNullOrWhiteSpace(code));
             Console.WriteLine($"{device}>>>{code}");
         }

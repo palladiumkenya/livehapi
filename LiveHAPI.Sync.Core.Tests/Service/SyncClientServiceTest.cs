@@ -47,7 +47,7 @@ namespace LiveHAPI.Sync.Core.Tests.Service
             var  practiceRepository = new PracticeRepository(_context);
             var  clientStageRepository = new ClientStageRepository(_context);
 
-            var  clientStageExtractor = new ClientStageExtractor(new PersonRepository(_context), clientStageRepository, subscriberSystemRepository,new ClientRepository(_context));
+            var  clientStageExtractor = new ClientStageExtractor(new PersonRepository(_context), clientStageRepository, subscriberSystemRepository,new ClientRepository(_context), new PracticeRepository(_context));
             var clientPretestStageExtractor = new ClientPretestStageExtractor(clientStageRepository, clientPretestStageRepository, subscriberSystemRepository, clientEncounterRepository, new ClientRepository(_context));
             var contactsEncounterRepository = new ContactsEncounterRepository(_context);
             

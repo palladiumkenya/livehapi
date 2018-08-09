@@ -139,8 +139,7 @@ namespace LiveHAPI.Infrastructure
                     Log.Error(new string('*', 50));
                 }
 
-                if (!context.SubscriberCohorts.Any())
-                    context.BulkInsert(InitialSeeder.ReadCsv<SubscriberCohort>());
+                context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberCohort>());
 
                 transaction.Commit();
             }

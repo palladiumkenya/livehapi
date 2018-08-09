@@ -47,7 +47,7 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
             _subscriberSystemRepository = new SubscriberSystemRepository(_context);
 
             _clientStageExtractor =
-                new ClientStageExtractor(_personRepository, _clientStageRepository, _subscriberSystemRepository,new ClientRepository(_context));
+                new ClientStageExtractor(_personRepository, _clientStageRepository, _subscriberSystemRepository,new ClientRepository(_context),new PracticeRepository(_context));
 
             subscriber = Builder<SubscriberSystem>.CreateNew()
                 .With(x => x.Id = new Guid("16E23877-9D69-11E7-ABC4-CEC278B6B50A"))

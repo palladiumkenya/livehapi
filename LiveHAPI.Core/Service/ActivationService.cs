@@ -5,6 +5,7 @@ using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
+using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.ValueObject;
 using Serilog;
 
@@ -87,11 +88,26 @@ namespace LiveHAPI.Core.Service
                 if (null == existingPractice)
                 {
                     Log.Debug($"Enrolling new practice {practice}");
+                    practice.MakeFacility();
                     _practiceRepository.InsertOrUpdate(practice);
                     _practiceRepository.Save();
 
                 }
             }
+        }
+
+        public string EnrollDevice(DeviceInfo info)
+        {
+            var activation = _practiceActivationRepository.GetAll(x => x.Device.IsSameAs(info.Serial)).FirstOrDefault();
+            if (null == activation)
+            {
+                var practiceActivation = PracticeActivation.Create(info);
+                _practiceActivationRepository.Insert(practiceActivation);
+                _practiceRepository.Save();
+                return practiceActivation.IdentifierPrefix;
+            }
+
+            return activation.IdentifierPrefix;
         }
 
         public string GetActivationCode(string code, DeviceInfo info, DeviceLocationInfo locationInfo=null)

@@ -50,5 +50,22 @@ namespace LiveHAPI.Core.Tests.Model.Network
             Assert.IsFalse(activation.IsActive());
             Console.WriteLine(activation);
         }
+
+        [TestCase(1,"A001")]
+        [TestCase(101, "A101")]
+        [TestCase(1011, "A1011")]
+        [TestCase(10111, "A10111")]
+        public void should_Generte_IdentifierPrefix(int id,string idPrefix)
+        {
+            var device = _devices.First();
+            device.Serial = "X3";
+
+            var activation = PracticeActivation.Create(_practiceId, device, null, false);
+
+            activation.Identifier = id;
+          
+            Assert.AreEqual(idPrefix,activation.IdentifierPrefix);
+            Console.WriteLine($"{id} > {activation.IdentifierPrefix}");
+        }
     }
 } 
