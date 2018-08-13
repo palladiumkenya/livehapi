@@ -113,6 +113,8 @@ namespace LiveHAPI
             services.AddScoped<IPSmartStoreRepository, PSmartStoreRepository>();
             services.AddScoped<IInvalidMessageRepository, InvalidMessageRepository>();
 
+            services.AddScoped<IClientStageRepository, ClientStageRepository>();
+
             services.AddScoped<IMetaService, MetaService>();
             services.AddScoped<IStaffService, StaffService>();
             services.AddScoped<IActivationService, ActivationService>();
@@ -126,6 +128,8 @@ namespace LiveHAPI
 
             services.AddScoped<IDbManager, DbManager>();
             services.AddScoped<IRestManager, RestManger > ();
+
+            services.AddScoped<ISyncManagerService, SyncManagerService>();
 
             ServiceCollection = services;
             ServiceProvider = ServiceCollection.BuildServiceProvider();

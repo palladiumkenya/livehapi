@@ -13,6 +13,13 @@ import {HttpClientModule} from '@angular/common/http';
 import {ConfigService} from './services/config.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SyncConfigComponent } from './sync-config/sync-config.component';
+import {AppMenuComponent} from './app-menu/app-menu.component';
+import {AppBreadcrumbComponent} from './app-breadcrumb/app-breadcrumb.component';
+import {BreadcrumbService} from './breadcrumb.service';
+import {AppSubmenuComponent} from './app-submenu/app-submenu.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { StatsComponent } from './stats/stats.component';
+import { ClientManagerComponent } from './client-manager/client-manager.component';
 
 
 @NgModule({
@@ -22,10 +29,16 @@ import { SyncConfigComponent } from './sync-config/sync-config.component';
     TopBarComponent,
     DashboardComponent,
     ConfigComponent,
-    SyncConfigComponent
+    SyncConfigComponent,
+      AppMenuComponent,
+      AppBreadcrumbComponent,
+      AppSubmenuComponent,
+      StatsComponent,
+      ClientManagerComponent
   ],
   imports: [
     BrowserModule,
+      BrowserAnimationsModule,
     RouterModule,
     AppRoutes,
       ButtonModule,
@@ -37,7 +50,7 @@ import { SyncConfigComponent } from './sync-config/sync-config.component';
       ReactiveFormsModule
    ],
   providers: [
-      ConfigService,  ConfirmationService,
+      ConfigService,  ConfirmationService, BreadcrumbService
   ],
   bootstrap: [AppComponent]
 })

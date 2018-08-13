@@ -1,6 +1,7 @@
-import {animate, Component, Input, OnInit, state, style, transition, trigger} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {MenuItem} from 'primeng/api';
 import {AppComponent} from '../app.component';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
     selector: '[liveapp-app-submenu]',

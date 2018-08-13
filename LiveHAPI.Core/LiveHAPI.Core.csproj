@@ -28,6 +28,7 @@
     <Compile Include="Model\Exchange\ClientLinkageStage.cs" />
     <Compile Include="Model\Exchange\ClientPretestStage.cs" />
     <Compile Include="Model\Exchange\ClientStage.cs" />
+    <Compile Include="Model\Exchange\Stats.cs" />
     <Compile Include="Model\Lookup\MasterFacility.cs" />
     <Compile Include="Model\People\ClientState.cs" />
     <Compile Include="Model\People\TempClientRelationship.cs" />
