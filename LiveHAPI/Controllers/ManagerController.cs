@@ -36,6 +36,22 @@ namespace LiveHAPI.Controllers
             }
         }
 
+        [HttpGet("ErrorsCount")]
+        public IActionResult GetErrorsCount()
+        {
+            try
+            {
+                var count = _managerService.GetSyncErrorClientsCount();
+                return Ok(count);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+
         [HttpGet("Errors")]
         public IActionResult GetErrors()
         {

@@ -8,6 +8,7 @@ namespace LiveHAPI.Core.Interfaces.Services
     public interface ISyncManagerService
     {
         IEnumerable<ClientStage> GetSyncErrorClients();
+        int GetSyncErrorClientsCount();
         Task Resend(IEnumerable<Guid> clientIds);
         Task ResendAll();
         Stats GetStats();
