@@ -7,6 +7,7 @@ using LiveHAPI.Core.Model.People;
 using Microsoft.EntityFrameworkCore.Extensions.Internal;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Shared;
 using Microsoft.EntityFrameworkCore;
@@ -66,13 +67,18 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public IEnumerable<ClientStage> GetIndexClients()
         {
-            return GetAll(x => x.IsIndex && x.SyncStatus != SyncStatus.SentSuccess);
+            return GetAll(x => x.IsIndex && x.SyncStatus == SyncStatus.Staged);
+        }
+
+        public IEnumerable<ClientStage> GetByStatus(SyncStatus status)
+        {
+            return GetAll(x => x.SyncStatus == status);
         }
 
         public ClientStage GetQueued(Guid clientId)
         {
             return DbSet.AsNoTracking()
-                .FirstOrDefault(x => x.ClientId == clientId && x.SyncStatus != SyncStatus.SentSuccess);
+                .FirstOrDefault(x => x.ClientId == clientId && x.SyncStatus == SyncStatus.Staged);
         }
 
         public void UpdateSyncStatus(Guid clientId, SyncStatus syncStatus, string statusInfo="")
@@ -90,6 +96,51 @@ namespace LiveHAPI.Infrastructure.Repository
             using (var con = GetDbConnection())
             {
                 con.Execute(sql,new {ClientId = clientId, SyncStatus =syncStatus, SyncStatusInfo=statusInfo, StatusDate=DateTime.Now});
+            }
+        }
+
+        public async Task UpdateSyncStatus(IEnumerable<Guid> clientIds, SyncStatus syncStatus, string statusInfo = "")
+        {
+            var backLog = new List<KeyValuePair<Guid, string>>();
+
+            foreach (var clientId in clientIds)
+            {
+                string sql = $@"
+                            UPDATE {nameof(ClientStage)}s 
+                            SET 
+                                {nameof(ClientStage.SyncStatus)} = @SyncStatus,
+                                {nameof(ClientStage.SyncStatusInfo)} = @SyncStatusInfo,
+                                {nameof(ClientStage.StatusDate)}=@StatusDate
+                            WHERE 
+                                {nameof(ClientStage.ClientId)} = @ClientId;
+                          ";
+                backLog.Add(new KeyValuePair<Guid, string>(clientId, sql));
+            }
+
+            using (var con = GetDbConnection())
+            {
+                foreach (var backLogItem in backLog)
+                {
+                    await con.ExecuteAsync(backLogItem.Value,
+                        new
+                        {
+                            ClientId = backLogItem.Key,
+                            SyncStatus = syncStatus,
+                            SyncStatusInfo = statusInfo,
+                            StatusDate = DateTime.Now
+                        });
+                }
+            }
+        }
+
+        public async  Task UpdateAllWithSyncStatus(SyncStatus syncStatus, SyncStatus newSyncStatus, string statusInfo = "")
+        {
+            var allWith = GetByStatus(syncStatus).ToList();
+
+            var ids = allWith.Select(x => x.ClientId).ToList();
+            if (ids.Any())
+            {
+                await UpdateSyncStatus(ids, newSyncStatus, statusInfo);
             }
         }
 

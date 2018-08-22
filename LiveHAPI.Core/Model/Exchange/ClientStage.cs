@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Humanizer;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Shared.Custom;
@@ -37,6 +38,15 @@ namespace LiveHAPI.Core.Model.Exchange
         public Guid PracticeId { get; set; }
         public string SiteCode { get; set; }
 
+        [NotMapped]
+        public string Names
+        {
+            get { return $"{FirstName} {MiddleName} {LastName}"; }
+        }
+       
+        [NotMapped]
+        public string TimeAgo => StatusDate.Humanize(false);
+        
 
         public ClientStage()
         {

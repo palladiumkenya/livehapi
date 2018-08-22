@@ -4,8 +4,9 @@ import {Subscription} from 'rxjs/Subscription';
 import {DbProtocol} from '../model/db-protocol';
 import {ConfirmationService, Message} from 'primeng/api';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Facility} from "../model/facility";
-import {Endpoint} from "../model/endpoint";
+import {Facility} from '../model/facility';
+import {Endpoint} from '../model/endpoint';
+import {BreadcrumbService} from '../breadcrumb.service';
 
 @Component({
   selector: 'liveapp-config',
@@ -38,8 +39,14 @@ export class ConfigComponent implements OnInit, OnDestroy {
     public databaseForm: FormGroup;
     public synForm: FormGroup;
 
-    public constructor(private configService: ConfigService, private fb: FormBuilder, private confirmationService: ConfirmationService) {
+    public constructor(private configService: ConfigService, private fb: FormBuilder, private confirmationService: ConfirmationService,
+                       public breadcrumbService: BreadcrumbService) {
         this._configService = configService;
+
+        this.breadcrumbService.setItems([
+            {label: 'Setting'}
+        ]);
+
         this.databaseForm = this.fb.group({
             server: ['', [Validators.required]],
             database: ['', [Validators.required]],
@@ -48,7 +55,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
         });
 
         this.synForm = this.fb.group({
-            emr:[{value: 'IQCARE', disabled: true}, [Validators.required]],
+            emr: [{value: 'IQCARE', disabled: true}, [Validators.required]],
             iqcare: ['', [Validators.required]],
         });
     }
@@ -158,8 +165,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
                     this.apiMessages.push({severity: 'error', summary: 'Error verifying', detail: <any>e});
                 },
                 () => {
-                    if (this.faclity)
-                    {
+                    if (this.faclity) {
                         this.epWorks = true;
                     }
                     if (this.epWorks) {

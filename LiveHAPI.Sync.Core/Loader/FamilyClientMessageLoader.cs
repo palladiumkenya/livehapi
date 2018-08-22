@@ -66,6 +66,9 @@ namespace LiveHAPI.Sync.Core.Loader
                 
                 if (null != stagedClient && !stagedClient.IsIndex)
                 {
+
+                    header.UpdateMfl(stagedClient.SiteCode);
+
                     #region PATIENT_IDENTIFICATION
 
                     var pid = PARTNER_FAMILY_PATIENT_IDENTIFICATION.Create(stagedClient, familyMember.IndexClientId,

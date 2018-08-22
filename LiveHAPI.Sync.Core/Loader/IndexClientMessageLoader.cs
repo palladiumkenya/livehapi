@@ -74,7 +74,9 @@ namespace LiveHAPI.Sync.Core.Loader
 
             foreach (var stagedClient in stagedIndexClients)
             {
-              
+
+                header.UpdateMfl(stagedClient.SiteCode);
+
                 #region PATIENT_IDENTIFICATION
 
                 var pid = PATIENT_IDENTIFICATION.Create(stagedClient);
