@@ -11,7 +11,9 @@ namespace LiveHAPI.Core.Interfaces.Repository
         Model.People.Person GetDemographics(Guid id);
         IEnumerable<Person> GetStaff();
         IEnumerable<PersonMatch> Search(string searchItem);
+        IEnumerable<PersonMatch> SearchSite(string site, string searchItem);
         IEnumerable<PersonMatch> GetByCohort(SubscriberCohort cohort);
+        IEnumerable<PersonMatch> GetBySiteCohort(string site,SubscriberCohort cohort);
         IEnumerable<Person> GetAllClients();
         IEnumerable<Person> GetAllIndexClients();
         IEnumerable<Person> GetAllSecondaryClients();

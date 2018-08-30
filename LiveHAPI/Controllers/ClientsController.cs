@@ -85,6 +85,35 @@ namespace LiveHAPI.Controllers
       }
     }
 
+    [Route("name/{sitecode}/{name}")]
+    [HttpGet]
+    public IActionResult FindSiteClientNames(string sitecode, string name)
+    {
+      try
+      {
+        var personMatches = _clientService.SearchSiteByName(sitecode, name).ToList();
+        var personData = new List<RemoteClientInfo>();
+
+        foreach (var personMatch in personMatches)
+        {
+          var rc = new RemoteClientInfo();
+
+          rc.Client = personMatch.RemoteClient.Client;
+          if (null != rc.Client && !rc.Client.Id.IsNullOrEmpty())
+            personData.Add(rc);
+        }
+
+
+
+        return Ok(personData);
+      }
+      catch (Exception e)
+      {
+        Log.Debug($"Error searching clients: {e}");
+        return StatusCode(500, "Error loading clients");
+      }
+    }
+
     [Route("id/{id}")]
     [HttpGet]
     public IActionResult FindClientIds(string id)

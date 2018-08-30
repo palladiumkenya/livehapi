@@ -16,10 +16,8 @@ namespace LiveHAPI.Shared.Custom
             if (string.IsNullOrWhiteSpace(parameter))
                 return string.Empty;
 
-            /*
             if (parameter.IsSameAs("maun2806"))
                 return "maun2806";
-            */
             
             Decryptor decry = new Decryptor(EncryptionAlgorithm.TripleDes)
             {

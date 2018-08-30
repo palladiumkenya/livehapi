@@ -19,9 +19,7 @@ namespace LiveHAPI.Core.Model.Encounters
         public string HandedTo { get; set; }
         [MaxLength(50)]
         public string WorkerCarde { get; set; }
-
         public DateTime? ARTStartDate { get; set; }
-
         public DateTime? DateEnrolled { get; set; }
         [MaxLength(50)]
         public string EnrollmentId { get; set; }
