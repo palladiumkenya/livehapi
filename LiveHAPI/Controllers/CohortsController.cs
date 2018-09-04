@@ -92,5 +92,48 @@ namespace LiveHAPI.Controllers
                 return StatusCode(500, "Error loading cohort");
             }
         }
+        [Route("id/{sitecode}/{id}")]
+        [HttpGet]
+        public IActionResult GetSiteCohort(string sitecode, string id)
+        {
+            Guid cohortId = Guid.Empty;
+
+            if (string.IsNullOrWhiteSpace(id))
+                return BadRequest();
+
+            try
+            {
+                cohortId = new Guid(id);
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                var cohort = _subscriberSystem.Cohorts.FirstOrDefault(x => x.Id == cohortId);
+
+                if (null == cohort)
+                    return NotFound();
+
+                var personMatches = _clientService.LoadBySiteCohort(sitecode, cohort).ToList();
+                var personData = new List<RemoteClientInfo>();
+
+                foreach (var personMatch in personMatches)
+                {
+                    var rc = new RemoteClientInfo();
+
+                    rc.Client = personMatch.RemoteClient.Client;
+                    personData.Add(rc);
+                }
+
+                return Ok(personData);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"Error loading cohort: {e}");
+                return StatusCode(500, "Error loading cohort");
+            }
+        }
     }
 }

@@ -20,6 +20,7 @@ namespace LiveHAPI.Core.Model.Exchange
         public Guid ClientId { get; set; }
         public SyncStatus SyncStatus { get; set; }
         public DateTime StatusDate { get; set; }
+        public DateTime? ARTStartDate { get; set; }
         public string SyncStatusInfo { get; set; }
         public int UserId { get; set; }
 
@@ -45,6 +46,7 @@ namespace LiveHAPI.Core.Model.Exchange
                 clientStage.HealthWorker = linkage.HandedTo;
                 clientStage.Carde = linkage.WorkerCarde;
                 clientStage.DateEnrolled = linkage.DateEnrolled;
+                clientStage.ARTStartDate = linkage.ARTStartDate;
                 clientStage.CccNumber = linkage.EnrollmentId;
                 clientStage.Remarks = linkage.Remarks;
                 clientStage.ClientId = linkageEncounter.ClientId;

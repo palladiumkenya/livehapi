@@ -10,14 +10,16 @@ namespace LiveHAPI.Sync.Core.Exchange.Encounters
         public string HEALTH_WORKER { get; set; }
         public string CARDE { get; set; }
         public string DATE_ENROLLED { get; set; }
-        public string CCC_NUMBER { get; set; }
         public string REMARKS { get; set; }
+        public string CCC_NUMBER { get; set; }
+        public string ARTStartDate { get; set; }
 
         public NewLinkage()
         {
         }
 
-        private NewLinkage(string facility, string healthWorker, string carde, string dateEnrolled, string cccNumber, string remarks)
+        private NewLinkage(string facility, string healthWorker, string carde, string dateEnrolled, string cccNumber,
+            string remarks, string artStartDate)
         {
             FACILITY = facility;
             HEALTH_WORKER = healthWorker;
@@ -25,18 +27,23 @@ namespace LiveHAPI.Sync.Core.Exchange.Encounters
             DATE_ENROLLED = dateEnrolled;
             CCC_NUMBER = cccNumber;
             REMARKS = remarks;
+            ARTStartDate = artStartDate;
         }
 
-        public static NewLinkage Create(string facility, string healthWorker, string carde, DateTime? dateEnrolled, string cccNumber, string remarks)
+        public static NewLinkage Create(string facility, string healthWorker, string carde, DateTime? dateEnrolled,
+            string cccNumber, string remarks, DateTime? artStartDate)
         {
-            return new NewLinkage(facility,healthWorker,carde,dateEnrolled.ToIqDateOnly(),cccNumber,remarks);
+            return new NewLinkage(facility, healthWorker, carde, dateEnrolled.ToIqDateOnly(), cccNumber, remarks,
+                artStartDate.ToIqDateOnly());
         }
 
         public static NewLinkage Create(ClientLinkageStage stage1)
         {
-           return new NewLinkage(
-               stage1.Facility,stage1.HealthWorker,stage1.Carde,stage1.DateEnrolled.ToIqDateOnly(),stage1.CccNumber,stage1.Remarks
-               );
+            return new NewLinkage(
+                stage1.Facility, stage1.HealthWorker, stage1.Carde, stage1.DateEnrolled.ToIqDateOnly(),
+                stage1.CccNumber, stage1.Remarks,
+                stage1.ARTStartDate.ToIqDateOnly()
+            );
         }
     }
 }

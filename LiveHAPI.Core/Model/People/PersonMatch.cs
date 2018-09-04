@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.ValueObject;
 
 namespace LiveHAPI.Core.Model.People
@@ -10,6 +12,9 @@ namespace LiveHAPI.Core.Model.People
         public decimal Rank { get; set; }
         
         public RemoteClientInfo RemoteClient  { get; set; }
+        public Guid PracticeId => GetId();
+
+      
 
         public PersonMatch()
         {
@@ -25,6 +30,28 @@ namespace LiveHAPI.Core.Model.People
             RemoteClient.Client = Person.GetClientInfo();
         }
 
+        public bool IsInPractice(Guid practiceId)
+        {
+            if (!practiceId.IsNullOrEmpty() &&
+                null != RemoteClient &&
+                RemoteClient.HasPractice)
+            {
+                return practiceId == RemoteClient.Client.PracticeId.Value;
+            }
+
+            return false;
+        }
+
+
+        private Guid GetId()
+        {
+            if (null != RemoteClient && RemoteClient.HasPractice)
+            {
+                return RemoteClient.Client.PracticeId.Value;
+            }
+
+            return Guid.NewGuid();
+        }
 
         public override string ToString()
         {
