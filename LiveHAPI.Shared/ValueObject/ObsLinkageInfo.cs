@@ -15,6 +15,7 @@ namespace LiveHAPI.Shared.ValueObject
         public string EnrollmentId { get; set; }
         public string FacilityHandedTo { get; set; }
         public string HandedTo { get; set; }
+        public DateTime? ARTStartDate { get; set; }
         public string ReferredTo { get; set; }
         public string Remarks { get; set; }
         public string WorkerCarde { get; set; }

@@ -28,6 +28,7 @@
     <Compile Include="Model\Exchange\ClientLinkageStage.cs" />
     <Compile Include="Model\Exchange\ClientPretestStage.cs" />
     <Compile Include="Model\Exchange\ClientStage.cs" />
+    <Compile Include="Model\Exchange\Stats.cs" />
     <Compile Include="Model\Lookup\MasterFacility.cs" />
     <Compile Include="Model\People\ClientState.cs" />
     <Compile Include="Model\People\TempClientRelationship.cs" />
@@ -97,14 +98,10 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LiveHAPI.Shared\LiveHAPI.Shared.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
-      <HintPath>C:\Users\koskedk\.nuget\packages\microsoft.aspnetcore.hosting.abstractions\2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>

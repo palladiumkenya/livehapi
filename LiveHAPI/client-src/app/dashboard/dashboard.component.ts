@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {BreadcrumbService} from '../breadcrumb.service';
 
 @Component({
   selector: 'liveapp-dashboard',
@@ -8,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
   info = 'This is the Afya Mobile API that will allow data synchronization with your EMR';
 
-  public constructor() { }
+  public constructor(public breadcrumbService: BreadcrumbService) {
+      this.breadcrumbService.setItems([
+          {label: 'Dashboard'}
+      ]);
+  }
 
   public ngOnInit() {
   }

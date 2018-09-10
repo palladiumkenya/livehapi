@@ -166,8 +166,6 @@ namespace LiveHAPI.Sync.Core.Tests.Writer
             {
                 Console.WriteLine(response);
             }
-        }
-        
-       
+        }               
     }
 }

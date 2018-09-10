@@ -178,6 +178,8 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime?>("ARTStartDate");
+
                     b.Property<DateTime?>("DateEnrolled");
 
                     b.Property<DateTime?>("DatePromised");
@@ -513,11 +515,15 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<string>("Phone");
 
+                    b.Property<Guid>("PracticeId");
+
                     b.Property<DateTime>("RegistrationDate");
 
                     b.Property<string>("Serial");
 
                     b.Property<int>("Sex");
+
+                    b.Property<string>("SiteCode");
 
                     b.Property<DateTime>("StatusDate");
 

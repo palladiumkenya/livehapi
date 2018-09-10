@@ -19,6 +19,7 @@ namespace LiveHAPI.Core.Model.Encounters
         public string HandedTo { get; set; }
         [MaxLength(50)]
         public string WorkerCarde { get; set; }
+        public DateTime? ARTStartDate { get; set; }
         public DateTime? DateEnrolled { get; set; }
         [MaxLength(50)]
         public string EnrollmentId { get; set; }
@@ -31,7 +32,9 @@ namespace LiveHAPI.Core.Model.Encounters
             Id = LiveGuid.NewGuid();
         }
 
-        public ObsLinkage(Guid id,string referredTo, DateTime? datePromised, string facilityHandedTo, string handedTo, string workerCarde, DateTime? dateEnrolled, string enrollmentId, string remarks, Guid encounterId)
+        public ObsLinkage(Guid id, string referredTo, DateTime? datePromised, string facilityHandedTo, string handedTo,
+            string workerCarde, DateTime? dateEnrolled, string enrollmentId, string remarks, Guid encounterId,
+            DateTime? artStartDate)
         {
             Id = id;
             ReferredTo = referredTo;
@@ -43,13 +46,14 @@ namespace LiveHAPI.Core.Model.Encounters
             EnrollmentId = enrollmentId;
             Remarks = remarks;
             EncounterId = encounterId;
+            ARTStartDate = artStartDate;
         }
 
 
         public static ObsLinkage Create(ObsLinkageInfo obsInfo)
         {
             return new ObsLinkage(obsInfo.Id, obsInfo.ReferredTo ,obsInfo.DatePromised, obsInfo.FacilityHandedTo, obsInfo.HandedTo, obsInfo.WorkerCarde, obsInfo.DateEnrolled, obsInfo.EnrollmentId,
-                obsInfo.Remarks, obsInfo.EncounterId);
+                obsInfo.Remarks, obsInfo.EncounterId,obsInfo.ARTStartDate);
         }
 
         public static List<ObsLinkage> Create(EncounterInfo encounterInfo)

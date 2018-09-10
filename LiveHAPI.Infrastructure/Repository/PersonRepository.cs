@@ -130,7 +130,37 @@ namespace LiveHAPI.Infrastructure.Repository
                     personMatches.Add(new PersonMatch(person,GetHit(person.Id,searchHits)));
                 }
             }
+            
             return personMatches;
+        }
+
+        public IEnumerable<PersonMatch> SearchSite(string site, string searchItem)
+        {
+            var practiceIds = new List<Guid>();
+            var results = new List<PersonMatch>();
+            
+            Guid siteId;
+            bool isValid = Guid.TryParse(site, out siteId);
+
+            if (isValid)
+            {
+                practiceIds = Context.Practices.AsNoTracking()
+                    .Where(x => x.Id == siteId)
+                    .Select(x => x.Id)
+                    .ToList();
+            }
+            else
+            {
+                practiceIds = Context.Practices.AsNoTracking()
+                    .Where(x => x.Code == site)
+                    .Select(x => x.Id)
+                    .ToList();
+            }
+
+            if (practiceIds.Any())
+                results = Search(searchItem).Where(x => practiceIds.Contains(x.PracticeId)).ToList();
+
+            return results;
         }
 
         public IEnumerable<PersonMatch> GetByCohort(SubscriberCohort cohort)
@@ -172,6 +202,35 @@ namespace LiveHAPI.Infrastructure.Repository
             }
 
             return personMatches;
+        }
+
+        public IEnumerable<PersonMatch> GetBySiteCohort(string site, SubscriberCohort cohort)
+        {
+            var practiceIds = new List<Guid>();
+            var results = new List<PersonMatch>();
+            
+            Guid siteId;
+            bool isValid = Guid.TryParse(site, out siteId);
+
+            if (isValid)
+            {
+                practiceIds = Context.Practices.AsNoTracking()
+                    .Where(x => x.Id == siteId)
+                    .Select(x => x.Id)
+                    .ToList();
+            }
+            else
+            {
+                practiceIds = Context.Practices.AsNoTracking()
+                    .Where(x => x.Code == site)
+                    .Select(x => x.Id)
+                    .ToList();
+            }
+
+            if (practiceIds.Any())
+                results = GetByCohort(cohort).Where(x => practiceIds.Contains(x.PracticeId)).ToList();
+
+            return results;
         }
 
         public IEnumerable<Person> GetAllClients()

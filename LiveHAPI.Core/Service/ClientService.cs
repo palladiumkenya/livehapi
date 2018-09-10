@@ -21,7 +21,7 @@ namespace LiveHAPI.Core.Service
         private readonly IPersonRepository _personRepository;
         private readonly IClientRepository _clientRepository;
         private readonly IInvalidMessageRepository _invalidMessageRepository;
-        
+
         public ClientService(IPracticeRepository practiceRepository, IPersonRepository personRepository, IClientRepository clientRepository, IInvalidMessageRepository invalidMessageRepository)
         {
             _practiceRepository = practiceRepository;
@@ -51,9 +51,22 @@ namespace LiveHAPI.Core.Service
             return new List<PersonMatch>();
         }
 
+        public IEnumerable<PersonMatch> SearchSiteByName(string site, string searchItem)
+        {
+            if (!string.IsNullOrWhiteSpace(searchItem))
+                return _personRepository.SearchSite(site,searchItem).ToList();
+
+            return new List<PersonMatch>();
+        }
+
         public IEnumerable<PersonMatch> LoadByCohort(SubscriberCohort cohort)
         {
             return _personRepository.GetByCohort(cohort);
+        }
+
+        public IEnumerable<PersonMatch> LoadBySiteCohort(string site, SubscriberCohort cohort)
+        {
+            return _personRepository.GetBySiteCohort(site, cohort);
         }
 
         public IEnumerable<Encounter> LoadEncounters(Guid id)
