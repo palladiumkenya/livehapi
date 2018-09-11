@@ -10,7 +10,7 @@
                         <button pButton type="button" [disabled]="blockReprocess" label="Export All"  class="ui-button-success" (click)="failedclients.exportCSV()"></button>
                     </div>
                 </p-toolbar>
-                <p-dataTable [value]="clients"  [loading]="loading"  loadingIcon="fa-spinner fa-pulse"  emptyMessage="None Failed"
+                <p-dataTable [value]="clients"  [loading]="loading"  loadingIcon="fa-spinner fa-pulse"  emptyMessage="No Records"
                              [responsive]="true"
                              [reorderableColumns]="true" columnResizeMode="fit" [resizableColumns]="true" [paginator]="true" [rows]="50"
                              [totalRecords]="clientsCount"

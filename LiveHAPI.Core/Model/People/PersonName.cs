@@ -18,6 +18,9 @@ namespace LiveHAPI.Core.Model.People
         public  string LastName { get; set; }
         [MaxLength(100)]
         public string MothersName { get; set; }
+
+        public string NickName { get; set; }
+
         [MaxLength(50)]
         public string Source { get; set; }
         [MaxLength(50)]
@@ -35,14 +38,15 @@ namespace LiveHAPI.Core.Model.People
         {
             Id = LiveGuid.NewGuid();
         }
-        private PersonName(string firstName, string middleName, string lastName, string mothersName) : this()
+        private PersonName(string firstName, string middleName, string lastName, string mothersName, string nickName) : this()
         {
             FirstName = firstName;
             MiddleName = middleName;
             LastName = lastName;
             MothersName = mothersName;
+            NickName = nickName;
         }
-        private PersonName(string firstName, string middleName, string lastName, string mothersName, string source, string sourceRef, string sourceSys):this(firstName,middleName,lastName,mothersName)
+        private PersonName(string firstName, string middleName, string lastName, string mothersName, string source, string sourceRef, string sourceSys, string nickName) :this(firstName,middleName,lastName,mothersName, nickName)
         {
             Source = source;
             SourceRef = sourceRef;
@@ -51,14 +55,14 @@ namespace LiveHAPI.Core.Model.People
         public static PersonName Create(PersonNameInfo personNameInfo)
         {
             return new PersonName(personNameInfo.FirstName, personNameInfo.MiddleName, personNameInfo.LastName, personNameInfo.MothersName, personNameInfo.SourceIdentity.Source,
-                personNameInfo.SourceIdentity.SourceRef, personNameInfo.SourceIdentity.SourceSys);
+                personNameInfo.SourceIdentity.SourceRef, personNameInfo.SourceIdentity.SourceSys,personNameInfo.NickName);
         }
 
         public static List<PersonName> Create(PersonInfo personInfo)
         {
             var list = new List<PersonName>
             {
-                new PersonName(personInfo.FirstName, personInfo.MiddleName, personInfo.LastName, personInfo.MothersName)
+                new PersonName(personInfo.FirstName, personInfo.MiddleName, personInfo.LastName, personInfo.MothersName, personInfo.NickName)
             };
             return list;
         }

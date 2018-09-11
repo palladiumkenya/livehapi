@@ -356,6 +356,7 @@ namespace LiveHAPI.Core.Model.People
             p.MiddleName = Names.FirstOrDefault()?.MiddleName;
             p.LastName = Names.FirstOrDefault()?.LastName;
             p.MothersName = Names.FirstOrDefault()?.MothersName;
+            p.NickName = Names.FirstOrDefault()?.NickName;
             p.Addresses = PersonAddress.GetAddressInfos(Addresses.ToList());
             p.Contacts = PersonContact.GetContactInfos(Contacts.ToList());
             return p;

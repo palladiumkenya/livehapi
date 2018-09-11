@@ -8,5 +8,6 @@ namespace LiveHAPI.Shared.Interfaces.Model
         string MiddleName { get; set; }
         string LastName { get; set; }
         string MothersName { get; set; }
+        string NickName { get; set; }
     }
 }
