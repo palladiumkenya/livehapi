@@ -13,9 +13,10 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    partial class LiveHAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20180912070557_Education")]
+    partial class Education
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -896,8 +897,6 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<string>("MaritalStatus")
                         .HasMaxLength(50);
-
-                    b.Property<Guid?>("Occupation");
 
                     b.Property<string>("OtherKeyPop")
                         .HasMaxLength(100);
