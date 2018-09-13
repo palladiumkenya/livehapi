@@ -371,12 +371,15 @@ namespace LiveHAPI.Core.Model.People
                 c.Id = cl.Id;
                 c.MaritalStatus = cl.MaritalStatus;
                 c.KeyPop = cl.KeyPop;
+                c.Education = cl.Education;
+                c.Completion = cl.Completion;
+                c.Occupation = cl.Occupation;
                 c.OtherKeyPop = cl.OtherKeyPop;
                 c.IsFamilyMember = cl.IsFamilyMember;
                 c.IsPartner = cl.IsPartner;
                 c.PreventEnroll = cl.PreventEnroll;
                 c.AlreadyTestedPos =cl.AlreadyTestedPos;
-
+                
                 c.PracticeId = cl.PracticeId;
                 c.Person = GetPersonInfo();
                 if (null != c.Person)
