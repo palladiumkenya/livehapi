@@ -13,6 +13,8 @@ namespace LiveHAPI.Core.Model.People
         [MaxLength(200)]
         public string Landmark { get; set; }
         public int? CountyId { get; set; }
+        public int? SubCountyId { get; set; }
+        public int? WardId { get; set; }
         public decimal? Lat { get; set; }
         public decimal? Lng { get; set; }
         [MaxLength(50)]
@@ -30,12 +32,14 @@ namespace LiveHAPI.Core.Model.People
             Id = LiveGuid.NewGuid();
         }
 
-        private PersonAddress(string landmark, int? countyId, decimal? lat, decimal? lng):this()
+        private PersonAddress(string landmark, int? countyId, decimal? lat, decimal? lng, int? subCountyId, int? wardId) :this()
         {
             Landmark = landmark;
             CountyId = countyId;
             Lat = lat;
             Lng = lng;
+            SubCountyId = subCountyId;
+            WardId = wardId;
         }
 
         public void ChangeTo(PersonAddress address)
@@ -44,11 +48,14 @@ namespace LiveHAPI.Core.Model.People
             CountyId = address.CountyId;
             Lat = address.Lat;
             Lng = address.Lng;
+            SubCountyId = address.SubCountyId;
+            WardId = address.WardId;
         }
 
         public static PersonAddress Create(AddressInfo address)
         {
-            return new PersonAddress(address.Landmark, address.CountyId, address.Lat, address.Lng);
+            return new PersonAddress(address.Landmark, address.CountyId, address.Lat, address.Lng, address.SubCountyId,
+                address.WardId);
         }
 
         public static List<PersonAddress> Create(PersonInfo personInfo)
@@ -80,7 +87,7 @@ namespace LiveHAPI.Core.Model.People
 
         private AddressInfo GetAddressInfo()
         {
-            return new AddressInfo(Id, Landmark, CountyId, Lat, Lng,PersonId);
+            return new AddressInfo(Id, Landmark, CountyId, Lat, Lng, PersonId, SubCountyId, WardId);
         }
     }
 }
