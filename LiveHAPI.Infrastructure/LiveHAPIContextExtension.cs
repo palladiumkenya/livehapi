@@ -133,8 +133,13 @@ namespace LiveHAPI.Infrastructure
 
                 if (!context.SubscriberTranslations.Any(s => s.IsUpdated()))
                 {
+                    context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<County>());
+                    context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Category>());
+                    context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Item>());
+                    context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<CategoryItem>());
+
                     context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberTranslation>());
-                    Log.Error(new string('*',50));
+                    Log.Error(new string('*', 50));
                     Log.Error($"        {Shared.Defualts.SyncVersion}   ");
                     Log.Error(new string('*', 50));
                 }
