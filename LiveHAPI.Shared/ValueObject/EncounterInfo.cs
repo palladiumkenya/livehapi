@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LiveHAPI.Core.Model.Encounters;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Shared.Interfaces.Model;
 
 namespace LiveHAPI.Shared.ValueObject
@@ -16,6 +17,7 @@ namespace LiveHAPI.Shared.ValueObject
 
         public Guid EncounterTypeId { get; set; }
         public DateTime EncounterDate { get; set; }
+        public VisitType VisitType { get; set; }
 
         public Guid ProviderId { get; set; }
 

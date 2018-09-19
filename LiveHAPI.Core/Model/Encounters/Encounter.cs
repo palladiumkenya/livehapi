@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.Enum;
 using LiveHAPI.Shared.Interfaces.Model;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Shared.ValueObject;
@@ -16,7 +17,8 @@ namespace LiveHAPI.Core.Model.Encounters
         
         public Guid EncounterTypeId { get; set; }
         public DateTime EncounterDate { get; set; }
-        
+        public VisitType VisitType { get; set; }
+
         public Guid ProviderId { get; set; }
         
         public Guid DeviceId { get; set; }
@@ -47,7 +49,7 @@ namespace LiveHAPI.Core.Model.Encounters
         }
 
         private Encounter(Guid id, 
-            Guid clientId, Guid formId, Guid encounterTypeId, DateTime encounterDate, Guid providerId, Guid deviceId, Guid practiceId, DateTime? started, DateTime? stopped, Guid userId,bool isComplete,Guid? indexClientId) 
+            Guid clientId, Guid formId, Guid encounterTypeId, DateTime encounterDate, Guid providerId, Guid deviceId, Guid practiceId, DateTime? started, DateTime? stopped, Guid userId,bool isComplete,Guid? indexClientId,VisitType visitType) 
             : base(id)
         {
             ClientId = clientId;
@@ -62,16 +64,20 @@ namespace LiveHAPI.Core.Model.Encounters
             UserId = userId;
             IsComplete = isComplete;
             IndexClientId = indexClientId;
+            VisitType = visitType;
         }
 
-        private Encounter(Guid clientId, Guid formId, Guid encounterTypeId, DateTime encounterDate, Guid providerId, Guid deviceId, Guid practiceId, DateTime? started, DateTime? stopped, Guid userId, bool isComplete, Guid? indexClientId)
-            :this(LiveGuid.NewGuid(), clientId,formId,encounterTypeId,encounterDate,providerId,deviceId,practiceId,started,stopped,userId,  isComplete,indexClientId)
-        {           
+        private Encounter(Guid clientId, Guid formId, Guid encounterTypeId, DateTime encounterDate, Guid providerId,
+            Guid deviceId, Guid practiceId, DateTime? started, DateTime? stopped, Guid userId, bool isComplete,
+            Guid? indexClientId, VisitType visitType)
+            : this(LiveGuid.NewGuid(), clientId, formId, encounterTypeId, encounterDate, providerId, deviceId,
+                practiceId, started, stopped, userId, isComplete, indexClientId, visitType)
+        {
         }
-    
+
         public static Encounter Create(EncounterInfo encounterInfo)
         {
-            return new Encounter(encounterInfo.Id, encounterInfo.ClientId,encounterInfo.FormId,encounterInfo.EncounterTypeId,encounterInfo.EncounterDate, encounterInfo.ProviderId, encounterInfo.DeviceId, encounterInfo.PracticeId, encounterInfo.Started, encounterInfo.Stopped,encounterInfo.UserId,encounterInfo.IsComplete,encounterInfo.IndexClientId);
+            return new Encounter(encounterInfo.Id, encounterInfo.ClientId,encounterInfo.FormId,encounterInfo.EncounterTypeId,encounterInfo.EncounterDate, encounterInfo.ProviderId, encounterInfo.DeviceId, encounterInfo.PracticeId, encounterInfo.Started, encounterInfo.Stopped,encounterInfo.UserId,encounterInfo.IsComplete,encounterInfo.IndexClientId,encounterInfo.VisitType);
         }
 
         public void Update(EncounterInfo encounterInfo)
@@ -88,6 +94,7 @@ namespace LiveHAPI.Core.Model.Encounters
             IsComplete = encounterInfo.IsComplete;
             UserId = encounterInfo.UserId;
             IndexClientId = encounterInfo.IndexClientId;
+            VisitType = encounterInfo.VisitType;
         }
 
         public override string ToString()
