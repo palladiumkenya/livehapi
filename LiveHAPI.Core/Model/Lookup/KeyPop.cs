@@ -12,6 +12,8 @@ namespace LiveHAPI.Core.Model.Lookup
         public override string Id { get; set; }
         [MaxLength(50)]
         public string Name { get; set; }
+        [MaxLength(150)]
+        public string Category { get; set; }
 
         public override string ToString()
         {

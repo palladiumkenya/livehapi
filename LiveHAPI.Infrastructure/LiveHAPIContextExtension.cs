@@ -137,6 +137,7 @@ namespace LiveHAPI.Infrastructure
                     context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Category>());
                     context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Item>());
                     context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<CategoryItem>());
+                    context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<KeyPop>());
 
                     context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberTranslation>());
                     Log.Error(new string('*', 50));
