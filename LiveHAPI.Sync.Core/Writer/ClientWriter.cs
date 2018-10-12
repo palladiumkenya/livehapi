@@ -55,7 +55,7 @@ namespace LiveHAPI.Sync.Core.Writer
            
                 try
                 {
-                    var msg = JsonConvert.SerializeObject(htsClient);
+                    var msg = JsonConvert.SerializeObject(htsClient,Formatting.Indented);
                     _messages.Add(msg);
 
                     var response = await _httpClient.PostAsJsonAsync(endpoint, htsClient);
@@ -74,10 +74,12 @@ namespace LiveHAPI.Sync.Core.Writer
                         }
                         catch
                         {
+                            var error = await response.Content.ReadAsStringAsync();
+                            Log.Error(error);
                         }
                         
                         Log.Debug(new string('_', 50));
-                        Log.Debug(msg);
+                        Log.Error($"\n{msg}\n");
                         Log.Debug(new string('-', 50));
 
                         if (null != result)

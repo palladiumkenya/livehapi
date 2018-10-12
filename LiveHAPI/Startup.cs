@@ -72,10 +72,16 @@ namespace LiveHAPI
             services.ConfigureWritable<Endpoints>(Configuration.GetSection("endpoints"));
             var connectionString = Startup.Configuration["connectionStrings:HapiConnection"];
 
+            var storageOptions = new SqlServerStorageOptions
+            {
+                QueuePollInterval = TimeSpan.FromSeconds(40)
+            };
+
+
             try
             {
                 services.AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString));
-                services.AddHangfire(o => o.UseSqlServerStorage(connectionString));
+                services.AddHangfire(o => o.UseSqlServerStorage(connectionString,storageOptions));
             }
             catch (Exception ex)
             {
