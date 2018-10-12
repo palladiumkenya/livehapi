@@ -16,6 +16,7 @@ namespace LiveHAPI.Core.Model.Exchange
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        public string NickName { get; set; }
         public DateTime DateOfBirth { get; set; }
         /// <summary>
         /// "ESTIMATED/EXACT"
@@ -74,7 +75,7 @@ namespace LiveHAPI.Core.Model.Exchange
                 clientStage.FirstName = person.PersonName.FirstName;
                 clientStage.MiddleName = person.PersonName.MiddleName;
                 clientStage.LastName = person.PersonName.LastName;
-
+                clientStage.NickName = person.PersonName.NickName;
                 if (person.Addresses.Any())
                 {
                     clientStage.Landmark = person.Addresses.First().Landmark;

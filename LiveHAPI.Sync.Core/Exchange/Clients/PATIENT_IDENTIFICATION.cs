@@ -28,7 +28,7 @@ namespace LiveHAPI.Sync.Core.Exchange.Clients
         protected PATIENT_IDENTIFICATION(ClientStage clientStage)
         {
             INTERNAL_PATIENT_ID = Clients.INTERNAL_PATIENT_ID.Create(clientStage.ClientId, clientStage.Serial);
-            PATIENT_NAME = PATIENT_NAME.Create(clientStage.FirstName, clientStage.MiddleName, clientStage.LastName);
+            PATIENT_NAME = PATIENT_NAME.Create(clientStage.FirstName, clientStage.MiddleName, clientStage.LastName, clientStage.NickName);
             DATE_OF_BIRTH = clientStage.DateOfBirth.ToIqDateOnly();
             DATE_OF_BIRTH_PRECISION = clientStage.DateOfBirthPrecision;
             SEX = clientStage.Sex;

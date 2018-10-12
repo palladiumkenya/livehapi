@@ -18,7 +18,7 @@ namespace LiveHAPI.Core.Model.People
         public  string LastName { get; set; }
         [MaxLength(100)]
         public string MothersName { get; set; }
-
+        [MaxLength(100)]
         public string NickName { get; set; }
 
         [MaxLength(50)]
