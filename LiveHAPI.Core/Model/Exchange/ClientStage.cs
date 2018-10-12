@@ -89,6 +89,9 @@ namespace LiveHAPI.Core.Model.Exchange
                 if (person.Addresses.Any())
                 {
                     clientStage.Landmark = person.Addresses.First().Landmark;
+                    clientStage.County= person.Addresses.First().CountyId;
+                    clientStage.SubCounty= person.Addresses.First().SubCountyId;
+                    clientStage.Ward= person.Addresses.First().WardId;
                 }
                 if (person.Contacts.Any())
                 {
