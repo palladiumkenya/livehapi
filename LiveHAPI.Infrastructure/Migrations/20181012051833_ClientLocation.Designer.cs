@@ -13,9 +13,10 @@ using System;
 namespace LiveHAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(LiveHAPIContext))]
-    partial class LiveHAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20181012051833_ClientLocation")]
+    partial class ClientLocation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -497,15 +498,11 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<Guid>("ClientId");
 
-                    b.Property<int?>("Completion");
-
                     b.Property<int?>("County");
 
                     b.Property<DateTime>("DateOfBirth");
 
                     b.Property<string>("DateOfBirthPrecision");
-
-                    b.Property<int?>("Education");
 
                     b.Property<string>("FirstName");
 
@@ -522,8 +519,6 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<string>("MiddleName");
 
                     b.Property<string>("NickName");
-
-                    b.Property<int?>("Occupation");
 
                     b.Property<string>("Phone");
 
