@@ -28,6 +28,10 @@ namespace LiveHAPI.Sync.Schedulers
             {
                 bool result2 = Int32.TryParse(configPeriod.Replace("secs", "").Trim(), out var number2);
                 _clientInterval = result2 ? number2 : 15;
+                if (_clientInterval < 61)
+                {
+                    _clientInterval = 60;
+                }
             }
         }
 

@@ -74,8 +74,9 @@ namespace LiveHAPI.Sync.Core.Writer
                         }
                         catch
                         {
-                            var error = await response.Content.ReadAsStringAsync();
-                            Log.Error(error);
+                            //throw new Exception($"Unkown server Error!");
+                            //var error = await response.Content.ReadAsStringAsync();
+                            //Log.Error(error);
                         }
                         
                         Log.Debug(new string('_', 50));

@@ -21,8 +21,8 @@ namespace LiveHAPI.Sync.Jobs
             {
                 Log.Error($"error executing {nameof(ExtractClientsJob)} job");
                 Log.Error($"{ex}");
-                JobExecutionException qe = new JobExecutionException(ex);
-                qe.RefireImmediately = true; // this job will refire immediately
+//                JobExecutionException qe = new JobExecutionException(ex);
+//                qe.RefireImmediately = true; // this job will refire immediately
             }
         }
     }

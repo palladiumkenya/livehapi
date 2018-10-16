@@ -74,7 +74,7 @@ namespace LiveHAPI
 
             var storageOptions = new SqlServerStorageOptions
             {
-                QueuePollInterval = TimeSpan.FromSeconds(40)
+                QueuePollInterval = TimeSpan.FromSeconds(60)
             };
 
 
