@@ -215,6 +215,7 @@ namespace LiveHAPI
             try
             {
               
+
                 app.UseHangfireDashboard("/api/hangfire", new DashboardOptions()
                 {
                     Authorization = new[] { new CustomAuthorizeFilter() }
@@ -223,6 +224,8 @@ namespace LiveHAPI
                 app.UseHangfireServer();
                 GlobalJobFilters.Filters.Add(new ProlongExpirationTimeAttribute());
                 GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute(){Attempts = 3});
+                var defaultBatchJobRetentionPeriod = new TimeSpan(270, 0, 0, 0); //2 day retention
+                GlobalConfiguration.Configuration.UseBatches(defaultBatchJobRetentionPeriod);
 
             }
             catch (Exception e)

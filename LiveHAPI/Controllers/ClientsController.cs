@@ -333,7 +333,10 @@ namespace LiveHAPI.Controllers
 
           try
           {
-              BackgroundJob.Enqueue(() => _clientService.SmartSync(client));
+              BatchJob.StartNew(x =>
+              {
+                  x.Enqueue(() => _clientService.SmartSync(client));
+              });
               return Ok();
           }
           catch (Exception e)
@@ -351,7 +354,10 @@ namespace LiveHAPI.Controllers
 
         try
         {
-            BackgroundJob.Enqueue(() => _encounterService.Sync(encounters));
+            BatchJob.StartNew(x =>
+            {
+                x.Enqueue(() => _encounterService.Sync(encounters));
+            });
             return Ok();
         }
         catch (Exception e)
