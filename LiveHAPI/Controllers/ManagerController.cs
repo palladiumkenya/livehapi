@@ -20,7 +20,6 @@ namespace LiveHAPI.Controllers
             _managerService = managerService;
         }
 
-
         [HttpGet("Stats")]
         public IActionResult GetStats()
         {
@@ -51,13 +50,12 @@ namespace LiveHAPI.Controllers
             }
         }
 
-
         [HttpGet("Errors")]
         public IActionResult GetErrors()
         {
             try
             {
-                var clientStages = _managerService.GetSyncErrorClients();
+                var clientStages = _managerService.GetSyncErrorClients().ToList();
                 return Ok(clientStages);
             }
             catch (Exception e)
@@ -74,7 +72,7 @@ namespace LiveHAPI.Controllers
             {
                await _managerService.ResendAll();
 
-                var clientStages = _managerService.GetSyncErrorClients();
+                var clientStages = _managerService.GetSyncErrorClients().ToList();
                 return Ok(clientStages);
             }
             catch (Exception e)
@@ -94,7 +92,7 @@ namespace LiveHAPI.Controllers
             {
                 await _managerService.Resend(clientIds);
 
-                var clientStages = _managerService.GetSyncErrorClients();
+                var clientStages = _managerService.GetSyncErrorClients().ToList();
                 return Ok(clientStages);
             }
             catch (Exception e)
@@ -103,7 +101,5 @@ namespace LiveHAPI.Controllers
                 return StatusCode(500, $"{e.Message}");
             }
         }
-
-
     }
 }

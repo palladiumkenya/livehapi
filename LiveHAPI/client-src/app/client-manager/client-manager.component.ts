@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Message} from '../../../node_modules/primeng/api';
-import {Subscription} from '../../../node_modules/rxjs/Subscription';
+import {Message} from 'primeng/api';
+import {Subscription} from 'rxjs';
 import {ClientStage} from '../model/client-stage';
 import {ClientManagerService} from '../services/client-manager.service';
 
 @Component({
-  selector: 'liveapp-client-manager',
-  templateUrl: './client-manager.component.html',
-  styleUrls: ['./client-manager.component.scss']
+    selector: 'liveapp-client-manager',
+    templateUrl: './client-manager.component.html',
+    styleUrls: ['./client-manager.component.scss']
 })
 export class ClientManagerComponent implements OnInit, OnDestroy {
 
@@ -19,8 +19,8 @@ export class ClientManagerComponent implements OnInit, OnDestroy {
 
     public clientsCount = 0;
     public clients: ClientStage[] = [];
-    public blockReprocess = true;
-    public loading = true;
+    public blockReprocess = false;
+    public loading = false;
 
     public constructor(private clientService: ClientManagerService) {
     }
@@ -30,8 +30,11 @@ export class ClientManagerComponent implements OnInit, OnDestroy {
     }
 
     private loadData(): void {
+        this.blockReprocess = true;
+        this.loading = true;
         this.clientsCount = 0;
         this.clients = [];
+        this.messages = [];
         this.clientsCount$ = this.clientService.getErrorsCount()
             .subscribe(
                 p => {
