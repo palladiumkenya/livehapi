@@ -18,13 +18,13 @@ namespace LiveHAPI.Sync.Schedulers
 
         public SyncConfigScheduler(string configPeriod, string clientPeriod)
         {
-            if (configPeriod.EndsWith("hrs"))
+            if (configPeriod.ToLower().EndsWith("hrs"))
             {
                 bool result = Int32.TryParse(configPeriod.Replace("hrs", "").Trim(), out var number);
                 _configInterval = result ? number : 24;
             }
 
-            if (clientPeriod.EndsWith("secs"))
+            if (clientPeriod.ToLower().EndsWith("secs"))
             {
                 bool result2 = Int32.TryParse(configPeriod.Replace("secs", "").Trim(), out var number2);
                 _clientInterval = result2 ? number2 : 15;
@@ -75,7 +75,6 @@ namespace LiveHAPI.Sync.Schedulers
             var job = JobBuilder.Create(jobType)
                 .WithIdentity($"{jobName}", $"{jobGroup}")
                 .Build();
-
             return job;
         }
         private ITrigger GeTrigger(Type jobType)
