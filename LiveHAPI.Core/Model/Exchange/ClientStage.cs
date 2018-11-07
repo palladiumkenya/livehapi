@@ -16,6 +16,7 @@ namespace LiveHAPI.Core.Model.Exchange
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        public string NickName { get; set; }
         public DateTime DateOfBirth { get; set; }
         /// <summary>
         /// "ESTIMATED/EXACT"
@@ -23,9 +24,19 @@ namespace LiveHAPI.Core.Model.Exchange
         public string DateOfBirthPrecision { get; set; }
         public int Sex { get; set; }
         public int KeyPop { get; set; }
+
+        public int? County { get; set; }
+        public int? SubCounty { get; set; }
+        public int? Ward { get; set; }
+
         public string Landmark { get; set; }
         public string Phone { get; set; }
         public int MaritalStatus { get; set; }
+
+        public int? Education { get; set; }
+        public int? Completion { get; set; }
+        public int? Occupation { get; set; }
+
         public DateTime RegistrationDate { get; set; }
 
         public Guid ClientId { get; set; }
@@ -74,10 +85,13 @@ namespace LiveHAPI.Core.Model.Exchange
                 clientStage.FirstName = person.PersonName.FirstName;
                 clientStage.MiddleName = person.PersonName.MiddleName;
                 clientStage.LastName = person.PersonName.LastName;
-
+                clientStage.NickName = person.PersonName.NickName;
                 if (person.Addresses.Any())
                 {
                     clientStage.Landmark = person.Addresses.First().Landmark;
+                    clientStage.County= person.Addresses.First().CountyId;
+                    clientStage.SubCounty= person.Addresses.First().SubCountyId;
+                    clientStage.Ward= person.Addresses.First().WardId;
                 }
                 if (person.Contacts.Any())
                 {
@@ -104,6 +118,17 @@ namespace LiveHAPI.Core.Model.Exchange
                 
                 clientStage.UserId = subscriber.GetEmrUserId(clientt.UserId);
             }
+
+            //Education
+            clientStage.Education = subscriber.GetTranslation(clientt.Education, "EducationalLevel", "0")
+                .SafeConvert<int>();
+            clientStage.Completion = subscriber.GetTranslation(clientt.Completion, "EducationOutcome", "0")
+                .SafeConvert<int>();
+
+            //Occupation
+            clientStage.Occupation = subscriber.GetTranslation(clientt.Occupation, "HTSOccupation", "0")
+                .SafeConvert<int>();
+
 
             clientStage.IsIndex = person.IsHtsClient;
             if (clientStage.IsIndex)

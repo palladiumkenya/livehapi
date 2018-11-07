@@ -2276,6 +2276,19 @@ return JsonConvert.DeserializeObject<ClientInfo>(json);
       ^SubRef^: ^Gender^,
       ^SubscriberSystemId^: ^16E23877-9D69-11E7-ABC4-CEC278B6B50A^,
       ^Voided^: ^FALSE^
+    },
+    {
+      ^Id^: ^FDA202CC-4EDB-11E8-9C2D-FA7AE01BBEBC^,
+      ^Code^: ^b06bd7da-b68b-11e8-96f8-529269fb1459^,
+      ^Display^: ^Transportation^,
+      ^Group^: 0,
+      ^IsText^: ^TRUE^,
+      ^Ref^: ^Client.KeyPop^,
+      ^SubCode^: 1806,
+      ^SubDisplay^: ^Transportation^,
+      ^SubRef^: ^HTSOccupation^,
+      ^SubscriberSystemId^: ^16E23877-9D69-11E7-ABC4-CEC278B6B50A^,
+      ^Voided^: ^FALSE^
     }
   ]
 

@@ -14,6 +14,7 @@ namespace LiveHAPI.Shared.ValueObject
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string MothersName { get; set; }
+        public string NickName { get; set; }
         public List<AddressInfo> Addresses { get; set; }=new List<AddressInfo>();
         public List<ContactInfo> Contacts { get; set; }=new List<ContactInfo>();
 

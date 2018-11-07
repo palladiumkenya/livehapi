@@ -1,4 +1,5 @@
 ﻿using System;
+using LiveHAPI.Shared.Enum;
 
 namespace LiveHAPI.Shared.Interfaces.Model
 {
@@ -9,6 +10,7 @@ namespace LiveHAPI.Shared.Interfaces.Model
         Guid FormId { get; set; }
         Guid EncounterTypeId { get; set; }
         DateTime EncounterDate { get; set; }
+        VisitType VisitType { get; set; }
         Guid ProviderId { get; set; }
         Guid DeviceId { get; set; }
         Guid PracticeId { get; set; }

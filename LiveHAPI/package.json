@@ -6,10 +6,12 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
+    "buildqa": "ng build -c qa",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "vs": "ng serve --proxy-config proxy.config.json",
+    "qavs": "ng serve -c qa --proxy-config proxy.config.json",
     "net": "dotnet watch run"
   },
   "private": true,

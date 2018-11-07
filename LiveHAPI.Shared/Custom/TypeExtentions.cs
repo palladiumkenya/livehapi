@@ -56,6 +56,20 @@ namespace LiveHAPI.Shared.Custom
             return guid == Guid.Empty;
         }
 
+        public static bool IsNullOrEmpty(this int? intVal)
+        {
+            if (null == intVal)
+                return true;
+
+            if (intVal.HasValue && intVal.Value==0)
+                return true;
+
+            if (!intVal.HasValue)
+                return true;
+
+            return false;
+        }
+
         public static bool IsSameAs(this object s, object other)
         {
             return s.ToString().ToLower().Trim() == other.ToString().ToLower().Trim();
@@ -114,6 +128,30 @@ namespace LiveHAPI.Shared.Custom
         {
             var dataAsString = await content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(dataAsString);
+        }
+
+        public static string ToIqLocation(this int? location, string defaultLocation = "")
+        {
+            try
+            {
+                return location.IsNullOrEmpty() ? defaultLocation : location.ToString();
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
+        public static int ToIqLookup(this int? location, int defaultLookup =0)
+        {
+            try
+            {
+                return location.IsNullOrEmpty() ? defaultLookup : location.Value;
+            }
+            catch
+            {
+                return 0;
+            }
         }
         public static string ToIqDate(this DateTime? dateTime, string defaultDate = "")
         {

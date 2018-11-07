@@ -54,7 +54,24 @@
                   "with": "client-src/environments/environment.prod.ts"
                 }
               ]
-            }
+            },
+              "qa": {
+                  "optimization": true,
+                  "outputHashing": "all",
+                  "sourceMap": false,
+                  "extractCss": true,
+                  "namedChunks": false,
+                  "aot": true,
+                  "extractLicenses": true,
+                  "vendorChunk": false,
+                  "buildOptimizer": true,
+                  "fileReplacements": [
+                      {
+                          "replace": "client-src/environments/environment.ts",
+                          "with": "client-src/environments/environment.qa.ts"
+                      }
+                  ]
+              }
           }
         },
         "serve": {
@@ -65,7 +82,10 @@
           "configurations": {
             "production": {
               "browserTarget": "livehapi:build:production"
-            }
+            },
+              "qa": {
+                  "browserTarget": "livehapi:build:qa"
+              }
           }
         },
         "extract-i18n": {

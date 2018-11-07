@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Stats} from '../model/stats';
-import {Subscription} from '../../../node_modules/rxjs/Subscription';
 import {StatsService} from '../services/stats.service';
-import {Message} from '../../../node_modules/primeng/api';
+import {Subscription} from 'rxjs';
+import {Message} from 'primeng/api';
 
 @Component({
   selector: 'liveapp-stats',

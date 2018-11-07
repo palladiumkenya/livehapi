@@ -1,11 +1,11 @@
-Id|Name|Voided
-NA|Not applicable|0
-FSW|Female Sex worker|0
-MSW|Male Sex worker|0
-MSM|Men who have sex with men|0
-IDU|Intravenous drug users|0
-TD|Truck Driver|0
-P|Prisoner|0
-FFx|Fisher folk|0
-AGYW|Adolescent Girls and Young Women|0
-O|Others|0
+Id|Name|Category|Voided
+NA|Not applicable||0
+FSW|Female Sex worker|Key Popuplation|0
+MSW|Male Sex worker|Key Popuplation|0
+MSM|Men who have sex with men|Key Popuplation|0
+IDU|Intravenous drug users|Key Popuplation|0
+TD|Truck Driver|Priority Popuplation|0
+P|Prisoner|Priority Popuplation|0
+FFx|Fisher folk|Priority Popuplation|0
+AGYW|Adolescent Girls and Young Women|Priority Popuplation|0
+O|Others|General Popuplation|0

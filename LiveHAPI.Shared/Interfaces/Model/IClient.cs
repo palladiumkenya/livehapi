@@ -10,5 +10,8 @@ namespace LiveHAPI.Shared.Interfaces.Model
         string OtherKeyPop { get; set; }
         bool? IsFamilyMember { get; set; }
         bool? IsPartner { get; set; }
+        Guid? Education { get; set; }
+        Guid? Completion { get; set; }
+        Guid? Occupation { get; set; }
     }
 }

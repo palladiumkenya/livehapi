@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {DbProtocol} from '../model/db-protocol';
 import {Endpoint} from '../model/endpoint';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
-import {DbView} from '../model/db-view';
-import {Facility} from "../model/facility";
+import {Facility} from '../model/facility';
+import {throwError} from 'rxjs';
 
 @Injectable()
 export class ConfigService {
@@ -55,9 +55,14 @@ export class ConfigService {
 
     private handleError(err: HttpErrorResponse) {
         if (err.status === 404) {
-            return Observable.throw('could not be found');
+            return throwError('could not be found');
+        }
+        return throwError(err.error);
     }
-        return Observable.throw(err.error);
+
+    public getVersion(): Observable<string> {
+        return this._http.get<string>(`./api/activate/version`)
+            .catch(this.handleError);
     }
 
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Stats} from '../model/stats';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {ClientStage} from '../model/client-stage';
 import {Observable} from 'rxjs/Observable';
+import {throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -38,8 +38,8 @@ export class ClientManagerService {
 
     private handleError(err: HttpErrorResponse) {
         if (err.status === 404) {
-            return Observable.throw('could not be found');
+            return throwError('could not be found');
         }
-        return Observable.throw(err.error);
+        return throwError(err.error);
     }
 }

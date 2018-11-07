@@ -68,6 +68,7 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
             Assert.AreEqual(52, stage.Sex);
             Assert.AreEqual(25, stage.KeyPop);
             Assert.AreEqual(58, stage.MaritalStatus);
+          
             Console.WriteLine(stage);
 
                                                                 /*

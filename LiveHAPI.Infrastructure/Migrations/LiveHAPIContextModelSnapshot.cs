@@ -51,6 +51,8 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<Guid>("UserId");
 
+                    b.Property<int>("VisitType");
+
                     b.Property<bool>("Voided");
 
                     b.HasKey("Id");
@@ -495,9 +497,15 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<Guid>("ClientId");
 
+                    b.Property<int?>("Completion");
+
+                    b.Property<int?>("County");
+
                     b.Property<DateTime>("DateOfBirth");
 
                     b.Property<string>("DateOfBirthPrecision");
+
+                    b.Property<int?>("Education");
 
                     b.Property<string>("FirstName");
 
@@ -513,6 +521,10 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<string>("MiddleName");
 
+                    b.Property<string>("NickName");
+
+                    b.Property<int?>("Occupation");
+
                     b.Property<string>("Phone");
 
                     b.Property<Guid>("PracticeId");
@@ -527,6 +539,8 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<DateTime>("StatusDate");
 
+                    b.Property<int?>("SubCounty");
+
                     b.Property<int>("SyncStatus");
 
                     b.Property<string>("SyncStatusInfo");
@@ -534,6 +548,8 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<int>("UserId");
 
                     b.Property<bool>("Voided");
+
+                    b.Property<int?>("Ward");
 
                     b.HasKey("Id");
 
@@ -681,6 +697,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(50);
+
+                    b.Property<string>("Category")
+                        .HasMaxLength(150);
 
                     b.Property<string>("Name")
                         .HasMaxLength(50);
@@ -883,6 +902,10 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<bool?>("AlreadyTestedPos");
 
+                    b.Property<Guid?>("Completion");
+
+                    b.Property<Guid?>("Education");
+
                     b.Property<bool?>("IsFamilyMember");
 
                     b.Property<bool?>("IsPartner");
@@ -892,6 +915,8 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<string>("MaritalStatus")
                         .HasMaxLength(50);
+
+                    b.Property<Guid?>("Occupation");
 
                     b.Property<string>("OtherKeyPop")
                         .HasMaxLength(100);
@@ -1090,7 +1115,11 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.Property<string>("SourceSys")
                         .HasMaxLength(50);
 
+                    b.Property<int?>("SubCountyId");
+
                     b.Property<bool>("Voided");
+
+                    b.Property<int?>("WardId");
 
                     b.HasKey("Id");
 
@@ -1145,6 +1174,9 @@ namespace LiveHAPI.Infrastructure.Migrations
                         .HasMaxLength(100);
 
                     b.Property<string>("MothersName")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("NickName")
                         .HasMaxLength(100);
 
                     b.Property<Guid>("PersonId");

@@ -1,4 +1,6 @@
-﻿namespace LiveHAPI.Sync.Core.Exchange.Clients
+﻿using LiveHAPI.Shared.Custom;
+
+namespace LiveHAPI.Sync.Core.Exchange.Clients
 {
     public class PHYSICAL_ADDRESS
     {
@@ -13,14 +15,17 @@
         {
         }
 
-        private PHYSICAL_ADDRESS(string landmark)
+        private PHYSICAL_ADDRESS(string landmark,string county, string subCounty, string ward)
         {
             LANDMARK = landmark;
+            COUNTY = county;
+            SUB_COUNTY = subCounty;
+            WARD = ward;
         }
 
-        public static PHYSICAL_ADDRESS Create(string landmark)
+        public static PHYSICAL_ADDRESS Create(string landmark, int? county, int? subCounty, int? ward)
         {
-            return new PHYSICAL_ADDRESS(landmark);
+            return new PHYSICAL_ADDRESS(landmark,county.ToIqLocation(),subCounty.ToIqLocation(),ward.ToIqLocation());
         }
     }
 }

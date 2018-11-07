@@ -14,9 +14,9 @@
             PHYSICAL_ADDRESS = physicalAddress;
         }
 
-        public static PATIENT_ADDRESS Create(string landmark)
+        public static PATIENT_ADDRESS Create(string landmark, int? county, int? subCounty, int? ward)
         {
-            return new PATIENT_ADDRESS(PHYSICAL_ADDRESS.Create(landmark));
+            return new PATIENT_ADDRESS(PHYSICAL_ADDRESS.Create(landmark, county, subCounty, ward));
         }
     }
 }

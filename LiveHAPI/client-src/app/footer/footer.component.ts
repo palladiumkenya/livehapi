@@ -1,17 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {ConfigService} from '../services/config.service';
+import {environment} from '../../environments/environment';
 
 @Component({
-  selector: 'liveapp-footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+    selector: 'liveapp-footer',
+    templateUrl: './footer.component.html',
+    styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
-  version = 'v1.0.0';
-  title = 'LiveHAPI';
-  constructor() { }
+    version = ' v1.0.4';
+    title = 'LiveHAPI';
+    stageName = '';
+    $version: Subscription;
 
-  ngOnInit() {
+    constructor(private configService: ConfigService) {
+        this.stageName = environment.stageName;
+    }
 
-  }
+    ngOnInit() {
+        this.$version = this.configService.getVersion()
+            .subscribe(
+                p => {
+                    this.version = `v${p}`;
+                },
+                e => {
+                },
+                () => {
+                }
+            );
+    }
 
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Stats} from '../model/stats';
+import {throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,8 @@ export class StatsService {
 
     private handleError(err: HttpErrorResponse) {
         if (err.status === 404) {
-            return Observable.throw('could not be found');
+            return throwError('could not be found');
         }
-        return Observable.throw(err.error);
+        return throwError(err.error);
     }
 }

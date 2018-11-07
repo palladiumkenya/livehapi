@@ -66,14 +66,31 @@ a577cda6-0052-11e8-aa69-0ed5f89f718b|C|NA-CHILD|0
 749080ce-0053-11e8-ba89-0ed5f89f718b|I|Injectable Drug User (IDU)|0
 7490840c-0053-11e8-ba89-0ed5f89f718b|C|Child - C|0
 c22946ae-0053-11e8-ba89-0ed5f89f718b|D|Declined|0
-
 cdeaec70-0055-11e8-ba89-0ed5f89f718b|Con|Con:Contract Referral|0
 cdeaed92-0055-11e8-ba89-0ed5f89f718b|D|D:Dual Referral|0
 cdeaef90-0055-11e8-ba89-0ed5f89f718b|Cr|Cr:Passive Referral|0
 cdeaf184-0055-11e8-ba89-0ed5f89f718b|Pr|Pr: Provider Referral|0
-
 cdeaed95-0055-11e8-ba89-0ed5f89f718b|Dec|Declined|0
 cdeaef96-0055-11e8-ba89-0ed5f89f718b|IPV|positive IPV outcome|0
 cdeaef97-0055-11e8-ba89-0ed5f89f718b|F|Fear losing partner|0
-
 cdeaef01-0055-11e8-ba89-0ed5f89f718b|IPD-Child|IPD-Child|0
+cdeaef01-0056-11e8-ba89-0ed5f89f718b|None|None|0
+cdeaef01-0057-11e8-ba89-0ed5f89f718b|Primary|Primary|0
+cdeaef01-0058-11e8-ba89-0ed5f89f718b|Secondary|Secondary|0
+cdeaef01-0059-11e8-ba89-0ed5f89f718b|College|College|0
+cdeaef01-0060-11e8-ba89-0ed5f89f718b|University|University|0
+cdeaef01-0061-11e8-ba89-0ed5f89f718b|Completed|Completed|0
+cdeaef01-0062-11e8-ba89-0ed5f89f718b|NotCompleted|Not Completed|0
+b06bd1a4-b68b-11e8-96f8-529269fb1459|Farmer|Farmer|0
+b06bd53c-b68b-11e8-96f8-529269fb1459|Fisher folk|Fisher folk|0
+b06bd7da-b68b-11e8-96f8-529269fb1459|Transportation|Transportation|0
+b06be202-b68b-11e8-96f8-529269fb1459|Sex worker|Sex worker|0
+b06be48c-b68b-11e8-96f8-529269fb1459|Waiter|Waiter|0
+b06be6ee-b68b-11e8-96f8-529269fb1459|Professional|Professional|0
+b06be90a-b68b-11e8-96f8-529269fb1459|Business owner|Business owner|0
+b06beb6c-b68b-11e8-96f8-529269fb1459|Unskilled labor|Unskilled labor|0
+b06bedce-b68b-11e8-96f8-529269fb1459|Student|Student|0
+b06bf076-b68b-11e8-96f8-529269fb1459|Homemaker|Homemaker|0
+b06bf526-b68b-11e8-96f8-529269fb1459|Unemployed|Unemployed|0
+b06bf7ec-b68b-11e8-96f8-529269fb1459|Other|Other|0
+b06bf8ec-b68b-11e8-96f8-529269fb1459|PNS|PNS|0

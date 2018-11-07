@@ -17,7 +17,12 @@ namespace LiveHAPI.Sync.Core.Exchange.Clients
         public string PHONE_NUMBER { get; set; }
         public int MARITAL_STATUS { get; set; }
         public string REGISTRATION_DATE { get; set; }
-        
+        public int EDUCATIONLEVEL { get; set; }
+
+        public int EDUCATIONOUTCOME { get; set; }
+
+        public int OCCUPATION { get; set; }
+
         //TODO add user_id
         public int USER_ID { get; set; } = 1;
 
@@ -28,14 +33,19 @@ namespace LiveHAPI.Sync.Core.Exchange.Clients
         protected PATIENT_IDENTIFICATION(ClientStage clientStage)
         {
             INTERNAL_PATIENT_ID = Clients.INTERNAL_PATIENT_ID.Create(clientStage.ClientId, clientStage.Serial);
-            PATIENT_NAME = PATIENT_NAME.Create(clientStage.FirstName, clientStage.MiddleName, clientStage.LastName);
+            PATIENT_NAME = PATIENT_NAME.Create(clientStage.FirstName, clientStage.MiddleName, clientStage.LastName, clientStage.NickName);
             DATE_OF_BIRTH = clientStage.DateOfBirth.ToIqDateOnly();
             DATE_OF_BIRTH_PRECISION = clientStage.DateOfBirthPrecision;
             SEX = clientStage.Sex;
             KEY_POP = new List<int> { clientStage.KeyPop };
-            PATIENT_ADDRESS = PATIENT_ADDRESS.Create(clientStage.Landmark);
+            PATIENT_ADDRESS = PATIENT_ADDRESS.Create(clientStage.Landmark,clientStage.County,clientStage.SubCounty,clientStage.Ward);
             PHONE_NUMBER = clientStage.Phone;
             MARITAL_STATUS = clientStage.MaritalStatus;
+
+            EDUCATIONLEVEL = clientStage.Education.ToIqLookup();
+            EDUCATIONOUTCOME = clientStage.Completion.ToIqLookup();
+            OCCUPATION = clientStage.Occupation.ToIqLookup();
+
             REGISTRATION_DATE = clientStage.RegistrationDate.ToIqDateOnly();
         }
         protected PATIENT_IDENTIFICATION(ClientStage clientStage, Guid indexClientId) : this(clientStage)
