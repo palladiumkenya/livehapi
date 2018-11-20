@@ -75,6 +75,16 @@ namespace LiveHAPI.Shared.Custom
             return s.ToString().ToLower().Trim() == other.ToString().ToLower().Trim();
         }
 
+        public static string ToShortGuid(this Guid? s)
+        {
+            return s.IsNullOrEmpty() ? "" : s.Value.ToString().Substring(0, 4);
+        }
+
+        public static string ToShortGuid(this Guid s)
+        {
+            return s.ToString().Substring(0,4);
+        }
+
         public static string Sanitize(this string s)
         {
             return null == s ? string.Empty : s.Replace(@"'", @"''");

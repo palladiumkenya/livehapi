@@ -8,9 +8,9 @@ namespace LiveHAPI.Core.Interfaces.Repository
 {
     public interface IClientContactNetworkRepository:IRepository<ClientContactNetwork,Guid>
     {
+        Task Clear();
         Task Generate();
+        Task UpdateTree();
         IEnumerable<ClientContactNetwork> LoadAll();
-        IEnumerable<ClientContactNetwork> LoadById(Guid id); 
-        IEnumerable<ClientContactNetwork> LoadTree();
     }
 }

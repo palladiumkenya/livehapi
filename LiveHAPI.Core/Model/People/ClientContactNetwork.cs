@@ -79,7 +79,7 @@ namespace LiveHAPI.Core.Model.People
 
         public override string ToString()
         {
-            return $"{Serial} {FirstName} {LastName} ({Generated:yyyy MMMM dd})- {ClientContactNetworkId}";
+            return $"{Serial} {FirstName} {LastName}";
         }
     }
 }

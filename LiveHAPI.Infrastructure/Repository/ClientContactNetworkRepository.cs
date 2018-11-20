@@ -6,6 +6,7 @@ using LiveHAPI.Core.Interfaces.Builders;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.Builder;
 using LiveHAPI.Core.Model.People;
+using LiveHAPI.Shared.Custom;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
 
@@ -18,14 +19,17 @@ namespace LiveHAPI.Infrastructure.Repository
         {
         }
 
+        public Task Clear()
+        {
+            if (!DbSet.Any())
+                return Task.CompletedTask;
+           
+            Context.RemoveRange(DbSet);
+            return Context.SaveChangesAsync();
+        }
+
         public async Task Generate()
         {
-            if (DbSet.Any())
-            {
-                Context.RemoveRange(DbSet);
-                Context.SaveChanges();
-            }
-            
             var networks = new List<ClientContactNetwork>();
             var relationships = Context.ClientStageRelationships.AsNoTracking().ToList();
             var clients = Context.ClientStages.AsNoTracking().ToList();
@@ -46,6 +50,7 @@ namespace LiveHAPI.Infrastructure.Repository
                         if (null != secondaryClient)
                             builder.AddSecondaryContact(Contact.CreateSecondary(secondaryClient, relation));
                     }
+
                     networks.AddRange(builder.Build());
                 }
             }
@@ -56,33 +61,56 @@ namespace LiveHAPI.Infrastructure.Repository
             await Context.SaveChangesAsync();
         }
 
+        public Task UpdateTree()
+        {
+            var updateList=new List<ClientContactNetwork>();
+            
+            var clientTree = LoadTree().Where(x=>!x.ClientContactNetworkId.IsNullOrEmpty()) .ToList();
+
+            var clients = DbSet.Include(x => x.Networks)
+                .Where(x => x.IsPrimary && x.ClientContactNetworkId.IsNullOrEmpty())
+                .ToList();
+
+            foreach (var client in clients)
+            {
+                var update = clientTree.FirstOrDefault(x => x.Id == client.Id);
+                if (null != update)
+                {
+                    client.ClientContactNetworkId = update.ClientContactNetworkId;
+                    updateList.Add(client);
+                }
+
+            }
+
+            if (updateList.Any())
+            {
+                Context.UpdateRange(updateList);
+                return Context.SaveChangesAsync();
+            }
+            return Task.CompletedTask;
+        }
+
         public IEnumerable<ClientContactNetwork> LoadAll()
         {
             return DbSet.Include(x => x.Networks).AsNoTracking();
         }
 
-        public IEnumerable<ClientContactNetwork> LoadById(Guid id)
+        private IEnumerable<ClientContactNetwork> LoadTree()
         {
-            return LoadAll().Where(x => x.Id == id);
-        }
+            var all = DbSet.AsNoTracking()
+                .Include(x => x.Networks)
+                .ToList();
 
-        public IEnumerable<ClientContactNetwork> LoadTree()
-        {
-            var networks = LoadAll().ToList();
-            var primaryNetworkChildren = networks.Where(x => x.IsPrimary).SelectMany( x => x.Networks).ToList();
-            
-            foreach (var network in networks)
+            var children = all.Where(x => x.IsPrimary).SelectMany(x => x.Networks).ToList();
+
+            foreach (var network in all.Where(x => x.IsPrimary))
             {
-                if (network.IsPrimary && null == network.ClientContactNetworkId)
-                {
-                    var parent = primaryNetworkChildren.FirstOrDefault(x => x.Id == network.Id);
-                    if (null != parent)
-                        network.ClientContactNetworkId = parent.ClientContactNetworkId;
-                }
+                var parent = children.FirstOrDefault(x => x.ClientId == network.ClientId);
+                if (null != parent && network.ClientContactNetworkId.IsNullOrEmpty())
+                    network.ClientContactNetworkId = parent.ClientContactNetworkId;
             }
-            return networks;
+
+            return all.Where(x => !x.ClientContactNetworkId.IsNullOrEmpty());
         }
-        
-        
     }
 }

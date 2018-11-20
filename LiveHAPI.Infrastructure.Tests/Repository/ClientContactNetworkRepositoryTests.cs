@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FizzWare.NBuilder;
+using FizzWare.NBuilder.Extensions;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Core.Model.People;
@@ -31,19 +32,19 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
 
             _clients = Builder<ClientStage>.CreateListOfSize(9).Build().ToList();
 
-            _clients[0].FirstName = "I0";_clients[0].Serial = "0000";
+            _clients[0].FirstName = "Anna";_clients[0].Serial = "0000";
             
-            _clients[1].FirstName = "I0C1";  _clients[1].Serial = "1001";
-            _clients[2].FirstName = "I0C2";  _clients[2].Serial = "1002";
+            _clients[1].FirstName = "Richard";  _clients[1].Serial = "1001";
+            _clients[2].FirstName = "David";  _clients[2].Serial = "1002";
             
-            _clients[3].FirstName = "I0C1 SC1";  _clients[3].Serial = "2001";
-            _clients[4].FirstName = "I0C1 SC2";  _clients[4].Serial = "2002";
+            _clients[3].FirstName = "Dan";  _clients[3].Serial = "2001";
+            _clients[4].FirstName = "Steve";  _clients[4].Serial = "2002";
             
-            _clients[5].FirstName = "I0C1 SC2 G1";  _clients[5].Serial = "3001";
-            _clients[6].FirstName = "I0C1 SC2 G2";  _clients[6].Serial = "3002";
-            _clients[7].FirstName = "I0C1 SC2 G3";  _clients[7].Serial = "3003";
+            _clients[5].FirstName = "Angel";  _clients[5].Serial = "3001";
+            _clients[6].FirstName = "Abby";  _clients[6].Serial = "3002";
+            _clients[7].FirstName = "Jeremy";  _clients[7].Serial = "3003";
             
-            _clients[8].FirstName = "I0C1 SC1 G1";  _clients[8].Serial = "3004";
+            _clients[8].FirstName = "Brian";  _clients[8].Serial = "3004";
             
             _relationships = Builder<ClientStageRelationship>.CreateListOfSize(8)
                 .All()
@@ -102,33 +103,37 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
             var networks = _repository.LoadAll().ToList();
             Assert.True(networks.Any());
 
-            foreach (var network in networks.Where(x=>x.IsPrimary))
+            foreach (var network in networks.Where(x=>x.IsPrimary).OrderBy(x=>x.Serial))
             {
-                Console.WriteLine(network);
+                Console.WriteLine($"{network} [{network.ClientContactNetworkId.ToShortGuid()}]");
                 foreach (var networkNetwork in network.Networks)
                 {
-                    Console.WriteLine($" > {networkNetwork}");
+                    Console.WriteLine($"    {networkNetwork}  [{networkNetwork.ClientContactNetworkId.ToShortGuid()}]");
                 }
             }
           
         }
         
         [Test]
-        public void should_Load_Tree()
+        public void should_Update_Tree()
         {
             _repository.Generate().Wait();
-            var networks = _repository.LoadTree().ToList();
+            var clean = _repository.LoadAll()
+                .Where(x => x.IsPrimary && x.ClientContactNetworkId.IsNullOrEmpty())
+                .ToList();
+            
+            _repository.UpdateTree().Wait();
+            var networks = _repository.LoadAll().ToList();
             Assert.True(networks.Any());
 
-            foreach (var network in networks.Where(x=>x.IsPrimary))
+            foreach (var network in networks.Where(x=>x.IsPrimary).OrderBy(x=>x.Serial))
             {
-                Console.WriteLine(network);
+                Console.WriteLine($"{network} [{network.ClientContactNetworkId.ToShortGuid()}]  {network.Id.ToShortGuid()}");
                 foreach (var networkNetwork in network.Networks)
                 {
-                    Console.WriteLine($" > {networkNetwork}");
+                    Console.WriteLine($"    {networkNetwork}  [{networkNetwork.ClientContactNetworkId.ToShortGuid()}]");
                 }
             }
-          
         }
     }
 }
