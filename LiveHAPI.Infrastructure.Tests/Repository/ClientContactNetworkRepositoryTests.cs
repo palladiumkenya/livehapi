@@ -9,6 +9,7 @@ using LiveHAPI.Core.Model.People;
 using LiveHAPI.Infrastructure.Repository;
 using LiveHAPI.Shared.Custom;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 
 namespace LiveHAPI.Infrastructure.Tests.Repository
@@ -24,12 +25,26 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
         [OneTimeSetUp]
         public void Init()
         {
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            var connectionString = config["connectionStrings:livehAPIConnection"];
+            
+            var options = new DbContextOptionsBuilder<LiveHAPIContext>()
+                .UseSqlServer(connectionString)
+                .Options;
+            /*
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseInMemoryDatabase(databaseName: LiveGuid.NewGuid().ToString())
                 .Options;
-
+            */
             _context =new LiveHAPIContext(options);
-
+            
+            _context.RemoveRange(_context.ClientStageRelationships);
+            _context.RemoveRange(_context.ClientStages);
+            _context.RemoveRange(_context.ClientContactNetworks);
+            _context.SaveChanges();
+            
             _clients = Builder<ClientStage>.CreateListOfSize(9).Build().ToList();
 
             _clients[0].FirstName = "Anna";_clients[0].Serial = "0000";
@@ -118,10 +133,6 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
         public void should_Update_Tree()
         {
             _repository.Generate().Wait();
-            var clean = _repository.LoadAll()
-                .Where(x => x.IsPrimary && x.ClientContactNetworkId.IsNullOrEmpty())
-                .ToList();
-            
             _repository.UpdateTree().Wait();
             var networks = _repository.LoadAll().ToList();
             Assert.True(networks.Any());

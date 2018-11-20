@@ -20,7 +20,6 @@ namespace LiveHAPI.Core.Model.People
         public string Relation { get; set; }
         public Guid? ClientContactNetworkId { get; set; }
         public ICollection<ClientContactNetwork> Networks { get; set; }=new List<ClientContactNetwork>();
-        public bool HasChildren { get; set; }
         public DateTime Generated { get; set; }
 
         [NotMapped] 

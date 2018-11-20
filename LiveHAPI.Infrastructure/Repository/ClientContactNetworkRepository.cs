@@ -103,11 +103,11 @@ namespace LiveHAPI.Infrastructure.Repository
 
             var children = all.Where(x => x.IsPrimary).SelectMany(x => x.Networks).ToList();
 
-            foreach (var network in all.Where(x => x.IsPrimary))
+            foreach (var client in all.Where(x => x.IsPrimary && x.ClientContactNetworkId.IsNullOrEmpty()))
             {
-                var parent = children.FirstOrDefault(x => x.ClientId == network.ClientId);
-                if (null != parent && network.ClientContactNetworkId.IsNullOrEmpty())
-                    network.ClientContactNetworkId = parent.ClientContactNetworkId;
+                var parent = children.FirstOrDefault(x => x.Id == client.Id);
+                if (null != parent)
+                    client.ClientContactNetworkId = parent.ClientContactNetworkId;
             }
 
             return all.Where(x => !x.ClientContactNetworkId.IsNullOrEmpty());
