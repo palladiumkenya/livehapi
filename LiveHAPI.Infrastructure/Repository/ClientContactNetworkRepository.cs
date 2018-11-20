@@ -11,22 +11,22 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
 
 namespace LiveHAPI.Infrastructure.Repository
 {
-    public class ClientContactNetworkRepository : BaseRepository<ClientContactNetwork, Guid>, IClientContactNetworkRepository
+    public class ClientContactNetworkRepository : BaseRepository<ClientContactNetwork, Guid>,
+        IClientContactNetworkRepository
     {
         public ClientContactNetworkRepository(LiveHAPIContext context) : base(context)
         {
         }
 
-        public async  Task Generate()
+        public async Task Generate()
         {
             if (DbSet.Any())
             {
                 Context.RemoveRange(DbSet);
                 Context.SaveChanges();
             }
-
+            
             var networks = new List<ClientContactNetwork>();
-
             var relationships = Context.ClientStageRelationships.AsNoTracking().ToList();
             var clients = Context.ClientStages.AsNoTracking().ToList();
 
@@ -46,8 +46,6 @@ namespace LiveHAPI.Infrastructure.Repository
                         if (null != secondaryClient)
                             builder.AddSecondaryContact(Contact.CreateSecondary(secondaryClient, relation));
                     }
-
-
                     networks.AddRange(builder.Build());
                 }
             }
@@ -60,14 +58,29 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public IEnumerable<ClientContactNetwork> LoadAll()
         {
-            return DbSet.Include(x=>x.Networks).AsNoTracking();
+            return DbSet.Include(x => x.Networks).AsNoTracking();
+        }
+
+        public IEnumerable<ClientContactNetwork> LoadById(Guid id)
+        {
+            return LoadAll().Where(x => x.Id == id);
         }
 
         public IEnumerable<ClientContactNetwork> LoadTree()
         {
-            throw new NotImplementedException();
+            var networks = LoadAll().ToList();
+            
+            foreach (var network in networks)
+            {
+                if (network.IsPrimary && network.IsSecondary)
+                {
+                    network.AddContacts(LoadById(network.Id));
+                }
+            }
+
+            return networks;
         }
         
-       
+        
     }
 }

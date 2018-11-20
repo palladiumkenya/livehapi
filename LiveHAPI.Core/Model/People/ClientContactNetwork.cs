@@ -20,8 +20,14 @@ namespace LiveHAPI.Core.Model.People
         public string Relation { get; set; }
         public Guid? ClientContactNetworkId { get; set; }
         public ICollection<ClientContactNetwork> Networks { get; set; }=new List<ClientContactNetwork>();
+        public bool HasChildren { get; set; }
         public DateTime Generated { get; set; }
-        [NotMapped] public bool IsPrimary => Networks.Any();
+
+        [NotMapped] 
+        public bool IsPrimary => Networks.Any();
+
+        [NotMapped] 
+        public bool IsSecondary => null != ClientContactNetworkId;
 
         public ClientContactNetwork()
         {
@@ -51,7 +57,7 @@ namespace LiveHAPI.Core.Model.People
         {
             return Create(contact, clientContactNetworkId);
         }
-
+        
         public static ClientContactNetwork Create (Contact contact,Guid? clientContactNetworkId )
         {
             return new ClientContactNetwork(
@@ -65,8 +71,12 @@ namespace LiveHAPI.Core.Model.People
                 contact.Relation,
                 clientContactNetworkId);
         }
-        
-       
+
+        public void AddContacts(IEnumerable<ClientContactNetwork> contactNetworks)
+        {
+            Networks.ToList().AddRange(contactNetworks);
+        }
+
         public override string ToString()
         {
             return $"{Serial} {FirstName} {LastName} ({Generated:yyyy MMMM dd})- {ClientContactNetworkId}";

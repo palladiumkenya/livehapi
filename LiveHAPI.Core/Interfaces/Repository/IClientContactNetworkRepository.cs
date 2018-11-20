@@ -10,6 +10,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
     {
         Task Generate();
         IEnumerable<ClientContactNetwork> LoadAll();
+        IEnumerable<ClientContactNetwork> LoadById(Guid id); 
         IEnumerable<ClientContactNetwork> LoadTree();
     }
 }
