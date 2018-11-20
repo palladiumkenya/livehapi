@@ -22,6 +22,7 @@ import { StatsComponent } from './stats/stats.component';
 import { ClientManagerComponent } from './client-manager/client-manager.component';
 import {StatsService} from './services/stats.service';
 import {ClientManagerService} from './services/client-manager.service';
+import { ClientTreeComponent } from './client-tree/client-tree.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import {ClientManagerService} from './services/client-manager.service';
       AppBreadcrumbComponent,
       AppSubmenuComponent,
       StatsComponent,
-      ClientManagerComponent
+      ClientManagerComponent,
+      ClientTreeComponent
   ],
   imports: [
     BrowserModule,

@@ -48,6 +48,17 @@ namespace LiveHAPI.Core.Model.Subscriber
             return def;
         }
 
+        public SubscriberTranslation GetTranslationItem(object code, string subref)
+        {
+            if (null == code)
+                return null;
+
+            var translation =
+                Translations.FirstOrDefault(x => x.SubRef.IsSameAs(subref) &&
+                                                 x.Code.IsSameAs(code.ToString()));
+            return translation;
+        }
+
         /// <summary>
         /// 
         /// </summary>

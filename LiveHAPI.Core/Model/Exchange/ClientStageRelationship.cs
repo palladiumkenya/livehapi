@@ -16,6 +16,7 @@ namespace LiveHAPI.Core.Model.Exchange
         public SyncStatus SyncStatus { get; set; }
         public DateTime StatusDate { get; set; }
         public string SyncStatusInfo { get; set; }
+        public string RelationName { get; set; }
 
         public ClientStageRelationship()
         {
@@ -43,8 +44,9 @@ namespace LiveHAPI.Core.Model.Exchange
                 clientStage.IsPartner = relationship.IsPartner;
                 clientStage.SecondaryClientId = relationship.RelatedClientId;
                 clientStage.Relation = subscriber.GetTranslation(relationship.RelationshipTypeId, "Relationship", "0").SafeConvert<int>(); ;
+                clientStage.RelationName = relationship.RelationshipTypeId;
             }
-
+            
             return clientStage;
         }
 
