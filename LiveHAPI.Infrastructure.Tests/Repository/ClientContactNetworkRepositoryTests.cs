@@ -43,7 +43,7 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
             _clients[6].FirstName = "I0C1 SC2 G2";  _clients[6].Serial = "3002";
             _clients[7].FirstName = "I0C1 SC2 G3";  _clients[7].Serial = "3003";
             
-            _clients[8].FirstName = "I0C1 SC1 G1";  _clients[7].Serial = "3004";
+            _clients[8].FirstName = "I0C1 SC1 G1";  _clients[8].Serial = "3004";
             
             _relationships = Builder<ClientStageRelationship>.CreateListOfSize(8)
                 .All()
@@ -100,6 +100,24 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
         {
             _repository.Generate().Wait();
             var networks = _repository.LoadAll().ToList();
+            Assert.True(networks.Any());
+
+            foreach (var network in networks.Where(x=>x.IsPrimary))
+            {
+                Console.WriteLine(network);
+                foreach (var networkNetwork in network.Networks)
+                {
+                    Console.WriteLine($" > {networkNetwork}");
+                }
+            }
+          
+        }
+        
+        [Test]
+        public void should_Load_Tree()
+        {
+            _repository.Generate().Wait();
+            var networks = _repository.LoadTree().ToList();
             Assert.True(networks.Any());
 
             foreach (var network in networks.Where(x=>x.IsPrimary))

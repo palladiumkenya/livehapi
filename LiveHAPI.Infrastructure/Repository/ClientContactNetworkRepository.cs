@@ -69,15 +69,17 @@ namespace LiveHAPI.Infrastructure.Repository
         public IEnumerable<ClientContactNetwork> LoadTree()
         {
             var networks = LoadAll().ToList();
+            var primaryNetworkChildren = networks.Where(x => x.IsPrimary).SelectMany( x => x.Networks).ToList();
             
             foreach (var network in networks)
             {
-                if (network.IsPrimary && network.IsSecondary)
+                if (network.IsPrimary && null == network.ClientContactNetworkId)
                 {
-                    network.AddContacts(LoadById(network.Id));
+                    var parent = primaryNetworkChildren.FirstOrDefault(x => x.Id == network.Id);
+                    if (null != parent)
+                        network.ClientContactNetworkId = parent.ClientContactNetworkId;
                 }
             }
-
             return networks;
         }
         
