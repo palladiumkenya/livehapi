@@ -5,9 +5,9 @@ using LiveHAPI.Core.Model.People;
 
 namespace LiveHAPI.Core.Model.Builder
 {
-    public class ClientNetworkBuilder:IClientNetworkBuilder
+    public class ClientContactNetworkBuilder:IClientContactNetworkBuilder
     {
-        private List<ClientNetwork> _clientNetworks=new List<ClientNetwork>();
+        private List<ClientContactNetwork> _clientNetworks=new List<ClientContactNetwork>();
         private Contact _primaryContact;
         private List<Contact> _secondaryContacts=new List<Contact>();
         
@@ -27,12 +27,14 @@ namespace LiveHAPI.Core.Model.Builder
             secondaryContacts.ToList().ForEach(AddSecondaryContact);
         }
 
-        public IEnumerable<ClientNetwork> Build()
+        public IEnumerable<ClientContactNetwork> Build()
         {
+            var primaryNetwork = ClientContactNetwork.CreatePrimary(_primaryContact);
+          
+            _clientNetworks.Add(primaryNetwork);
+
             foreach (var secondaryContact in _secondaryContacts)
-            {
-                _clientNetworks.Add(new ClientNetwork(_primaryContact, secondaryContact));
-            }
+                _clientNetworks.Add(ClientContactNetwork.CreateSecondary(secondaryContact, primaryNetwork.Id));
 
             return _clientNetworks;
         }

@@ -968,6 +968,40 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.ToTable("ClientAttributes");
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.People.ClientContactNetwork", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("ClientContactNetworkId");
+
+                    b.Property<Guid>("ClientId");
+
+                    b.Property<DateTime>("DateOfBirth");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<DateTime>("Generated");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("MiddleName");
+
+                    b.Property<string>("Relation");
+
+                    b.Property<string>("Serial");
+
+                    b.Property<int>("Sex");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientContactNetworkId");
+
+                    b.ToTable("ClientContactNetworks");
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.People.ClientIdentifier", b =>
                 {
                     b.Property<Guid>("Id")
@@ -994,20 +1028,6 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.HasIndex("IdentifierTypeId");
 
                     b.ToTable("ClientIdentifiers");
-                });
-
-            modelBuilder.Entity("LiveHAPI.Core.Model.People.ClientNetwork", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Generated");
-
-                    b.Property<bool>("Voided");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ClientNetworks");
                 });
 
             modelBuilder.Entity("LiveHAPI.Core.Model.People.ClientRelationship", b =>
@@ -2162,6 +2182,13 @@ namespace LiveHAPI.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.People.ClientContactNetwork", b =>
+                {
+                    b.HasOne("LiveHAPI.Core.Model.People.ClientContactNetwork")
+                        .WithMany("Networks")
+                        .HasForeignKey("ClientContactNetworkId");
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.People.ClientIdentifier", b =>
                 {
                     b.HasOne("LiveHAPI.Core.Model.People.Client")
@@ -2172,65 +2199,6 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.HasOne("LiveHAPI.Core.Model.Lookup.IdentifierType")
                         .WithMany("ClientIdentifiers")
                         .HasForeignKey("IdentifierTypeId");
-                });
-
-            modelBuilder.Entity("LiveHAPI.Core.Model.People.ClientNetwork", b =>
-                {
-                    b.OwnsOne("LiveHAPI.Core.Model.People.Contact", "Primary", b1 =>
-                        {
-                            b1.Property<Guid>("ClientNetworkId");
-
-                            b1.Property<DateTime>("DateOfBirth");
-
-                            b1.Property<string>("FirstName");
-
-                            b1.Property<Guid>("Id");
-
-                            b1.Property<string>("LastName");
-
-                            b1.Property<string>("MiddleName");
-
-                            b1.Property<string>("Relation");
-
-                            b1.Property<string>("Serial");
-
-                            b1.Property<int>("Sex");
-
-                            b1.ToTable("ClientNetworks");
-
-                            b1.HasOne("LiveHAPI.Core.Model.People.ClientNetwork")
-                                .WithOne("Primary")
-                                .HasForeignKey("LiveHAPI.Core.Model.People.Contact", "ClientNetworkId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("LiveHAPI.Core.Model.People.Contact", "Secondary", b1 =>
-                        {
-                            b1.Property<Guid?>("ClientNetworkId");
-
-                            b1.Property<DateTime>("DateOfBirth");
-
-                            b1.Property<string>("FirstName");
-
-                            b1.Property<Guid>("Id");
-
-                            b1.Property<string>("LastName");
-
-                            b1.Property<string>("MiddleName");
-
-                            b1.Property<string>("Relation");
-
-                            b1.Property<string>("Serial");
-
-                            b1.Property<int>("Sex");
-
-                            b1.ToTable("ClientNetworks");
-
-                            b1.HasOne("LiveHAPI.Core.Model.People.ClientNetwork")
-                                .WithOne("Secondary")
-                                .HasForeignKey("LiveHAPI.Core.Model.People.Contact", "ClientNetworkId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
                 });
 
             modelBuilder.Entity("LiveHAPI.Core.Model.People.ClientRelationship", b =>

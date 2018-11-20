@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
 
 namespace LiveHAPI.Infrastructure.Repository
 {
-    public class ClientNetworkRepository : BaseRepository<ClientNetwork, Guid>, IClientNetworkRepository
+    public class ClientContactNetworkRepository : BaseRepository<ClientContactNetwork, Guid>, IClientContactNetworkRepository
     {
-        public ClientNetworkRepository(LiveHAPIContext context) : base(context)
+        public ClientContactNetworkRepository(LiveHAPIContext context) : base(context)
         {
         }
 
@@ -25,7 +25,7 @@ namespace LiveHAPI.Infrastructure.Repository
                 Context.SaveChanges();
             }
 
-            var networks = new List<ClientNetwork>();
+            var networks = new List<ClientContactNetwork>();
 
             var relationships = Context.ClientStageRelationships.AsNoTracking().ToList();
             var clients = Context.ClientStages.AsNoTracking().ToList();
@@ -35,7 +35,7 @@ namespace LiveHAPI.Infrastructure.Repository
                 var client = clients.SingleOrDefault(x => x.Id == primaryContactId);
                 if (null != client)
                 {
-                    var builder = new ClientNetworkBuilder();
+                    var builder = new ClientContactNetworkBuilder();
                     builder.CreatePrimary(Contact.CreatePrimary(client));
 
 
@@ -44,7 +44,7 @@ namespace LiveHAPI.Infrastructure.Repository
                     {
                         var secondaryClient = clients.SingleOrDefault(x => x.Id == relation.SecondaryClientId);
                         if (null != secondaryClient)
-                            builder.AddSecondaryContact(Contact.CreateSecondary(client, relation));
+                            builder.AddSecondaryContact(Contact.CreateSecondary(secondaryClient, relation));
                     }
 
 
@@ -58,9 +58,16 @@ namespace LiveHAPI.Infrastructure.Repository
             await Context.SaveChangesAsync();
         }
 
-        public IQueryable<ClientNetwork> GetAll()
+        public IEnumerable<ClientContactNetwork> LoadAll()
         {
-            return DbSet.AsNoTracking();
+            return DbSet.Include(x=>x.Networks).AsNoTracking();
         }
+
+        public IEnumerable<ClientContactNetwork> LoadTree()
+        {
+            throw new NotImplementedException();
+        }
+        
+       
     }
 }

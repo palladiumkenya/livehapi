@@ -134,21 +134,14 @@ namespace LiveHAPI.Infrastructure
         
         public DbSet<ClientStageRelationship> ClientStageRelationships { get; set; }
         
-        
-        
         public DbSet<TempClientRelationship> TempClientRelationships { get; set; }
-
-
         public DbSet<InvalidMessage> InvalidMessages { get; set; }
-
-        public DbSet<ClientNetwork> ClientNetworks { get; set; }
         
+        public DbSet<ClientContactNetwork> ClientContactNetworks { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<ClientNetwork>().OwnsOne(x => x.Primary);
-            modelBuilder.Entity<ClientNetwork>().OwnsOne(x => x.Secondary);
-        
             DapperPlusManager.Entity<Practice>().Table("Practices").Key(x => x.Id);
             DapperPlusManager.Entity<User>().Table("Users").Key(x => x.Id);
             DapperPlusManager.Entity<Person>().Table("Persons").Key(x => x.Id);
@@ -167,8 +160,6 @@ namespace LiveHAPI.Infrastructure
             DapperPlusManager.Entity<ClientPretestDisabilityStage>().Table("ClientPretestDisabilityStages").Key(x => x.Id);
             DapperPlusManager.Entity<ClientStageRelationship>().Table("ClientStageRelationships").Key(x => x.Id);
             DapperPlusManager.Entity<InvalidMessage>().Table("InvalidMessages").Key(x => x.Id);
-            
-            //DapperPlusManager.Entity<ClientNetwork>().Table(nameof(ClientNetworks)).Key(x => x.Id);
         }
     }
 }

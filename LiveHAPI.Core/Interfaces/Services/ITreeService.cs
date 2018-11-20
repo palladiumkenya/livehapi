@@ -6,6 +6,6 @@ namespace LiveHAPI.Core.Interfaces.Services
 {
     public interface ITreeService
     {
-        IQueryable<ClientNetwork> GetAll();
+        IEnumerable<ClientContactNetwork> GetAll();
     }
 }

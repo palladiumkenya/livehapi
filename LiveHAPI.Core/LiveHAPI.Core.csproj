@@ -8,7 +8,7 @@
     <None Remove="Model\**" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Builder\ClientNetworkBuilder.cs" />
+    <Compile Include="Model\Builder\ClientContactNetworkBuilder.cs" />
     <Compile Include="Model\Encounters\ObsFamilyTraceResult.cs" />
     <Compile Include="Model\Encounters\ObsMemberScreening.cs" />
     <Compile Include="Model\Encounters\ObsPartnerScreening.cs" />
@@ -31,8 +31,8 @@
     <Compile Include="Model\Exchange\ClientStage.cs" />
     <Compile Include="Model\Exchange\Stats.cs" />
     <Compile Include="Model\Lookup\MasterFacility.cs" />
+    <Compile Include="Model\People\ClientContactNetwork.cs" />
     <Compile Include="Model\People\ClientState.cs" />
-    <Compile Include="Model\People\ClientNetwork.cs" />
     <Compile Include="Model\People\Contact.cs" />
     <Compile Include="Model\People\TempClientRelationship.cs" />
     <Compile Include="Model\People\UserSummary.cs" />

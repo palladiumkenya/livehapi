@@ -8,14 +8,14 @@ namespace LiveHAPI.Core.Service
 {
     public class TreeService:ITreeService
     {
-        private readonly IClientNetworkRepository _repository;
+        private readonly IClientContactNetworkRepository _repository;
 
-        public TreeService(IClientNetworkRepository repository)
+        public TreeService(IClientContactNetworkRepository repository)
         {
             _repository = repository;
         }
 
-        public IQueryable<ClientNetwork> GetAll()
+        public IEnumerable<ClientContactNetwork> GetAll()
         {
             return _repository.GetAll();
         }
