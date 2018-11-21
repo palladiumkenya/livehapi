@@ -14,3 +14,4 @@ export interface ClientContact {
     generated?: Date;
     isPrimary?: boolean;
 }
+

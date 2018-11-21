@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ClientContact} from '../model/client-contact';
+import {TreeNode} from 'primeng/api';
+import {ClientContactTree} from '../model/client-contact-tree';
 
 @Component({
     selector: 'liveapp-contact-tree',
@@ -8,16 +10,18 @@ import {ClientContact} from '../model/client-contact';
 })
 export class ContactTreeComponent implements OnInit {
 
-    private _client: ClientContact;
+    private _client: ClientContactTree;
     @Input()
-    set client(value: ClientContact) {
+    set client(value: ClientContactTree) {
         this._client = value;
         this.showTree(value);
     }
 
-    get client(): ClientContact {
+    get client(): ClientContactTree {
         return this._client;
     }
+
+    contactTree: ClientContactTree[];
 
     constructor() {
     }
@@ -25,7 +29,8 @@ export class ContactTreeComponent implements OnInit {
     ngOnInit() {
     }
 
-    showTree(client: ClientContact) {
-
+    showTree(client: ClientContactTree) {
+        this.contactTree = [];
+        this.contactTree.push(client);
     }
 }

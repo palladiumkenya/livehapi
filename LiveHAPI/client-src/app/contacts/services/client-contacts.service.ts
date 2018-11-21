@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {throwError} from 'rxjs';
 import {ClientStage} from '../../model/client-stage';
 import {ClientContact} from '../model/client-contact';
+import {ClientContactTree} from '../model/client-contact-tree';
 
 
 @Injectable({
@@ -30,6 +31,11 @@ export class ClientContactsService {
 
     public getAll(): Observable<ClientContact[]> {
         return this._http.get<ClientContact[]>(`${this._url}`)
+            .catch(this.handleError);
+    }
+
+    public getAllTree(): Observable<ClientContactTree[]> {
+        return this._http.get<ClientContactTree[]>(`${this._url}/tree`)
             .catch(this.handleError);
     }
 

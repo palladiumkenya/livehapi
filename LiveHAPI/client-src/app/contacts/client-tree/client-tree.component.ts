@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs';
 import {ClientStage} from '../../model/client-stage';
 import {ClientContactsService} from '../services/client-contacts.service';
 import {ClientContact} from '../model/client-contact';
+import {ClientContactTree} from '../model/client-contact-tree';
 
 @Component({
     selector: 'liveapp-client-tree',
@@ -17,7 +18,7 @@ export class ClientTreeComponent implements OnInit, OnDestroy {
     public manager$: Subscription;
     public blockGenerateTree = false;
     public loading = false;
-    public selectedClient: ClientContact = {};
+    public selectedClient: ClientContactTree = {};
 
     public constructor(public breadcrumbService: BreadcrumbService,
                        private clientService: ClientContactsService) {
@@ -52,7 +53,8 @@ export class ClientTreeComponent implements OnInit, OnDestroy {
             );
     }
 
-    public onShowTree(client: ClientContact) {
+    public onShowTree(client: ClientContactTree) {
+        console.log(client);
         this.selectedClient = client;
     }
 

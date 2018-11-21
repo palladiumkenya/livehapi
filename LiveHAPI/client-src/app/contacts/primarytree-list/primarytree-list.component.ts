@@ -1,36 +1,28 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {ClientContactsService} from '../services/client-contacts.service';
+import {ClientContactTree} from '../model/client-contact-tree';
 import {Message} from 'primeng/api';
 import {Subscription} from 'rxjs';
-import {ClientStage} from '../../model/client-stage';
-import {ClientContactsService} from '../services/client-contacts.service';
 import {ClientContact} from '../model/client-contact';
-import {ClientContactTree} from '../model/client-contact-tree';
 
 @Component({
-    selector: 'liveapp-primary-list',
-    templateUrl: './primary-list.component.html',
-    styleUrls: ['./primary-list.component.scss']
+  selector: 'liveapp-primarytree-list',
+  templateUrl: './primarytree-list.component.html',
+  styleUrls: ['./primarytree-list.component.scss']
 })
-export class PrimaryListComponent implements OnInit, OnDestroy {
-
+export class PrimarytreeListComponent implements OnInit, OnDestroy {
     @Output() treeRequested = new EventEmitter<ClientContactTree>();
     public messages: Message[];
 
     public clientsCount$: Subscription;
-    public clients$: Subscription;
     public clientTrees$: Subscription;
 
     public clientsCount = 0;
-    public clients: ClientContact[] = [];
-    public primaryClients: ClientContact[] = [];
-
     public clientTrees: ClientContactTree[] = [];
     public primaryClientTrees: ClientContactTree[] = [];
 
     public loading = false;
-
-    constructor(private clientService: ClientContactsService) {
-    }
+  constructor(private clientService: ClientContactsService) { }
 
     public ngOnInit() {
         this.loadData();
@@ -39,9 +31,10 @@ export class PrimaryListComponent implements OnInit, OnDestroy {
     private loadData(): void {
         this.loading = true;
         this.clientsCount = 0;
-        this.clients = [];
-        this.primaryClients = [];
+        this.clientTrees = [];
+        this.primaryClientTrees = [];
         this.messages = [];
+
         this.clientsCount$ = this.clientService.getAllCount()
             .subscribe(
                 p => {
@@ -51,21 +44,6 @@ export class PrimaryListComponent implements OnInit, OnDestroy {
                     this.messages.push({severity: 'error', summary: 'Error Loading', detail: <any>e});
                 },
                 () => {
-                }
-            );
-        this.clients$ = this.clientService.getAll()
-            .subscribe(
-                p => {
-                    this.clients = p;
-                },
-                e => {
-                    this.messages.push({severity: 'error', summary: 'Error Loading', detail: <any>e});
-                    this.loading = false;
-                },
-                () => {
-                    this.loading = false;
-                    this.primaryClients = this.clients.filter(x => x.isPrimary);
-                    this.clientsCount = this.primaryClients.length;
                 }
             );
 
@@ -90,11 +68,12 @@ export class PrimaryListComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        if (this.clients$) {
-            this.clients$.unsubscribe();
+        if (this.clientTrees$) {
+            this.clientTrees$.unsubscribe();
         }
         if (this.clientsCount$) {
             this.clientsCount$.unsubscribe();
         }
     }
+
 }

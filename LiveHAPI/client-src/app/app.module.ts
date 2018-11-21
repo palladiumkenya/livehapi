@@ -8,7 +8,15 @@ import {AppRoutes} from './app.routes';
 import {RouterModule} from '@angular/router';
 import { ConfigComponent } from './config/config.component';
 import {ButtonModule} from 'primeng/button';
-import {ConfirmationService, DataTableModule, InputTextModule, MessageModule, MessagesModule, ToolbarModule} from 'primeng/primeng';
+import {
+    ConfirmationService,
+    DataTableModule,
+    InputTextModule,
+    MessageModule,
+    MessagesModule,
+    ToolbarModule,
+    TreeModule
+} from 'primeng/primeng';
 import {HttpClientModule} from '@angular/common/http';
 import {ConfigService} from './services/config.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -26,6 +34,7 @@ import { ClientTreeComponent } from './contacts/client-tree/client-tree.componen
 import { PrimaryListComponent } from './contacts/primary-list/primary-list.component';
 import {ClientContactsService} from './contacts/services/client-contacts.service';
 import { ContactTreeComponent } from './contacts/contact-tree/contact-tree.component';
+import { PrimarytreeListComponent } from './contacts/primarytree-list/primarytree-list.component';
 
 
 @NgModule({
@@ -43,7 +52,8 @@ import { ContactTreeComponent } from './contacts/contact-tree/contact-tree.compo
       ClientManagerComponent,
       ClientTreeComponent,
       PrimaryListComponent,
-      ContactTreeComponent
+      ContactTreeComponent,
+      PrimarytreeListComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +68,8 @@ import { ContactTreeComponent } from './contacts/contact-tree/contact-tree.compo
       MessagesModule,
       HttpClientModule,
       FormsModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      TreeModule
    ],
   providers: [
       ConfigService,  ConfirmationService, BreadcrumbService, StatsService,

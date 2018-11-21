@@ -302,6 +302,10 @@ namespace LiveHAPI
                         o => o.MapFrom(s => null != s.Names.FirstOrDefault() ? s.Names.FirstOrDefault().LastName : ""));
                 cfg.CreateMap<Provider, ProviderDTO>();
 
+                cfg.CreateMap<ClientContactNetwork, ContactTreeInfo>()
+                    .ForMember(x => x.Label, o => o.MapFrom(s => s.Names))
+                    .ForMember(x => x.Children, o => o.MapFrom(s => s.Networks));
+
             });
 
             Log.Debug(@"

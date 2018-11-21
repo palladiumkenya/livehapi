@@ -1,9 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
+using LiveHAPI.Shared.ValueObject;
+using LiveHAPI.Shared.ValueObject.Meta;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -60,6 +64,23 @@ namespace LiveHAPI.Controllers
             {
                 var m = _contactNetworkRepository.GetAll().ToList();
                 return Ok(m);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                return StatusCode(500, "Error loading");
+            }
+        }
+
+        // GET
+        [HttpGet("Tree")]
+        public IActionResult GetTree()
+        {
+            try
+            {
+                var m = _contactNetworkRepository.GetAll().ToList();
+                var tree=Mapper.Map<List<ContactTreeInfo>>(m);
+                return Ok(tree);
             }
             catch (Exception e)
             {
