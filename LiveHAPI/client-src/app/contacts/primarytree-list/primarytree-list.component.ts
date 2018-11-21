@@ -59,7 +59,6 @@ export class PrimarytreeListComponent implements OnInit, OnDestroy {
                 () => {
                     this.loading = false;
                     this.primaryClientTrees = this.clientTrees.filter(x => x.isPrimary);
-                    this.clientsCount = this.primaryClientTrees.length;
                 }
             );
     }
