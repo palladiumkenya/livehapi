@@ -21,23 +21,30 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
         private List<ClientStageRelationship> _relationships;
         private LiveHAPIContext _context;
         private IClientContactNetworkRepository _repository;
+        private bool UseLive = false;
         
         [OneTimeSetUp]
         public void Init()
         {
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-            var connectionString = config["connectionStrings:livehAPIConnection"];
+            DbContextOptions<LiveHAPIContext> options;
+            if (UseLive)
+            {
+                var config = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+                var connectionString = config["connectionStrings:livehAPIConnection"];
+
+                options = new DbContextOptionsBuilder<LiveHAPIContext>()
+                    .UseSqlServer(connectionString)
+                    .Options;
+            }
+            else
+            {
+                options = new DbContextOptionsBuilder<LiveHAPIContext>()
+                    .UseInMemoryDatabase(databaseName: LiveGuid.NewGuid().ToString())
+                    .Options;
+            }
             
-            var options = new DbContextOptionsBuilder<LiveHAPIContext>()
-                .UseSqlServer(connectionString)
-                .Options;
-            /*
-            var options = new DbContextOptionsBuilder<LiveHAPIContext>()
-                .UseInMemoryDatabase(databaseName: LiveGuid.NewGuid().ToString())
-                .Options;
-            */
             _context =new LiveHAPIContext(options);
             
             _context.RemoveRange(_context.ClientStageRelationships);
@@ -53,7 +60,7 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
             _clients[2].FirstName = "David";  _clients[2].Serial = "1002";
             
             _clients[3].FirstName = "Dan";  _clients[3].Serial = "2001";
-            _clients[4].FirstName = "Steve";  _clients[4].Serial = "2002";
+            _clients[4].FirstName = "Kiki";  _clients[4].Serial = "2002";
             
             _clients[5].FirstName = "Angel";  _clients[5].Serial = "3001";
             _clients[6].FirstName = "Abby";  _clients[6].Serial = "3002";

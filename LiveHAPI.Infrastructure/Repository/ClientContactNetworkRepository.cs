@@ -29,20 +29,30 @@ namespace LiveHAPI.Infrastructure.Repository
         }
 
         public async Task Generate()
-        {
-            var networks = new List<ClientContactNetwork>();
+        {           
             var relationships = Context.ClientStageRelationships.AsNoTracking().ToList();
             var clients = Context.ClientStages.AsNoTracking().ToList();
 
             foreach (var primaryContactId in relationships.Select(x => x.IndexClientId).Distinct())
             {
+                var networks = new List<ClientContactNetwork>();
                 var client = clients.SingleOrDefault(x => x.Id == primaryContactId);
                 if (null != client)
                 {
                     var builder = new ClientContactNetworkBuilder();
-                    builder.CreatePrimary(Contact.CreatePrimary(client));
-
-
+                    
+                    //    check exisiting primary
+                    var existingPrimary= Context.ClientContactNetworks.AsNoTracking().FirstOrDefault(x => x.ClientId == client.ClientId);
+                    
+                    if (null != existingPrimary)
+                    {
+                        builder.UsePrimary(existingPrimary);
+                    }
+                    else
+                    {
+                        builder.CreatePrimary(Contact.CreatePrimary(client));
+                    }
+              
                     var relations = relationships.Where(x => x.IndexClientId == primaryContactId).ToList();
                     foreach (var relation in relations)
                     {
@@ -53,12 +63,13 @@ namespace LiveHAPI.Infrastructure.Repository
 
                     networks.AddRange(builder.Build());
                 }
+
+                if (networks.Any())
+                {
+                    await Context.AddRangeAsync(networks);
+                    await Context.SaveChangesAsync();
+                }
             }
-
-            if (networks.Any())
-                await Context.AddRangeAsync(networks);
-
-            await Context.SaveChangesAsync();
         }
 
         public Task UpdateTree()
