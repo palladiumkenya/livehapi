@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
 using LiveHAPI.Core.Interfaces.Builders;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.Builder;
@@ -9,6 +10,7 @@ using LiveHAPI.Core.Model.People;
 using LiveHAPI.Shared.Custom;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
+using Z.Dapper.Plus;
 
 namespace LiveHAPI.Infrastructure.Repository
 {
@@ -19,19 +21,15 @@ namespace LiveHAPI.Infrastructure.Repository
         {
         }
 
-        public Task Clear()
+        public async Task Clear()
         {
-            if (!DbSet.Any())
-                return Task.CompletedTask;
-           
-            Context.RemoveRange(DbSet);
-            return Context.SaveChangesAsync();
+            await GetDbConnection().ExecuteAsync($"TRUNCATE TABLE {nameof(Context.ClientContactNetworks)};");
         }
 
         public async Task Generate()
-        {           
-            var relationships = Context.ClientStageRelationships.AsNoTracking().ToList();
-            var clients = Context.ClientStages.AsNoTracking().ToList();
+        {
+            var relationships = Context.ClientStageRelationships.AsNoTracking();
+            var clients = Context.ClientStages.AsNoTracking();
 
             foreach (var primaryContactId in relationships.Select(x => x.IndexClientId).Distinct())
             {
@@ -40,10 +38,11 @@ namespace LiveHAPI.Infrastructure.Repository
                 if (null != client)
                 {
                     var builder = new ClientContactNetworkBuilder();
-                    
+
                     //    check exisiting primary
-                    var existingPrimary= Context.ClientContactNetworks.AsNoTracking().FirstOrDefault(x => x.ClientId == client.ClientId);
-                    
+                    var existingPrimary = Context.ClientContactNetworks.AsNoTracking()
+                        .FirstOrDefault(x => x.ClientId == client.ClientId);
+
                     if (null != existingPrimary)
                     {
                         builder.UsePrimary(existingPrimary);
@@ -52,7 +51,7 @@ namespace LiveHAPI.Infrastructure.Repository
                     {
                         builder.CreatePrimary(Contact.CreatePrimary(client));
                     }
-              
+
                     var relations = relationships.Where(x => x.IndexClientId == primaryContactId).ToList();
                     foreach (var relation in relations)
                     {
@@ -66,39 +65,9 @@ namespace LiveHAPI.Infrastructure.Repository
 
                 if (networks.Any())
                 {
-                    await Context.AddRangeAsync(networks);
-                    await Context.SaveChangesAsync();
+                    GetDbConnection().BulkInsert(networks);
                 }
             }
-        }
-
-        public Task UpdateTree()
-        {
-            var updateList=new List<ClientContactNetwork>();
-            
-            var clientTree = LoadTree().Where(x=>!x.ClientContactNetworkId.IsNullOrEmpty()) .ToList();
-
-            var clients = DbSet.Include(x => x.Networks)
-                .Where(x => x.IsPrimary && x.ClientContactNetworkId.IsNullOrEmpty())
-                .ToList();
-
-            foreach (var client in clients)
-            {
-                var update = clientTree.FirstOrDefault(x => x.Id == client.Id);
-                if (null != update)
-                {
-                    client.ClientContactNetworkId = update.ClientContactNetworkId;
-                    updateList.Add(client);
-                }
-
-            }
-
-            if (updateList.Any())
-            {
-                Context.UpdateRange(updateList);
-                return Context.SaveChangesAsync();
-            }
-            return Task.CompletedTask;
         }
 
         public IEnumerable<ClientContactNetwork> LoadAll()
@@ -106,22 +75,12 @@ namespace LiveHAPI.Infrastructure.Repository
             return DbSet.Include(x => x.Networks).AsNoTracking();
         }
 
-        private IEnumerable<ClientContactNetwork> LoadTree()
+        public int GetAllCount()
         {
-            var all = DbSet.AsNoTracking()
-                .Include(x => x.Networks)
-                .ToList();
-
-            var children = all.Where(x => x.IsPrimary).SelectMany(x => x.Networks).ToList();
-
-            foreach (var client in all.Where(x => x.IsPrimary && x.ClientContactNetworkId.IsNullOrEmpty()))
-            {
-                var parent = children.FirstOrDefault(x => x.Id == client.Id);
-                if (null != parent)
-                    client.ClientContactNetworkId = parent.ClientContactNetworkId;
-            }
-
-            return all.Where(x => !x.ClientContactNetworkId.IsNullOrEmpty());
+            return LoadAll()
+                .Where(x => x.IsPrimary)
+                .Select(x => x.Id)
+                .Count();
         }
     }
 }

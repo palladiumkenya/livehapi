@@ -10,7 +10,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
     {
         Task Clear();
         Task Generate();
-        Task UpdateTree();
         IEnumerable<ClientContactNetwork> LoadAll();
+        int GetAllCount();
     }
 }

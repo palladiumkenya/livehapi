@@ -28,6 +28,8 @@ namespace LiveHAPI.Core.Model.People
         [NotMapped] 
         public bool IsSecondary => null != ClientContactNetworkId;
 
+        [NotMapped] public string Names => $"{FirstName} {LastName}";
+        
         public ClientContactNetwork()
         {
             Id = LiveGuid.NewGuid();

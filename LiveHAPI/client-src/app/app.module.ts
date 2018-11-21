@@ -22,7 +22,10 @@ import { StatsComponent } from './stats/stats.component';
 import { ClientManagerComponent } from './client-manager/client-manager.component';
 import {StatsService} from './services/stats.service';
 import {ClientManagerService} from './services/client-manager.service';
-import { ClientTreeComponent } from './client-tree/client-tree.component';
+import { ClientTreeComponent } from './contacts/client-tree/client-tree.component';
+import { PrimaryListComponent } from './contacts/primary-list/primary-list.component';
+import {ClientContactsService} from './contacts/services/client-contacts.service';
+import { ContactTreeComponent } from './contacts/contact-tree/contact-tree.component';
 
 
 @NgModule({
@@ -38,7 +41,9 @@ import { ClientTreeComponent } from './client-tree/client-tree.component';
       AppSubmenuComponent,
       StatsComponent,
       ClientManagerComponent,
-      ClientTreeComponent
+      ClientTreeComponent,
+      PrimaryListComponent,
+      ContactTreeComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +61,8 @@ import { ClientTreeComponent } from './client-tree/client-tree.component';
       ReactiveFormsModule
    ],
   providers: [
-      ConfigService,  ConfirmationService, BreadcrumbService, StatsService, ClientManagerService
+      ConfigService,  ConfirmationService, BreadcrumbService, StatsService,
+      ClientManagerService, ClientContactsService
   ],
   bootstrap: [AppComponent]
 })

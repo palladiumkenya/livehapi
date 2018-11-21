@@ -160,6 +160,7 @@ namespace LiveHAPI.Infrastructure
             DapperPlusManager.Entity<ClientPretestDisabilityStage>().Table("ClientPretestDisabilityStages").Key(x => x.Id);
             DapperPlusManager.Entity<ClientStageRelationship>().Table("ClientStageRelationships").Key(x => x.Id);
             DapperPlusManager.Entity<InvalidMessage>().Table("InvalidMessages").Key(x => x.Id);
+            DapperPlusManager.Entity<ClientContactNetwork>().Table(nameof(ClientContactNetworks)).Key(x => x.Id);
         }
     }
 }

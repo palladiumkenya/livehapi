@@ -2,7 +2,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ConfigComponent} from './config/config.component';
-import {ClientTreeComponent} from './client-tree/client-tree.component';
+import {ClientTreeComponent} from './contacts/client-tree/client-tree.component';
 
 export const routes: Routes = [
     {path: 'dashboard', component: DashboardComponent},

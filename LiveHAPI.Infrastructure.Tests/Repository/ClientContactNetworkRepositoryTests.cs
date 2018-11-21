@@ -21,7 +21,7 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
         private List<ClientStageRelationship> _relationships;
         private LiveHAPIContext _context;
         private IClientContactNetworkRepository _repository;
-        private bool UseLive = false;
+        private bool UseLive = true;
         
         [OneTimeSetUp]
         public void Init()
@@ -119,9 +119,30 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
         }
         
         [Test]
+        public void should_Clear()
+        {
+            _repository.Clear().Wait();
+            var networks = _repository.LoadAll().ToList();
+            Assert.False(networks.Any());
+        }
+        
+        [Test]
         public void should_Generate()
         {
+            _repository.Clear().Wait();
+            
             _repository.Generate().Wait();
+            
+            var networks = _repository.LoadAll().ToList();
+            Assert.True(networks.Any());
+        }
+        
+        [Test]
+        public void should_Load_All()
+        {
+            _repository.Clear().Wait();
+            _repository.Generate().Wait();
+     
             var networks = _repository.LoadAll().ToList();
             Assert.True(networks.Any());
 
@@ -134,24 +155,6 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
                 }
             }
           
-        }
-        
-        [Test]
-        public void should_Update_Tree()
-        {
-            _repository.Generate().Wait();
-            _repository.UpdateTree().Wait();
-            var networks = _repository.LoadAll().ToList();
-            Assert.True(networks.Any());
-
-            foreach (var network in networks.Where(x=>x.IsPrimary).OrderBy(x=>x.Serial))
-            {
-                Console.WriteLine($"{network} [{network.ClientContactNetworkId.ToShortGuid()}]  {network.Id.ToShortGuid()}");
-                foreach (var networkNetwork in network.Networks)
-                {
-                    Console.WriteLine($"    {networkNetwork}  [{networkNetwork.ClientContactNetworkId.ToShortGuid()}]");
-                }
-            }
         }
     }
 }
