@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Shared.Model;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace LiveHAPI.Infrastructure.Repository
 {
@@ -109,7 +110,8 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public IDbConnection GetDbConnection(bool open = true)
         {
-           _connection = new SqlConnection(Context.Database.GetDbConnection().ConnectionString);
+           // if (null == _connection)
+                _connection = new SqlConnection(Context.Database.GetDbConnection().ConnectionString);
 
             if (open)
             {
@@ -117,12 +119,33 @@ namespace LiveHAPI.Infrastructure.Repository
                     _connection.Open();
                 return _connection;
             }
+
             return _connection;
         }
 
         public void CloseDbConnection()
         {
             _connection?.Dispose();
+        }
+
+        public void Dispose()
+        {
+          //  Log.Debug("disposing...");
+            DisposeContext();
+            DisposeConnection();
+            GC.SuppressFinalize(this);
+        }
+
+        private void DisposeContext()
+        {
+            Context?.Dispose();
+            Context = null;
+        }
+
+        private void DisposeConnection()
+        {
+            _connection?.Dispose();
+            _connection = null;
         }
     }
 }

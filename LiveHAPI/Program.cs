@@ -19,7 +19,7 @@ namespace LiveHAPI
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
                 .Enrich.FromLogContext()
                 .WriteTo.Console(LogEventLevel.Debug)
-                .WriteTo.RollingFile("logs\\log-{Date}.txt", LogEventLevel.Error)
+                .WriteTo.RollingFile("logs/log-{Date}.txt", LogEventLevel.Error)
                 .CreateLogger();
 
             try
