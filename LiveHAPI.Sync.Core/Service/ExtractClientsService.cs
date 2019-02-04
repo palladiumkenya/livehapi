@@ -2,6 +2,7 @@
 using LiveHAPI.Sync.Core.Interface.Extractors;
 using LiveHAPI.Sync.Core.Interface.Services;
 using LiveHAPI.Sync.Core.Interface.Writers;
+using Serilog;
 
 namespace LiveHAPI.Sync.Core.Service
 {
@@ -29,6 +30,14 @@ namespace LiveHAPI.Sync.Core.Service
             await _clientPretestStageExtractor.ExtractAndStage();
             
             return 1;
+        }
+
+        public void Dispose()
+        {
+            Log.Debug("disposing....");
+            _clientStageExtractor?.Dispose();
+            _clientStageRelationshipExtractor?.Dispose();
+            _clientPretestStageExtractor?.Dispose();
         }
     }
 }

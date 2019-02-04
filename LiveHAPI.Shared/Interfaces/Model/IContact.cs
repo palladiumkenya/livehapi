@@ -5,7 +5,7 @@ namespace LiveHAPI.Shared.Interfaces.Model
     public interface IContact
     {
      
-        int? Phone { get; set; }
+        long? Phone { get; set; }
      
     }
 }

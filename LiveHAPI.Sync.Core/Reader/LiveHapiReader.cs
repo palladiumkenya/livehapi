@@ -12,11 +12,11 @@ namespace LiveHAPI.Sync.Core.Reader
 {
     public class LiveHapiReader : ILiveHapiReader
     {
-        private readonly HttpClient _httpClient;
+        private readonly IRestClient _restClient;
         
         public LiveHapiReader(IRestClient restClient)
         {
-            _httpClient = restClient.Client;
+            _restClient = restClient;
         }
 
         public async Task<HapiSettingsView> ReadHapi()
@@ -24,7 +24,7 @@ namespace LiveHAPI.Sync.Core.Reader
             var result=new HapiSettingsView();
             try
             {
-                var response = await _httpClient.GetAsync("api/sync/hapi");
+                var response = await _restClient.Client.GetAsync("api/sync/hapi");
                 var data=await response.Content.ReadAsJsonAsync<HapiSettingsView>();
                 result = data;
             }
@@ -35,6 +35,11 @@ namespace LiveHAPI.Sync.Core.Reader
             }
             
             return result;
+        }
+
+        public void Dispose()
+        {
+            _restClient?.Dispose();
         }
     }
 }

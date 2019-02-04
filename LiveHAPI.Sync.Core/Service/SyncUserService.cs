@@ -30,5 +30,12 @@ namespace LiveHAPI.Sync.Core.Service
             _userRepository.Sync(users);
             return count;
         }
+
+
+        public void Dispose()
+        {
+            _clientUserReader?.Dispose();
+            _userRepository?.Dispose();
+        }
     }
 }

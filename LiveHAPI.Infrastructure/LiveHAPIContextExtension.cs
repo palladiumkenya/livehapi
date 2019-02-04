@@ -128,9 +128,9 @@ namespace LiveHAPI.Infrastructure
                 if (!context.SubscriberMaps.Any())
                     context.BulkInsert(InitialSeeder.ReadCsv<SubscriberMap>());
 
-                if (!context.SubscriberTranslations.Any())
+               if (!context.SubscriberTranslations.Any())
                     context.BulkInsert(InitialSeeder.ReadCsv<SubscriberTranslation>());
-
+               
                 if (!context.SubscriberTranslations.Any(s => s.IsUpdated()))
                 {
                     context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<County>());

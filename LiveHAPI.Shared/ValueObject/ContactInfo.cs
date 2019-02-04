@@ -6,9 +6,10 @@ namespace LiveHAPI.Shared.ValueObject
     public class ContactInfo : IContact
     {
         public Guid Id { get; set; }
-        public int? Phone { get; set; }
+        public long? Phone { get; set; }
         public Guid PersonId { get; set; }
-        public ContactInfo(Guid id,int? phone,Guid personId)
+
+        public ContactInfo(Guid id, long? phone, Guid personId)
         {
             Id = id;
             Phone = phone;

@@ -48,5 +48,12 @@ namespace LiveHAPI.Sync.Core.Extractor
             _clientStageRelationshipRepository.BulkInsert(clients);
             return 1;
         }
+
+        public void Dispose()
+        {
+            _clientRelationshipRepository?.Dispose();
+            _clientStageRelationshipRepository?.Dispose();
+            _subscriberSystemRepository?.Dispose();
+        }
     }
 }

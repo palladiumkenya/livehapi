@@ -13,5 +13,18 @@ namespace LiveHAPI.Sync.Core.Reader
         {
             Client = new HttpClient {BaseAddress = new Uri(baseUrl.HasToEndWith(@"/"))};
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Client?.Dispose();
+            }
+        }
     }
 }

@@ -36,5 +36,13 @@ namespace LiveHAPI.Sync.Core.Service
             
             return 1;
         }
+
+
+        public void Dispose()
+        {
+            _clientMessageWriter?.Dispose();
+            _partnerClientMessageWriter?.Dispose();
+            _familyClientMessageWriter?.Dispose();
+        }
     }
 }

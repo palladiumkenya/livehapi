@@ -119,7 +119,7 @@ namespace LiveHAPI.Infrastructure.Repository
                     _connection.Open();
                 return _connection;
             }
-
+            
             return _connection;
         }
 
@@ -130,18 +130,24 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public void Dispose()
         {
-          //  Log.Debug("disposing...");
-            DisposeContext();
-            DisposeConnection();
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                DisposeContext();
+                DisposeConnection();
+            }
+        }
         private void DisposeContext()
         {
             Context?.Dispose();
             Context = null;
         }
-
+        
         private void DisposeConnection()
         {
             _connection?.Dispose();

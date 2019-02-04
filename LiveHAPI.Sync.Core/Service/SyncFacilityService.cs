@@ -37,5 +37,12 @@ namespace LiveHAPI.Sync.Core.Service
             _practiceRepository.Sync(practices);
             return count;
         }
+
+
+        public void Dispose()
+        {
+            _clientFacilityReader?.Dispose();
+            _practiceRepository?.Dispose();
+        }
     }
 }

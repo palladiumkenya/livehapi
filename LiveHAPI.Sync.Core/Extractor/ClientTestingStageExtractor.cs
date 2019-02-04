@@ -43,5 +43,11 @@ namespace LiveHAPI.Sync.Core.Extractor
         {
             throw new NotImplementedException();
         }
+
+        public void Dispose()
+        {
+            _clientEncounterRepository?.Dispose();
+            _subscriberSystemRepository?.Dispose();
+        }
     }
 }

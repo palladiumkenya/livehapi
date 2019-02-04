@@ -140,7 +140,7 @@ namespace LiveHAPI.Sync
 
             ServiceProvider = new ServiceCollection()
 
-                .AddSingleton<IRestClient>(new RestClient(endpoint))
+                .AddTransient<IRestClient>(s=>new RestClient(endpoint))
                 .AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString))
                 
                 .AddTransient<LiveHAPIContext>()
