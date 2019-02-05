@@ -61,6 +61,7 @@ namespace LiveHAPI.Controllers
         {
             try
             {
+                //TODO refresh Users
                 Log.Debug("loading users from emr");
                 //_setupFacilty.SyncUsers();
             }

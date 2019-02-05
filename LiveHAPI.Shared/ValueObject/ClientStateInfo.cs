@@ -12,7 +12,7 @@ namespace LiveHAPI.Shared.ValueObject
         public Guid? IndexClientId { get; set; }
         public LiveState Status { get; set; }
         public DateTime StatusDate { get; set; }
-
+        public string StatusName => Status.ToString();
         public ClientStateInfo()
         {
         }

@@ -39,6 +39,8 @@
         PartnerTracedNotcontacted,
 
         HtsSmartCardEnrolled,
-        HtsTested
+        HtsTested,
+        IsPead,
+        HtsCanBeReferred
     }
 }

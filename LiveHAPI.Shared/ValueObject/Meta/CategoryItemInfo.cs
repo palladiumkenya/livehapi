@@ -10,5 +10,6 @@ namespace LiveHAPI.Shared.ValueObject.Meta
         public Guid ItemId { get; set; }
         public string Display { get; set; }
         public Decimal Rank { get; set; }
+        public bool Voided { get; set; }
     }
 }

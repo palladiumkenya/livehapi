@@ -52,7 +52,7 @@ namespace LiveHAPI.Sync
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .WriteTo.Console()
-                .WriteTo.RollingFile("logs\\hapisync-{Date}.txt")
+                .WriteTo.RollingFile("logs/hapisync-{Date}.txt")
                 .CreateLogger();
 
             Log.Debug("initializing Sync v[1.0.0.0] ...");
