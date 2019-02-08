@@ -16,6 +16,7 @@ namespace LiveHAPI.Sync.Jobs
             {
                 var service = Program.ServiceProvider.GetService<ISyncFacilityService>();
                 var count = await service.Sync();
+                service.Dispose();
             }
             catch (Exception ex)
             {

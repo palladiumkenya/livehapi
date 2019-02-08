@@ -220,6 +220,17 @@ namespace LiveHAPI.Sync.Core.Loader
             return new IndexClientMessage(header,
                 new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)},stagedClient.ClientId);
         }
-        
+
+        public void Dispose()
+        {
+            _practiceRepository?.Dispose();
+            _clientStageRepository?.Dispose();
+            _clientPretestStageRepository?.Dispose();
+            _clientTestingStageExtractor?.Dispose();
+            _clientFinalTestStageExtractor?.Dispose();
+            _clientReferralStageExtractor?.Dispose();
+            _clientTracingStageExtractor?.Dispose();
+            _clientLinkageStageExtractor?.Dispose();
+        }
     }
 }

@@ -146,8 +146,9 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public bool ClientExisits(Guid clientId)
         {
-            return null != DbSet.AsNoTracking()
-                       .FirstOrDefault(x => x.ClientId == clientId);
+            return DbSet
+                .AsNoTracking()
+                .Any(x => x.ClientId == clientId);
         }
     }
 }

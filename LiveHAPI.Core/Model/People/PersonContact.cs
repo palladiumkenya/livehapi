@@ -10,7 +10,7 @@ namespace LiveHAPI.Core.Model.People
 {
     public class PersonContact : Entity<Guid>, IContact, ISourceIdentity
     {
-        public int? Phone { get; set; }
+        public long? Phone { get; set; }
         [MaxLength(50)]
         public string Source { get; set; }
         [MaxLength(50)]
@@ -29,7 +29,7 @@ namespace LiveHAPI.Core.Model.People
             Phone = contact.Phone;
         }
 
-        public PersonContact(int? phone):this()
+        public PersonContact(long? phone):this()
         {
             Phone = phone;
         }

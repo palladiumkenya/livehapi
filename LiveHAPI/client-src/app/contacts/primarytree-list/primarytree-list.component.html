@@ -1,0 +1,17 @@
+<div class="card card-w-title">
+    <p-messages [(value)]="messages"></p-messages>
+    <p-dataTable [value]="clientTrees" [loading]="loading" loadingIcon="fa-spinner fa-pulse"
+                 emptyMessage="No Records"
+                 [responsive]="true"
+                 [reorderableColumns]="true" columnResizeMode="fit" [resizableColumns]="true" [paginator]="true"
+                 [rows]="50"
+                 [totalRecords]="clientsCount">
+        <p-column field="label" header="Names" sortable="true" [filter]="true" filterMatchMode="contains"></p-column>
+        <p-column field="serial" header="Serial" sortable="true" [filter]="true" filterMatchMode="contains"></p-column>
+        <p-column styleClass="col-button" header="Actions ">
+            <ng-template let-client="rowData" pTemplate="body">
+                <p-button (click)="showTree(client)" label="Tree" icon="share" [disabled]="!client.isPrimary"></p-button>
+            </ng-template>
+        </p-column>
+    </p-dataTable>
+</div>

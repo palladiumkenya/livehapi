@@ -23,15 +23,13 @@ namespace LiveHAPI.Sync.Schedulers
                 bool result = Int32.TryParse(configPeriod.Replace("hrs", "").Trim(), out var number);
                 _configInterval = result ? number : 24;
             }
-
+            //TODO Remove config schedules
             if (clientPeriod.ToLower().EndsWith("secs"))
             {
                 bool result2 = Int32.TryParse(configPeriod.Replace("secs", "").Trim(), out var number2);
                 _clientInterval = result2 ? number2 : 15;
-                if (_clientInterval < 61)
-                {
-                    _clientInterval = 60;
-                }
+             //   if (_clientInterval < 61)
+             //       _clientInterval = 60;
             }
         }
 

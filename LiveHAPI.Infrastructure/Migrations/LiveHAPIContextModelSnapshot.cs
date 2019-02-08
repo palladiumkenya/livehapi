@@ -567,6 +567,8 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<int>("Relation");
 
+                    b.Property<string>("RelationName");
+
                     b.Property<Guid>("SecondaryClientId");
 
                     b.Property<DateTime>("StatusDate");
@@ -966,6 +968,40 @@ namespace LiveHAPI.Infrastructure.Migrations
                     b.ToTable("ClientAttributes");
                 });
 
+            modelBuilder.Entity("LiveHAPI.Core.Model.People.ClientContactNetwork", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("ClientContactNetworkId");
+
+                    b.Property<Guid>("ClientId");
+
+                    b.Property<DateTime>("DateOfBirth");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<DateTime>("Generated");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("MiddleName");
+
+                    b.Property<string>("Relation");
+
+                    b.Property<string>("Serial");
+
+                    b.Property<int>("Sex");
+
+                    b.Property<bool>("Voided");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientContactNetworkId");
+
+                    b.ToTable("ClientContactNetworks");
+                });
+
             modelBuilder.Entity("LiveHAPI.Core.Model.People.ClientIdentifier", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1137,7 +1173,7 @@ namespace LiveHAPI.Infrastructure.Migrations
 
                     b.Property<Guid>("PersonId");
 
-                    b.Property<int?>("Phone");
+                    b.Property<long?>("Phone");
 
                     b.Property<bool>("Preferred");
 
@@ -2144,6 +2180,13 @@ namespace LiveHAPI.Infrastructure.Migrations
                         .WithMany("Attributes")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LiveHAPI.Core.Model.People.ClientContactNetwork", b =>
+                {
+                    b.HasOne("LiveHAPI.Core.Model.People.ClientContactNetwork")
+                        .WithMany("Networks")
+                        .HasForeignKey("ClientContactNetworkId");
                 });
 
             modelBuilder.Entity("LiveHAPI.Core.Model.People.ClientIdentifier", b =>

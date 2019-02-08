@@ -79,5 +79,14 @@ namespace LiveHAPI.Sync.Core.Extractor
             _clientPretestStageRepository.BulkInsert(pretestStages);
             return 1;
         }
+
+        public void Dispose()
+        {
+            _clientRepository?.Dispose();
+            _clientEncounterRepository?.Dispose();
+            _clientStageRepository?.Dispose();
+            _clientPretestStageRepository?.Dispose();
+            _subscriberSystemRepository?.Dispose();
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace LiveHAPI.Shared.ValueObject.Meta
         public Guid Id { get; set; }
         public string Code { get; set; }
         public string Display { get; set; }
+        public bool Voided { get; set; }
     }
 }

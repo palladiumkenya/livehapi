@@ -11,10 +11,10 @@ namespace LiveHAPI.Sync.Core.Reader
 {
     public abstract class ClientReader<T>:IClientReader<T>
     {
-        protected readonly HttpClient _httpClient;
+        private readonly IRestClient _restClient;
         protected ClientReader(IRestClient restClient)
         {
-            _httpClient = restClient.Client;
+            _restClient = restClient;
         }
 
         public virtual Task<IEnumerable<T>> Read()
@@ -27,7 +27,7 @@ namespace LiveHAPI.Sync.Core.Reader
             var result=new List<T>();
             try
             {
-                var response = await _httpClient.GetAsync(endpoint);
+                var response = await _restClient.Client.GetAsync(endpoint);
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsJsonAsync<List<T>>();
@@ -47,6 +47,11 @@ namespace LiveHAPI.Sync.Core.Reader
             }
             
             return result;
+        }
+
+        public void Dispose()
+        {
+            _restClient?.Dispose();
         }
     }
 }

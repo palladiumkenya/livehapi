@@ -22,7 +22,7 @@ namespace LiveHAPI.Sync.Core.Writer
 {
     public abstract class ClientWriter<T> : IClientWriter<T> where T : ClientMessage
     {
-        private readonly HttpClient _httpClient;
+        private readonly IRestClient _restClient;
         private readonly IMessageLoader<T> _loader;
         private List<string> _messages = new List<string>();
         private List<ErrorResponse> _errors = new List<ErrorResponse>();
@@ -32,7 +32,7 @@ namespace LiveHAPI.Sync.Core.Writer
         protected ClientWriter(IRestClient restClient, IMessageLoader<T> loader,
             IClientStageRepository clientStageRepository)
         {
-            _httpClient = restClient.Client;
+            _restClient = restClient;
             _loader = loader;
             _clientStageRepository = clientStageRepository;
         }
@@ -61,7 +61,7 @@ namespace LiveHAPI.Sync.Core.Writer
                     var msg = JsonConvert.SerializeObject(htsClient, Formatting.Indented);
                     _messages.Add(msg);
 
-                    var response = await _httpClient.PostAsJsonAsync(endpoint, htsClient);
+                    var response = await _restClient.Client.PostAsJsonAsync(endpoint, htsClient);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -110,6 +110,14 @@ namespace LiveHAPI.Sync.Core.Writer
             }
 
             return results;
+        }
+
+
+        public void Dispose()
+        {
+            _restClient?.Dispose();
+            _loader?.Dispose();
+            _clientStageRepository?.Dispose();
         }
     }
 }

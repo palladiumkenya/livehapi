@@ -10,9 +10,11 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "vs": "ng serve --proxy-config proxy.config.json",
+    "vs": "ng serve --host 0.0.0.0 --proxy-config proxy.config.json",
     "qavs": "ng serve -c qa --proxy-config proxy.config.json",
-    "net": "dotnet watch run"
+    "net": "dotnet watch run",
+    "sync": "cd ../LiveHAPI.Sync && dotnet watch run",
+    "hapi": "concurrently \"npm:net\" \"npm:sync\""
   },
   "private": true,
   "dependencies": {

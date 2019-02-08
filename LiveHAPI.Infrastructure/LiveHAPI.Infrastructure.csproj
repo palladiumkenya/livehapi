@@ -39,7 +39,6 @@
     <EmbeddedResource Include="Seed\PersonName.csv" />
     <EmbeddedResource Include="Seed\SubscriberCohort.csv" />
     <EmbeddedResource Include="Seed\SubscriberMap.csv" />
-    <EmbeddedResource Include="Seed\SubscriberTranslation.csv" />
     <EmbeddedResource Include="Seed\Validator.csv" />
     <EmbeddedResource Include="Seed\Category.csv" />
     <EmbeddedResource Include="Seed\CategoryItem.csv" />
@@ -90,5 +89,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LiveHAPI.Core\LiveHAPI.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Seed\SubscriberTranslation.csv" />
   </ItemGroup>
 </Project>

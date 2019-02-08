@@ -128,9 +128,9 @@ namespace LiveHAPI.Infrastructure
                 if (!context.SubscriberMaps.Any())
                     context.BulkInsert(InitialSeeder.ReadCsv<SubscriberMap>());
 
-                if (!context.SubscriberTranslations.Any())
+               if (!context.SubscriberTranslations.Any())
                     context.BulkInsert(InitialSeeder.ReadCsv<SubscriberTranslation>());
-
+               
                 if (!context.SubscriberTranslations.Any(s => s.IsUpdated()))
                 {
                     context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<County>());
@@ -138,7 +138,6 @@ namespace LiveHAPI.Infrastructure
                     context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<Item>());
                     context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<CategoryItem>());
                     context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<KeyPop>());
-
                     context.BulkInsertOrUpdate(InitialSeeder.ReadCsv<SubscriberTranslation>());
                     Log.Error(new string('*', 50));
                     Log.Error($"        {Shared.Defualts.SyncVersion}   ");

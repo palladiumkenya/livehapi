@@ -126,5 +126,14 @@ namespace LiveHAPI.Sync.Core.Loader
 
             return messages;
         }
+
+        public void Dispose()
+        {
+            _practiceRepository?.Dispose();
+            _clientStageRepository?.Dispose();
+            _clientStageRelationshipRepository?.Dispose();
+            _clientPartnerScreeningStageExtractor?.Dispose();
+            _clientPartnerTracingStageExtractor?.Dispose();
+        }
     }
 }

@@ -8,7 +8,15 @@ import {AppRoutes} from './app.routes';
 import {RouterModule} from '@angular/router';
 import { ConfigComponent } from './config/config.component';
 import {ButtonModule} from 'primeng/button';
-import {ConfirmationService, DataTableModule, InputTextModule, MessageModule, MessagesModule, ToolbarModule} from 'primeng/primeng';
+import {
+    ConfirmationService,
+    DataTableModule,
+    InputTextModule,
+    MessageModule,
+    MessagesModule,
+    ToolbarModule,
+    TreeModule
+} from 'primeng/primeng';
 import {HttpClientModule} from '@angular/common/http';
 import {ConfigService} from './services/config.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -22,6 +30,11 @@ import { StatsComponent } from './stats/stats.component';
 import { ClientManagerComponent } from './client-manager/client-manager.component';
 import {StatsService} from './services/stats.service';
 import {ClientManagerService} from './services/client-manager.service';
+import { ClientTreeComponent } from './contacts/client-tree/client-tree.component';
+import { PrimaryListComponent } from './contacts/primary-list/primary-list.component';
+import {ClientContactsService} from './contacts/services/client-contacts.service';
+import { ContactTreeComponent } from './contacts/contact-tree/contact-tree.component';
+import { PrimarytreeListComponent } from './contacts/primarytree-list/primarytree-list.component';
 
 
 @NgModule({
@@ -36,7 +49,11 @@ import {ClientManagerService} from './services/client-manager.service';
       AppBreadcrumbComponent,
       AppSubmenuComponent,
       StatsComponent,
-      ClientManagerComponent
+      ClientManagerComponent,
+      ClientTreeComponent,
+      PrimaryListComponent,
+      ContactTreeComponent,
+      PrimarytreeListComponent
   ],
   imports: [
     BrowserModule,
@@ -51,10 +68,12 @@ import {ClientManagerService} from './services/client-manager.service';
       MessagesModule,
       HttpClientModule,
       FormsModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      TreeModule
    ],
   providers: [
-      ConfigService,  ConfirmationService, BreadcrumbService, StatsService, ClientManagerService
+      ConfigService,  ConfirmationService, BreadcrumbService, StatsService,
+      ClientManagerService, ClientContactsService
   ],
   bootstrap: [AppComponent]
 })

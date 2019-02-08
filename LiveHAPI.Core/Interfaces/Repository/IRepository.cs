@@ -6,7 +6,7 @@ using LiveHAPI.Shared.Model;
 
 namespace LiveHAPI.Core.Interfaces.Repository
 {
-    public interface IRepository<T,TId> where T:Entity<TId>
+    public interface IRepository<T, TId> : IDisposable where T : Entity<TId>
     {
         T Get(TId id, bool voided = false);
         IEnumerable<T> GetAll(bool voided = false);

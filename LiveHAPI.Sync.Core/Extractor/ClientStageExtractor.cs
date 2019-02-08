@@ -80,8 +80,17 @@ namespace LiveHAPI.Sync.Core.Extractor
             _clientStageRepository.BulkUpdate(updates);
             
             _clientRepository.UpdateSyncStatus(clients);
-            
+           
             return 1;
+        }
+
+        public void Dispose()
+        {
+            _personRepository?.Dispose();
+            _clientStageRepository?.Dispose();
+            _clientRepository?.Dispose();
+            _subscriberSystemRepository?.Dispose();
+            _practiceRepository?.Dispose();
         }
     }
 }

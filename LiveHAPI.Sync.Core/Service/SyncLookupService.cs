@@ -29,7 +29,14 @@ namespace LiveHAPI.Sync.Core.Service
             var translations = Mapper.Map<List<SubscriberTranslation>>(clientLookups);
             int count = translations.Count;
             _subscriberTranslationRepository.Sync(translations);
+            _subscriberTranslationRepository.Dispose();
             return count;
+        }
+
+        public void Dispose()
+        {
+            _clientLookupReader?.Dispose();
+            _subscriberTranslationRepository?.Dispose();
         }
     }
 }

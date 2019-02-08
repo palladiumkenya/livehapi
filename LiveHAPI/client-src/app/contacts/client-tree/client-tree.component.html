@@ -1,0 +1,15 @@
+<div class="ui-g">
+    <div class="ui-g-4">
+        <div class="card card-w-title">
+            <h1>Clients</h1>
+            <button pButton type="button" label="Generate Tree" (click)="generateTree()"></button>
+            <liveapp-primarytree-list (treeRequested)="onShowTree($event)"></liveapp-primarytree-list>
+        </div>
+    </div>
+    <div class="ui-g-8">
+        <div class="card card-w-title">
+            <h1>Contact Tree</h1>
+            <liveapp-contact-tree [client]="selectedClient"></liveapp-contact-tree>
+        </div>
+    </div>
+</div>

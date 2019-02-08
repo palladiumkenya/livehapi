@@ -300,8 +300,8 @@ fda25a82-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.IPVOutcome|a577c694-005
 fda25bc2-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.IPVOutcome|a577c7de-0052-11e8-aa69-0ed5f89f718b|Sexual|1528|Sexual|IpvOutcome|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda25ce4-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.IPVOutcome|a577c914-0052-11e8-aa69-0ed5f89f718b|No IPV|1529|No IPV|IpvOutcome|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda25e74-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.IPVOutcome|a577cda6-0052-11e8-aa69-0ed5f89f718b|NA-CHILD|1530|NA-CHILD|IpvOutcome|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
-fda25f96-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|749076e2-0053-11e8-ba89-0ed5f89f718b|S|444|S|PNSRelationship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
-fda262ac-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|74907a98-0053-11e8-ba89-0ed5f89f718b|P|1531|P|PNSRelationship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
+fda25f96-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|749076e2-0053-11e8-ba89-0ed5f89f718b|S|1532|Sexual Partner (SP)|PNSRelationship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
+fda262ac-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|74907a98-0053-11e8-ba89-0ed5f89f718b|P|1532|Sexual Partner (SP)|PNSRelationship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda263ce-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|74907dae-0053-11e8-ba89-0ed5f89f718b|Sexual Partner (SP)|1532|Sexual Partner (SP)|PNSRelationship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda264f0-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|749080ce-0053-11e8-ba89-0ed5f89f718b|Injectable Drug User (IDU)|1533|Injectable Drug User (IDU)|PNSRelationship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda26612-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.PNSRealtionship|7490840c-0053-11e8-ba89-0ed5f89f718b|Child - C|1534|Child - C|PNSRelationship|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
@@ -346,4 +346,4 @@ fda7467c-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.Eligibility|B25ED1C0-85
 612d293a-b5c9-11e8-96f8-529269fb1459|B26039A1-852F-11E7-BB31-BE2E44B06B34|b06bf8ec-b68b-11e8-96f8-529269fb1459|PNS|1807|PNS|HTSEntryPoints|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 612d294a-b5c9-11e8-96f8-529269fb1459|B260417C-852F-11E7-BB31-BE2E44B06B34|b06bf8ec-b68b-11e8-96f8-529269fb1459|PNS|1807|PNS|Strategy|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 
-ab88ad8c-88b8-11e7-abc4-cec278b6b50a|Sync|105|1|1|Sync||1|0|16E23866-9D69-11E7-ABC4-CEC278B6B50A
+ab88ad8c-88b8-11e7-abc4-cec278b6b50a|Sync|106|1|1|Sync||1|0|16E23866-9D69-11E7-ABC4-CEC278B6B50A

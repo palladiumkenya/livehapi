@@ -4,8 +4,10 @@ using System.Linq;
 using Hangfire;
 using Hangfire.SqlServer;
 using LiveHAPI.Core.Interfaces;
+using LiveHAPI.Core.Interfaces.Builders;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Interfaces.Services;
+using LiveHAPI.Core.Model.Builder;
 using LiveHAPI.Core.Model.Encounters;
 using LiveHAPI.Core.Model.Lookup;
 using LiveHAPI.Core.Model.Network;
@@ -121,6 +123,8 @@ namespace LiveHAPI
 
             services.AddScoped<IClientStageRepository, ClientStageRepository>();
 
+            services.AddScoped<IClientContactNetworkRepository, ClientContactNetworkRepository>();
+
             services.AddScoped<IMetaService, MetaService>();
             services.AddScoped<IStaffService, StaffService>();
             services.AddScoped<IActivationService, ActivationService>();
@@ -158,7 +162,7 @@ namespace LiveHAPI
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-          
+
 
             app.Use(async (context, next) =>
             {
@@ -214,7 +218,7 @@ namespace LiveHAPI
             #region HangFire
             try
             {
-              
+
 
                 app.UseHangfireDashboard("/api/hangfire", new DashboardOptions()
                 {
@@ -297,6 +301,10 @@ namespace LiveHAPI
                     .ForMember(x => x.LastName,
                         o => o.MapFrom(s => null != s.Names.FirstOrDefault() ? s.Names.FirstOrDefault().LastName : ""));
                 cfg.CreateMap<Provider, ProviderDTO>();
+
+                cfg.CreateMap<ClientContactNetwork, ContactTreeInfo>()
+                    .ForMember(x => x.Label, o => o.MapFrom(s => s.Names))
+                    .ForMember(x => x.Children, o => o.MapFrom(s => s.Networks));
 
             });
 
