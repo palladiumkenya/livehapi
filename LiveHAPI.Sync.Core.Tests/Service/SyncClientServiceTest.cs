@@ -11,6 +11,7 @@ using LiveHAPI.Sync.Core.Loader;
 using LiveHAPI.Sync.Core.Reader;
 using LiveHAPI.Sync.Core.Service;
 using LiveHAPI.Sync.Core.Writer;
+using LiveHAPI.Sync.Core.Writer.Index;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
@@ -65,6 +66,8 @@ namespace LiveHAPI.Sync.Core.Tests.Service
            var clientMessageWriter =
                 new IndexClientMessageWriter(new RestClient(_baseUrl), clientMessageLoader,clientStageRepository);
             
+           var demographicsWriter =
+               new DemographicsWriter(new RestClient(_baseUrl), clientMessageLoader,clientStageRepository);
             
           var cclientMessageLoader =
                 new FamilyClientMessageLoader(
@@ -85,7 +88,7 @@ namespace LiveHAPI.Sync.Core.Tests.Service
             var ccclientMessageWriter =
                 new PartnerClientMessageWriter(new RestClient(_baseUrl), ccclientMessageLoader,clientStageRepository);
             
-            _service=new SyncClientsService(clientMessageWriter,ccclientMessageWriter,cclientMessageWriter);
+            _service=new SyncClientsService(clientMessageWriter,ccclientMessageWriter,cclientMessageWriter,demographicsWriter);
         }
 
         [Test]

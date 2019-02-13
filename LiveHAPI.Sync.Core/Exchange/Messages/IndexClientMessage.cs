@@ -22,6 +22,32 @@ namespace LiveHAPI.Sync.Core.Exchange.Messages
         {
             return DemographicMessage.Create(this);
         }
+        
+        public PretestMessage GetPretestMessage()
+        {
+            return PretestMessage.Create(this);
+        }
+
+        public TestsMessage GetHtsTestMessage()
+        {
+            return TestsMessage.Create(this);
+        }
+
+        public ReferralMessage GetReferralMessage()
+        {
+            return ReferralMessage.Create(this);
+        }
+
+        public TracingMessage GetTracingMessage()
+        {
+            return TracingMessage.Create(this);
+        }
+
+        public LinkageMessage GetLinkageMessage()
+        {
+            return LinkageMessage.Create(this);;
+        }
+        
         public void ValidateDemographics()
         {
             if(!CLIENTS.Any())
@@ -91,5 +117,7 @@ namespace LiveHAPI.Sync.Core.Exchange.Messages
                 throw new ArgumentException("missing Tracing Encounter");
 
         }
+
+       
     }
 }

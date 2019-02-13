@@ -75,7 +75,8 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
         [Category("live")]
         public void should_Load_By_Client()
         {
-            var indexClientMessages = _clientMessageLoader.Load(null).Result.ToList();
+            Guid clientid=new Guid("c9d544ad-00d8-450d-8c7e-a98b00667ee1");
+            var indexClientMessages = _clientMessageLoader.Load(clientid).Result.ToList();
             Assert.True(indexClientMessages.Any());
             Assert.False(indexClientMessages.Any(x => x.ClientId.IsNullOrEmpty()));
             foreach (var m in indexClientMessages)
