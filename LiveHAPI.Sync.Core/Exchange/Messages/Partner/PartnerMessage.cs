@@ -1,34 +1,34 @@
 using System;
 using System.Collections.Generic;
 using LiveHAPI.Sync.Core.Exchange.Family;
-using LiveHAPI.Sync.Core.Exchange.Messages.Index;
+using LiveHAPI.Sync.Core.Exchange.Partner;
 
-namespace LiveHAPI.Sync.Core.Exchange.Messages.Familiy
+namespace LiveHAPI.Sync.Core.Exchange.Messages.Partner
 {
     public class PartnerMessage:ClientMessage
     {
-        public List<NEWFAMILY> CLIENTS { get; private set; }=new List<NEWFAMILY>();
+        public List<NEWPARTNER> PARTNERS { get; private set; }=new List<NEWPARTNER>();
 
-        public FamilyMessage()
+        public PartnerMessage()
         {
         }
 
-        private FamilyMessage(MESSAGE_HEADER messageHeader, Guid clientId,List<NEWFAMILY> clients) : base(messageHeader, clientId)
+        private PartnerMessage(MESSAGE_HEADER messageHeader, Guid clientId,List<NEWPARTNER> clients) : base(messageHeader, clientId)
         {
-            CLIENTS = clients;
+            PARTNERS = clients;
         }
 
-        public static FamilyMessage Create(FamilyClientMessage familyMessage)
+        public static PartnerMessage Create(PartnerClientMessage partnerMessage)
         {
-            if(null==familyMessage)
+            if(null==partnerMessage)
                 throw new ArgumentException("message cannot be null message");
 
-            familyMessage.ValidateDemographics();
+            partnerMessage.ValidateDemographics();
 
-            return new FamilyMessage(
-                familyMessage.MESSAGE_HEADER,
-                familyMessage.ClientId,
-                NEWFAMILY.Create(familyMessage.FAMILY));
+            return new PartnerMessage(
+                partnerMessage.MESSAGE_HEADER,
+                partnerMessage.ClientId,
+                NEWPARTNER.Create(partnerMessage.PARTNERS));
         }
 
     }
