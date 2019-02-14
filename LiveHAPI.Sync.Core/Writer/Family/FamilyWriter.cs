@@ -88,7 +88,7 @@ namespace LiveHAPI.Sync.Core.Writer.Family
 
             try
             {
-                if (typeof(T) == typeof(DemographicMessage))
+                if (typeof(T) == typeof(FamilyMessage))
                     clientMessage = message.GetDemographicMessage() as T;
 
                 if (typeof(T) == typeof(FamilyScreening))

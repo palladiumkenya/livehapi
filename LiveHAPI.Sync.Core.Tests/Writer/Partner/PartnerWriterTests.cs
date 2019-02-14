@@ -41,7 +41,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer.Partner
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            string connectionString=string.Empty;
+            string connectionString = string.Empty;
 
             connectionString = config["connectionStrings:livehAPIConnection"];
 
@@ -66,7 +66,7 @@ namespace LiveHAPI.Sync.Core.Tests.Writer.Partner
                     new ClientPartnerTracingStageExtractor(_contactsEncounterRepository, _subscriberSystemRepository));
 
             _clientMessageWriter =
-                new PartnerWriter(new RestClient(_baseUrl), _clientMessageLoader,_clientStageRepository);
+                new PartnerWriter(new RestClient(_baseUrl), _clientMessageLoader, _clientStageRepository);
         }
 
         [Test]

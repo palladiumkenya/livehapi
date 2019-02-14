@@ -89,7 +89,7 @@ namespace LiveHAPI.Sync.Core.Writer.Partner
 
             try
             {
-                if (typeof(T) == typeof(DemographicMessage))
+                if (typeof(T) == typeof(PartnerMessage))
                     clientMessage = message.GetDemographicMessage() as T;
 
                 if (typeof(T) == typeof(PartnerScreening))

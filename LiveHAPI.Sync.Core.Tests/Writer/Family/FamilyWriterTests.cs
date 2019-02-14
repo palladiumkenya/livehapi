@@ -79,8 +79,6 @@ namespace LiveHAPI.Sync.Core.Tests.Writer.Family
             foreach (var message in _clientMessageWriter.Messages)
                 Assert.False(string.IsNullOrWhiteSpace(message));
 
-            var stagedIndexClients = _clientStageRepository.GetIndexClients();
-            Assert.False(stagedIndexClients.Any());
             if (_clientMessageWriter.Errors.Any())
                 foreach (var e in _clientMessageWriter.Errors)
                 {
