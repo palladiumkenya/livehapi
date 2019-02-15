@@ -20,13 +20,17 @@ using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Interface.Schedulers;
 using LiveHAPI.Sync.Core.Interface.Services;
 using LiveHAPI.Sync.Core.Interface.Writers;
+using LiveHAPI.Sync.Core.Interface.Writers.Family;
 using LiveHAPI.Sync.Core.Interface.Writers.Index;
+using LiveHAPI.Sync.Core.Interface.Writers.Partner;
 using LiveHAPI.Sync.Core.Loader;
 using LiveHAPI.Sync.Core.Profiles;
 using LiveHAPI.Sync.Core.Reader;
 using LiveHAPI.Sync.Core.Service;
 using LiveHAPI.Sync.Core.Writer;
+using LiveHAPI.Sync.Core.Writer.Family;
 using LiveHAPI.Sync.Core.Writer.Index;
+using LiveHAPI.Sync.Core.Writer.Partner;
 using LiveHAPI.Sync.Schedulers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -169,6 +173,8 @@ namespace LiveHAPI.Sync
                 .AddTransient<IIndexClientMessageWriter, IndexClientMessageWriter>()
                 .AddTransient<IFamilyClientMessageWriter, FamilyClientMessageWriter>()
                 .AddTransient<IPartnerClientMessageWriter, PartnerClientMessageWriter>()
+                .AddTransient<IFamilyWriter, FamilyWriter>()
+                .AddTransient<IPartnerWriter, PartnerWriter>()
                 .AddTransient<IDemographicsWriter, DemographicsWriter>()
 
                 .AddTransient<IClientStageExtractor, ClientStageExtractor>()
