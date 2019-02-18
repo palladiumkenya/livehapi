@@ -9,7 +9,7 @@ namespace LiveHAPI.Sync.Core.Exchange
         public PRE_TEST PRE_TEST { get; set; }
         public HIV_TESTS HIV_TESTS { get; set; }
         public NewReferral REFERRAL { get; set; }
-        public List<NewTracing> TRACING { get; set; }
+        public List<NewTracing> TRACING { get; set; }=new List<NewTracing>();
         public NewLinkage LINKAGE { get; set; }
 
         public ENCOUNTERS()

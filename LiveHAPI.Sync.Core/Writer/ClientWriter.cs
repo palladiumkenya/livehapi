@@ -22,11 +22,11 @@ namespace LiveHAPI.Sync.Core.Writer
 {
     public abstract class ClientWriter<T> : IClientWriter<T> where T : ClientMessage
     {
-        private readonly IRestClient _restClient;
-        private readonly IMessageLoader<T> _loader;
-        private List<string> _messages = new List<string>();
-        private List<ErrorResponse> _errors = new List<ErrorResponse>();
-        private readonly IClientStageRepository _clientStageRepository;
+        protected readonly IRestClient _restClient;
+        protected readonly IMessageLoader<T> _loader;
+        protected List<string> _messages = new List<string>();
+        protected List<ErrorResponse> _errors = new List<ErrorResponse>();
+        protected readonly IClientStageRepository _clientStageRepository;
 
 
         protected ClientWriter(IRestClient restClient, IMessageLoader<T> loader,

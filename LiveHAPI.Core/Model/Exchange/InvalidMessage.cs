@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Enum;
 using LiveHAPI.Shared.Model;
@@ -11,7 +12,7 @@ namespace LiveHAPI.Core.Model.Exchange
         public Guid ClientId  { get; set; }
         public MessageType Type { get; set; }
         public Guid? PracticeId { get; set; }
-        [MaxLength(4000)]
+        [Column(TypeName ="Text" )]
         public string Message { get; set; }
 
         public InvalidMessage()

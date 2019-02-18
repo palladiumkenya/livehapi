@@ -25,7 +25,7 @@ namespace LiveHAPI.Sync.Core.Exchange.Clients
 
         public static PHYSICAL_ADDRESS Create(string landmark, int? county, int? subCounty, int? ward)
         {
-            return new PHYSICAL_ADDRESS(landmark,county.ToIqLocation(),subCounty.ToIqLocation(),ward.ToIqLocation());
+            return new PHYSICAL_ADDRESS(landmark,county.ToIqLocation("0"),subCounty.ToIqLocation("0"),ward.ToIqLocation("0"));
         }
     }
 }

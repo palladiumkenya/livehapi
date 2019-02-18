@@ -102,9 +102,6 @@ namespace LiveHAPI.Controllers
           if (null != rc.Client && !rc.Client.Id.IsNullOrEmpty())
             personData.Add(rc);
         }
-
-
-
         return Ok(personData);
       }
       catch (Exception e)

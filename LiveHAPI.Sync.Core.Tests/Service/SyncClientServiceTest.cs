@@ -7,10 +7,15 @@ using LiveHAPI.Shared.Tests.TestHelpers;
 using LiveHAPI.Sync.Core.Extractor;
 using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Interface.Services;
+using LiveHAPI.Sync.Core.Interface.Writers.Family;
+using LiveHAPI.Sync.Core.Interface.Writers.Partner;
 using LiveHAPI.Sync.Core.Loader;
 using LiveHAPI.Sync.Core.Reader;
 using LiveHAPI.Sync.Core.Service;
 using LiveHAPI.Sync.Core.Writer;
+using LiveHAPI.Sync.Core.Writer.Family;
+using LiveHAPI.Sync.Core.Writer.Index;
+using LiveHAPI.Sync.Core.Writer.Partner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
@@ -25,6 +30,8 @@ namespace LiveHAPI.Sync.Core.Tests.Service
         private IUserRepository _repository;
         private ISyncClientsService _service;
         private IClientUserReader _reader;
+        private IPartnerWriter _partnerMessageWriter;
+        private IFamilyWriter _familyMessageWriter;
 
         [SetUp]
         public void SetUp()
@@ -40,7 +47,7 @@ namespace LiveHAPI.Sync.Core.Tests.Service
                 .Options;
             _reader = new ClientUserReader(new RestClient(_baseUrl));
             _context = new LiveHAPIContext(options);
-        
+
            var clientPretestStageRepository = new ClientPretestStageRepository(_context);
             var clientEncounterRepository = new ClientEncounterRepository(_context);
             var  subscriberSystemRepository = new SubscriberSystemRepository(_context);
@@ -50,7 +57,7 @@ namespace LiveHAPI.Sync.Core.Tests.Service
             var  clientStageExtractor = new ClientStageExtractor(new PersonRepository(_context), clientStageRepository, subscriberSystemRepository,new ClientRepository(_context), new PracticeRepository(_context));
             var clientPretestStageExtractor = new ClientPretestStageExtractor(clientStageRepository, clientPretestStageRepository, subscriberSystemRepository, clientEncounterRepository, new ClientRepository(_context));
             var contactsEncounterRepository = new ContactsEncounterRepository(_context);
-            
+
            var clientMessageLoader =
                 new IndexClientMessageLoader(practiceRepository, clientStageRepository, clientPretestStageRepository,
                     new ClientTestingStageExtractor(clientEncounterRepository, subscriberSystemRepository),
@@ -61,11 +68,13 @@ namespace LiveHAPI.Sync.Core.Tests.Service
 
                 );
 
-            
+
            var clientMessageWriter =
                 new IndexClientMessageWriter(new RestClient(_baseUrl), clientMessageLoader,clientStageRepository);
-            
-            
+
+           var demographicsWriter =
+               new DemographicsWriter(new RestClient(_baseUrl), clientMessageLoader,clientStageRepository);
+
           var cclientMessageLoader =
                 new FamilyClientMessageLoader(
 
@@ -84,8 +93,14 @@ namespace LiveHAPI.Sync.Core.Tests.Service
 
             var ccclientMessageWriter =
                 new PartnerClientMessageWriter(new RestClient(_baseUrl), ccclientMessageLoader,clientStageRepository);
-            
-            _service=new SyncClientsService(clientMessageWriter,ccclientMessageWriter,cclientMessageWriter);
+
+            _partnerMessageWriter =
+                new PartnerWriter(new RestClient(_baseUrl), ccclientMessageLoader, clientStageRepository);
+
+            _familyMessageWriter =
+                new FamilyWriter(new RestClient(_baseUrl), cclientMessageLoader, clientStageRepository);
+
+            _service=new SyncClientsService(clientMessageWriter,ccclientMessageWriter,cclientMessageWriter,demographicsWriter,_partnerMessageWriter,_familyMessageWriter);
         }
 
         [Test]
