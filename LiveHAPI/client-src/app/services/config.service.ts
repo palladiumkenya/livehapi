@@ -48,8 +48,9 @@ export class ConfigService {
         return this._http.post<Facility>('./api/sync', entity)
             .catch(this.handleError);
     }
+
     public showEmrVersion(entity: Endpoint): Observable<Emr> {
-        return this._http.post<Emr>('./api/sync', entity)
+        return this._http.post<Emr>('./api/sync/emr', entity)
             .catch(this.handleError);
     }
 

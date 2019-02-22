@@ -54,8 +54,8 @@ namespace LiveHAPI.Controllers
             }
         }
 
-        // GET: api/sync
-        [HttpGet("emr")]
+        // GET: api/emr
+        [HttpPost("emr")]
         public async Task<IActionResult> ReadEmr([FromBody] Endpoints endpoints)
         {
             if (null==endpoints)

@@ -15,7 +15,7 @@ namespace LiveHAPI.Core.Service
     public class RestManger:IRestManager
     {
         private readonly string fac = "api/setup/getFacilities";
-        private readonly string emrEndpoint = "api/setup/iqcareversionn";
+        private readonly string emrEndpoint = "api/setup/iqcareversion";
         public async Task<EmrFacility> VerfiyUrl(Endpoints endpoints)
         {
             var http = new HttpClient {BaseAddress = new Uri(endpoints.Iqcare.HasToEndWith(@"/"))};
@@ -56,6 +56,8 @@ namespace LiveHAPI.Core.Service
             {
                 Log.Error($"error reading endpoint [{emrEndpoint}]");
                 Log.Error($"{e}");
+                if (e.Message.Contains("Please update IQCare to latest version"))
+                    throw;
             }
 
             return null;
