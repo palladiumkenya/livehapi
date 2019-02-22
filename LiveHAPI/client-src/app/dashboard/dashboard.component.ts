@@ -42,7 +42,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
                         //     this.sysMessages.push({severity: 'warn', summary: 'Please verify ypu '});
                         // }
                         if (this.hapi.syncVersion === 0) {
-                            this.sysMessages.push({severity: 'warn', summary: 'Please update IQCare to latest version '});
+                            this.sysMessages.push({
+                                severity: 'warn',
+                                summary: 'Please update IQCare to latest version and Verify settings '
+                            });
                         }
                     }
                 },
