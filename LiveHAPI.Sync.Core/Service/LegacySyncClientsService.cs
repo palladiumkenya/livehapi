@@ -1,11 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using LiveHAPI.Core.Interfaces.Repository;
-using LiveHAPI.Core.Model.People;
-using LiveHAPI.Sync.Core.Interface.Extractors;
-using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Interface.Services;
 using LiveHAPI.Sync.Core.Interface.Writers;
 using LiveHAPI.Sync.Core.Interface.Writers.Family;
@@ -14,7 +7,7 @@ using LiveHAPI.Sync.Core.Interface.Writers.Partner;
 
 namespace LiveHAPI.Sync.Core.Service
 {
-    public class SyncClientsService : ISyncClientsService
+    public class LegacySyncClientsService : ISyncClientsService
     {
         private readonly IIndexClientMessageWriter _clientMessageWriter;
         private readonly IPartnerWriter _partnerWriter;
@@ -24,7 +17,7 @@ namespace LiveHAPI.Sync.Core.Service
         private readonly IFamilyClientMessageWriter _familyClientMessageWriter;
         private readonly IDemographicsWriter _demographicsWriter;
 
-        public SyncClientsService(IIndexClientMessageWriter clientMessageWriter, IPartnerClientMessageWriter partnerClientMessageWriter, IFamilyClientMessageWriter familyClientMessageWriter, IDemographicsWriter demographicsWriter, IPartnerWriter partnerWriter, IFamilyWriter familyWriter)
+        public LegacySyncClientsService(IIndexClientMessageWriter clientMessageWriter, IPartnerClientMessageWriter partnerClientMessageWriter, IFamilyClientMessageWriter familyClientMessageWriter, IDemographicsWriter demographicsWriter, IPartnerWriter partnerWriter, IFamilyWriter familyWriter)
         {
             _clientMessageWriter = clientMessageWriter;
             _partnerClientMessageWriter = partnerClientMessageWriter;
@@ -38,14 +31,14 @@ namespace LiveHAPI.Sync.Core.Service
         public async Task<int> Sync()
         {
 
-            await _demographicsWriter.Write();
-            //await _clientMessageWriter.Write();
+            //await _demographicsWriter.Write();
+            await _clientMessageWriter.Write();
 
-            await _partnerWriter.Write();
-            //await _partnerClientMessageWriter.Write();
+            //await _partnerWriter.Write();
+            await _partnerClientMessageWriter.Write();
 
-            await _familyWriter.Write();
-            //await _familyClientMessageWriter.Write();
+            //await _familyWriter.Write();
+            await _familyClientMessageWriter.Write();
 
             return 1;
         }
@@ -53,12 +46,12 @@ namespace LiveHAPI.Sync.Core.Service
 
         public void Dispose()
         {
-            _demographicsWriter?.Dispose();
-           // _clientMessageWriter?.Dispose();
-           _partnerWriter?.Dispose();
-           // _partnerClientMessageWriter?.Dispose();
-           _familyWriter?.Dispose();
-           // _familyClientMessageWriter?.Dispose();
+            //_demographicsWriter?.Dispose();
+            _clientMessageWriter?.Dispose();
+            //_partnerWriter?.Dispose();
+            _partnerClientMessageWriter?.Dispose();
+            //_familyWriter?.Dispose();
+            _familyClientMessageWriter?.Dispose();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
              var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
+            var connectionString = config["connectionStrings:livehAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
 
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
@@ -89,6 +89,19 @@ namespace LiveHAPI.Infrastructure.Tests.Repository
             foreach (var person in persons)
             {
                 Console.WriteLine(person);
+            }
+        }
+
+        [Test]
+        public void should_Search_by_Site()
+        {
+            var persons = _personRepository.SearchSite("12618","o").ToList();
+            Assert.True(persons.Count > 0);
+            foreach (var person in persons.OrderByDescending(x=>x.Rank))
+            {
+                Console.WriteLine(person);
+                Assert.IsTrue(person.Person.Clients.Count>0);
+                Console.WriteLine($"{person.Person.Clients.First()} | {person.Person.Clients.First().PracticeId}" );
             }
         }
     }

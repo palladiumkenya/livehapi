@@ -7,6 +7,7 @@ using LiveHAPI.Core.Model.People;
 using Microsoft.EntityFrameworkCore.Extensions.Internal;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Shared;
 using Microsoft.EntityFrameworkCore;
@@ -77,7 +78,7 @@ namespace LiveHAPI.Infrastructure.Repository
                     .Where(x => x.FirstName.ToLower().Contains(item.Trim().ToLower())||
                                  x.MiddleName.ToLower().Contains(item.Trim().ToLower())||
                                  x.LastName.ToLower().Contains(item.Trim().ToLower()))
-                    .Select(x=>x.PersonId)                                 
+                    .Select(x=>x.PersonId)
                     .ToList();
 
                 if (personIds.Count > 0)
@@ -97,7 +98,7 @@ namespace LiveHAPI.Infrastructure.Repository
                     .ToList();
 
                 var personIds = searchHits.Select(x => x.ItemId).ToList();
-                
+
                 var persons = Context.Persons.Where(x => personIds.Contains(x.Id))
                     .Include(x=>x.Clients).ThenInclude(c=>c.Identifiers)
                     .Include(x => x.Clients).ThenInclude(c => c.ClientStates)
@@ -130,7 +131,7 @@ namespace LiveHAPI.Infrastructure.Repository
                     personMatches.Add(new PersonMatch(person,GetHit(person.Id,searchHits)));
                 }
             }
-            
+
             return personMatches;
         }
 
@@ -138,16 +139,32 @@ namespace LiveHAPI.Infrastructure.Repository
         {
             var practiceIds = new List<Guid>();
             var results = new List<PersonMatch>();
-            
+
             Guid siteId;
             bool isValid = Guid.TryParse(site, out siteId);
 
             if (isValid)
             {
-                practiceIds = Context.Practices.AsNoTracking()
+                var practiceCodes = Context.Practices.AsNoTracking()
                     .Where(x => x.Id == siteId)
-                    .Select(x => x.Id)
+                    .Select(x => x.Code)
                     .ToList();
+
+                if (practiceCodes.Any())
+                {
+                    var allPracticeIds = Context.Practices
+                        .Where(x => practiceCodes.Contains(x.Code))
+                        .Select(x => x.Id);
+
+                    practiceIds.AddRange(allPracticeIds);
+                }
+                else
+                {
+                    practiceIds = Context.Practices.AsNoTracking()
+                        .Where(x => x.Id == siteId)
+                        .Select(x => x.Id)
+                        .ToList();
+                }
             }
             else
             {
@@ -166,10 +183,10 @@ namespace LiveHAPI.Infrastructure.Repository
         public IEnumerable<PersonMatch> GetByCohort(SubscriberCohort cohort)
         {
             var personMatches = new List<PersonMatch>();
-     
+
             string sql = $"SELECT PersonId FROM dbo.Clients WHERE ID In(SELECT ClientId FROM {cohort.View})";
             var personIds = Context.Database.GetDbConnection().Query<Guid>($"{sql}").ToList();
-            
+
             var persons = Context.Persons.Where(x => personIds.Contains(x.Id))
                 .Include(x => x.Clients).ThenInclude(c => c.Identifiers)
                 .Include(x => x.Clients).ThenInclude(c => c.Identifiers)
@@ -177,7 +194,7 @@ namespace LiveHAPI.Infrastructure.Repository
                 .Include(x => x.Contacts)
                 .Include(x => x.Names)
                 .ToList();
-            
+
             foreach (var person in persons)
             {
                 foreach (var personClient in person.Clients)
@@ -189,8 +206,8 @@ namespace LiveHAPI.Infrastructure.Repository
                        .Include(x => x.ObsFinalTestResults)
                        .Include(x => x.ObsTraceResults)
                         .Include(x => x.ObsLinkages)
-                       
-                  
+
+
                         .Include(x => x.ObsMemberScreenings)
                         .Include(x => x.ObsPartnerScreenings)
                         .Include(x => x.ObsFamilyTraceResults)
@@ -208,7 +225,7 @@ namespace LiveHAPI.Infrastructure.Repository
         {
             var practiceIds = new List<Guid>();
             var results = new List<PersonMatch>();
-            
+
             Guid siteId;
             bool isValid = Guid.TryParse(site, out siteId);
 

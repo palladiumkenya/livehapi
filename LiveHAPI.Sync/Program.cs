@@ -46,7 +46,7 @@ namespace LiveHAPI.Sync
         public static IServiceProvider ServiceProvider { get; private set; }
         public  static ISyncConfigScheduler SyncConfigScheduler { get; private set; }
         public static HapiSettingsView HapiSettingsView { get; private set; }
-        
+
         static void Main(string[] args)
         {
 
@@ -73,14 +73,14 @@ namespace LiveHAPI.Sync
 
             var hapiendpoint = configuration["endpoints:hapi"];
             _startup = new SyncStartup(hapiendpoint);
-            
+
             Log.Debug($"connecting to LiveHAPI on [{hapiendpoint}]");
             while (hapiOffline)
             {
                 try
                 {
                     HapiSettingsView = _startup.LoadSettings().Result;
-                    if (null != HapiSettingsView) 
+                    if (null != HapiSettingsView)
                     {
                         Log.Debug($"LiveHAPI CONNECTED");
                         Log.Debug($"verifying LiveHAPI settings...");
@@ -94,7 +94,7 @@ namespace LiveHAPI.Sync
                         {
                             Log.Error($"invalid LiveHAPI settings ! please open {hapiendpoint} and verify and save all settings");
                             Log.Error($"Sync will retry in 30 secs...");
-                            Thread.Sleep(30000);    
+                            Thread.Sleep(30000);
                         }
                     }
                     else
@@ -144,11 +144,11 @@ namespace LiveHAPI.Sync
                 throw;
             }
 
-            ServiceProvider = new ServiceCollection()
+            var allServices = new ServiceCollection()
 
-                .AddTransient<IRestClient>(s=>new RestClient(endpoint))
+                .AddTransient<IRestClient>(s => new RestClient(endpoint))
                 .AddDbContext<LiveHAPIContext>(o => o.UseSqlServer(connectionString))
-                
+
                 .AddTransient<LiveHAPIContext>()
                 .AddTransient<IUserRepository, UserRepository>()
                 .AddTransient<IPracticeRepository, PracticeRepository>()
@@ -186,7 +186,7 @@ namespace LiveHAPI.Sync
 
                 .AddTransient<IClientPartnerScreeningStageExtractor, ClientPartnerScreeningStageExtractor>()
                 .AddTransient<IClientPartnerTracingStageExtractor, ClientPartnerTracingStageExtractor>()
-                
+
                 .AddTransient<IClientTracingStageExtractor, ClientTracingStageExtractor>()
                 .AddTransient<IClientTestingStageExtractor, ClientTestingStageExtractor>()
                 .AddTransient<IClientFinalTestStageExtractor, ClientFinalTestStageExtractor>()
@@ -202,12 +202,28 @@ namespace LiveHAPI.Sync
                 .AddTransient<ISyncFacilityService, SyncFacilityService>()
                 .AddTransient<ISyncLookupService, SyncLookupService>()
                 .AddTransient<ISyncUserService, SyncUserService>()
-                .AddTransient<ISyncClientsService, SyncClientsService>()
+
                 .AddTransient<IExtractClientsService, ExtractClientsService>()
-            
-                .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(syncConfigInterval,syncClientInterval))
-            
-                .BuildServiceProvider();
+
+                .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(syncConfigInterval, syncClientInterval));
+
+
+
+            if (null != HapiSettingsView && HapiSettingsView.SyncVersion > 0)
+            {
+                allServices.AddTransient<ISyncClientsService, SyncClientsService>();
+            }
+            else
+            {
+                allServices.AddTransient<ISyncClientsService, LegacySyncClientsService>();
+                Log.Error(new string('*', 50));
+                Log.Error(new string('*', 50));
+                Log.Error("YOU ARE USING AN OLD IQCARE PLEASE UPGRADE !!!");
+                Log.Error(new string('*', 50));
+                Log.Error(new string('*', 50));
+            }
+
+            ServiceProvider = allServices.BuildServiceProvider();
 
             Mapper.Initialize(cfg => { cfg.AddProfile<ClientProfile>(); });
 
@@ -225,7 +241,7 @@ namespace LiveHAPI.Sync
 
             Console.ReadLine();
         }
-        
+
 
         private static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {

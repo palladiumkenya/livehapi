@@ -1,6 +1,6 @@
 <div class="ui-g">
     <div class="ui-g-12">
-        <div class="ui-g-12" *ngIf="dbSaved||epSaved" >
+        <div class="ui-g-12" *ngIf="dbSaved||epSaved||emrVersionError " >
             <div class="card card-w-title">
 
             <p-messages [(value)]="sysMessages"></p-messages>
@@ -55,18 +55,27 @@
                     </span>
                         </div>
                     </div>
-                <div class="ui-g form-group">
-                    <div class="ui-g-12">
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12">
+                    <span class="md-inputfield" style="width: 80%">
+                        <input readonly="true"  type="text"  pInputText style="width: 80%;color: deeppink;opacity: 1" value=" {{emr?.versionName}}">
+                        <label>Version</label>
+                    </span>
+                        </div>
+                    </div>
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12">
                     <span class="md-inputfield" style="width: 80%">
                         <input type="text" formControlName="iqcare" pInputText style="width: 80%">
                         <label>Url</label>
                     </span>
-                    </div>
-                    <div *ngIf="faclity" style="color: #ff8423;font-weight: bold">{{faclity?.facilityName}} - <span style="color: #3f51b5">{{faclity?.posID}}</span></div>
+                        </div>
+                        <div *ngIf="faclity" style="color: #ff8423;font-weight: bold">{{faclity?.facilityName}} - <span
+                            style="color: #3f51b5">{{faclity?.posID}}</span></div>
 
-                </div>
-                <button pButton type="button" (click)="verifyEndpoint()"  label="Verify"></button>
-                <button pButton type="submit" label="Save" class="green-btn"></button>
+                    </div>
+                    <button pButton type="button" (click)="verifyEndpoint()" label="Verify"></button>
+                    <button pButton type="submit" label="Save" class="green-btn"></button>
                 </form>
             </div>
         </div>

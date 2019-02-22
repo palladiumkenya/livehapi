@@ -7,6 +7,7 @@ using LiveHAPI.Core.Interfaces;
 using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Core.Model.Setting;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.ValueObject;
 using Serilog;
 
 namespace LiveHAPI.Core.Service
@@ -14,7 +15,7 @@ namespace LiveHAPI.Core.Service
     public class RestManger:IRestManager
     {
         private readonly string fac = "api/setup/getFacilities";
-        
+        private readonly string emrEndpoint = "api/setup/iqcareversion";
         public async Task<EmrFacility> VerfiyUrl(Endpoints endpoints)
         {
             var http = new HttpClient {BaseAddress = new Uri(endpoints.Iqcare.HasToEndWith(@"/"))};
@@ -38,10 +39,51 @@ namespace LiveHAPI.Core.Service
             return null;
         }
 
+        public async Task<Emr> ReadEmr(Endpoints endpoints)
+        {
+            var http = new HttpClient {BaseAddress = new Uri(endpoints.Iqcare.HasToEndWith(@"/"))};
+            try
+            {
+                var response = await http.GetAsync(emrEndpoint);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsJsonAsync<List<Emr>>();
+                    return data.FirstOrDefault();
+                }
+                throw new Exception("Please update IQCare to latest version");
+            }
+            catch (Exception e)
+            {
+                Log.Error($"error reading endpoint [{emrEndpoint}]");
+                Log.Error($"{e}");
+                if (e.Message.Contains("Please update IQCare to latest version"))
+                    throw;
+            }
+
+            return null;
+        }
+
         public async Task<bool> VerfiyUrl(string url)
         {
             var fac = await VerfiyUrl(new Endpoints(url));
             return null != fac;
+        }
+
+        public async Task<int> SyncVersion(string url)
+        {
+            int version = 0;
+            try
+            {
+                var emr = await ReadEmr(new Endpoints(url));
+                if (null != emr)
+                    version = 2;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e,"Sync version check");
+            }
+
+            return version;
         }
 
         public Endpoints ReadUrl(string endpoints)

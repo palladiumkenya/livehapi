@@ -7,6 +7,8 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {Facility} from '../model/facility';
 import {throwError} from 'rxjs';
+import {Emr} from '../model/emr';
+import {Hapi} from '../model/hapi';
 
 @Injectable()
 export class ConfigService {
@@ -48,8 +50,23 @@ export class ConfigService {
             .catch(this.handleError);
     }
 
+    public showEmrVersion(entity: Endpoint): Observable<Emr> {
+        return this._http.post<Emr>('./api/sync/emr', entity)
+            .catch(this.handleError);
+    }
+
     public saveEndpoint(entity: Endpoint): Observable<boolean> {
         return this._http.post<boolean>('./api/sync/url', entity)
+            .catch(this.handleError);
+    }
+
+    public getVersion(): Observable<string> {
+        return this._http.get<string>(`./api/activate/version`)
+            .catch(this.handleError);
+    }
+
+    public getEmrStatus(): Observable<Hapi> {
+        return this._http.get<Hapi>(`./api/sync/hapi`)
             .catch(this.handleError);
     }
 
@@ -59,10 +76,4 @@ export class ConfigService {
         }
         return throwError(err.error);
     }
-
-    public getVersion(): Observable<string> {
-        return this._http.get<string>(`./api/activate/version`)
-            .catch(this.handleError);
-    }
-
 }

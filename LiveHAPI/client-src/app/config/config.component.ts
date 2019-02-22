@@ -7,11 +7,12 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Facility} from '../model/facility';
 import {Endpoint} from '../model/endpoint';
 import {BreadcrumbService} from '../breadcrumb.service';
+import {Emr} from '../model/emr';
 
 @Component({
-  selector: 'liveapp-config',
-  templateUrl: './config.component.html',
-  styleUrls: ['./config.component.scss']
+    selector: 'liveapp-config',
+    templateUrl: './config.component.html',
+    styleUrls: ['./config.component.scss']
 })
 export class ConfigComponent implements OnInit, OnDestroy {
 
@@ -19,6 +20,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
 
     public getDatabase$: Subscription;
     public getEndpoint$: Subscription;
+    public getEmrVersion$: Subscription;
     public verifyServer$: Subscription;
     public verifyDatabase$: Subscription;
     public saveDatabase$: Subscription;
@@ -34,7 +36,9 @@ export class ConfigComponent implements OnInit, OnDestroy {
     public dbSaved: boolean;
     public epWorks: boolean;
     public epSaved: boolean;
+    public emrVersionError: boolean;
     public faclity: Facility;
+    public emr: Emr;
 
     public databaseForm: FormGroup;
     public synForm: FormGroup;
@@ -84,6 +88,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
             .subscribe(
                 p => {
                     this.endpoint = p;
+                    this.getEmrVersion();
                 },
                 e => {
                     this.apiMessages.push({severity: 'error', summary: 'Error Loading', detail: <any>e});
@@ -176,6 +181,28 @@ export class ConfigComponent implements OnInit, OnDestroy {
             );
     }
 
+    public getEmrVersion(): void {
+        this.emrVersionError = false;
+        this.apiMessages = [];
+        this.sysMessages = [];
+        this.getEmrVersion$ = this._configService.showEmrVersion(this.endpoint)
+            .subscribe(
+                p => {
+                    this.emr = p;
+                },
+                e => {
+                    this.emrVersionError = true;
+                    if (!this.sysMessages) {
+                        this.sysMessages = [];
+                    }
+                    this.sysMessages.push({severity: 'warn', summary: 'Emr Version ', detail: <any>e});
+                },
+                () => {
+                    console.log(this.emr);
+                }
+            );
+    }
+
     public saveEndpoint(): void {
         this.apiMessages = [];
         this.sysMessages = [];
@@ -221,6 +248,9 @@ export class ConfigComponent implements OnInit, OnDestroy {
         }
         if (this.saveEndpoint$) {
             this.saveEndpoint$.unsubscribe();
+        }
+        if (this.getEmrVersion$) {
+            this.getEmrVersion$.unsubscribe();
         }
     }
 }

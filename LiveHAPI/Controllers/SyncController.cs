@@ -34,6 +34,7 @@ namespace LiveHAPI.Controllers
         public async Task<IActionResult> ReadSetting()
         {
 
+
             try
             {
                 var h = new HapiSettingsView();
@@ -43,6 +44,7 @@ namespace LiveHAPI.Controllers
                 var dbOk = _dbManager.Verfiy(h.Connection);
                 var urlOk= await _manager.VerfiyUrl(h.Url);
                 h.IsVerifed = dbOk && urlOk;
+                h.SyncVersion = await _manager.SyncVersion(h.Url);
                 return Ok(h);
             }
             catch (Exception e)
@@ -51,6 +53,27 @@ namespace LiveHAPI.Controllers
                 Log.Error(msg);
                 Log.Error($"{e}");
                 return StatusCode(500, msg);
+            }
+        }
+
+        // GET: api/emr
+        [HttpPost("emr")]
+        public async Task<IActionResult> ReadEmr([FromBody] Endpoints endpoints)
+        {
+            if (null==endpoints)
+                return BadRequest();
+            try
+            {
+                var emr =await  _manager.ReadEmr(endpoints);
+                if (null == emr)
+                    return NotFound();
+
+                return Ok(emr);
+            }
+            catch (Exception e)
+            {
+                //Log.Debug($"{e}");
+                return StatusCode(500, $"{e.Message}");
             }
         }
 

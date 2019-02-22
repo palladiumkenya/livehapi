@@ -9,7 +9,7 @@ namespace LiveHAPI.Core.Tests.Service
     [TestFixture]
     public class RestManagerTests
     {
-        private readonly string _baseUrl = "http://localhost:3333";
+        private readonly string _baseUrl = "http://192.168.1.13:81/iqcareapi";
         private IRestManager _reader;
 
         [SetUp]
@@ -24,6 +24,14 @@ namespace LiveHAPI.Core.Tests.Service
             var users = _reader.VerfiyUrl(new Endpoints(_baseUrl)).Result;
             Assert.NotNull(users);
             Console.WriteLine(users.FacilityName);
+        }
+
+        [Test]
+        public void should_Read_EmrVersion()
+        {
+            var emr = _reader.ReadEmr(new Endpoints(_baseUrl)).Result;
+            Assert.NotNull(emr);
+            Console.WriteLine(emr.VersionName);
         }
     }
 }
