@@ -37,6 +37,7 @@ namespace LiveHAPI.Sync.Core.Service
 
         public async Task<int> Sync()
         {
+
             await _demographicsWriter.Write();
             //await _clientMessageWriter.Write();
 

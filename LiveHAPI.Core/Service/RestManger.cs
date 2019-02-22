@@ -7,6 +7,7 @@ using LiveHAPI.Core.Interfaces;
 using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Core.Model.Setting;
 using LiveHAPI.Shared.Custom;
+using LiveHAPI.Shared.ValueObject;
 using Serilog;
 
 namespace LiveHAPI.Core.Service
@@ -14,7 +15,7 @@ namespace LiveHAPI.Core.Service
     public class RestManger:IRestManager
     {
         private readonly string fac = "api/setup/getFacilities";
-        
+        private readonly string emrEndpoint = "api/setup/iqcareversionn";
         public async Task<EmrFacility> VerfiyUrl(Endpoints endpoints)
         {
             var http = new HttpClient {BaseAddress = new Uri(endpoints.Iqcare.HasToEndWith(@"/"))};
@@ -32,6 +33,28 @@ namespace LiveHAPI.Core.Service
             catch (Exception e)
             {
                 Log.Error($"error reading endpint [{fac}]");
+                Log.Error($"{e}");
+            }
+
+            return null;
+        }
+
+        public async Task<Emr> ReadEmr(Endpoints endpoints)
+        {
+            var http = new HttpClient {BaseAddress = new Uri(endpoints.Iqcare.HasToEndWith(@"/"))};
+            try
+            {
+                var response = await http.GetAsync(emrEndpoint);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsJsonAsync<List<Emr>>();
+                    return data.FirstOrDefault();
+                }
+                throw new Exception("Please update IQCare to latest version");
+            }
+            catch (Exception e)
+            {
+                Log.Error($"error reading endpoint [{emrEndpoint}]");
                 Log.Error($"{e}");
             }
 

@@ -54,6 +54,27 @@ namespace LiveHAPI.Controllers
             }
         }
 
+        // GET: api/sync
+        [HttpGet("emr")]
+        public async Task<IActionResult> ReadEmr([FromBody] Endpoints endpoints)
+        {
+            if (null==endpoints)
+                return BadRequest();
+            try
+            {
+                var emr =await  _manager.ReadEmr(endpoints);
+                if (null == emr)
+                    return NotFound();
+
+                return Ok(emr);
+            }
+            catch (Exception e)
+            {
+                //Log.Debug($"{e}");
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
 
         // GET: api/sync
         [HttpGet]

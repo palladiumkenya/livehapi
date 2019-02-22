@@ -7,6 +7,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {Facility} from '../model/facility';
 import {throwError} from 'rxjs';
+import {Emr} from '../model/emr';
 
 @Injectable()
 export class ConfigService {
@@ -45,6 +46,10 @@ export class ConfigService {
 
     public verifyEndpoint(entity: Endpoint): Observable<Facility> {
         return this._http.post<Facility>('./api/sync', entity)
+            .catch(this.handleError);
+    }
+    public showEmrVersion(entity: Endpoint): Observable<Emr> {
+        return this._http.post<Emr>('./api/sync', entity)
             .catch(this.handleError);
     }
 
