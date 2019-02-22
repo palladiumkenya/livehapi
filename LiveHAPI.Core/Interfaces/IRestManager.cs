@@ -10,6 +10,7 @@ namespace LiveHAPI.Core.Interfaces
         Task<EmrFacility> VerfiyUrl(Endpoints dbProtocol);
         Task<Emr> ReadEmr(Endpoints dbProtocol);
         Task<bool> VerfiyUrl(string url);
+        Task<int> SyncVersion(string url);
         Endpoints ReadUrl(string connectionString);
     }
 }

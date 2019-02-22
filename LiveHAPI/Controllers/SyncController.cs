@@ -34,6 +34,7 @@ namespace LiveHAPI.Controllers
         public async Task<IActionResult> ReadSetting()
         {
 
+
             try
             {
                 var h = new HapiSettingsView();
@@ -43,6 +44,7 @@ namespace LiveHAPI.Controllers
                 var dbOk = _dbManager.Verfiy(h.Connection);
                 var urlOk= await _manager.VerfiyUrl(h.Url);
                 h.IsVerifed = dbOk && urlOk;
+                h.SyncVersion = await _manager.SyncVersion(h.Url);
                 return Ok(h);
             }
             catch (Exception e)

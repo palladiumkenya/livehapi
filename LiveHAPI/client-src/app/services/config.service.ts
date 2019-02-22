@@ -8,6 +8,7 @@ import 'rxjs/add/observable/throw';
 import {Facility} from '../model/facility';
 import {throwError} from 'rxjs';
 import {Emr} from '../model/emr';
+import {Hapi} from '../model/hapi';
 
 @Injectable()
 export class ConfigService {
@@ -59,16 +60,20 @@ export class ConfigService {
             .catch(this.handleError);
     }
 
+    public getVersion(): Observable<string> {
+        return this._http.get<string>(`./api/activate/version`)
+            .catch(this.handleError);
+    }
+
+    public getEmrStatus(): Observable<Hapi> {
+        return this._http.get<Hapi>(`./api/sync/hapi`)
+            .catch(this.handleError);
+    }
+
     private handleError(err: HttpErrorResponse) {
         if (err.status === 404) {
             return throwError('could not be found');
         }
         return throwError(err.error);
     }
-
-    public getVersion(): Observable<string> {
-        return this._http.get<string>(`./api/activate/version`)
-            .catch(this.handleError);
-    }
-
 }

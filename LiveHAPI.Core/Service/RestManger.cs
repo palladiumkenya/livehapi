@@ -69,6 +69,23 @@ namespace LiveHAPI.Core.Service
             return null != fac;
         }
 
+        public async Task<int> SyncVersion(string url)
+        {
+            int version = 0;
+            try
+            {
+                var emr = await ReadEmr(new Endpoints(url));
+                if (null != emr)
+                    version = 2;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e,"Sync version check");
+            }
+
+            return version;
+        }
+
         public Endpoints ReadUrl(string endpoints)
         {
             return new Endpoints(endpoints);
