@@ -118,7 +118,7 @@ namespace LiveHAPI.Sync.Core.Writer.Family
             try
             {
                 var response = await _restClient.Client.PostAsJsonAsync(endpoint, message);
-
+                Log.Error($">>{endpoint}>>",message);
                 if (response.IsSuccessStatusCode)
                 {
                     result = await response.Content.ReadAsJsonAsync<SynchronizeClientsResponse>();
