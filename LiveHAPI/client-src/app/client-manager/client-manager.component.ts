@@ -59,14 +59,14 @@ export class ClientManagerComponent implements OnInit, OnDestroy {
             .subscribe(
                 p => {
                     this.clients = p;
+                    this.loading = false;
+                    this.blockReprocess = this.clientsCount === 0;
                 },
                 e => {
                     this.messages.push({severity: 'error', summary: 'Error Loading', detail: <any>e});
                     this.loading = false;
                 },
                 () => {
-                    this.loading = false;
-                    this.blockReprocess = this.clientsCount === 0;
                 }
             );
 
@@ -85,13 +85,13 @@ export class ClientManagerComponent implements OnInit, OnDestroy {
             .subscribe(
                 p => {
                     this.clientsStaged = p;
+                    this.blockStageExport = this.clientsStagedCount === 0;
                 },
                 e => {
                     this.messages.push({severity: 'error', summary: 'Error Loading', detail: <any>e});
                     this.loading = false;
                 },
                 () => {
-                    this.blockStageExport = this.clientsStagedCount === 0;
                 }
             );
     }
