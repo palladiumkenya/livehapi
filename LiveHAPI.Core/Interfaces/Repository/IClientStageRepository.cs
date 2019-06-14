@@ -17,6 +17,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
         IEnumerable<ClientStage> GetIndexClients();
         IEnumerable<ClientStage> GetByStatus(SyncStatus status);
         IEnumerable<ClientStage> GetByStatusGeneric(SyncStatus status);
+        IEnumerable<ClientStage> GetAllGeneric(Guid providerId);
         ClientStage GetQueued(Guid clientId);
         void UpdateSyncStatus(Guid clientId, SyncStatus syncStatus, string statusInfo="");
         Task UpdateSyncStatus(IEnumerable<Guid> clientIds, SyncStatus syncStatus, string statusInfo = "");

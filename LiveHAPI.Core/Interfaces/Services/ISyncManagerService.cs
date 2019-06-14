@@ -14,5 +14,6 @@ namespace LiveHAPI.Core.Interfaces.Services
         Task Resend(IEnumerable<Guid> clientIds);
         Task ResendAll();
         Stats GetStats();
+        Stats GetStats(Guid providerId);
     }
 }

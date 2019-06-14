@@ -90,6 +90,20 @@ namespace LiveHAPI.Infrastructure.Repository
             return Mapper.Map<IEnumerable<ClientStage>>(results);
         }
 
+        public IEnumerable<ClientStage> GetAllGeneric(Guid providerId)
+        {
+            var selSql = $@"
+                SELECT        c.Id, c.DateOfBirth, c.DateOfBirthPrecision, c.FirstName, c.KeyPop, c.Landmark, c.LastName, c.MaritalStatus, c.MiddleName, c.Phone, c.Serial, c.Sex, c.StatusDate, c.SyncStatus, c.SyncStatusInfo, c.Voided, c.RegistrationDate,
+                              c.ClientId, c.IsIndex, c.UserId, c.PracticeId, c.SiteCode, c.NickName, c.County, c.SubCounty, c.Ward, c.Completion, c.Education, c.Occupation, u.UserName, u.Id AS LiveUserId
+                FROM            ClientStages AS c LEFT OUTER JOIN
+                                Users AS u ON c.UserId = u.SourceRef";
+
+            var sql = $@"{selSql} WHERE u.Id='{providerId}'";
+
+            var results = ExecQuery<dynamic>(sql).ToList();
+            return Mapper.Map<IEnumerable<ClientStage>>(results);
+        }
+
         public ClientStage GetQueued(Guid clientId)
         {
             return DbSet.AsNoTracking()

@@ -61,5 +61,21 @@ namespace LiveHAPI.Core.Service
 
             return stats;
         }
+
+        public Stats GetStats(Guid providerId)
+        {
+            var all = _clientStageRepository.GetAllGeneric(providerId).Select(x => new {x.ClientId, x.SyncStatus}).ToList();
+
+            var stats = new Stats(
+                all.Count,
+                all.Where(x => x.SyncStatus == SyncStatus.Staged).ToList().Count,
+                all.Where(x => x.SyncStatus == SyncStatus.SentSuccess).ToList().Count,
+                all.Where(x => x.SyncStatus == SyncStatus.SentFail).ToList().Count
+            );
+
+            stats.SetProvider(providerId);
+
+            return stats;
+        }
     }
 }

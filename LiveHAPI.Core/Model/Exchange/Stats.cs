@@ -1,4 +1,6 @@
-﻿namespace LiveHAPI.Core.Model.Exchange
+﻿using System;
+
+namespace LiveHAPI.Core.Model.Exchange
 {
     public class Stats
     {
@@ -6,6 +8,7 @@
         public int Staged { get; set; }
         public int Sent { get; set; }
         public int Failed { get; set; }
+        public Guid ProviderId { get; set; }
 
         public Stats(int received, int staged, int sent, int failed)
         {
@@ -13,6 +16,11 @@
             Staged = staged;
             Sent = sent;
             Failed = failed;
+        }
+
+        public void SetProvider(Guid providerId)
+        {
+            ProviderId = providerId;
         }
     }
 }

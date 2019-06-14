@@ -14,13 +14,15 @@ namespace LiveHAPI.Core.Service
         private readonly IClientSummaryRepository _clientSummaryRepository;
         private readonly IUserSummaryRepository _userSummaryRepository;
         private readonly IEncounterRepository _encounterRepository;
+        private readonly ISyncManagerService _syncManagerService;
 
-        public SummaryService(IItemRepository itemRepository, IClientSummaryRepository clientSummaryRepository, IUserSummaryRepository userSummaryRepository, IEncounterRepository encounterRepository)
+        public SummaryService(IItemRepository itemRepository, IClientSummaryRepository clientSummaryRepository, IUserSummaryRepository userSummaryRepository, IEncounterRepository encounterRepository, ISyncManagerService syncManagerService)
         {
             _itemRepository = itemRepository;
             _clientSummaryRepository = clientSummaryRepository;
             _userSummaryRepository = userSummaryRepository;
             _encounterRepository = encounterRepository;
+            _syncManagerService = syncManagerService;
         }
 
         public IEnumerable<ClientSummary> Generate(Client client)
@@ -29,7 +31,7 @@ namespace LiveHAPI.Core.Service
 
             var clientSummaries = new List<ClientSummary>();
             int rank = 1;
-            
+
             //HTS Enrollment
 
             if (client.Identifiers.Any())
@@ -90,12 +92,12 @@ namespace LiveHAPI.Core.Service
             var encounters = _encounterRepository.LoadByUser(userId).ToList();
             var testingEncounter = encounters.SelectMany(x => x.ObsPartnerScreenings).ToList();
 
-            /*            
+            /*
                 Partners identified
-                                
+
                 Partners tested
                 Partners who tested positive
-                Partners linked to care 
+                Partners linked to care
              */
 
             //  Index clients screened
@@ -111,6 +113,17 @@ namespace LiveHAPI.Core.Service
             //  Partners Eligible for testing
             var partnersEligibleForTesting = testingEncounter.Count(x => x.Eligibility == new Guid("b25eccd4-852f-11e7-bb31-be2e44b06b34"));
             userSummaries.Add(new UserSummary("Partners Eligible for testing", partnersEligibleForTesting, rank, userId));
+            rank++;
+
+            //  Sync Stats
+            var syncStats = _syncManagerService.GetStats(userId);
+            userSummaries.Add(new UserSummary("Records Sent", syncStats.Received, rank, userId));
+            rank++;
+            userSummaries.Add(new UserSummary("Records Staged", syncStats.Staged, rank, userId));
+            rank++;
+            userSummaries.Add(new UserSummary("Records Succeeded", syncStats.Sent, rank, userId));
+            rank++;
+            userSummaries.Add(new UserSummary("Records Failed", syncStats.Failed, rank, userId));
             rank++;
 
 
