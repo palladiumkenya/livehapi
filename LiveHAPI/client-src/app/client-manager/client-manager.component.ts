@@ -16,9 +16,15 @@ export class ClientManagerComponent implements OnInit, OnDestroy {
     public manager$: Subscription;
     public clientsCount$: Subscription;
     public clients$: Subscription;
+    public clientsStagedCount$: Subscription;
+    public clientsStaged$: Subscription;
 
     public clientsCount = 0;
     public clients: ClientStage[] = [];
+
+    public clientsStagedCount = 0;
+    public clientsStaged: ClientStage[] = [];
+
     public blockReprocess = false;
     public loading = false;
 
@@ -33,7 +39,9 @@ export class ClientManagerComponent implements OnInit, OnDestroy {
         this.blockReprocess = true;
         this.loading = true;
         this.clientsCount = 0;
+        this.clientsStagedCount = 0;
         this.clients = [];
+        this.clientsStaged = [];
         this.messages = [];
         this.clientsCount$ = this.clientService.getErrorsCount()
             .subscribe(
@@ -58,6 +66,30 @@ export class ClientManagerComponent implements OnInit, OnDestroy {
                 () => {
                     this.loading = false;
                     this.blockReprocess = this.clientsCount === 0;
+                }
+            );
+
+        this.clientsStagedCount$ = this.clientService.getStagedCount()
+            .subscribe(
+                p => {
+                    this.clientsStagedCount = p;
+                },
+                e => {
+                    this.messages.push({severity: 'error', summary: 'Error Loading', detail: <any>e});
+                },
+                () => {
+                }
+            );
+        this.clientsStaged$ = this.clientService.getStaged()
+            .subscribe(
+                p => {
+                    this.clientsStaged = p;
+                },
+                e => {
+                    this.messages.push({severity: 'error', summary: 'Error Loading', detail: <any>e});
+                    this.loading = false;
+                },
+                () => {
                 }
             );
     }
@@ -89,6 +121,12 @@ export class ClientManagerComponent implements OnInit, OnDestroy {
         }
         if (this.clientsCount$) {
             this.clientsCount$.unsubscribe();
+        }
+        if (this.clientsStaged$) {
+            this.clientsStaged$.unsubscribe();
+        }
+        if (this.clientsStagedCount$) {
+            this.clientsStagedCount$.unsubscribe();
         }
     }
 }

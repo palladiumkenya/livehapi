@@ -65,6 +65,36 @@ namespace LiveHAPI.Controllers
             }
         }
 
+        [HttpGet("StagedCount")]
+        public IActionResult GetStagedCount()
+        {
+            try
+            {
+                var count = _managerService.GetSyncStagedCount();
+                return Ok(count);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet("Staged")]
+        public IActionResult GetStaged()
+        {
+            try
+            {
+                var clientStages = _managerService.GetSyncStagedClients().ToList();
+                return Ok(clientStages);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
         [HttpPost("ResendAll")]
         public async Task<IActionResult> ResendAllAsync()
         {

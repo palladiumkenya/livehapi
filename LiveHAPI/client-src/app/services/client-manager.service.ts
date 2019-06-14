@@ -26,6 +26,16 @@ export class ClientManagerService {
             .catch(this.handleError);
     }
 
+    public getStagedCount(): Observable<number> {
+        return this._http.get<number>(`${this._url}/stagedcount`)
+            .catch(this.handleError);
+    }
+
+    public getStaged(): Observable<ClientStage[]> {
+        return this._http.get<ClientStage[]>(`${this._url}/staged`)
+            .catch(this.handleError);
+    }
+
     public resendAll(): Observable<ClientStage[]> {
         return this._http.post<ClientStage[]>(`${this._url}/resendall`, null)
             .catch(this.handleError);

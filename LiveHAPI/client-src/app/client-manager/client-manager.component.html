@@ -2,37 +2,67 @@
     <div class="ui-g-12">
         <div class="ui-g-12">
             <div class="card card-w-title">
-                <h1>Failed Summary</h1>
                 <p-messages [(value)]="messages"></p-messages>
-                <p-toolbar>
-                    <div class="ui-toolbar-group-left">
-                        <button pButton type="button" [disabled]="blockReprocess" label="Re-Process" class="ui-button-success" (click)="reProcess()"></button>
-                        <button pButton type="button" [disabled]="blockReprocess" label="Export All"  class="ui-button-success" (click)="failedclients.exportCSV()"></button>
-                    </div>
-                </p-toolbar>
-                <p-dataTable [value]="clients"  [loading]="loading"  loadingIcon="fa-spinner fa-pulse"  emptyMessage="No Records"
-                             [responsive]="true"
-                             [reorderableColumns]="true" columnResizeMode="fit" [resizableColumns]="true" [paginator]="true" [rows]="50"
-                             [totalRecords]="clientsCount"
-                             exportFilename="LiveHAPI"
-                             #failedclients>
-                    <p-column field="names" header="Names" sortable="true" [filter]="true"  filterMatchMode="contains"></p-column>
-                    <p-column field="isIndex" header="Index">
-                        <ng-template let-client="rowData" pTemplate="body">
-                            {{client.isIndex?'Yes':'No'}}
-                        </ng-template>
-                    </p-column>
-                    <p-column field="siteCode" header="MFL" sortable="true" [filter]="true"  filterMatchMode="contains"></p-column>
-                    <p-column field="serial" header="Serial" sortable="true" [filter]="true"  filterMatchMode="contains"></p-column>
-                    <p-column field="syncStatusInfo" header="Error"></p-column>
-                    <p-column field="statusDate" header="Date" sortable="true">
-                        <ng-template let-client="rowData" pTemplate="body">
-                            {{client.statusDate | date: 'dd MMM yyyy'}}
-                        </ng-template>
-                    </p-column>
-                    <p-column field="timeAgo" header="When"></p-column>
-                    <p-column field="id" header="Id"></p-column>
-                </p-dataTable>
+                <p-tabView>
+                    <p-tabPanel header="Failed Summary">
+                        <p-toolbar>
+                            <div class="ui-toolbar-group-left">
+                                <button pButton type="button" [disabled]="blockReprocess" label="Re-Process" class="ui-button-success" (click)="reProcess()"></button>
+                                <button pButton type="button" [disabled]="blockReprocess" label="Export All"  class="ui-button-success" (click)="failedclients.exportCSV()"></button>
+                            </div>
+                        </p-toolbar>
+                        <p-dataTable [value]="clients"  [loading]="loading"  loadingIcon="fa-spinner fa-pulse"  emptyMessage="No Records"
+                                     [responsive]="true"
+                                     [reorderableColumns]="true" columnResizeMode="fit" [resizableColumns]="true" [paginator]="true" [rows]="50"
+                                     [totalRecords]="clientsCount"
+                                     exportFilename="LiveHAPI"
+                                     #failedclients>
+                            <p-column field="names" header="Names" sortable="true" [filter]="true"  filterMatchMode="contains"></p-column>
+                            <p-column field="isIndex" header="Index">
+                                <ng-template let-client="rowData" pTemplate="body">
+                                    {{client.isIndex?'Yes':'No'}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="siteCode" header="MFL" sortable="true" [filter]="true"  filterMatchMode="contains"></p-column>
+                            <p-column field="serial" header="Serial" sortable="true" [filter]="true"  filterMatchMode="contains"></p-column>
+                            <p-column field="syncStatusInfo" header="Error"></p-column>
+                            <p-column field="statusDate" header="Date" sortable="true">
+                                <ng-template let-client="rowData" pTemplate="body">
+                                    {{client.statusDate | date: 'dd MMM yyyy'}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="timeAgo" header="When"></p-column>
+                            <p-column field="id" header="Id"></p-column>
+                        </p-dataTable>
+                    </p-tabPanel>
+                    <p-tabPanel header="Staged Summary">
+                        <p-dataTable [value]="clientsStaged"  [loading]="loading"  loadingIcon="fa-spinner fa-pulse"  emptyMessage="No Records"
+                                     [responsive]="true"
+                                     [reorderableColumns]="true" columnResizeMode="fit" [resizableColumns]="true" [paginator]="true" [rows]="50"
+                                     [totalRecords]="clientsStagedCount"
+                                     exportFilename="LiveHAPI"
+                                     #stagedclients>
+                            <p-column field="names" header="Names" sortable="true" [filter]="true"  filterMatchMode="contains"></p-column>
+                            <p-column field="isIndex" header="Index">
+                                <ng-template let-client="rowData" pTemplate="body">
+                                    {{client.isIndex?'Yes':'No'}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="siteCode" header="MFL" sortable="true" [filter]="true"  filterMatchMode="contains"></p-column>
+                            <p-column field="serial" header="Serial" sortable="true" [filter]="true"  filterMatchMode="contains"></p-column>
+                            <p-column field="syncStatusInfo" header="Error"></p-column>
+                            <p-column field="statusDate" header="Date" sortable="true">
+                                <ng-template let-client="rowData" pTemplate="body">
+                                    {{client.statusDate | date: 'dd MMM yyyy'}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="timeAgo" header="When"></p-column>
+                            <p-column field="id" header="Id"></p-column>
+                        </p-dataTable>
+                    </p-tabPanel>
+                </p-tabView>
+
+
             </div>
         </div>
     </div>

@@ -28,6 +28,16 @@ namespace LiveHAPI.Core.Service
             return GetSyncErrorClients().Select(x => x.ClientId).Count();
         }
 
+        public IEnumerable<ClientStage> GetSyncStagedClients()
+        {
+            return _clientStageRepository.GetByStatus(SyncStatus.Staged);
+        }
+
+        public int GetSyncStagedCount()
+        {
+            return GetSyncStagedClients().Select(x => x.ClientId).Count();
+        }
+
         public Task Resend(IEnumerable<Guid> clientIds)
         {
             return _clientStageRepository.UpdateSyncStatus(clientIds, SyncStatus.Staged);
@@ -44,7 +54,7 @@ namespace LiveHAPI.Core.Service
 
             var stats = new Stats(
                 all.Count,
-                all.Where(x => x.SyncStatus == SyncStatus.Staged).ToList().Count, 
+                all.Where(x => x.SyncStatus == SyncStatus.Staged).ToList().Count,
                 all.Where(x => x.SyncStatus == SyncStatus.SentSuccess).ToList().Count,
                 all.Where(x => x.SyncStatus == SyncStatus.SentFail).ToList().Count
                 );
