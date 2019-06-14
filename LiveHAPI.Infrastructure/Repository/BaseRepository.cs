@@ -8,6 +8,7 @@ using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Dapper;
 
 namespace LiveHAPI.Infrastructure.Repository
 {
@@ -38,6 +39,12 @@ namespace LiveHAPI.Infrastructure.Repository
         public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, bool voided = false)
         {
             return DbSet.Where(predicate);
+        }
+
+        public IEnumerable<TC> ExecQuery<TC>(string selectStatement)
+        {
+            var entities = GetDbConnection().Query<TC>(selectStatement);
+            return entities;
         }
 
         public virtual void Insert(T entity)
@@ -119,7 +126,7 @@ namespace LiveHAPI.Infrastructure.Repository
                     _connection.Open();
                 return _connection;
             }
-            
+
             return _connection;
         }
 
@@ -147,7 +154,7 @@ namespace LiveHAPI.Infrastructure.Repository
             Context?.Dispose();
             Context = null;
         }
-        
+
         private void DisposeConnection()
         {
             _connection?.Dispose();

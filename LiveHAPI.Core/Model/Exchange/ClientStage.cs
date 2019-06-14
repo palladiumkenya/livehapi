@@ -40,7 +40,7 @@ namespace LiveHAPI.Core.Model.Exchange
         public DateTime RegistrationDate { get; set; }
 
         public Guid ClientId { get; set; }
-       
+
         public bool IsIndex { get; set; }
         public SyncStatus SyncStatus { get; set; }
         public DateTime StatusDate { get; set; }
@@ -54,10 +54,15 @@ namespace LiveHAPI.Core.Model.Exchange
         {
             get { return $"{FirstName} {MiddleName} {LastName}"; }
         }
-       
+
         [NotMapped]
         public string TimeAgo => StatusDate.Humanize(false);
-        
+
+        [NotMapped]
+        public string LiveUserId { get; set; }
+
+        [NotMapped]
+        public string UserName { get; set; }
 
         public ClientStage()
         {
@@ -100,7 +105,7 @@ namespace LiveHAPI.Core.Model.Exchange
                         : string.Empty;
                 }
             }
-            
+
             clientStage.DateOfBirth = person.HasDOB() ? person.BirthDate.Value : new DateTime(1900, 1, 1);
             clientStage.DateOfBirthPrecision = person.HasDOBEstimate()
                 ? (person.BirthDateEstimated.Value ? "EXACT" : "ESTIMATED")
@@ -115,7 +120,7 @@ namespace LiveHAPI.Core.Model.Exchange
                     subscriber.GetTranslation(clientt.KeyPop, "HTSKeyPopulation", "0").SafeConvert<int>();
                 clientStage.MaritalStatus = subscriber.GetTranslation(clientt.MaritalStatus, "HTSMaritalStatus", "0")
                     .SafeConvert<int>();
-                
+
                 clientStage.UserId = subscriber.GetEmrUserId(clientt.UserId);
             }
 
@@ -139,13 +144,13 @@ namespace LiveHAPI.Core.Model.Exchange
                 {
                     clientStage.Serial = client.HtsEnrollment.Identifier;
                     clientStage.RegistrationDate = client.HtsEnrollment.RegistrationDate;
-                }         
+                }
             }
             else
             {
                 clientStage.RegistrationDate = person.ContactRegDate;
             }
-           
+
             return clientStage;
         }
 

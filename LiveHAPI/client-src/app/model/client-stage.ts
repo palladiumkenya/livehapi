@@ -13,4 +13,5 @@ export interface ClientStage {
     syncStatusInfo?: string;
     siteCode?: string;
     id?: string;
+    userName?: string;
 }

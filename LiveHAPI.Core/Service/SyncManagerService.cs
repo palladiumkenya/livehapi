@@ -20,7 +20,7 @@ namespace LiveHAPI.Core.Service
 
         public IEnumerable<ClientStage> GetSyncErrorClients()
         {
-            return _clientStageRepository.GetByStatus(SyncStatus.SentFail);
+            return _clientStageRepository.GetByStatusGeneric(SyncStatus.SentFail);
         }
 
         public int GetSyncErrorClientsCount()
@@ -30,7 +30,7 @@ namespace LiveHAPI.Core.Service
 
         public IEnumerable<ClientStage> GetSyncStagedClients()
         {
-            return _clientStageRepository.GetByStatus(SyncStatus.Staged);
+            return _clientStageRepository.GetByStatusGeneric(SyncStatus.Staged);
         }
 
         public int GetSyncStagedCount()

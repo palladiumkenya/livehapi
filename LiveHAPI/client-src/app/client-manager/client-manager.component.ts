@@ -26,6 +26,7 @@ export class ClientManagerComponent implements OnInit, OnDestroy {
     public clientsStaged: ClientStage[] = [];
 
     public blockReprocess = false;
+    public blockStageExport = false;
     public loading = false;
 
     public constructor(private clientService: ClientManagerService) {
@@ -90,6 +91,7 @@ export class ClientManagerComponent implements OnInit, OnDestroy {
                     this.loading = false;
                 },
                 () => {
+                    this.blockStageExport = this.clientsStagedCount === 0;
                 }
             );
     }
