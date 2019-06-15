@@ -44,12 +44,12 @@ namespace LiveHAPI.Sync.Core.Writer.Family
                 {
                     // LoadAction.RegistrationOnly
 
+                    SyncReport screeningReport = null;
+                    SyncReport tracingReport = null;
+
                     var demographicsReport =
                         await SendMessage($"{endpoint}/familydemographics", htsClient.ClientId,
                             GetMessage<FamilyMessage>(htsClient));
-
-                    SyncReport screeningReport = null;
-                    SyncReport tracingReport = null;
 
                     if (null != demographicsReport && demographicsReport.IsSuccess)
                     {

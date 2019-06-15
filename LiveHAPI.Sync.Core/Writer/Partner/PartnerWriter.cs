@@ -45,12 +45,12 @@ namespace LiveHAPI.Sync.Core.Writer.Partner
                 {
                     // LoadAction.RegistrationOnly
 
+                    SyncReport screeningReport = null;
+                    SyncReport tracingReport = null;
+
                     var demographicsReport =
                         await SendMessage($"{endpoint}/partnerdemographics", htsClient.ClientId,
                             GetMessage<PartnerMessage>(htsClient));
-
-                    SyncReport screeningReport = null;
-                    SyncReport tracingReport = null;
 
                     if (null != demographicsReport && demographicsReport.IsSuccess)
                     {

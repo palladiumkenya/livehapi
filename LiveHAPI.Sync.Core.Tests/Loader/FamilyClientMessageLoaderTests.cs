@@ -55,7 +55,7 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
       _contactsEncounterRepository=new ContactsEncounterRepository(_context);
             _clientMessageLoader =
                 new FamilyClientMessageLoader(
-                    
+
                     _practiceRepository, _clientStageRepository,new ClientStageRelationshipRepository(_context),
                     new ClientFamilyScreeningStageExtractor(_contactsEncounterRepository,_subscriberSystemRepository),
                                         new ClientFamilyTracingStageExtractor(_contactsEncounterRepository,_subscriberSystemRepository));
@@ -79,7 +79,6 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
             }
         }
 
-
         [Test]
         public void should_Extract_Load_By_Client()
         {
@@ -96,7 +95,7 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
             var r = clientMessages.First();
             Console.WriteLine(JsonConvert.SerializeObject(r));
         }
-        
+
         [TestCase(LoadAction.RegistrationOnly)]
         [TestCase(LoadAction.ContactScreenig)]
         [TestCase(LoadAction.ContactScreenig,LoadAction.ContactTracing)]
