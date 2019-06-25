@@ -54,10 +54,8 @@ namespace LiveHAPI.Sync.Core.Writer.Index
                         await SendMessage($"{endpoint}/demographics", htsClient.ClientId,
                             GetMessage<DemographicMessage>(htsClient));
 
-
                     if (null != demographicsReport && demographicsReport.IsSuccess)
                     {
-
                         // LoadAction.Pretest
 
                          pretestReport =
@@ -103,6 +101,7 @@ namespace LiveHAPI.Sync.Core.Writer.Index
                             demographicsReport.ExceptionInfo);
                     }
 
+//////////
                     if (null != pretestReport)
                     {
                         if (pretestReport.HasResponse)
@@ -117,7 +116,7 @@ namespace LiveHAPI.Sync.Core.Writer.Index
                         if (htstestReport.HasResponse)
                             _results.Add(htstestReport.Response);
 
-                        _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, tracingReport.Status,
+                        _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, htstestReport.Status,
                             htstestReport.ExceptionInfo);
                     }
 
@@ -146,6 +145,8 @@ namespace LiveHAPI.Sync.Core.Writer.Index
                         _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, linkageReport.Status,
                             linkageReport.ExceptionInfo);
                     }
+
+
                 }
                 catch (Exception e)
                 {

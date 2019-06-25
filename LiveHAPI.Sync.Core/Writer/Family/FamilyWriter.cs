@@ -75,7 +75,7 @@ namespace LiveHAPI.Sync.Core.Writer.Family
                         _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, demographicsReport.Status,
                             demographicsReport.ExceptionInfo);
                     }
-
+                    ////////////////
                     if (null != screeningReport)
                     {
                         if (screeningReport.HasResponse)
@@ -92,6 +92,7 @@ namespace LiveHAPI.Sync.Core.Writer.Family
                         _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, tracingReport.Status,
                             tracingReport.ExceptionInfo);
                     }
+
                 }
                 catch (Exception e)
                 {

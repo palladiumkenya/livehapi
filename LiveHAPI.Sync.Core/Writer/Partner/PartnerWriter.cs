@@ -76,6 +76,9 @@ namespace LiveHAPI.Sync.Core.Writer.Partner
                         _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, demographicsReport.Status,
                             demographicsReport.ExceptionInfo);
                     }
+
+                    /////////////////
+
                     if (null != screeningReport)
                     {
                         if (screeningReport.HasResponse)
