@@ -207,24 +207,17 @@ namespace LiveHAPI.Sync
                 .AddTransient<ISyncUserService, SyncUserService>()
 
                 .AddTransient<IExtractClientsService, ExtractClientsService>()
-
+                .AddTransient<ISyncClientsService, SyncClientsService>()
                 .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(syncConfigInterval, syncClientInterval));
 
-
-
-            if (null != HapiSettingsView && HapiSettingsView.SyncVersion > 0)
-            {
-                allServices.AddTransient<ISyncClientsService, SyncClientsService>();
-            }
-            else
-            {
-                allServices.AddTransient<ISyncClientsService, LegacySyncClientsService>();
-                Log.Error(new string('*', 50));
-                Log.Error(new string('*', 50));
-                Log.Error("YOU ARE USING AN OLD IQCARE PLEASE UPGRADE !!!");
-                Log.Error(new string('*', 50));
-                Log.Error(new string('*', 50));
-            }
+//            if (null != HapiSettingsView && HapiSettingsView.SyncVersion > 0)
+//            {
+//                Log.Error(new string('*', 50));
+//                Log.Error(new string('*', 50));
+//                Log.Error("YOU ARE USING AN OLD IQCARE PLEASE UPGRADE !!!");
+//                Log.Error(new string('*', 50));
+//                Log.Error(new string('*', 50));
+//            }
 
             ServiceProvider = allServices.BuildServiceProvider();
 
