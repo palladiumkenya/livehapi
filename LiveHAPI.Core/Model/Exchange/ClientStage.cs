@@ -100,8 +100,8 @@ namespace LiveHAPI.Core.Model.Exchange
                 }
                 if (person.Contacts.Any())
                 {
-                    clientStage.Phone = person.Contacts.First().Phone.HasValue
-                        ? person.Contacts.First().Phone.Value.ToString()
+                    clientStage.Phone =!string.IsNullOrEmpty(person.Contacts.First().Phone)
+                        ? person.Contacts.First().Phone
                         : string.Empty;
                 }
             }
