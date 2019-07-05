@@ -299,7 +299,8 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public IEnumerable<Person> GetAllClients()
         {
-            return Context.Persons
+            var persons=
+             Context.Persons
                 .Include(x => x.Names)
                 .Include(x => x.Addresses)
                 .Include(x => x.Contacts)
@@ -308,6 +309,8 @@ namespace LiveHAPI.Infrastructure.Repository
                 .Include(x => x.Clients)
                 .ThenInclude(y => y.ClientStates).AsNoTracking().ToList()
                 .Where(x => x.IsClient&&x.NotSynced);
+            
+            return persons;
         }
 
         public IEnumerable<Person> GetAllIndexClients()
