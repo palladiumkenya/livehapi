@@ -17,7 +17,7 @@ namespace LiveHAPI.Sync.Core.Extractor
         private readonly IClientRepository _clientRepository;
         private readonly ISubscriberSystemRepository _subscriberSystemRepository;
         private readonly IPracticeRepository _practiceRepository;
-        
+
         public ClientStageExtractor(IPersonRepository personRepository, IClientStageRepository clientStageRepository,
             ISubscriberSystemRepository subscriberSystemRepository, IClientRepository clientRepository, IPracticeRepository practiceRepository)
         {
@@ -38,7 +38,7 @@ namespace LiveHAPI.Sync.Core.Extractor
                 throw new Exception("Default EMR NOT SET");
 
             var practices = _practiceRepository.GetAllDefault().ToList();
-           
+
             var clients = new List<ClientStage>();
 
             var persons = _personRepository.GetAllClients();
@@ -49,38 +49,45 @@ namespace LiveHAPI.Sync.Core.Extractor
 
                 if (null != practice)
                     client.SiteCode = practice.Code;
-                
+
                 clients.Add(client);
             }
-
             return clients.Where(x => !x.ClientId.IsNullOrEmpty());
         }
 
         public async Task<int> ExtractAndStage()
         {
-            var inserts=new List<ClientStage>();
-            var updates=new List<ClientStage>();
-            
-            var clients =await Extract();
-            
-            
-            foreach (var client in clients)
+            var inserts = new List<ClientStage>();
+            var updates = new List<ClientStage>();
+
+            var clients = await Extract();
+
+            if (null != clients)
             {
-                if (_clientStageRepository.ClientExisits(client.ClientId))
+                var clientStages = clients.ToList();
+
+                foreach (var client in clientStages)
                 {
-                    updates.Add(client);
+                    if (_clientStageRepository.ClientExisits(client.ClientId))
+                    {
+                        updates.Add(client);
+                    }
+                    else
+                    {
+                        inserts.Add(client);
+                    }
                 }
-                else
-                {
-                    inserts.Add(client);
-                }
+
+                if (inserts.Any())
+                    _clientStageRepository.BulkInsert(inserts);
+
+                if (updates.Any())
+                    _clientStageRepository.BulkUpdate(updates);
+
+                if (clientStages.Any())
+                    _clientRepository.UpdateSyncStatus(clientStages);
             }
-            
-            _clientStageRepository.BulkInsert(inserts);
-            _clientStageRepository.BulkUpdate(updates);
-            
-            _clientRepository.UpdateSyncStatus(clients);
-           
+
             return 1;
         }
 
