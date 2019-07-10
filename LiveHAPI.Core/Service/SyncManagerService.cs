@@ -20,12 +20,22 @@ namespace LiveHAPI.Core.Service
 
         public IEnumerable<ClientStage> GetSyncErrorClients()
         {
-            return _clientStageRepository.GetByStatus(SyncStatus.SentFail);
+            return _clientStageRepository.GetByStatusGeneric(SyncStatus.SentFail);
         }
 
         public int GetSyncErrorClientsCount()
         {
             return GetSyncErrorClients().Select(x => x.ClientId).Count();
+        }
+
+        public IEnumerable<ClientStage> GetSyncStagedClients()
+        {
+            return _clientStageRepository.GetByStatusGeneric(SyncStatus.Staged);
+        }
+
+        public int GetSyncStagedCount()
+        {
+            return GetSyncStagedClients().Select(x => x.ClientId).Count();
         }
 
         public Task Resend(IEnumerable<Guid> clientIds)
@@ -44,10 +54,26 @@ namespace LiveHAPI.Core.Service
 
             var stats = new Stats(
                 all.Count,
-                all.Where(x => x.SyncStatus == SyncStatus.Staged).ToList().Count, 
+                all.Where(x => x.SyncStatus == SyncStatus.Staged).ToList().Count,
                 all.Where(x => x.SyncStatus == SyncStatus.SentSuccess).ToList().Count,
                 all.Where(x => x.SyncStatus == SyncStatus.SentFail).ToList().Count
                 );
+
+            return stats;
+        }
+
+        public Stats GetStats(Guid providerId)
+        {
+            var all = _clientStageRepository.GetAllGeneric(providerId).Select(x => new {x.ClientId, x.SyncStatus}).ToList();
+
+            var stats = new Stats(
+                all.Count,
+                all.Where(x => x.SyncStatus == SyncStatus.Staged).ToList().Count,
+                all.Where(x => x.SyncStatus == SyncStatus.SentSuccess).ToList().Count,
+                all.Where(x => x.SyncStatus == SyncStatus.SentFail).ToList().Count
+            );
+
+            stats.SetProvider(providerId);
 
             return stats;
         }

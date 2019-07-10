@@ -45,6 +45,9 @@ namespace LiveHAPI.Sync.Core.Writer.Partner
                 {
                     // LoadAction.RegistrationOnly
 
+                    SyncReport screeningReport = null;
+                    SyncReport tracingReport = null;
+
                     var demographicsReport =
                         await SendMessage($"{endpoint}/partnerdemographics", htsClient.ClientId,
                             GetMessage<PartnerMessage>(htsClient));
@@ -54,13 +57,13 @@ namespace LiveHAPI.Sync.Core.Writer.Partner
 
                         // LoadAction.ContactScreenig
 
-                        var screeningReport =
+                         screeningReport =
                             await SendMessage($"{endpoint}/partnerScreening", htsClient.ClientId,
                                 GetMessage<PartnerScreening>(htsClient));
 
                         // LoadAction.ContactTracing
 
-                        var tracingReport =
+                         tracingReport =
                             await SendMessage($"{endpoint}/partnerTracing", htsClient.ClientId,
                                 GetMessage<PartnerTracing>(htsClient));
                     }
@@ -72,6 +75,25 @@ namespace LiveHAPI.Sync.Core.Writer.Partner
 
                         _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, demographicsReport.Status,
                             demographicsReport.ExceptionInfo);
+                    }
+
+                    /////////////////
+
+                    if (null != screeningReport)
+                    {
+                        if (screeningReport.HasResponse)
+                            _results.Add(screeningReport.Response);
+
+                        _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, screeningReport.Status,
+                            screeningReport.ExceptionInfo);
+                    }
+                    if (null != tracingReport)
+                    {
+                        if (tracingReport.HasResponse)
+                            _results.Add(tracingReport.Response);
+
+                        _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, tracingReport.Status,
+                            tracingReport.ExceptionInfo);
                     }
                 }
                 catch (Exception e)

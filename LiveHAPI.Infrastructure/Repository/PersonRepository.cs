@@ -70,14 +70,61 @@ namespace LiveHAPI.Infrastructure.Repository
 
             var searchHits = new List<SearchHit>();
 
-            //Names
-            foreach (var item in searchItems)
+            //FNAME
+            if (searchItems.Length == 1)
             {
+                var item=searchItems[0];
+
                 var personIds = Context
                     .PersonNames
                     .Where(x => x.FirstName.ToLower().Contains(item.Trim().ToLower())||
-                                 x.MiddleName.ToLower().Contains(item.Trim().ToLower())||
-                                 x.LastName.ToLower().Contains(item.Trim().ToLower()))
+                                x.MiddleName.ToLower().Contains(item.Trim().ToLower())||
+                                x.LastName.ToLower().Contains(item.Trim().ToLower()))
+                    .Select(x=>x.PersonId)
+                    .ToList();
+
+                if (personIds.Count > 0)
+                {
+                    foreach (var id in personIds)
+                    {
+                        searchHits.Add(new SearchHit(id));
+                    }
+                }
+            }
+            //FNAME LNAME
+            if (searchItems.Length == 2)
+            {
+                var item=searchItems[0];
+                var item2=searchItems[1];
+
+                var personIds = Context
+                    .PersonNames
+                    .Where(x => x.FirstName.ToLower().Contains(item.Trim().ToLower()) && (
+                                x.MiddleName.ToLower().Contains(item2.Trim().ToLower())||
+                                x.LastName.ToLower().Contains(item2.Trim().ToLower())))
+                    .Select(x=>x.PersonId)
+                    .ToList();
+
+                if (personIds.Count > 0)
+                {
+                    foreach (var id in personIds)
+                    {
+                        searchHits.Add(new SearchHit(id));
+                    }
+                }
+            }
+            //FNAME LNAME ONAME
+            if (searchItems.Length == 3)
+            {
+                var item=searchItems[0];
+                var item2=searchItems[1];
+                var item3=searchItems[2];
+
+                var personIds = Context
+                    .PersonNames
+                    .Where(x => x.FirstName.ToLower().Contains(item.Trim().ToLower()) &&
+                                x.MiddleName.ToLower().Contains(item2.Trim().ToLower()) &&
+                                x.LastName.ToLower().Contains(item3.Trim().ToLower()))
                     .Select(x=>x.PersonId)
                     .ToList();
 
@@ -260,7 +307,7 @@ namespace LiveHAPI.Infrastructure.Repository
                 .ThenInclude(y => y.Identifiers)
                 .Include(x => x.Clients)
                 .ThenInclude(y => y.ClientStates).AsNoTracking().ToList()
-                .Where(x => x.IsClient&&x.NotSynced);
+                .Where(x => x.IsClient && x.NotSynced);
         }
 
         public IEnumerable<Person> GetAllIndexClients()

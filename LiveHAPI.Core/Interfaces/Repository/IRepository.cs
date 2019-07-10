@@ -11,6 +11,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
         T Get(TId id, bool voided = false);
         IEnumerable<T> GetAll(bool voided = false);
         IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, bool voided = false);
+        IEnumerable<TC> ExecQuery<TC>(string selectStatement);
 
         void Insert(T entity);
         void Insert(IEnumerable<T> entities);

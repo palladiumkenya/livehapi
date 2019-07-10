@@ -14,7 +14,8 @@
     "qavs": "ng serve -c qa --proxy-config proxy.config.json",
     "net": "dotnet watch run",
     "sync": "cd ../LiveHAPI.Sync && dotnet watch run",
-    "hapi": "concurrently \"npm:net\" \"npm:sync\""
+    "hapi": "concurrently \"npm:net\" \"npm:sync\"",
+    "fix": "npm rebuild node-sass"
   },
   "private": true,
   "dependencies": {
@@ -35,6 +36,7 @@
     "jquery": "^3.3.1",
     "moment": "^2.20.1",
     "nanoscroller": "^0.8.7",
+    "node-sass": "^4.12.0",
     "primeng": "^5.2.0",
     "quill": "^1.3.5",
     "rxjs": "^6.2.2",

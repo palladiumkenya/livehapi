@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Services;
+using LiveHAPI.Shared.Custom;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -35,6 +36,23 @@ namespace LiveHAPI.Controllers
             }
         }
 
+        [HttpGet("Stats/{id}")]
+        public IActionResult ProviderStats(Guid id)
+        {
+            if (id.IsNullOrEmpty())
+                return BadRequest();
+            try
+            {
+                var stats = _managerService.GetStats(id);
+                return Ok(stats);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
         [HttpGet("ErrorsCount")]
         public IActionResult GetErrorsCount()
         {
@@ -56,6 +74,36 @@ namespace LiveHAPI.Controllers
             try
             {
                 var clientStages = _managerService.GetSyncErrorClients().ToList();
+                return Ok(clientStages);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet("StagedCount")]
+        public IActionResult GetStagedCount()
+        {
+            try
+            {
+                var count = _managerService.GetSyncStagedCount();
+                return Ok(count);
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+        [HttpGet("Staged")]
+        public IActionResult GetStaged()
+        {
+            try
+            {
+                var clientStages = _managerService.GetSyncStagedClients().ToList();
                 return Ok(clientStages);
             }
             catch (Exception e)

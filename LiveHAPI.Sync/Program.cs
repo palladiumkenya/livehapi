@@ -36,6 +36,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz.Logging;
+using Serilog.Events;
 using Z.Dapper.Plus;
 
 namespace LiveHAPI.Sync
@@ -57,8 +58,10 @@ namespace LiveHAPI.Sync
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .WriteTo.Console()
-                .WriteTo.RollingFile("logs/hapisync-{Date}.txt")
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
+                .Enrich.FromLogContext()
+                .WriteTo.Console(LogEventLevel.Debug)
+                .WriteTo.RollingFile("logs/hapisync-{Date}.txt",LogEventLevel.Error)
                 .CreateLogger();
 
             Log.Debug("initializing Sync v[1.0.1.0] ...");
@@ -204,24 +207,17 @@ namespace LiveHAPI.Sync
                 .AddTransient<ISyncUserService, SyncUserService>()
 
                 .AddTransient<IExtractClientsService, ExtractClientsService>()
-
+                .AddTransient<ISyncClientsService, SyncClientsService>()
                 .AddSingleton<ISyncConfigScheduler>(new SyncConfigScheduler(syncConfigInterval, syncClientInterval));
 
-
-
-            if (null != HapiSettingsView && HapiSettingsView.SyncVersion > 0)
-            {
-                allServices.AddTransient<ISyncClientsService, SyncClientsService>();
-            }
-            else
-            {
-                allServices.AddTransient<ISyncClientsService, LegacySyncClientsService>();
-                Log.Error(new string('*', 50));
-                Log.Error(new string('*', 50));
-                Log.Error("YOU ARE USING AN OLD IQCARE PLEASE UPGRADE !!!");
-                Log.Error(new string('*', 50));
-                Log.Error(new string('*', 50));
-            }
+//            if (null != HapiSettingsView && HapiSettingsView.SyncVersion > 0)
+//            {
+//                Log.Error(new string('*', 50));
+//                Log.Error(new string('*', 50));
+//                Log.Error("YOU ARE USING AN OLD IQCARE PLEASE UPGRADE !!!");
+//                Log.Error(new string('*', 50));
+//                Log.Error(new string('*', 50));
+//            }
 
             ServiceProvider = allServices.BuildServiceProvider();
 

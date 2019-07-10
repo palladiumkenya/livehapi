@@ -56,7 +56,7 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
             _subscriberSystemRepository=new SubscriberSystemRepository(_context);
             _practiceRepository = new PracticeRepository(_context);
             _clientStageRepository = new ClientStageRepository(_context);
-      
+
             _clientMessageLoader =
                 new IndexClientMessageLoader(_practiceRepository, _clientStageRepository, _clientPretestStageRepository,
                     new ClientTestingStageExtractor(_clientEncounterRepository, _subscriberSystemRepository),
@@ -75,10 +75,24 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
         [Category("live")]
         public void should_Load_By_Client()
         {
-            Guid clientid=new Guid("c9d544ad-00d8-450d-8c7e-a98b00667ee1");
+            Guid clientid=new Guid("55aea9fe-7964-46bd-96c8-a9fb00a29edc");
             var indexClientMessages = _clientMessageLoader.Load(clientid).Result.ToList();
             Assert.True(indexClientMessages.Any());
             Assert.False(indexClientMessages.Any(x => x.ClientId.IsNullOrEmpty()));
+            foreach (var m in indexClientMessages)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(m,Formatting.Indented));
+                Console.WriteLine(new string('=', 50));
+            }
+        }
+
+        [Test]
+        [Category("live")]
+        public void should_Load_All()
+        {
+            var indexClientMessages = _clientMessageLoader.Load(null).Result.ToList();
+            Assert.True(indexClientMessages.Any());
+       //     Assert.False(indexClientMessages.Any(x => x.ClientId.IsNullOrEmpty()));
             foreach (var m in indexClientMessages)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(m,Formatting.Indented));

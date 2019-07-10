@@ -44,6 +44,9 @@ namespace LiveHAPI.Sync.Core.Writer.Family
                 {
                     // LoadAction.RegistrationOnly
 
+                    SyncReport screeningReport = null;
+                    SyncReport tracingReport = null;
+
                     var demographicsReport =
                         await SendMessage($"{endpoint}/familydemographics", htsClient.ClientId,
                             GetMessage<FamilyMessage>(htsClient));
@@ -53,13 +56,13 @@ namespace LiveHAPI.Sync.Core.Writer.Family
 
                         // LoadAction.ContactScreenig
 
-                        var screeningReport =
+                         screeningReport =
                             await SendMessage($"{endpoint}/postFamilyScreening", htsClient.ClientId,
                                 GetMessage<FamilyScreening>(htsClient));
 
                         // LoadAction.ContactTracing
 
-                        var tracingReport =
+                         tracingReport =
                             await SendMessage($"{endpoint}/postFamilyTracing", htsClient.ClientId,
                                 GetMessage<FamilyTracing>(htsClient));
                     }
@@ -72,6 +75,24 @@ namespace LiveHAPI.Sync.Core.Writer.Family
                         _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, demographicsReport.Status,
                             demographicsReport.ExceptionInfo);
                     }
+                    ////////////////
+                    if (null != screeningReport)
+                    {
+                        if (screeningReport.HasResponse)
+                            _results.Add(screeningReport.Response);
+
+                        _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, screeningReport.Status,
+                            screeningReport.ExceptionInfo);
+                    }
+                    if (null != tracingReport)
+                    {
+                        if (tracingReport.HasResponse)
+                            _results.Add(tracingReport.Response);
+
+                        _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, tracingReport.Status,
+                            tracingReport.ExceptionInfo);
+                    }
+
                 }
                 catch (Exception e)
                 {
@@ -118,7 +139,6 @@ namespace LiveHAPI.Sync.Core.Writer.Family
             try
             {
                 var response = await _restClient.Client.PostAsJsonAsync(endpoint, message);
-
                 if (response.IsSuccessStatusCode)
                 {
                     result = await response.Content.ReadAsJsonAsync<SynchronizeClientsResponse>();

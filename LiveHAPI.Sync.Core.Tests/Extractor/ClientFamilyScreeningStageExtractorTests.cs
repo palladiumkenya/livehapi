@@ -18,14 +18,15 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
         private  ISubscriberSystemRepository _subscriberSystemRepository;
         private IClientFamilyScreeningStageExtractor _stageExtractor;
         private LiveHAPIContext _context;
-  
+
         [SetUp]
         public void SetUp()
         {
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
+            //var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
+            var connectionString = config["connectionStrings:LIVEhAPIConnection"];
             var options = new DbContextOptionsBuilder<LiveHAPIContext>()
                 .UseSqlServer(connectionString)
                 .Options;

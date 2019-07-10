@@ -9,8 +9,11 @@ namespace LiveHAPI.Core.Interfaces.Services
     {
         IEnumerable<ClientStage> GetSyncErrorClients();
         int GetSyncErrorClientsCount();
+        IEnumerable<ClientStage> GetSyncStagedClients();
+        int GetSyncStagedCount();
         Task Resend(IEnumerable<Guid> clientIds);
         Task ResendAll();
         Stats GetStats();
+        Stats GetStats(Guid providerId);
     }
 }

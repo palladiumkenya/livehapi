@@ -20,7 +20,7 @@ namespace LiveHAPI.Sync.Core.Writer.Index
     public class DemographicsWriter : ClientWriter<IndexClientMessage>, IDemographicsWriter
     {
         private List<SynchronizeClientsResponse> _results;
-        
+
         public DemographicsWriter(IRestClient restClient, IIndexClientMessageLoader loader,
             IClientStageRepository clientStageRepository)
             : base(restClient, loader, clientStageRepository)
@@ -43,45 +43,50 @@ namespace LiveHAPI.Sync.Core.Writer.Index
                 try
                 {
                     // LoadAction.RegistrationOnly
-                    
+
+                    SyncReport pretestReport = null;
+                    SyncReport htstestReport = null;
+                    SyncReport  referrallReport= null;
+                    SyncReport  tracingReport= null;
+                    SyncReport linkageReport = null;
+
                     var demographicsReport =
                         await SendMessage($"{endpoint}/demographics", htsClient.ClientId,
                             GetMessage<DemographicMessage>(htsClient));
 
                     if (null != demographicsReport && demographicsReport.IsSuccess)
                     {
-                        
                         // LoadAction.Pretest
-                        
-                        var pretestReport =
+
+                         pretestReport =
                             await SendMessage($"{endpoint}/htsPretest", htsClient.ClientId,
                                 GetMessage<PretestMessage>(htsClient));
 
                         if (null != pretestReport && pretestReport.IsSuccess)
                         {
-                            
+
                             // LoadAction.Testing
-                                
-                            var htstestReport =
+
+                             htstestReport =
                                 await SendMessage($"{endpoint}/htsTests", htsClient.ClientId,
                                     GetMessage<TestsMessage>(htsClient));
                         }
-                        
+
                         // LoadAction.Referral
-                            
-                        var referrallReport =
+
+                         referrallReport =
                             await SendMessage($"{endpoint}/htsReferral", htsClient.ClientId,
                                 GetMessage<ReferralMessage>(htsClient));
-                        
+
                         // LoadAction.Tracing
-                        
-                        var tracingReport =
+
+                         tracingReport =
                             await SendMessage($"{endpoint}/htsTracing", htsClient.ClientId,
                                 GetMessage<TracingMessage>(htsClient));
 
                         // LoadAction.Linkage
-                            
-                        var linkageReport =
+
+                         linkageReport =
                             await SendMessage($"{endpoint}/htsLinkage", htsClient.ClientId,
                                 GetMessage<LinkageMessage>(htsClient));
 
@@ -95,6 +100,53 @@ namespace LiveHAPI.Sync.Core.Writer.Index
                         _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, demographicsReport.Status,
                             demographicsReport.ExceptionInfo);
                     }
+
+//////////
+                    if (null != pretestReport)
+                    {
+                        if (pretestReport.HasResponse)
+                            _results.Add(pretestReport.Response);
+
+                        _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, pretestReport.Status,
+                            pretestReport.ExceptionInfo);
+                    }
+
+                    if (null != htstestReport)
+                    {
+                        if (htstestReport.HasResponse)
+                            _results.Add(htstestReport.Response);
+
+                        _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, htstestReport.Status,
+                            htstestReport.ExceptionInfo);
+                    }
+
+                    if (null != referrallReport)
+                    {
+                        if (referrallReport.HasResponse)
+                            _results.Add(referrallReport.Response);
+
+                        _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, referrallReport.Status,
+                            referrallReport.ExceptionInfo);
+                    }
+                    if (null != tracingReport)
+                    {
+                        if (tracingReport.HasResponse)
+                            _results.Add(tracingReport.Response);
+
+                        _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, tracingReport.Status,
+                            tracingReport.ExceptionInfo);
+                    }
+
+                    if (null != linkageReport)
+                    {
+                        if (linkageReport.HasResponse)
+                            _results.Add(linkageReport.Response);
+
+                        _clientStageRepository.UpdateSyncStatus(htsClient.ClientId, linkageReport.Status,
+                            linkageReport.ExceptionInfo);
+                    }
+
+
                 }
                 catch (Exception e)
                 {
@@ -111,25 +163,25 @@ namespace LiveHAPI.Sync.Core.Writer.Index
 
             try
             {
-                
+
                 if (typeof(T) == typeof(DemographicMessage))
                     clientMessage = message.GetDemographicMessage() as T;
-                
+
                 if (typeof(T) == typeof(PretestMessage))
                     clientMessage = message.GetPretestMessage() as  T;
-                
+
                 if (typeof(T) == typeof(TestsMessage))
                     clientMessage = message.GetHtsTestMessage() as T;
-                
+
                 if (typeof(T) == typeof(ReferralMessage))
                     clientMessage = message.GetReferralMessage() as T;
-                
+
                 if (typeof(T) == typeof(LinkageMessage))
                     clientMessage = message.GetLinkageMessage() as T;
-                
+
                 if (typeof(T) == typeof(TracingMessage))
                     clientMessage = message.GetTracingMessage() as T;
-                
+
             }
             catch (Exception e)
             {
@@ -145,10 +197,10 @@ namespace LiveHAPI.Sync.Core.Writer.Index
             SyncReport report = null;
             SynchronizeClientsResponse result = null;
             string jsonMessage = string.Empty;
-           
+
             if (null == message)
                 return null;
-            
+
             try
             {
                 var response = await _restClient.Client.PostAsJsonAsync(endpoint, message);
@@ -203,7 +255,7 @@ namespace LiveHAPI.Sync.Core.Writer.Index
 
             return report;
         }
-        
+
     }
-    
+
 }

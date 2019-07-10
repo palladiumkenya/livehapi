@@ -13,7 +13,7 @@ import {
     DataTableModule,
     InputTextModule,
     MessageModule,
-    MessagesModule,
+    MessagesModule, TabViewModule,
     ToolbarModule,
     TreeModule
 } from 'primeng/primeng';
@@ -55,22 +55,23 @@ import { PrimarytreeListComponent } from './contacts/primarytree-list/primarytre
       ContactTreeComponent,
       PrimarytreeListComponent
   ],
-  imports: [
-    BrowserModule,
-      BrowserAnimationsModule,
-      DataTableModule,
-      ToolbarModule,
-    RouterModule,
-    AppRoutes,
-      ButtonModule,
-      InputTextModule,
-     MessageModule,
-      MessagesModule,
-      HttpClientModule,
-      FormsModule,
-      ReactiveFormsModule,
-      TreeModule
-   ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        DataTableModule,
+        ToolbarModule,
+        RouterModule,
+        AppRoutes,
+        ButtonModule,
+        InputTextModule,
+        MessageModule,
+        MessagesModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TreeModule,
+        TabViewModule
+    ],
   providers: [
       ConfigService,  ConfirmationService, BreadcrumbService, StatsService,
       ClientManagerService, ClientContactsService

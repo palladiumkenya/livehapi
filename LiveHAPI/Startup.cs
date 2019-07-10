@@ -218,19 +218,17 @@ namespace LiveHAPI
             #region HangFire
             try
             {
-
-
                 app.UseHangfireDashboard("/api/hangfire", new DashboardOptions()
                 {
                     Authorization = new[] { new CustomAuthorizeFilter() }
                 });
 
-                app.UseHangfireServer();
+                var options = new BackgroundJobServerOptions { WorkerCount = 1 };
+                app.UseHangfireServer(options);
                 GlobalJobFilters.Filters.Add(new ProlongExpirationTimeAttribute());
                 GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute(){Attempts = 3});
                 var defaultBatchJobRetentionPeriod = new TimeSpan(270, 0, 0, 0); //2 day retention
                 GlobalConfiguration.Configuration.UseBatches(defaultBatchJobRetentionPeriod);
-
             }
             catch (Exception e)
             {
