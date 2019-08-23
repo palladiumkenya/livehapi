@@ -167,7 +167,7 @@ fda17770-4edb-11e8-9c2d-fa7ae01bbebc|MaritalStatus|MP|Married Polygamous|60|Marr
 fda17892-4edb-11e8-9c2d-fa7ae01bbebc|MaritalStatus|MM|Married Monogamous|57|Married Monogamous|HTSMaritalStatus|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda179b4-4edb-11e8-9c2d-fa7ae01bbebc|MaritalStatus|SP|Separated|61|Separated|HTSMaritalStatus|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda179b9-4edb-11e8-9c2d-fa7ae01bbebc|MaritalStatus|NA|Not Applicable|1552|Not Applicable|HTSMaritalStatus|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
-fda17cb6-4edb-11e8-9c2d-fa7ae01bbebc|ObsTraceResult.Outcome|b25f0a50-852f-11e7-bb31-be2e44b06b34|Contacted|1522|Contacted|TracingOutcome|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
+fda17cb6-4edb-11e8-9c2d-fa7ae01bbebc|c|b25f0a50-852f-11e7-bb31-be2e44b06b34|Contacted|1522|Contacted|TracingOutcome|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda17df6-4edb-11e8-9c2d-fa7ae01bbebc|ObsTraceResult.Outcome|b25f0a51-852f-11e7-bb31-be2e44b06b34|Contacted and Linked|1523|Contacted and Linked|TracingOutcome|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda17f18-4edb-11e8-9c2d-fa7ae01bbebc|ObsTraceResult.Outcome|b25f102c-852f-11e7-bb31-be2e44b06b34|Not Contacted|1524|Not Contacted|TracingOutcome|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 fda18044-4edb-11e8-9c2d-fa7ae01bbebc|ObsTraceResult.Mode|b25f136a-852f-11e7-bb31-be2e44b06b34|Phone|1526|Physical|TracingMode|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
@@ -345,5 +345,8 @@ fda7467c-4edb-11e8-9c2d-fa7ae01bbebc|ObsPartnerScreening.Eligibility|B25ED1C0-85
 612d2b64-b5c9-11e8-96f8-529269fb1459|Occupation|b06bf7ec-b68b-11e8-96f8-529269fb1459|Other|25|Other|HTSOccupation|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 612d293a-b5c9-11e8-96f8-529269fb1459|B26039A1-852F-11E7-BB31-BE2E44B06B34|b06bf8ec-b68b-11e8-96f8-529269fb1459|PNS|1807|PNS|HTSEntryPoints|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
 612d294a-b5c9-11e8-96f8-529269fb1459|B260417C-852F-11E7-BB31-BE2E44B06B34|b06bf8ec-b68b-11e8-96f8-529269fb1459|PNS|1807|PNS|Strategy|1|0|16e23877-9D69-11E7-ABC4-CEC278B6B50A
+
+
+TracingReasonNotContacted
 
 ab88ad8c-88b8-11e7-abc4-cec278b6b50a|Sync|110|1|1|Sync||1|0|16E23866-9D69-11E7-ABC4-CEC278B6B50A
