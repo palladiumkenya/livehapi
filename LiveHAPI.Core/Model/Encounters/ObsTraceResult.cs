@@ -9,11 +9,14 @@ namespace LiveHAPI.Core.Model.Encounters
     public class ObsTraceResult : Entity<Guid>, IObsTraceResult
     {
         public DateTime Date { get; set; }
-        
+
         public Guid Mode { get; set; }
-        
+
         public Guid Outcome { get; set; }
         public Guid EncounterId { get; set; }
+
+        public Guid? ReasonNotContacted { get; set; }
+        public string ReasonNotContactedOther { get; set; }
 
         private ObsTraceResult(Guid id,DateTime date, Guid mode, Guid outcome, Guid encounterId)
         {

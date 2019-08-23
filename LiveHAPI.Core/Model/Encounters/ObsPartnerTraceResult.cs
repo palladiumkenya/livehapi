@@ -19,7 +19,10 @@ namespace LiveHAPI.Core.Model.Encounters
         public DateTime? BookingDate { get; set; }
         public Guid IndexClientId { get; set; }
         public Guid EncounterId { get; set; }
-      
+
+        public Guid? ReasonNotContacted { get; set; }
+        public string ReasonNotContactedOther { get; set; }
+        public string OReasonNotContactedDisplay { get; set; }
         public ObsPartnerTraceResult()
         {
             Id = LiveGuid.NewGuid();
