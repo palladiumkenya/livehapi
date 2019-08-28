@@ -18,13 +18,15 @@ namespace LiveHAPI.Core.Model.Encounters
         public Guid? ReasonNotContacted { get; set; }
         public string ReasonNotContactedOther { get; set; }
 
-        private ObsTraceResult(Guid id,DateTime date, Guid mode, Guid outcome, Guid encounterId)
+        private ObsTraceResult(Guid id,DateTime date, Guid mode, Guid outcome, Guid encounterId,Guid? reasonnotcontacted,string reasonnotcontactedother)
         {
             Id = id;
             Date = date;
             Mode = mode;
             Outcome = outcome;
             EncounterId = encounterId;
+            ReasonNotContacted = reasonnotcontacted;
+            ReasonNotContactedOther = reasonnotcontactedother;
         }
 
         public ObsTraceResult()
@@ -33,7 +35,7 @@ namespace LiveHAPI.Core.Model.Encounters
         }
         public static ObsTraceResult Create(ObsTraceResultInfo obsInfo)
         {
-            return new ObsTraceResult(obsInfo.Id, obsInfo.Date,obsInfo.Mode,obsInfo.Outcome,obsInfo.EncounterId);
+            return new ObsTraceResult(obsInfo.Id, obsInfo.Date,obsInfo.Mode,obsInfo.Outcome,obsInfo.EncounterId,obsInfo.ReasonNotContacted,obsInfo.ReasonNotContactedOther);
         }
 
         public static List<ObsTraceResult> Create(EncounterInfo encounterInfo)

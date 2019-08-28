@@ -8,5 +8,7 @@ namespace LiveHAPI.Core.Model.Encounters
         Guid EncounterId { get; set; }
         Guid Mode { get; set; }
         Guid Outcome { get; set; }
+        Guid? ReasonNotContacted { get; set; }
+        string ReasonNotContactedOther { get; set; }
     }
 }

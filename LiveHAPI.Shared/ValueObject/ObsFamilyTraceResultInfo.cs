@@ -18,6 +18,8 @@ namespace LiveHAPI.Shared.ValueObject
         public string ModeDisplay { get; set; }
         public Guid Outcome { get; set; }
         public string OutcomeDisplay { get; set; }
+        public Guid? ReasonNotContacted { get; set; }
+        public string ReasonNotContactedOther { get; set; }
         public Guid EncounterId { get; set; }
     }
 }

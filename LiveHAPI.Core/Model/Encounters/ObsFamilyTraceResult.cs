@@ -24,14 +24,13 @@ namespace LiveHAPI.Core.Model.Encounters
 
         public Guid? ReasonNotContacted { get; set; }
         public string ReasonNotContactedOther { get; set; }
-        public string OReasonNotContactedDisplay { get; set; }
 
         public ObsFamilyTraceResult()
         {
             Id = LiveGuid.NewGuid();
         }
 
-        public ObsFamilyTraceResult(Guid id,DateTime date, Guid mode, Guid outcome, Guid? consent, DateTime? reminder, DateTime? bookingDate,Guid encounterId,Guid indexClientId) : this()
+        public ObsFamilyTraceResult(Guid id,DateTime date, Guid mode, Guid outcome, Guid? consent, DateTime? reminder, DateTime? bookingDate,Guid encounterId,Guid indexClientId,Guid? reasonnotcontacted,string reasonnotcontactedother) : this()
         {
             Id = id;
             Date = date;
@@ -42,11 +41,13 @@ namespace LiveHAPI.Core.Model.Encounters
             BookingDate = bookingDate;
             EncounterId = encounterId;
             IndexClientId = indexClientId;
+            ReasonNotContacted = reasonnotcontacted;
+            ReasonNotContactedOther = reasonnotcontactedother;
         }
 
         public static ObsFamilyTraceResult Create(ObsFamilyTraceResultInfo obsInfo)
         {
-            return new ObsFamilyTraceResult(obsInfo.Id, obsInfo.Date, obsInfo.Mode, obsInfo.Outcome, obsInfo.Consent, obsInfo.Reminder, obsInfo.BookingDate,obsInfo.EncounterId,obsInfo.IndexClientId);
+            return new ObsFamilyTraceResult(obsInfo.Id, obsInfo.Date, obsInfo.Mode, obsInfo.Outcome, obsInfo.Consent, obsInfo.Reminder, obsInfo.BookingDate,obsInfo.EncounterId,obsInfo.IndexClientId,obsInfo.ReasonNotContacted,obsInfo.ReasonNotContactedOther);
         }
 
         public static List<ObsFamilyTraceResult> Create(EncounterInfo encounterInfo)
