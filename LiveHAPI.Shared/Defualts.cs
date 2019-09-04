@@ -6,7 +6,7 @@ namespace LiveHAPI.Shared
 {
     public static class Defualts
     {
-        public static string SyncVersion = "111";
+        public static string SyncVersion = "112";
         public static string Environment = "";
     }
 }
