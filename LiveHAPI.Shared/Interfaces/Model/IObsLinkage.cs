@@ -13,5 +13,7 @@ namespace LiveHAPI.Core.Model.Encounters
         string ReferredTo { get; set; }
         string Remarks { get; set; }
         string WorkerCarde { get; set; }
+        bool? HasArtStartDate { get; set; }
+        DateTime? ARTStartDate { get; set; }
     }
 }

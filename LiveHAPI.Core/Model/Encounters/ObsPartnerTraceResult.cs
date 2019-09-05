@@ -19,13 +19,15 @@ namespace LiveHAPI.Core.Model.Encounters
         public DateTime? BookingDate { get; set; }
         public Guid IndexClientId { get; set; }
         public Guid EncounterId { get; set; }
-      
+
+        public Guid? ReasonNotContacted { get; set; }
+        public string ReasonNotContactedOther { get; set; }
         public ObsPartnerTraceResult()
         {
             Id = LiveGuid.NewGuid();
         }
 
-        public ObsPartnerTraceResult(Guid id, DateTime date, Guid mode, Guid outcome, Guid encounterId, Guid? consent, DateTime? bookingDate,Guid indexClientId) : this()
+        public ObsPartnerTraceResult(Guid id, DateTime date, Guid mode, Guid outcome, Guid encounterId, Guid? consent, DateTime? bookingDate,Guid indexClientId,Guid? reasonnotcontacted,string reasonnotcontactedother) : this()
         {
             Id = id;
             Date = date;
@@ -35,16 +37,18 @@ namespace LiveHAPI.Core.Model.Encounters
             EncounterId = encounterId;
             BookingDate = bookingDate;
             IndexClientId = indexClientId;
+            ReasonNotContacted = reasonnotcontacted;
+            ReasonNotContactedOther = reasonnotcontactedother;
         }
 
-        public static ObsPartnerTraceResult Create(Guid id, DateTime date, Guid mode, Guid outcome, Guid encounterId, Guid? consent, DateTime? bookingDate, Guid indexClientId)
+        public static ObsPartnerTraceResult Create(Guid id, DateTime date, Guid mode, Guid outcome, Guid encounterId, Guid? consent, DateTime? bookingDate, Guid indexClientId,Guid? reasonnotcontacted,string reasonnotcontactedother)
         {
-            var obs = new ObsPartnerTraceResult(id,date, mode, outcome, encounterId, consent,bookingDate,indexClientId);
+            var obs = new ObsPartnerTraceResult(id,date, mode, outcome, encounterId, consent,bookingDate,indexClientId,reasonnotcontacted,reasonnotcontactedother);
             return obs;
         }
         public static ObsPartnerTraceResult Create(ObsPartnerTraceResultInfo obsInfo)
         {
-            return new ObsPartnerTraceResult(obsInfo.Id, obsInfo.Date, obsInfo.Mode, obsInfo.Outcome, obsInfo.EncounterId, obsInfo.Consent, obsInfo.BookingDate,obsInfo.IndexClientId);
+            return new ObsPartnerTraceResult(obsInfo.Id, obsInfo.Date, obsInfo.Mode, obsInfo.Outcome, obsInfo.EncounterId, obsInfo.Consent, obsInfo.BookingDate,obsInfo.IndexClientId,obsInfo.ReasonNotContacted,obsInfo.ReasonNotContactedOther);
         }
 
         public static List<ObsPartnerTraceResult> Create(EncounterInfo encounterInfo)

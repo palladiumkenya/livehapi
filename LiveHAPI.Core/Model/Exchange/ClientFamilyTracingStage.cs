@@ -17,6 +17,9 @@ namespace LiveHAPI.Core.Model.Exchange
         public int TracingOutcome { get; set; }
         public int? Consent { get; set; }
         public DateTime? BookingDate { get; set; }
+
+        public  int? ReasonNotContacted { get; set; }
+        public string ReasonNotContactedOther { get; set; }
         public Guid ClientId { get; set; }
         public SyncStatus SyncStatus { get; set; }
         public DateTime StatusDate { get; set; }
@@ -45,6 +48,8 @@ namespace LiveHAPI.Core.Model.Exchange
                     tracingStage.TracingMode = subscriber.GetTranslation(traceResult.Mode, "TracingMode", "ObsFamilyTraceResult.Mode", "0").SafeConvert<int>();
                     tracingStage.TracingOutcome = subscriber.GetTranslation(traceResult.Outcome, "PnsTracingOutcome", "ObsFamilyTraceResult.Outcome", "0").SafeConvert<int>();
                     tracingStage.Consent = subscriber.GetTranslation(traceResult.Consent, "YesNo", "ObsFamilyTraceResult.Consent", "0").SafeConvert<int>();
+                    tracingStage.ReasonNotContacted = subscriber.GetTranslation(traceResult.ReasonNotContacted, "TracingReasonNotContacted", "ObsFamilyTraceResult.ReasonNotContacted", "0").SafeConvert<int>();
+                    tracingStage.ReasonNotContactedOther = traceResult.ReasonNotContactedOther;
                     tracingStage.BookingDate = traceResult.BookingDate;
                     tracingStage.ClientId = tracingEncounter.ClientId;
                     stages.Add(tracingStage);

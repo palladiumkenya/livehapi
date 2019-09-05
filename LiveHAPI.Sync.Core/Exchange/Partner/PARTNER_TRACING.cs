@@ -16,18 +16,22 @@ namespace LiveHAPI.Sync.Core.Exchange.Partner
         public int CONSENT { get; set; }
 
         public string BOOKING_DATE { get; set; }
+        public int REASONNOTCONTACTED { get; set; }
+        public string REASONNOTCONTACTEDOTHER { get; set; }
 
         public PARTNER_TRACING()
         {
         }
 
-        public PARTNER_TRACING(string tracingDate, int tracingMode, int tracingOutcome, int consent, string bookingDate)
+        public PARTNER_TRACING(string tracingDate, int tracingMode, int tracingOutcome, int consent, string bookingDate,int reasonnotcontacted,string reasonnotcontactedother)
         {
             TRACING_DATE = tracingDate;
             TRACING_MODE = tracingMode;
             TRACING_OUTCOME = tracingOutcome;
             CONSENT = consent;
             BOOKING_DATE = bookingDate;
+            REASONNOTCONTACTED = reasonnotcontacted;
+            REASONNOTCONTACTEDOTHER = reasonnotcontactedother;
         }
 
         public static List<PARTNER_TRACING> Create(List<ClientPartnerTracingStage> stage)
@@ -40,7 +44,10 @@ namespace LiveHAPI.Sync.Core.Exchange.Partner
                     clientTracingStage.TracingMode,
                     clientTracingStage.TracingOutcome,
                     clientTracingStage.Consent.Value,
-                    clientTracingStage.BookingDate.ToIqDateOnly()));
+                    clientTracingStage.BookingDate.ToIqDateOnly(),
+                    clientTracingStage.ReasonNotContacted.Value,
+                    clientTracingStage.ReasonNotContactedOther
+                    ));
             }
             return list;
         }

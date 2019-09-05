@@ -17,7 +17,9 @@ namespace LiveHAPI.Shared.ValueObject
         public string OutcomeDisplay { get; set; }
         public Guid? Consent { get; set; }
         public DateTime? BookingDate { get; set; }
+        public Guid? ReasonNotContacted { get; set; }
+        public string ReasonNotContactedOther { get; set; }
         public Guid EncounterId { get; set; }
-        
+
     }
 }
