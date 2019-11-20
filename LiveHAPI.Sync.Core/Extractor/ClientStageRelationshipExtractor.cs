@@ -6,6 +6,7 @@ using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Sync.Core.Interface.Extractors;
+using Serilog;
 
 namespace LiveHAPI.Sync.Core.Extractor
 {
@@ -33,10 +34,17 @@ namespace LiveHAPI.Sync.Core.Extractor
                 throw new Exception("Default EMR NOT SET");
             var clients = new List<ClientStageRelationship>();
 
-            var indexRelations = _clientRelationshipRepository.GetIndexRelations();
+            var indexRelations = _clientRelationshipRepository.GetIndexRelations().ToList();
+
+            var tCount = indexRelations.Count;
+            int count = 0;
+            Log.Debug($"relStages:{tCount}");
+
             foreach (var relationship in indexRelations)
             {
+                count++;
                 clients.Add(ClientStageRelationship.Create(relationship, subscriber));
+                Log.Debug($"relStages: {count} of {tCount}");
             }
 
             return clients.Where(x => !x.Id.IsNullOrEmpty());

@@ -46,8 +46,8 @@ namespace LiveHAPI.Sync.Core.Writer.Index
 
                     SyncReport pretestReport = null;
                     SyncReport htstestReport = null;
-                    SyncReport  referrallReport= null;
-                    SyncReport  tracingReport= null;
+                    SyncReport referrallReport= null;
+                    SyncReport tracingReport= null;
                     SyncReport linkageReport = null;
 
                     var demographicsReport =

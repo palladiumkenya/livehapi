@@ -7,6 +7,7 @@ using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Shared.Enum;
 using LiveHAPI.Shared.Model;
 using LiveHAPI.Sync.Core.Interface.Extractors;
+using Serilog;
 
 namespace LiveHAPI.Sync.Core.Extractor
 {
@@ -31,7 +32,7 @@ namespace LiveHAPI.Sync.Core.Extractor
 
         public async Task<IEnumerable<ClientPretestStage>> Extract(Guid? htsClientId = null)
         {
-           _clientPretestStageRepository.Clear();
+            _clientPretestStageRepository.Clear();
 
             var subscriber = await _subscriberSystemRepository.GetDefaultAsync();
 
@@ -39,10 +40,16 @@ namespace LiveHAPI.Sync.Core.Extractor
                 throw new Exception("Default EMR NOT SET");
             var pretestStages = new List<ClientPretestStage>();
 
-            var clientIds = _clientStageRepository.GetAll().Where(x=>x.IsIndex).Select(x => x.ClientId).ToList();
+            var clientIds = _clientStageRepository.GetAll().Where(x => x.IsIndex && x.SyncStatus == SyncStatus.Staged)
+                .Select(x => x.ClientId).ToList();
+
+            var tCount = clientIds.Count;
+            int count = 0;
+            Log.Debug($"pretestStages:{tCount}");
 
             foreach (var clientId in clientIds)
             {
+                count++;
                 HtsEncounterType encounterType = HtsEncounterType.Initial;
 
                 //  Client
@@ -50,15 +57,15 @@ namespace LiveHAPI.Sync.Core.Extractor
                 var client = _clientRepository.GetClientStates(clientId);
                 if (null != client)
                 {
-                    encounterType= client.IsInAnyState(LiveState.HtsRetestedInc, LiveState.HtsRetestedPos,
+                    encounterType = client.IsInAnyState(LiveState.HtsRetestedInc, LiveState.HtsRetestedPos,
                         LiveState.HtsRetestedNeg)
                         ? HtsEncounterType.Repeat
                         : HtsEncounterType.Initial;
                 }
 
-                //  Pretests   
-
+                //  Pretests
                 var pretests = _clientEncounterRepository.GetPretest(clientId).ToList();
+
                 if (pretests.Any())
                 {
                     foreach (var finalResult in pretests)
@@ -68,6 +75,8 @@ namespace LiveHAPI.Sync.Core.Extractor
                             pretestStages.Add(stage);
                     }
                 }
+
+                Log.Debug($"pretestStages: {count} of {tCount}");
             }
 
             return pretestStages;

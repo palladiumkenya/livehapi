@@ -12,6 +12,7 @@ namespace LiveHAPI.Sync.Jobs
     {
         public async Task Execute(IJobExecutionContext context)
         {
+            Log.Debug($"<<< {nameof(SyncLookupsJob).ToUpper()} >>>");
             try
             {
                 var service = Program.ServiceProvider.GetService<ISyncLookupService>();

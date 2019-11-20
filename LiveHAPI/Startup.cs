@@ -162,8 +162,6 @@ namespace LiveHAPI
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-
-
             app.Use(async (context, next) =>
             {
                 await next();
@@ -216,6 +214,7 @@ namespace LiveHAPI
             }
 
             #region HangFire
+
             try
             {
                 app.UseHangfireDashboard("/api/hangfire", new DashboardOptions()
@@ -235,7 +234,6 @@ namespace LiveHAPI
                 Log.Fatal(e, "Hangfire is down !");
                 imHapi = false;
             }
-
 
             #endregion
 

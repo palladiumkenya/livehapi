@@ -7,6 +7,7 @@ using LiveHAPI.Core.Model.Exchange;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Enum;
 using LiveHAPI.Sync.Core.Interface.Extractors;
+using Serilog;
 
 namespace LiveHAPI.Sync.Core.Extractor
 {
@@ -41,9 +42,14 @@ namespace LiveHAPI.Sync.Core.Extractor
 
             var clients = new List<ClientStage>();
 
-            var persons = _personRepository.GetAllClients();
+            var persons = _personRepository.GetAllClients().ToList();
+            var tCount = persons.Count;
+            int count = 0;
+            Log.Debug($"clientStages:{tCount}");
+
             foreach (var person in persons)
             {
+                count++;
                 var client = ClientStage.Create(person, subscriber);
                 var practice= practices.FirstOrDefault(x => x.Id == client.PracticeId);
 
@@ -51,6 +57,7 @@ namespace LiveHAPI.Sync.Core.Extractor
                     client.SiteCode = practice.Code;
 
                 clients.Add(client);
+                Log.Debug($"clientStages: {count} of {tCount}");
             }
             return clients.Where(x => !x.ClientId.IsNullOrEmpty());
         }

@@ -12,6 +12,7 @@ namespace LiveHAPI.Sync.Jobs
     {
         public async Task Execute(IJobExecutionContext context)
         {
+            Log.Debug($"<<< {nameof(ExtractClientsJob).ToUpper()} >>>");
             try
             {
                 var service = Program.ServiceProvider.GetService<IExtractClientsService>();

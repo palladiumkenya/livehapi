@@ -37,7 +37,13 @@ namespace LiveHAPI.Infrastructure.Repository
         {
             using (var con = GetDbConnection())
             {
-                con.Execute($"DELETE FROM {nameof(ClientPretestStage)}s");
+                con.Execute($@"
+DELETE FROM 
+    ClientPretestStages 
+WHERE Id IN (
+    SELECT p.Id FROM ClientPretestStages p INNER JOIN ClientStages c on p.ClientId=c.ClientId
+)
+");
             }
         }
 
