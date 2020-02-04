@@ -41,7 +41,7 @@ namespace LiveHAPI.Infrastructure.Repository
 DELETE FROM 
     ClientPretestStages 
 WHERE Id IN (
-    SELECT p.Id FROM ClientPretestStages p INNER JOIN ClientStages c on p.ClientId=c.ClientId
+    SELECT p.Id FROM ClientPretestStages p INNER JOIN ClientStages c on p.ClientId=c.ClientId WHERE c.SyncStatus=0
 )
 ");
             }

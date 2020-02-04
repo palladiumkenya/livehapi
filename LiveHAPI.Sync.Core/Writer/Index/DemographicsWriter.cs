@@ -38,8 +38,11 @@ namespace LiveHAPI.Sync.Core.Writer.Index
             _errors = new List<ErrorResponse>();
             _results = new List<SynchronizeClientsResponse>();
             var htsClients = await _loader.Load(null, actions);
+            int count = 0;
             foreach (var htsClient in htsClients)
             {
+                count++;
+                Log.Debug($"sending {count}");
                 try
                 {
                     // LoadAction.RegistrationOnly

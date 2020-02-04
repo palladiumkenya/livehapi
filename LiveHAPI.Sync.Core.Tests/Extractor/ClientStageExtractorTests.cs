@@ -12,7 +12,7 @@ using LiveHAPI.Shared.Tests.TestHelpers;
 using LiveHAPI.Sync.Core.Extractor;
 using LiveHAPI.Sync.Core.Interface.Extractors;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
 namespace LiveHAPI.Sync.Core.Tests.Extractor
@@ -31,25 +31,12 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
         [SetUp]
         public void SetUp()
         {
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-            //var connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#", TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
-            var connectionString = config["connectionStrings:livehAPIConnection"];
-            var options = new DbContextOptionsBuilder<LiveHAPIContext>()
-                .UseSqlServer(connectionString)
-                .Options;
+            _clientStageExtractor = TestInitializer.ServiceProvider.GetService<IClientStageExtractor>();
+            _personRepository = TestInitializer.ServiceProvider.GetService<IPersonRepository>();
+            _clientStageRepository = TestInitializer.ServiceProvider.GetService<IClientStageRepository>();
+            _subscriberSystemRepository = TestInitializer.ServiceProvider.GetService<ISubscriberSystemRepository>();
 
-            _context = new LiveHAPIContext(options);
-
-            _personRepository = new PersonRepository(_context);
-            _clientStageRepository = new ClientStageRepository(_context);
-            _subscriberSystemRepository = new SubscriberSystemRepository(_context);
-
-            _clientStageExtractor =
-                new ClientStageExtractor(_personRepository, _clientStageRepository, _subscriberSystemRepository,new ClientRepository(_context),new PracticeRepository(_context));
-
-            subscriber = Builder<SubscriberSystem>.CreateNew()
+                   subscriber = Builder<SubscriberSystem>.CreateNew()
                 .With(x => x.Id = new Guid("16E23877-9D69-11E7-ABC4-CEC278B6B50A"))
                 .With(x => x.Translations = TestData.TestTranslations())
                 .Build();
@@ -68,7 +55,7 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
             Assert.AreEqual(52, stage.Sex);
             Assert.AreEqual(25, stage.KeyPop);
             Assert.AreEqual(58, stage.MaritalStatus);
-          
+
             Console.WriteLine(stage);
 
                                                                 /*
@@ -77,7 +64,7 @@ namespace LiveHAPI.Sync.Core.Tests.Extractor
             O   |Others	|25	    |Other     |HTSKeyPopulation
             S   |Single	|58	    |Single	   |HTSMaritalStatus
             F   |F	    |52	    |Female    |Gender
-             
+
 */
         }
         [Test]

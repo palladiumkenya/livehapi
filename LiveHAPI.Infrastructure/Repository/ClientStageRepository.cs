@@ -68,7 +68,18 @@ namespace LiveHAPI.Infrastructure.Repository
 
         public IEnumerable<ClientStage> GetIndexClients()
         {
-            return GetAll(x => x.IsIndex && x.SyncStatus == SyncStatus.Staged);
+            return DbSet.AsNoTracking()
+                .Where(x => x.IsIndex &&
+                            x.SyncStatus == SyncStatus.Staged);
+        }
+
+        public IEnumerable<ClientStage> GetIndexClients(Guid clientId)
+        {
+            return DbSet
+                .AsNoTracking()
+                .Where(x => x.ClientId == clientId &&
+                            x.IsIndex &&
+                            x.SyncStatus == SyncStatus.Staged);
         }
 
         public IEnumerable<ClientStage> GetByStatus(SyncStatus status)

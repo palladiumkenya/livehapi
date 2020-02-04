@@ -7,6 +7,7 @@ using LiveHAPI.Core.Model.People;
 using LiveHAPI.Core.Model.Subscriber;
 using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Interface.Services;
+using Serilog;
 
 namespace LiveHAPI.Sync.Core.Service
 {
@@ -24,12 +25,14 @@ namespace LiveHAPI.Sync.Core.Service
 
         public async Task<int> Sync()
         {
+            Log.Debug($"Syncing lookups...");
             var clientLookups = await _clientLookupReader.Read();
 
             var translations = Mapper.Map<List<SubscriberTranslation>>(clientLookups);
             int count = translations.Count;
             _subscriberTranslationRepository.Sync(translations);
             _subscriberTranslationRepository.Dispose();
+            Log.Debug($"Synced {count} lookups!");
             return count;
         }
 

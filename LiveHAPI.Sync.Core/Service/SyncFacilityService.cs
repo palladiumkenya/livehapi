@@ -7,6 +7,7 @@ using LiveHAPI.Core.Model.Network;
 using LiveHAPI.Core.Model.People;
 using LiveHAPI.Sync.Core.Interface.Readers;
 using LiveHAPI.Sync.Core.Interface.Services;
+using Serilog;
 
 namespace LiveHAPI.Sync.Core.Service
 {
@@ -24,6 +25,7 @@ namespace LiveHAPI.Sync.Core.Service
 
         public async Task<int> Sync()
         {
+            Log.Debug("Syncing facilities...");
             var clientFacilities = await _clientFacilityReader.Read();
 
             var practices = Mapper.Map<List<Practice>>(clientFacilities);
@@ -35,6 +37,8 @@ namespace LiveHAPI.Sync.Core.Service
             }
 
             _practiceRepository.Sync(practices);
+
+            Log.Debug($"Synced {count} facilities!");
             return count;
         }
 

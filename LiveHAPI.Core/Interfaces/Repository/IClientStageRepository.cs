@@ -15,6 +15,7 @@ namespace LiveHAPI.Core.Interfaces.Repository
         void BulkInsert(IEnumerable<ClientStage> clientStages);
         void BulkUpdate(IEnumerable<ClientStage> clientStages);
         IEnumerable<ClientStage> GetIndexClients();
+        IEnumerable<ClientStage> GetIndexClients(Guid clientId);
         IEnumerable<ClientStage> GetByStatus(SyncStatus status);
         IEnumerable<ClientStage> GetByStatusGeneric(SyncStatus status);
         IEnumerable<ClientStage> GetAllGeneric(Guid providerId);

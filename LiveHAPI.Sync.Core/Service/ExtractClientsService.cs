@@ -22,13 +22,12 @@ namespace LiveHAPI.Sync.Core.Service
 
         public async Task<int> Sync()
         {
-            
             await _clientStageExtractor.ExtractAndStage();
-            
+
             await _clientStageRelationshipExtractor.ExtractAndStage();
-            
+
             await _clientPretestStageExtractor.ExtractAndStage();
-            
+
             return 1;
         }
 

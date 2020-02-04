@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Linq;
+using Humanizer;
 using LiveHAPI.Core.Interfaces.Repository;
 using LiveHAPI.Infrastructure;
 using LiveHAPI.Infrastructure.Repository;
 using LiveHAPI.Shared.Custom;
 using LiveHAPI.Shared.Enum;
 using LiveHAPI.Sync.Core.Extractor;
+using LiveHAPI.Sync.Core.Interface.Extractors;
 using LiveHAPI.Sync.Core.Interface.Loaders;
 using LiveHAPI.Sync.Core.Interface.Writers;
 using LiveHAPI.Sync.Core.Loader;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -19,63 +21,26 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
     [TestFixture]
     public class IndexClientMessageLoaderTests
     {
-        private readonly bool goLive = true;
-        private LiveHAPIContext _context;
-        private IPracticeRepository _practiceRepository;
-        private IClientStageRepository _clientStageRepository;
-        private IClientPretestStageRepository _clientPretestStageRepository;
-
-        private IClientEncounterRepository _clientEncounterRepository;
-        private ISubscriberSystemRepository _subscriberSystemRepository;
-
+        private IClientStageExtractor _clientStageExtractor;
+        private IClientPretestStageExtractor _clientPretestStageExtractor;
         private IIndexClientMessageLoader _clientMessageLoader;
-        private ClientStageExtractor _clientStageExtractor;
-        private ClientPretestStageExtractor _clientPretestStageExtractor;
+        private LiveHAPIContext _context;
 
         [SetUp]
         public void SetUp()
         {
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-            string connectionString=string.Empty;
-
-            if (goLive)
-                connectionString = config["connectionStrings:livehAPIConnection"];
-            else
-                connectionString = config["connectionStrings:hAPIConnection"].Replace("#dir#",
-                    TestContext.CurrentContext.TestDirectory.HasToEndWith(@"\"));
-            var options = new DbContextOptionsBuilder<LiveHAPIContext>()
-                .UseSqlServer(connectionString)
-                .Options;
-
-            _context = new LiveHAPIContext(options);
-
-            _clientPretestStageRepository = new ClientPretestStageRepository(_context);
-            _clientEncounterRepository = new ClientEncounterRepository(_context);
-            _subscriberSystemRepository=new SubscriberSystemRepository(_context);
-            _practiceRepository = new PracticeRepository(_context);
-            _clientStageRepository = new ClientStageRepository(_context);
-
-            _clientMessageLoader =
-                new IndexClientMessageLoader(_practiceRepository, _clientStageRepository, _clientPretestStageRepository,
-                    new ClientTestingStageExtractor(_clientEncounterRepository, _subscriberSystemRepository),
-                    new ClientFinalTestStageExtractor(_clientEncounterRepository, _subscriberSystemRepository),
-                    new ClientReferralStageExtractor(_clientEncounterRepository, _subscriberSystemRepository),
-                    new ClientTracingStageExtractor(_clientEncounterRepository, _subscriberSystemRepository),
-                    new ClientLinkageStageExtractor(_clientEncounterRepository, _subscriberSystemRepository)
-
-                );
-            _clientStageExtractor=new ClientStageExtractor(new PersonRepository(_context),_clientStageRepository,_subscriberSystemRepository ,new ClientRepository(_context), new PracticeRepository(_context));
-            _clientPretestStageExtractor=new ClientPretestStageExtractor(_clientStageRepository,_clientPretestStageRepository,_subscriberSystemRepository,_clientEncounterRepository,new ClientRepository(_context));
+            _context= TestInitializer.ServiceProvider.GetService<LiveHAPIContext>();
+            _clientMessageLoader = TestInitializer.ServiceProvider.GetService<IIndexClientMessageLoader>();
+            _clientStageExtractor=TestInitializer.ServiceProvider.GetService<IClientStageExtractor>();
+            _clientPretestStageExtractor=TestInitializer.ServiceProvider.GetService<IClientPretestStageExtractor>();
 
         }
 
         [Test]
-        [Category("live")]
         public void should_Load_By_Client()
         {
-            Guid clientid=new Guid("55aea9fe-7964-46bd-96c8-a9fb00a29edc");
+            var startTime = DateTime.Now;
+            Guid clientid = _context.ClientStages.First().ClientId;
             var indexClientMessages = _clientMessageLoader.Load(clientid).Result.ToList();
             Assert.True(indexClientMessages.Any());
             Assert.False(indexClientMessages.Any(x => x.ClientId.IsNullOrEmpty()));
@@ -84,12 +49,14 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
                 Console.WriteLine(JsonConvert.SerializeObject(m,Formatting.Indented));
                 Console.WriteLine(new string('=', 50));
             }
+
+            Console.WriteLine($"Took {startTime.Humanize(false)}");
         }
 
         [Test]
-        [Category("live")]
         public void should_Load_All()
         {
+            var startTime = DateTime.Now;
             var indexClientMessages = _clientMessageLoader.Load(null).Result.ToList();
             Assert.True(indexClientMessages.Any());
        //     Assert.False(indexClientMessages.Any(x => x.ClientId.IsNullOrEmpty()));
@@ -98,6 +65,7 @@ namespace LiveHAPI.Sync.Core.Tests.Loader
                 Console.WriteLine(JsonConvert.SerializeObject(m,Formatting.Indented));
                 Console.WriteLine(new string('=', 50));
             }
+            Console.WriteLine($"Took {startTime.Humanize(false)}");
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using LiveHAPI.Core.Interfaces.Repository;
@@ -67,14 +68,24 @@ namespace LiveHAPI.Sync.Core.Loader
 
             //      NEWCLIENT
 
-            var stagedIndexClients = _clientStageRepository.GetIndexClients();
+            IEnumerable<ClientStage> stagedIndexClients;
 
+            var stopwatch = new Stopwatch();
             if (!htsClientId.IsNullOrEmpty())
-                stagedIndexClients = stagedIndexClients.Where(x => x.ClientId == htsClientId);
+                stagedIndexClients = _clientStageRepository.GetIndexClients(htsClientId.Value);
+            else
+            {
+                stagedIndexClients = _clientStageRepository.GetIndexClients();
+            }
 
+            stopwatch.Stop();
+            Log.Debug($"Loaded Clients in {stopwatch.ElapsedMilliseconds} ms");
+
+            int count = 0;
             foreach (var stagedClient in stagedIndexClients)
             {
-
+                count++;
+                Log.Debug($"loading {count}");
                 header.UpdateMfl(stagedClient.SiteCode);
 
                 #region PATIENT_IDENTIFICATION
@@ -86,6 +97,8 @@ namespace LiveHAPI.Sync.Core.Loader
                 ENCOUNTERS encounter = null;
                 if (!actions.Contains(LoadAction.RegistrationOnly))
                 {
+                    var preTestStopwatch=new Stopwatch();
+
                     var pretests = _clientPretestStageRepository.GetByClientId(stagedClient.ClientId).ToList();
 
                     //    PRETEST AND TESTING
@@ -93,7 +106,7 @@ namespace LiveHAPI.Sync.Core.Loader
                     if (pretests.Any())
                     {
                         var lastPretest = pretests.OrderByDescending(x => x.EncounterDate).FirstOrDefault();
-                    
+
                         foreach (var pretest in pretests)
                         {
                             var pretestEncounter =
@@ -108,6 +121,9 @@ namespace LiveHAPI.Sync.Core.Loader
                             if (null != nonPretest)
                                 messages.Add(nonPretest);
                         }
+
+                        preTestStopwatch.Stop();
+                        Log.Debug($"Loaded PreTests in {preTestStopwatch.ElapsedMilliseconds} ms");
                     }
                     else
                     {
@@ -125,9 +141,11 @@ namespace LiveHAPI.Sync.Core.Loader
             return messages;
         }
 
-        private IndexClientMessage CreateRegistration(MESSAGE_HEADER header,PATIENT_IDENTIFICATION pid, ClientStage stagedClient, ENCOUNTERS encounter)
+        private IndexClientMessage CreateRegistration(MESSAGE_HEADER header, PATIENT_IDENTIFICATION pid,
+            ClientStage stagedClient, ENCOUNTERS encounter)
         {
-            return new IndexClientMessage(header,new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)}, stagedClient.ClientId);
+            return new IndexClientMessage(header, new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)},
+                stagedClient.ClientId);
         }
 
         private async Task<IndexClientMessage> CreatePretestEncounters(MESSAGE_HEADER header,
@@ -150,11 +168,11 @@ namespace LiveHAPI.Sync.Core.Loader
             if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Testing))
             {
                 var allfinalTests = await _clientFinalTestStageExtractor.Extract(stagedClient.ClientId);
-                var alltests = await _clientTestingStageExtractor.Extract();
-            
+                var alltests = await _clientTestingStageExtractor.Extract(stagedClient.ClientId);
+
                 var finalTest = allfinalTests.Where(x => x.PretestEncounterId == pretest.Id).ToList()
                     .LastOrDefault();
-            
+
                 var tests = alltests.Where(x => x.PretestEncounterId == pretest.Id).ToList();
 
                 if (null != finalTest && tests.Any())
@@ -167,18 +185,20 @@ namespace LiveHAPI.Sync.Core.Loader
             encounter = ENCOUNTERS.Create(placerDetail, preTest, hivTests, null, new List<NewTracing>(), null);
 
             return new IndexClientMessage(header,
-                new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)},stagedClient.ClientId);
+                new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)}, stagedClient.ClientId);
 
         }
 
-        private async Task<IndexClientMessage> CreateNonPretestEncounters(MESSAGE_HEADER header,PATIENT_IDENTIFICATION pid,ClientStage stagedClient,ClientPretestStage lastPretest, params LoadAction[] actions)
+        private async Task<IndexClientMessage> CreateNonPretestEncounters(MESSAGE_HEADER header,
+            PATIENT_IDENTIFICATION pid, ClientStage stagedClient, ClientPretestStage lastPretest,
+            params LoadAction[] actions)
         {
             ENCOUNTERS encounter = null;
- 
+
             //  PLACER_DETAIL
-                    
+
             var lastplacerDetail = PLACER_DETAIL.Create(lastPretest.UserId, lastPretest.Id);
-                    
+
             //  NewReferral
             NewReferral newReferral = null;
             if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Referral))
@@ -196,7 +216,7 @@ namespace LiveHAPI.Sync.Core.Loader
             if (actions.Contains(LoadAction.All) || actions.Contains(LoadAction.Tracing))
             {
                 var allTracing = await _clientTracingStageExtractor.Extract(stagedClient.ClientId);
-                if(allTracing.Any())
+                if (allTracing.Any())
                     newTracings = NewTracing.Create(allTracing.ToList());
             }
 
@@ -214,11 +234,11 @@ namespace LiveHAPI.Sync.Core.Loader
 
             if (null == newReferral && !newTracings.Any() && null == newLinkage)
                 return null;
-            
-            encounter = ENCOUNTERS.Create(lastplacerDetail,null, null,newReferral,newTracings,newLinkage);
+
+            encounter = ENCOUNTERS.Create(lastplacerDetail, null, null, newReferral, newTracings, newLinkage);
 
             return new IndexClientMessage(header,
-                new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)},stagedClient.ClientId);
+                new List<NEWCLIENT> {NEWCLIENT.Create(pid, encounter)}, stagedClient.ClientId);
         }
 
         public void Dispose()
