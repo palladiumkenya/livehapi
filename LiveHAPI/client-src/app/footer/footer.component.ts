@@ -22,7 +22,7 @@ export class FooterComponent implements OnInit {
         this.$version = this.configService.getVersion()
             .subscribe(
                 p => {
-                    this.version = `v${p}`;
+                    this.version = `v${p} R2 | 04 FEB 2020`;
                 },
                 e => {
                 },
