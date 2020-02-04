@@ -86,6 +86,7 @@ namespace LiveHAPI.Sync.Core.Extractor
         {
             var pretestStages = await Extract();
             _clientPretestStageRepository.BulkInsert(pretestStages);
+           // _clientStageRepository.UpdateSyncStatus();
             return 1;
         }
 

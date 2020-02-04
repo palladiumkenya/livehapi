@@ -28,8 +28,10 @@ namespace LiveHAPI.Sync.Schedulers
             {
                 bool result2 = Int32.TryParse(configPeriod.Replace("secs", "").Trim(), out var number2);
                 _clientInterval = result2 ? number2 : 15;
+              /*
                 if (_clientInterval < 61)
                    _clientInterval = 60;
+              */
             }
         }
 
@@ -56,9 +58,10 @@ namespace LiveHAPI.Sync.Schedulers
             {
                 typeof(SyncFacilitiesJob),
                 typeof(SyncUsersJob),
-                typeof(SyncLookupsJob),
-                typeof(ExtractClientsJob),
-                typeof(SyncClientsJob)
+                typeof(SyncLookupsJob)
+                ,typeof(ExtractClientsJob)
+                ,typeof(SyncClientsJob)
+                //,typeof(ExtractAndSyncClientsJob)
             };
 
             foreach (var job in jobs)
@@ -80,14 +83,15 @@ namespace LiveHAPI.Sync.Schedulers
             string triggerName = $"t{jobType.Name}";
             string triggerGroup = $"t{jobType.Name}group";
 
-            if (jobType == typeof(SyncClientsJob)||jobType ==typeof(ExtractClientsJob))
+            if (jobType == typeof(SyncClientsJob) || jobType == typeof(ExtractClientsJob))
             {
                 return TriggerBuilder.Create()
                     .WithIdentity($"{triggerName}", $"{triggerGroup}")
                     .StartNow()
                     .WithSimpleSchedule(x => x
                         .WithIntervalInSeconds(_clientInterval)
-                        .RepeatForever())
+                        .RepeatForever()
+                        .WithMisfireHandlingInstructionIgnoreMisfires())
                     .Build();
             }
             else
@@ -97,7 +101,8 @@ namespace LiveHAPI.Sync.Schedulers
                     .StartNow()
                     .WithSimpleSchedule(x => x
                         .WithIntervalInHours(_configInterval)
-                        .RepeatForever())
+                        .RepeatForever()
+                        .WithMisfireHandlingInstructionIgnoreMisfires())
                     .Build();
             }
         }

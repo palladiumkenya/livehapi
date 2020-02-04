@@ -26,7 +26,7 @@ namespace LiveHAPI.Infrastructure.Repository
             await GetDbConnection().ExecuteAsync($"TRUNCATE TABLE {nameof(Context.ClientContactNetworks)};");
         }
 
-        public async Task Generate()
+        public  Task Generate()
         {
             var relationships = Context.ClientStageRelationships.AsNoTracking();
             var clients = Context.ClientStages.AsNoTracking();
@@ -68,6 +68,8 @@ namespace LiveHAPI.Infrastructure.Repository
                     GetDbConnection().BulkInsert(networks);
                 }
             }
+            return Task.CompletedTask;
+
         }
 
         public IEnumerable<ClientContactNetwork> LoadAll()

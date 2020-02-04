@@ -37,7 +37,7 @@ namespace LiveHAPI.Infrastructure.Repository
                 return Context.Clients
                     .FirstOrDefault(x => x.Id == id);
             }
-            
+
         }
 
         public Client GetClientStates(Guid id)
@@ -60,9 +60,9 @@ namespace LiveHAPI.Infrastructure.Repository
                 .Include(x => x.Addresses)
                 .Include(x => x.Contacts)
                 .Include(x => x.Names)
-                
+
                 .ToList();
-            
+
             foreach (var person in persons)
             {
                 foreach (var personClient in person.Clients)
@@ -109,7 +109,7 @@ namespace LiveHAPI.Infrastructure.Repository
                 var pm = GetById(guid);
                 if(null!=pm)
                     personMatches.AddRange(pm);
-            }        
+            }
             return personMatches;
         }
 
@@ -122,7 +122,7 @@ namespace LiveHAPI.Infrastructure.Repository
 
 
             var searchHits = new List<SearchHit>();
-            
+
             //IDs
 
             foreach (var item in searchItems)
@@ -264,7 +264,7 @@ namespace LiveHAPI.Infrastructure.Repository
                     var id = Context.ClientRelationships.AsNoTracking()
                         .FirstOrDefault(x => x.Id == clientRelationship.Id);
 
-                    
+
                         if (null != id)
                         {
 
@@ -292,7 +292,7 @@ namespace LiveHAPI.Infrastructure.Repository
                         Log.Debug($"{e}");
                         Log.Debug(new string('*',30));
                     }
-                  
+
                 }
                 con.Execute(@"
                 DELETE FROM 
@@ -304,7 +304,7 @@ namespace LiveHAPI.Infrastructure.Repository
             }
         }
 
-        
+
         public void UpdateSyncStatus(IEnumerable<ClientStage> clientStages)
         {
 
@@ -315,16 +315,17 @@ namespace LiveHAPI.Infrastructure.Repository
                     string sql = $@"
                             UPDATE {nameof(Client)}s 
                             SET 
-                                {nameof(Client.SyncStatus)} = @SyncStatus,
+                                {nameof(Client.SyncStatus)} =@SyncStatus,
                                 {nameof(Client.SyncStatusDate)}=@StatusDate
                             WHERE 
                                 {nameof(Client.Id)} = @ClientId;";
-                        
-                    con.Execute(sql,new {ClientId = c.ClientId, SyncStatus =SyncStatus.Synced,StatusDate=DateTime.Now});
+
+                    con.Execute(sql,
+                        new {ClientId = c.ClientId, SyncStatus = SyncStatus.Synced, StatusDate = DateTime.Now});
                 }
             }
         }
-        
+
         private int GetHit(Guid personId, List<SearchHit> searchHits)
         {
             var found = searchHits.FirstOrDefault(x => x.ItemId == personId);

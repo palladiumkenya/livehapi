@@ -10,22 +10,23 @@ namespace LiveHAPI.Sync.Jobs
     [DisallowConcurrentExecution]
     public class ExtractClientsJob : IJob
     {
-        public async Task Execute(IJobExecutionContext context)
+        public  Task Execute(IJobExecutionContext context)
         {
             Log.Debug($"<<< {nameof(ExtractClientsJob).ToUpper()} >>>");
             try
             {
                 var service = Program.ServiceProvider.GetService<IExtractClientsService>();
-                var count = await service.Sync();
+                var count =  service.Sync().GetAwaiter().GetResult();;
                 service.Dispose();
             }
             catch (Exception ex)
             {
                 Log.Error($"error executing {nameof(ExtractClientsJob)} job");
                 Log.Error($"{ex}");
-//                JobExecutionException qe = new JobExecutionException(ex);
-//                qe.RefireImmediately = true; // this job will refire immediately
+//              JobExecutionException qe = new JobExecutionException(ex);
+//              qe.RefireImmediately = true; // this job will refire immediately
             }
+            return Task.CompletedTask;
         }
     }
 }
