@@ -30,7 +30,7 @@ namespace LiveHAPI.Controllers
         {
             try
             {
-                return Ok(Defualts.SyncVersion);
+                return Ok($"{Defualts.SyncVersion} 2020 R2");
             }
             catch (Exception e)
             {
