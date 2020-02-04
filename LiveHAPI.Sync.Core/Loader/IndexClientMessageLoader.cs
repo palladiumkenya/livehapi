@@ -70,16 +70,16 @@ namespace LiveHAPI.Sync.Core.Loader
 
             IEnumerable<ClientStage> stagedIndexClients;
 
-            var stopwatch = new Stopwatch();
+            // var stopwatch = new Stopwatch();
+
             if (!htsClientId.IsNullOrEmpty())
                 stagedIndexClients = _clientStageRepository.GetIndexClients(htsClientId.Value);
             else
-            {
                 stagedIndexClients = _clientStageRepository.GetIndexClients();
-            }
 
-            stopwatch.Stop();
-            Log.Debug($"Loaded Clients in {stopwatch.ElapsedMilliseconds} ms");
+
+            // stopwatch.Stop();
+            // Log.Debug($"Loaded Clients in {stopwatch.ElapsedMilliseconds} ms");
 
             int count = 0;
             foreach (var stagedClient in stagedIndexClients)
@@ -97,7 +97,7 @@ namespace LiveHAPI.Sync.Core.Loader
                 ENCOUNTERS encounter = null;
                 if (!actions.Contains(LoadAction.RegistrationOnly))
                 {
-                    var preTestStopwatch=new Stopwatch();
+//                    var preTestStopwatch=new Stopwatch();
 
                     var pretests = _clientPretestStageRepository.GetByClientId(stagedClient.ClientId).ToList();
 
@@ -122,8 +122,8 @@ namespace LiveHAPI.Sync.Core.Loader
                                 messages.Add(nonPretest);
                         }
 
-                        preTestStopwatch.Stop();
-                        Log.Debug($"Loaded PreTests in {preTestStopwatch.ElapsedMilliseconds} ms");
+         //               preTestStopwatch.Stop();
+         //               Log.Debug($"Loaded PreTests in {preTestStopwatch.ElapsedMilliseconds} ms");
                     }
                     else
                     {
