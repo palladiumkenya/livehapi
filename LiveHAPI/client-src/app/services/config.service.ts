@@ -61,7 +61,7 @@ export class ConfigService {
     }
 
     public getVersion(): Observable<string> {
-        return this._http.get<string>(`./api/activate/version`)
+        return this._http.get<string>(`./api/activate/versioninfo`)
             .catch(this.handleError);
     }
 

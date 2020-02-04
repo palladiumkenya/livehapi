@@ -39,6 +39,22 @@ namespace LiveHAPI.Controllers
             }
         }
 
+        [Route("versioninfo")]
+        [HttpGet]
+        public IActionResult GetVersioninfo()
+        {
+            try
+            {
+                return Ok($"{Defualts.SyncVersion} R2 04-Feb-2020");
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                return StatusCode(500, $"{e.Message}");
+            }
+        }
+
+
         [Route("central")]
         [HttpGet]
         public IActionResult FindCentral()

@@ -64,7 +64,7 @@ namespace LiveHAPI.Sync
                 .WriteTo.RollingFile("logs/hapisync-{Date}.txt",LogEventLevel.Error)
                 .CreateLogger();
 
-            Log.Debug("initializing Sync v[1.0.1.0] ...");
+            Log.Debug("initializing Sync v[1.0.1.1] ...");
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -96,14 +96,14 @@ namespace LiveHAPI.Sync
                         else
                         {
                             Log.Error($"invalid LiveHAPI settings ! please open {hapiendpoint} and verify and save all settings");
-                            Log.Error($"Sync will retry in 30 secs...");
+                            Log.Error($"Sync [v1.0.1.1] will retry in 30 secs...");
                             Thread.Sleep(30000);
                         }
                     }
                     else
                     {
                         Log.Error($"LiveHAPI connection FAILED");
-                        Log.Error($"Sync will retry in 30 secs...");
+                        Log.Error($"Sync [v1.0.1.1] will retry in 30 secs...");
                         Thread.Sleep(30000);
                     }
                 }
